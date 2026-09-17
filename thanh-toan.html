@@ -43,11 +43,6 @@
       background-color: #3E9B61;
       border-color: #3E9B61;
     }
-    /* Payment radio */
-    .payment-radio:checked + label {
-      border-color: #3E9B61;
-      background: #f0fdf4;
-    }
     /* Input focus ring */
     .hnm-input:focus {
       outline: none;
@@ -64,11 +59,24 @@
       animation: fadeSlideUp 0.4s ease forwards;
     }
     /* Zalo message preview */
-    #zalo-preview-box {
-      font-family: 'Be Vietnam Pro', monospace;
+    #zalo-preview-box, #modal-zalo-message {
+      font-family: 'Courier New', monospace;
       white-space: pre-wrap;
       word-break: break-word;
     }
+    /* Modal */
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    #zalo-modal.active { display: flex !important; }
+    #zalo-modal .modal-box { animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    /* Copy button state */
+    #copy-msg-btn.copied { background: #3E9B61 !important; color: white !important; }
+    /* Step indicators */
+    .step-done { background: #3E9B61; color: white; }
+    .step-active { background: #D95A82; color: white; }
+    .step-idle { background: #F3EED8; color: #857B76; }
   </style>
 </head>
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
@@ -401,6 +409,124 @@
     </form>
   </main>
 
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ZALO ORDER MODAL                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div id="zalo-modal" class="hidden fixed inset-0 z-[999] items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <!-- Backdrop -->
+    <div id="modal-backdrop" class="absolute inset-0 bg-[#211A18]/60 backdrop-blur-sm"></div>
+
+    <!-- Modal Box -->
+    <div class="modal-box relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-[#E5DDCE] overflow-hidden flex flex-col max-h-[90vh]">
+
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-[#3E9B61] to-[#277A4D] px-6 py-5 flex-shrink-0">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+              <span class="text-2xl">💬</span>
+            </div>
+            <div>
+              <h2 id="modal-title" class="text-white font-bold text-base leading-tight">Gửi đơn hoa qua Zalo</h2>
+              <p class="text-white/80 text-xs mt-0.5">Sao chép tin nhắn → Mở Zalo → Dán vào chat Shop</p>
+            </div>
+          </div>
+          <button id="modal-close-btn" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors" aria-label="Đóng">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <!-- 3 bước hướng dẫn -->
+        <div class="mt-4 grid grid-cols-3 gap-2 text-center text-[10px]">
+          <div id="step1-badge" class="step-active rounded-xl py-2 px-1">
+            <div class="font-bold text-sm mb-0.5">① Sao chép</div>
+            <div class="opacity-90">Nội dung đơn hoa</div>
+          </div>
+          <div id="step2-badge" class="step-idle rounded-xl py-2 px-1">
+            <div class="font-bold text-sm mb-0.5">② Mở Zalo</div>
+            <div class="opacity-70">Tìm Hoa Nhà Mình</div>
+          </div>
+          <div id="step3-badge" class="step-idle rounded-xl py-2 px-1">
+            <div class="font-bold text-sm mb-0.5">③ Dán & Gửi</div>
+            <div class="opacity-70">Chờ Shop xác nhận</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
+
+        <!-- Order ID badge -->
+        <div class="flex items-center justify-between bg-[#FAF7E9] rounded-xl px-4 py-2.5 border border-[#E5DDCE]">
+          <span class="text-xs text-[#857B76]">Mã đơn hoa:</span>
+          <span id="modal-order-id" class="font-mono font-bold text-[#D95A82]">—</span>
+        </div>
+
+        <!-- Message content box -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold text-[#4B4240]">📋 Nội dung tin nhắn cần sao chép:</p>
+            <span class="text-[10px] text-[#857B76]">Nhấn nút bên dưới để copy</span>
+          </div>
+          <div class="relative">
+            <pre id="modal-zalo-message" class="text-[11px] text-[#211A18] leading-relaxed bg-[#FAF7E9] border border-[#E5DDCE] rounded-xl p-4 overflow-auto max-h-52 select-all"></pre>
+            <!-- Copy overlay hint -->
+            <div class="absolute top-2 right-2 bg-white/80 text-[10px] text-[#857B76] px-2 py-0.5 rounded-lg border border-[#E5DDCE]">Bôi đen để chọn tất cả</div>
+          </div>
+        </div>
+
+        <!-- Copy button -->
+        <button id="copy-msg-btn" class="w-full h-12 bg-[#FAF7E9] hover:bg-[#3E9B61] text-[#277A4D] hover:text-white border-2 border-[#3E9B61]/40 hover:border-[#3E9B61] rounded-xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200">
+          <span class="material-symbols-outlined text-lg">content_copy</span>
+          <span id="copy-btn-text">Sao chép toàn bộ nội dung đơn hoa</span>
+        </button>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-3">
+          <div class="flex-1 h-px bg-[#E5DDCE]"></div>
+          <span class="text-xs text-[#857B76] font-medium">Sau khi sao chép</span>
+          <div class="flex-1 h-px bg-[#E5DDCE]"></div>
+        </div>
+
+        <!-- Open Zalo button -->
+        <a id="open-zalo-btn" href="https://zalo.me/0944355645" target="_blank" rel="noopener" class="w-full h-14 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-bold text-base flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all">
+          <span class="text-2xl">💬</span>
+          <div class="text-left">
+            <div class="leading-tight">Mở Zalo chat với Shop</div>
+            <div class="text-xs font-normal opacity-80">Dán tin nhắn vừa sao chép vào đây</div>
+          </div>
+          <span class="material-symbols-outlined text-xl ml-auto">open_in_new</span>
+        </a>
+
+        <!-- Instruction note -->
+        <div class="bg-[#FFF8E6] border border-[#F4C52D]/40 rounded-xl p-3 text-xs text-[#4B4240] space-y-1.5">
+          <p class="font-bold text-[#211A18] flex items-center gap-1.5"><span>💡</span> Hướng dẫn gửi tin:</p>
+          <ol class="space-y-1 pl-4 list-decimal marker:text-[#D95A82] marker:font-bold">
+            <li>Nhấn <strong>"Sao chép toàn bộ"</strong> phía trên</li>
+            <li>Nhấn <strong>"Mở Zalo"</strong> → Tìm chat <strong>Hoa Nhà Mình</strong></li>
+            <li><strong>Dán</strong> (paste) nội dung vào ô nhắn tin → Nhấn gửi 📤</li>
+            <li>Shop phản hồi xác nhận trong <strong>15–30 phút</strong> ⏱️</li>
+          </ol>
+        </div>
+
+        <!-- Hotline fallback -->
+        <p class="text-center text-[11px] text-[#857B76]">
+          Hoặc gọi hotline: <a href="tel:0944355645" class="font-bold text-[#D95A82] hover:underline">094 435 56 45</a>
+        </p>
+
+      </div>
+
+      <!-- Footer: Done button -->
+      <div class="flex-shrink-0 px-5 sm:px-6 pb-5 pt-3 border-t border-[#E5DDCE] bg-[#FFFDF9]">
+        <a id="modal-done-btn" href="dat-hang-thanh-cong.html" class="w-full h-11 bg-[#FAF7E9] hover:bg-[#F3EED8] text-[#4B4240] border border-[#E5DDCE] rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-[#3E9B61]">check_circle</span>
+          <span>Đã gửi xong — Xem xác nhận đơn hoa</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="bg-[#29483C] text-[#FAF7E9] pt-14 pb-8 border-t border-[#277A4D] mt-auto">
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -670,19 +796,77 @@ Gửi qua website Hoa Nhà Mình`;
         };
 
         const zaloMessage = buildZaloMessage(msgData);
-        const encodedMsg = encodeURIComponent(zaloMessage);
-        const zaloUrl = `https://zalo.me/${SHOP_ZALO}?text=${encodedMsg}`;
 
-        // Hiển thị toast
-        App.showToast("Đang mở Zalo...", `Mã đơn: #${createdOrder.id}`);
-
-        // Mở Zalo sau 400ms (thời gian toast hiện)
-        setTimeout(() => {
-          window.open(zaloUrl, "_blank", "noopener,noreferrer");
-          // Chuyển sang trang thành công
-          window.location.href = `dat-hang-thanh-cong.html?id=${createdOrder.id}`;
-        }, 600);
+        // ── HIỆN MODAL thay vì dùng ?text= (Zalo không hỗ trợ URL pre-fill) ──
+        App.showToast("Đơn hoa đã được tạo!", `Mã: #${createdOrder.id}`);
+        showZaloModal(zaloMessage, createdOrder.id);
       });
+
+      // ─── MỞ MODAL ZALO ───────────────────────────────────
+      function showZaloModal(message, orderId) {
+        const modal = document.getElementById("zalo-modal");
+        document.getElementById("modal-zalo-message").textContent = message;
+        document.getElementById("modal-order-id").textContent = `#${orderId}`;
+
+        // Cập nhật link nút "Xem xác nhận"
+        document.getElementById("modal-done-btn").href = `dat-hang-thanh-cong.html?id=${orderId}`;
+
+        // Hiện modal
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        // Reset step badges
+        resetSteps();
+
+        // Nút Copy
+        const copyBtn = document.getElementById("copy-msg-btn");
+        const copyText = document.getElementById("copy-btn-text");
+        copyBtn.classList.remove("copied");
+        copyText.textContent = "Sao chép toàn bộ nội dung đơn hoa";
+
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(message);
+          } catch {
+            // Fallback: select text
+            const pre = document.getElementById("modal-zalo-message");
+            const range = document.createRange();
+            range.selectNodeContents(pre);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand("copy");
+            sel.removeAllRanges();
+          }
+          // UI feedback
+          copyBtn.classList.add("copied");
+          copyText.textContent = "✓ Đã sao chép! Giờ mở Zalo và dán vào chat";
+          // Update steps
+          document.getElementById("step1-badge").className = "step-done rounded-xl py-2 px-1";
+          document.getElementById("step2-badge").className = "step-active rounded-xl py-2 px-1";
+        };
+
+        // Nút mở Zalo — đánh dấu bước 3
+        document.getElementById("open-zalo-btn").addEventListener("click", () => {
+          document.getElementById("step2-badge").className = "step-done rounded-xl py-2 px-1";
+          document.getElementById("step3-badge").className = "step-active rounded-xl py-2 px-1";
+        }, { once: true });
+
+        // Đóng modal
+        document.getElementById("modal-close-btn").onclick = closeModal;
+        document.getElementById("modal-backdrop").onclick = closeModal;
+      }
+
+      function resetSteps() {
+        document.getElementById("step1-badge").className = "step-active rounded-xl py-2 px-1";
+        document.getElementById("step2-badge").className = "step-idle rounded-xl py-2 px-1";
+        document.getElementById("step3-badge").className = "step-idle rounded-xl py-2 px-1";
+      }
+
+      function closeModal() {
+        document.getElementById("zalo-modal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
     });
   </script>
 </body>
