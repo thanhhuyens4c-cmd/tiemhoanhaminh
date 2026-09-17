@@ -1,15 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thanh toán & Đặt hoa — Hoa Nhà Mình</title>
-  
+  <title>Đặt hoa & Gửi Zalo — Hoa Nhà Mình</title>
+  <meta name="description" content="Điền thông tin đặt hoa tại Hoa Nhà Mình. Shop sẽ xác nhận đơn qua Zalo và gửi ảnh duyệt trước khi giao tận nơi.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -31,6 +32,44 @@
     }
   </script>
   <link rel="stylesheet" href="css/custom.css">
+
+  <style>
+    /* Zalo gradient banner */
+    .zalo-banner {
+      background: linear-gradient(135deg, #edfff5 0%, #f0f9ff 100%);
+    }
+    /* Checkbox custom */
+    .consent-checkbox:checked {
+      background-color: #3E9B61;
+      border-color: #3E9B61;
+    }
+    /* Payment radio */
+    .payment-radio:checked + label {
+      border-color: #3E9B61;
+      background: #f0fdf4;
+    }
+    /* Input focus ring */
+    .hnm-input:focus {
+      outline: none;
+      ring: 2px solid #3E9B61;
+      border-color: #3E9B61;
+      background: white;
+    }
+    /* Animate in */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-slide-up {
+      animation: fadeSlideUp 0.4s ease forwards;
+    }
+    /* Zalo message preview */
+    #zalo-preview-box {
+      font-family: 'Be Vietnam Pro', monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
 </head>
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
 
@@ -64,12 +103,12 @@
       </a>
 
       <nav class="hidden lg:flex items-center gap-7">
-        <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
-        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
-        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
-        <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
-        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
-        <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
+        <a href="index.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
+        <a href="san-pham.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <a href="bo-suu-tap.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
+        <a href="blog.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
+        <a href="gioi-thieu.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
+        <a href="lien-he.html" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
       </nav>
 
       <div class="flex items-center gap-2 sm:gap-3">
@@ -85,11 +124,11 @@
   <section class="bg-[#FAF7E9] py-5 border-b border-[#E5DDCE]/60">
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div>
-        <span class="font-brand text-xl sm:text-2xl text-[#D95A82] block">Chăm chút từng đóa hoa</span>
-        <h1 class="text-xl sm:text-2xl font-bold text-[#211A18] tracking-tight mt-0.5">Đặt hàng & Thanh toán</h1>
+        <span class="font-brand text-xl sm:text-2xl text-[#D95A82] block">Gửi đơn hoa về Zalo tiệm</span>
+        <h1 class="text-xl sm:text-2xl font-bold text-[#211A18] tracking-tight mt-0.5">Điền thông tin & Đặt hoa</h1>
       </div>
 
-      <!-- Stepper: 1 Giỏ hàng (Done) -> 2 Thanh toán (Active) -> 3 Hoàn tất -->
+      <!-- Stepper -->
       <div class="flex items-center gap-2 sm:gap-3 text-xs font-semibold">
         <a href="gio-hang.html" class="flex items-center gap-1.5 text-[#3E9B61]">
           <span class="w-6 h-6 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold">✓</span>
@@ -98,7 +137,7 @@
         <span class="text-[#E5DDCE]">/</span>
         <div class="flex items-center gap-1.5 text-[#D95A82]">
           <span class="w-6 h-6 rounded-full bg-[#D95A82] text-white flex items-center justify-center text-xs font-bold shadow-sm">2</span>
-          <span>Đặt hàng</span>
+          <span>Đặt hoa</span>
         </div>
         <span class="text-[#E5DDCE]">/</span>
         <div class="flex items-center gap-1.5 text-[#857B76] opacity-60">
@@ -109,167 +148,204 @@
     </div>
   </section>
 
-  <!-- MAIN CHECKOUT STAGE (2 Cột đúng Wireframe) -->
+  <!-- ZALO FLOW INFO BANNER -->
+  <section class="bg-gradient-to-r from-[#edfff5] to-[#f0f9ff] border-b border-[#3E9B61]/20">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-white border border-[#3E9B61]/30 flex items-center justify-center flex-shrink-0 shadow-sm">
+          <span class="text-xl">💬</span>
+        </div>
+        <div>
+          <p class="text-xs font-bold text-[#277A4D]">Đặt hoa tại Hoa Nhà Mình — Không thanh toán trực tiếp trên web</p>
+          <p class="text-[11px] text-[#4B4240] mt-0.5">Điền đầy đủ thông tin → Nhấn xác nhận → Đơn hoa tự động gửi về Zalo tiệm → Shop xác nhận & duyệt ảnh hoa trước khi giao.</p>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-6 flex-shrink-0 text-[11px] text-[#277A4D]">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">timer</span> Phản hồi trong 15–30 phút</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">photo_camera</span> Gửi ảnh duyệt hoa</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN FORM -->
   <main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <form id="checkout-form" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-      
-      <!-- CỘT TRÁI: THÔNG TIN GIAO NHẬN & THANH TOÁN (lg:col-span-7) -->
-      <div class="lg:col-span-7 space-y-6">
-        
-        <!-- Banner Đặc quyền duyệt ảnh thực tế -->
-        <div class="bg-[#FAF7E9] p-4 sm:p-5 rounded-2xl border border-[#E5DDCE] flex items-center gap-3.5 shadow-sm">
-          <div class="w-11 h-11 rounded-xl bg-[#D95A82] text-white flex items-center justify-center flex-shrink-0">
-            <span class="material-symbols-outlined text-2xl">photo_camera</span>
-          </div>
-          <div class="text-xs sm:text-sm text-[#4B4240]">
-            <p class="font-bold text-[#D95A82]">Đặc quyền tại tiệm Hoa Nhà Mình</p>
-            <p class="text-[11px] sm:text-xs mt-0.5">Bạn sẽ nhận được hình ảnh chụp thực tế thành phẩm hoa qua Zalo/Email để duyệt trước khi shiper giao đến tay người nhận.</p>
-          </div>
-        </div>
+
+      <!-- CỘT TRÁI: THÔNG TIN (lg:col-span-7) -->
+      <div class="lg:col-span-7 space-y-6 animate-fade-slide-up">
 
         <!-- KHỐI 1: THÔNG TIN NGƯỜI ĐẶT (NGƯỜI GỬI) -->
         <div class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
           <div class="flex items-center gap-2.5 pb-2 border-b border-[#E5DDCE]">
-            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center text-xs font-bold">1</span>
-            <h2 class="text-base font-bold text-[#211A18]">Thông tin người đặt (Người gửi)</h2>
+            <span class="w-7 h-7 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold shadow-sm">1</span>
+            <h2 class="text-base font-bold text-[#211A18]">Thông tin người đặt hoa</h2>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Họ và tên của bạn <span class="text-[#D95A82]">*</span></label>
-              <input required id="sender-name" type="text" value="Nguyễn Thanh Trúc" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="sender-name" class="block text-xs font-semibold text-[#4B4240]">Họ và tên của bạn <span class="text-[#D95A82]">*</span></label>
+              <input required id="sender-name" type="text" placeholder="VD: Nguyễn Thanh Trúc" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Số điện thoại liên hệ <span class="text-[#D95A82]">*</span></label>
-              <input required id="sender-phone" type="tel" value="0944355645" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="sender-phone" class="block text-xs font-semibold text-[#4B4240]">Số điện thoại liên hệ <span class="text-[#D95A82]">*</span></label>
+              <input required id="sender-phone" type="tel" placeholder="VD: 0944355645" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
             <div class="sm:col-span-2 space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Email nhận hóa đơn & duyệt ảnh</label>
-              <input id="sender-email" type="email" value="truc.nguyen@example.com" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="sender-email" class="block text-xs font-semibold text-[#4B4240]">Email nhận xác nhận đơn <span class="text-[#857B76] font-normal">(Không bắt buộc)</span></label>
+              <input id="sender-email" type="email" placeholder="VD: truc.nguyen@gmail.com" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
           </div>
         </div>
 
-        <!-- KHỐI 2: THÔNG TIN NGƯỜI NHẬN & ĐỊA CHỈ GIAO TẠI HÀ NỘI -->
+        <!-- KHỐI 2: THÔNG TIN NGƯỜI NHẬN & ĐỊA CHỈ -->
         <div class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
           <div class="flex items-center justify-between pb-2 border-b border-[#E5DDCE]">
             <div class="flex items-center gap-2.5">
-              <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center text-xs font-bold">2</span>
+              <span class="w-7 h-7 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold shadow-sm">2</span>
               <h2 class="text-base font-bold text-[#211A18]">Thông tin người nhận hoa</h2>
             </div>
-            <label class="flex items-center gap-2 text-xs text-[#277A4D] font-semibold cursor-pointer">
-              <input type="checkbox" id="same-as-sender" class="rounded text-[#3E9B61]">
+            <label class="flex items-center gap-2 text-xs text-[#277A4D] font-semibold cursor-pointer select-none">
+              <input type="checkbox" id="same-as-sender" class="rounded border-[#E5DDCE] text-[#3E9B61] focus:ring-[#3E9B61] cursor-pointer">
               <span>Giao cho chính tôi</span>
             </label>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Họ và tên người nhận <span class="text-[#D95A82]">*</span></label>
-              <input required id="receiver-name" type="text" placeholder="VD: Trần Mai Anh" value="Trần Mai Anh" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="receiver-name" class="block text-xs font-semibold text-[#4B4240]">Họ và tên người nhận <span class="text-[#D95A82]">*</span></label>
+              <input required id="receiver-name" type="text" placeholder="VD: Trần Mai Anh" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Số điện thoại nhận hoa <span class="text-[#D95A82]">*</span></label>
-              <input required id="receiver-phone" type="tel" placeholder="VD: 0912345678" value="0912345678" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="receiver-phone" class="block text-xs font-semibold text-[#4B4240]">Số điện thoại người nhận <span class="text-[#D95A82]">*</span></label>
+              <input required id="receiver-phone" type="tel" placeholder="VD: 0912345678" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
             <div class="sm:col-span-2 space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Địa chỉ giao hoa chi tiết (Tại Hà Nội) <span class="text-[#D95A82]">*</span></label>
-              <input required id="receiver-address" type="text" placeholder="Số nhà, ngõ, tên phố, phường, quận..." value="Số 18, Phố Huế, Quận Hai Bà Trưng, Hà Nội" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="receiver-address" class="block text-xs font-semibold text-[#4B4240]">Địa chỉ giao hoa chi tiết (tại Hà Nội) <span class="text-[#D95A82]">*</span></label>
+              <input required id="receiver-address" type="text" placeholder="Số nhà, ngõ, tên phố, phường, quận..." class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
           </div>
         </div>
 
-        <!-- KHỐI 3: THỜI GIAN NHẬN HOA & LỜI CHÚC THIỆP -->
+        <!-- KHỐI 3: THỜI GIAN & LỜI CHÚC THIỆP -->
         <div class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
           <div class="flex items-center gap-2.5 pb-2 border-b border-[#E5DDCE]">
-            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center text-xs font-bold">3</span>
+            <span class="w-7 h-7 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold shadow-sm">3</span>
             <h2 class="text-base font-bold text-[#211A18]">Thời gian nhận hoa & Thiệp viết tay</h2>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Ngày giao hoa <span class="text-[#D95A82]">*</span></label>
-              <input required id="delivery-date" type="date" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+              <label for="delivery-date" class="block text-xs font-semibold text-[#4B4240]">Ngày giao hoa <span class="text-[#D95A82]">*</span></label>
+              <input required id="delivery-date" type="date" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
             </div>
             <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Khung giờ giao hoa <span class="text-[#D95A82]">*</span></label>
-              <select id="delivery-time-slot" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
-                <option value="08:00 - 12:00">Buổi sáng (08:00 – 12:00)</option>
-                <option value="12:00 - 17:00">Buổi chiều (12:00 – 17:00)</option>
-                <option value="17:00 - 20:30">Buổi tối (17:00 – 20:30)</option>
-                <option value="Giao hỏa tốc 2H">Giao gấp hỏa tốc 2H nội thành</option>
+              <label for="delivery-time-slot" class="block text-xs font-semibold text-[#4B4240]">Khung giờ giao hoa <span class="text-[#D95A82]">*</span></label>
+              <select id="delivery-time-slot" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
+                <option value="Buổi sáng (08:00 – 12:00)">Buổi sáng (08:00 – 12:00)</option>
+                <option value="Buổi chiều (12:00 – 17:00)">Buổi chiều (12:00 – 17:00)</option>
+                <option value="Buổi tối (17:00 – 20:30)">Buổi tối (17:00 – 20:30)</option>
+                <option value="Giao gấp hỏa tốc 2H nội thành">Giao gấp hỏa tốc 2H nội thành</option>
               </select>
             </div>
             <div class="sm:col-span-2 space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Lời nhắn nắn nót trên thiệp chúc mừng (Miễn phí):</label>
-              <textarea id="order-card-message" rows="3" placeholder="Ví dụ: Chúc mừng sinh nhật chị yêu! Chúc chị một tuổi mới luôn an yên và rạng rỡ như những đóa hoa này..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">Chúc bạn sinh nhật thật nhiều niềm vui và luôn tươi tắn như đóa hoa sớm mai!</textarea>
+              <label for="order-card-message" class="block text-xs font-semibold text-[#4B4240]">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-[#D95A82]">edit_note</span> Lời nhắn viết tay trên thiệp chúc mừng (Miễn phí):</span>
+              </label>
+              <textarea id="order-card-message" rows="3" placeholder="VD: Chúc mừng sinh nhật chị yêu! Chúc chị một tuổi mới luôn an yên và rạng rỡ như những đóa hoa này..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors resize-none"></textarea>
             </div>
           </div>
         </div>
 
-        <!-- KHỐI 4: PHƯƠNG THỨC THANH TOÁN (COD, VietQR, Online) -->
-        <div class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
+        <!-- KHỐI 4: ZALO KHÁCH HÀNG (MỚI) -->
+        <div class="bg-white p-6 sm:p-7 rounded-2xl border-2 border-[#3E9B61]/40 shadow-sm space-y-4 relative overflow-hidden">
+          <!-- Zalo gradient accent -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#3E9B61] to-[#43B7D0]"></div>
+
           <div class="flex items-center gap-2.5 pb-2 border-b border-[#E5DDCE]">
-            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center text-xs font-bold">4</span>
-            <h2 class="text-base font-bold text-[#211A18]">Phương thức thanh toán</h2>
+            <span class="w-7 h-7 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold shadow-sm">4</span>
+            <h2 class="text-base font-bold text-[#211A18]">Tài khoản Zalo để Shop liên hệ</h2>
+            <span class="ml-auto text-[10px] bg-[#3E9B61] text-white px-2 py-0.5 rounded font-bold">Bắt buộc</span>
           </div>
 
-          <div class="space-y-3 pt-1">
-            
-            <!-- Chuyển khoản VietQR (Khuyên dùng) -->
-            <label class="flex items-start gap-3 p-4 rounded-xl border border-[#3E9B61] bg-[#FAF7E9]/60 cursor-pointer transition-colors">
-              <input type="radio" name="payment" value="VietQR" checked class="mt-1 text-[#3E9B61] focus:ring-[#3E9B61]">
-              <div class="space-y-1 flex-1">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs sm:text-sm font-bold text-[#211A18]">Chuyển khoản ngân hàng (VietQR tự động)</span>
-                  <span class="text-[10px] bg-[#3E9B61] text-white px-2 py-0.5 rounded font-bold">Khuyên dùng</span>
-                </div>
-                <p class="text-xs text-[#857B76]">Quét mã QR qua app ngân hàng Techcombank / Vietcombank. Tự động nhận diện đơn hàng nhanh chóng.</p>
-                
-                <!-- VietQR Info Box -->
-                <div id="vietqr-info-box" class="mt-3 p-3 bg-white rounded-lg border border-[#E5DDCE] text-xs space-y-1.5">
-                  <p><strong>Ngân hàng:</strong> Techcombank (Chi nhánh Hà Nội)</p>
-                  <p><strong>Số tài khoản:</strong> <code class="font-mono font-bold text-[#D95A82] text-sm">1903 8888 246 019</code></p>
-                  <p><strong>Chủ tài khoản:</strong> NGUYEN THANH TRUC</p>
-                  <p><strong>Nội dung CK:</strong> <code id="transfer-syntax" class="font-mono text-[#277A4D] font-bold">HNM TRUC 0944355645</code></p>
-                </div>
+          <div class="space-y-4 pt-1">
+            <!-- Zalo explain card -->
+            <div class="flex items-start gap-3 p-4 bg-gradient-to-r from-[#edfff5] to-[#f0f9ff] rounded-xl border border-[#3E9B61]/20">
+              <span class="text-2xl flex-shrink-0">💬</span>
+              <div class="text-xs text-[#4B4240] space-y-1">
+                <p class="font-bold text-[#277A4D]">Tại sao cần số Zalo?</p>
+                <p>Shop sẽ liên hệ qua Zalo để: <strong>① Xác nhận đơn hoa</strong> · <strong>② Gửi ảnh duyệt hoa thực tế</strong> · <strong>③ Thông báo khi shipper lên đường</strong>.</p>
               </div>
-            </label>
+            </div>
 
-            <!-- Tiền mặt COD -->
-            <label class="flex items-start gap-3 p-4 rounded-xl border border-[#E5DDCE] hover:border-[#3E9B61] bg-white cursor-pointer transition-colors">
-              <input type="radio" name="payment" value="COD" class="mt-1 text-[#3E9B61] focus:ring-[#3E9B61]">
-              <div class="space-y-0.5">
-                <span class="text-xs sm:text-sm font-bold text-[#211A18]">Thanh toán tiền mặt khi nhận hoa (COD)</span>
-                <p class="text-xs text-[#857B76]">Bạn hoặc người nhận thanh toán trực tiếp cho shiper khi nhận hoa.</p>
+            <!-- Zalo phone input -->
+            <div class="space-y-1">
+              <label for="customer-zalo" class="block text-xs font-semibold text-[#4B4240]">
+                Số điện thoại Zalo của bạn <span class="text-[#D95A82]">*</span>
+              </label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg">💬</span>
+                <input required id="customer-zalo" type="tel" placeholder="VD: 0944355645 (số dùng đăng nhập Zalo)" class="w-full h-11 pl-10 pr-4 rounded-lg border border-[#3E9B61]/50 bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors font-medium">
               </div>
-            </label>
+              <p class="text-[11px] text-[#857B76]">Nhập số điện thoại đã đăng ký tài khoản Zalo. Shop chỉ dùng để liên hệ về đơn hoa này.</p>
+            </div>
 
-            <!-- Online MoMo / VNPAY -->
-            <label class="flex items-start gap-3 p-4 rounded-xl border border-[#E5DDCE] hover:border-[#3E9B61] bg-white cursor-pointer transition-colors">
-              <input type="radio" name="payment" value="Online" class="mt-1 text-[#3E9B61] focus:ring-[#3E9B61]">
-              <div class="space-y-0.5">
-                <span class="text-xs sm:text-sm font-bold text-[#211A18]">Ví điện tử MoMo / VNPAY</span>
-                <p class="text-xs text-[#857B76]">Cổng thanh toán điện tử an toàn, tiện lợi.</p>
-              </div>
-            </label>
+            <!-- Phương thức thanh toán dự kiến -->
+            <div class="space-y-2">
+              <label for="payment-note" class="block text-xs font-semibold text-[#4B4240]">Phương thức thanh toán dự kiến <span class="text-[#857B76] font-normal">(Thanh toán sau khi Shop xác nhận)</span></label>
+              <select id="payment-note" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors">
+                <option value="Chuyển khoản ngân hàng">💳 Chuyển khoản ngân hàng</option>
+                <option value="Tiền mặt khi nhận hoa (COD)">💵 Tiền mặt khi nhận hoa (COD)</option>
+                <option value="Ví điện tử (MoMo / ZaloPay)">📱 Ví điện tử (MoMo / ZaloPay)</option>
+              </select>
+              <p class="text-[11px] text-[#857B76]">Shop sẽ hướng dẫn chi tiết thanh toán qua Zalo sau khi xác nhận đơn.</p>
+            </div>
 
+            <!-- CONSENT CHECKBOX -->
+            <div class="pt-2 border-t border-[#E5DDCE]">
+              <label id="consent-label" class="flex items-start gap-3 cursor-pointer group select-none p-3 rounded-xl hover:bg-[#FAF7E9] transition-colors">
+                <input type="checkbox" id="consent-zalo" required class="consent-checkbox mt-0.5 w-4 h-4 rounded border-2 border-[#E5DDCE] text-[#3E9B61] focus:ring-[#3E9B61] cursor-pointer flex-shrink-0">
+                <span class="text-xs text-[#4B4240] leading-relaxed">
+                  <span class="font-semibold text-[#211A18]">Tôi đồng ý</span> để tiệm hoa <strong>Hoa Nhà Mình</strong> liên hệ qua số Zalo trên để xác nhận đơn hoa, gửi ảnh duyệt sản phẩm và thông báo tình trạng giao hàng. Thông tin này chỉ dùng cho đơn hàng hiện tại. <span class="text-[#D95A82] font-semibold">*</span>
+                </span>
+              </label>
+              <p id="consent-error" class="hidden text-xs text-[#D95A82] mt-1 pl-7">⚠️ Vui lòng đồng ý để Shop có thể liên hệ xác nhận đơn hoa cho bạn.</p>
+            </div>
           </div>
+        </div>
+
+        <!-- KHỐI 5: XEM TRƯỚC TIN NHẮN (preview) -->
+        <div id="message-preview-section" class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5 pb-2 border-b border-[#E5DDCE]">
+            <span class="w-7 h-7 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center text-sm">👁️</span>
+            <h2 class="text-base font-bold text-[#211A18]">Xem trước tin nhắn sẽ gửi Shop</h2>
+            <button type="button" id="refresh-preview-btn" class="ml-auto text-[11px] text-[#277A4D] font-semibold border border-[#E5DDCE] px-3 py-1 rounded-lg hover:bg-[#FAF7E9] transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">refresh</span> Cập nhật
+            </button>
+          </div>
+
+          <div class="bg-[#f0f9ff] border border-[#43B7D0]/30 rounded-xl p-4 sm:p-5">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-[#43B7D0]/20">
+              <span class="text-base">💬</span>
+              <span class="text-xs font-bold text-[#277A4D]">Tin nhắn Zalo sẽ gửi đến: Hoa Nhà Mình (094 435 56 45)</span>
+            </div>
+            <pre id="zalo-preview-box" class="text-[11px] sm:text-xs text-[#211A18] leading-relaxed font-mono bg-white rounded-lg p-3 border border-[#E5DDCE] overflow-auto max-h-72">Điền thông tin bên trên để xem trước nội dung tin nhắn...</pre>
+          </div>
+          <p class="text-[11px] text-[#857B76] text-center">Đây là nội dung tin nhắn sẽ được gửi đến Zalo tiệm khi bạn xác nhận đặt hoa.</p>
         </div>
 
       </div>
 
       <!-- CỘT PHẢI: TÓM TẮT ĐƠN & NÚT ĐẶT HÀNG (lg:col-span-5) -->
       <div class="lg:col-span-5 space-y-6">
-        
+
         <div class="bg-white p-6 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-5 sticky top-28">
           <div class="flex items-center justify-between pb-3 border-b border-[#E5DDCE]">
-            <h3 class="text-base font-bold text-[#211A18]">Đơn hàng của bạn</h3>
+            <h3 class="text-base font-bold text-[#211A18]">Đơn hoa của bạn</h3>
             <a href="gio-hang.html" class="text-xs text-[#277A4D] hover:underline font-semibold">Chỉnh sửa giỏ</a>
           </div>
 
           <!-- Product items preview -->
-          <div id="checkout-items-list" class="space-y-3 max-h-60 overflow-y-auto divide-y divide-[#E5DDCE]/50">
+          <div id="checkout-items-list" class="space-y-3 max-h-56 overflow-y-auto divide-y divide-[#E5DDCE]/50">
             <!-- Dynamic items -->
           </div>
 
@@ -288,19 +364,33 @@
               <span id="chk-discount" class="font-bold">-0₫</span>
             </div>
             <div class="pt-3 border-t border-[#E5DDCE] flex items-baseline justify-between text-base font-bold text-[#211A18]">
-              <span>Tổng thanh toán</span>
+              <span>Tổng dự tính</span>
               <span id="chk-total" class="text-2xl font-bold text-[#D95A82]">0₫</span>
             </div>
           </div>
 
-          <!-- Nút Hoàn tất đặt hàng -->
+          <!-- Zalo confirm note -->
+          <div class="bg-[#FAF7E9] rounded-xl p-3 space-y-2 text-[11px] text-[#4B4240] border border-[#E5DDCE]">
+            <p class="font-semibold text-[#211A18] flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-[#3E9B61]">info</span>
+              Quy trình sau khi đặt hoa:
+            </p>
+            <div class="space-y-1.5 pl-5">
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">①</span> Đơn hoa gửi về Zalo tiệm ngay lập tức</p>
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">②</span> Shop xác nhận & báo giá chính xác qua Zalo (15–30 phút)</p>
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">③</span> Florist cắm hoa → Chụp ảnh gửi duyệt → Thanh toán → Giao hoa</p>
+            </div>
+          </div>
+
+          <!-- Nút XÁC NHẬN & GỬI ZALO -->
           <div class="pt-2 space-y-3">
-            <button type="submit" class="w-full h-14 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-bold text-base flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all">
-              <span class="material-symbols-outlined text-xl">verified</span>
-              <span>ĐẶT HOA NGAY</span>
+            <button type="submit" id="submit-order-btn" class="w-full h-14 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-bold text-base flex items-center justify-center gap-2.5 shadow-lg hover:shadow-xl transition-all group">
+              <span class="text-xl">💬</span>
+              <span>XÁC NHẬN & GỬI VỀ ZALO SHOP</span>
+              <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
-            <p class="text-center text-[11px] text-[#857B76]">
-              Bằng cách đặt hàng, bạn đồng ý nhận ảnh duyệt hoa và cuộc gọi xác nhận từ tiệm Hoa Nhà Mình.
+            <p class="text-center text-[11px] text-[#857B76] leading-relaxed">
+              Bằng cách xác nhận, bạn đồng ý cho Hoa Nhà Mình liên hệ qua Zalo để xác nhận và giao đơn hoa.
             </p>
           </div>
 
@@ -332,8 +422,8 @@
           <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Cam kết & Hỗ trợ</h4>
           <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
             <li><a href="gioi-thieu.html" class="hover:text-white transition-colors">Câu chuyện thương hiệu</a></li>
-            <li><span class="hover:text-white">Chụp ảnh duyệt hoa trước khi gửi</span></li>
-            <li><span class="hover:text-white">Giao hỏa tốc 2H nội thành Hà Nội</span></li>
+            <li><span>Chụp ảnh duyệt hoa trước khi gửi</span></li>
+            <li><span>Giao hỏa tốc 2H nội thành Hà Nội</span></li>
           </ul>
         </div>
         <div class="space-y-3">
@@ -374,6 +464,83 @@
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script>
+    // ─── Số Zalo Shop ─────────────────────────────────────
+    const SHOP_ZALO = "0944355645";
+
+    // ─── Tạo nội dung tin nhắn Zalo mẫu ──────────────────
+    function buildZaloMessage(data) {
+      const itemLines = (data.items || []).map(it =>
+        `   - ${it.name} (${it.size || 'M'}) x${it.quantity} — ${(it.price * it.quantity).toLocaleString('vi-VN')}₫`
+      ).join('\n');
+
+      const shippingText = data.shippingFee === 0 ? "Miễn phí" : `${data.shippingFee.toLocaleString('vi-VN')}₫`;
+
+      return `🌸 ĐƠN HOA - HOA NHÀ MÌNH 🌸
+━━━━━━━━━━━━━━━━━━━━
+📋 MÃ ĐƠN: #${data.orderId}
+
+👤 NGƯỜI ĐẶT HOA:
+   Tên: ${data.senderName}
+   SĐT liên hệ: ${data.senderPhone}
+   Zalo: ${data.customerZalo}
+${data.senderEmail ? `   Email: ${data.senderEmail}` : ''}
+
+🎁 NGƯỜI NHẬN HOA:
+   Tên: ${data.receiverName}
+   SĐT: ${data.receiverPhone}
+   Địa chỉ: ${data.address}
+
+🕐 THỜI GIAN GIAO:
+   ${data.deliveryDate} — ${data.deliverySlot}
+
+💐 SẢN PHẨM ĐẶT HOA:
+${itemLines}
+
+💰 TÓM TẮT CHI PHÍ:
+   Tạm tính: ${data.subtotal.toLocaleString('vi-VN')}₫
+   Phí vận chuyển: ${shippingText}
+${data.discount > 0 ? `   Giảm giá: -${data.discount.toLocaleString('vi-VN')}₫\n` : ''}   ➤ TỔNG DỰ TÍNH: ${data.total.toLocaleString('vi-VN')}₫
+
+💳 THANH TOÁN DỰ KIẾN: ${data.paymentNote}
+
+✉️ LỜI CHÚC TRÊN THIỆP:
+   "${data.cardMessage || 'Không có lời chúc'}"
+━━━━━━━━━━━━━━━━━━━━
+Gửi qua website Hoa Nhà Mình`;
+    }
+
+    // ─── Lấy data form hiện tại ──────────────────────────
+    function getFormData(cart, totals, orderId) {
+      return {
+        orderId,
+        senderName: document.getElementById("sender-name").value.trim() || "(chưa điền)",
+        senderPhone: document.getElementById("sender-phone").value.trim() || "(chưa điền)",
+        senderEmail: document.getElementById("sender-email").value.trim(),
+        receiverName: document.getElementById("receiver-name").value.trim() || "(chưa điền)",
+        receiverPhone: document.getElementById("receiver-phone").value.trim() || "(chưa điền)",
+        address: document.getElementById("receiver-address").value.trim() || "(chưa điền)",
+        deliveryDate: document.getElementById("delivery-date").value || "(chưa chọn)",
+        deliverySlot: document.getElementById("delivery-time-slot").value,
+        cardMessage: document.getElementById("order-card-message").value.trim(),
+        customerZalo: document.getElementById("customer-zalo").value.trim() || "(chưa điền)",
+        paymentNote: document.getElementById("payment-note").value,
+        items: cart,
+        subtotal: totals.subtotal,
+        shippingFee: totals.shippingFee,
+        discount: totals.discount,
+        total: totals.total
+      };
+    }
+
+    // ─── Cập nhật preview tin nhắn ───────────────────────
+    function updatePreview() {
+      const cart = Store.getCart();
+      const totals = Store.getOrderTotals();
+      const data = getFormData(cart, totals, "PREVIEW");
+      document.getElementById("zalo-preview-box").textContent = buildZaloMessage(data);
+    }
+
+    // ─── MAIN DOMContentLoaded ────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
       const cart = Store.getCart();
       const totals = Store.getOrderTotals();
@@ -392,11 +559,11 @@
       // Đổ danh sách sản phẩm bên cột phải
       const itemsList = document.getElementById("checkout-items-list");
       itemsList.innerHTML = cart.map(item => `
-        <div class="flex items-center gap-3 pt-2">
+        <div class="flex items-center gap-3 pt-2 first:pt-0">
           <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 border border-[#E5DDCE]">
           <div class="flex-1 min-w-0">
             <h4 class="text-xs font-semibold text-[#211A18] truncate">${item.name}</h4>
-            <p class="text-[11px] text-[#857B76]">${item.size} • SL: ${item.quantity}</p>
+            <p class="text-[11px] text-[#857B76]">${item.size || 'M'} • SL: ${item.quantity}</p>
           </div>
           <span class="text-xs font-bold text-[#D95A82] flex-shrink-0">${(item.price * item.quantity).toLocaleString('vi-VN')}₫</span>
         </div>
@@ -414,19 +581,46 @@
       document.getElementById("chk-total").textContent = `${totals.total.toLocaleString('vi-VN')}₫`;
 
       // Checkbox Giao cho chính tôi
-      const sameSender = document.getElementById("same-as-sender");
-      sameSender.addEventListener("change", (e) => {
+      document.getElementById("same-as-sender").addEventListener("change", (e) => {
         if (e.target.checked) {
           document.getElementById("receiver-name").value = document.getElementById("sender-name").value;
           document.getElementById("receiver-phone").value = document.getElementById("sender-phone").value;
+          // Nếu chọn "giao cho tôi", điền Zalo từ SĐT người đặt
+          if (!document.getElementById("customer-zalo").value) {
+            document.getElementById("customer-zalo").value = document.getElementById("sender-phone").value;
+          }
+          updatePreview();
         }
       });
 
-      // Submit Form Đặt hàng
+      // Live preview khi thay đổi các field
+      const liveFields = ["sender-name","sender-phone","sender-email","receiver-name","receiver-phone","receiver-address","delivery-date","delivery-time-slot","order-card-message","customer-zalo","payment-note"];
+      liveFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", updatePreview);
+        if (el) el.addEventListener("change", updatePreview);
+      });
+
+      // Nút cập nhật preview thủ công
+      document.getElementById("refresh-preview-btn").addEventListener("click", updatePreview);
+
+      // Hiển thị preview ban đầu
+      updatePreview();
+
+      // ─── SUBMIT FORM ─────────────────────────────────────
       document.getElementById("checkout-form").addEventListener("submit", (e) => {
         e.preventDefault();
 
-        const paymentMethod = document.querySelector("input[name='payment']:checked").value;
+        // Validate checkbox đồng ý
+        const consentChecked = document.getElementById("consent-zalo").checked;
+        if (!consentChecked) {
+          document.getElementById("consent-error").classList.remove("hidden");
+          document.getElementById("consent-label").scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        document.getElementById("consent-error").classList.add("hidden");
+
+        // Lấy dữ liệu
         const senderName = document.getElementById("sender-name").value.trim();
         const senderPhone = document.getElementById("sender-phone").value.trim();
         const senderEmail = document.getElementById("sender-email").value.trim();
@@ -436,17 +630,18 @@
         const deliveryDate = document.getElementById("delivery-date").value;
         const deliverySlot = document.getElementById("delivery-time-slot").value;
         const cardMessage = document.getElementById("order-card-message").value.trim();
+        const customerZalo = document.getElementById("customer-zalo").value.trim();
+        const paymentNote = document.getElementById("payment-note").value;
 
+        // Lưu đơn vào store
         const orderData = {
-          senderName,
-          senderPhone,
-          senderEmail,
-          receiverName,
-          receiverPhone,
+          senderName, senderPhone, senderEmail,
+          receiverName, receiverPhone,
           address: receiverAddress,
-          deliveryTime: `${deliveryDate} • ${deliverySlot}`,
-          paymentMethod: paymentMethod === "VietQR" ? "Chuyển khoản VietQR" : paymentMethod === "COD" ? "Tiền mặt khi nhận (COD)" : "Ví điện tử MoMo/VNPAY",
+          deliveryTime: `${deliveryDate} — ${deliverySlot}`,
+          paymentMethod: paymentNote,
           cardMessage,
+          customerZalo,
           items: cart,
           subtotal: totals.subtotal,
           shippingFee: totals.shippingFee,
@@ -455,10 +650,36 @@
         };
 
         const createdOrder = Store.saveOrder(orderData);
-        App.showToast("Đặt hàng thành công!", `Mã đơn hàng: #${createdOrder.id}`);
 
-        // Chuyển hướng đến Đặt hàng thành công kèm id
+        // Tạo nội dung tin nhắn Zalo
+        const msgData = {
+          orderId: createdOrder.id,
+          senderName, senderPhone, senderEmail,
+          receiverName, receiverPhone,
+          address: receiverAddress,
+          deliveryDate,
+          deliverySlot,
+          cardMessage,
+          customerZalo,
+          paymentNote,
+          items: cart,
+          subtotal: totals.subtotal,
+          shippingFee: totals.shippingFee,
+          discount: totals.discount,
+          total: totals.total
+        };
+
+        const zaloMessage = buildZaloMessage(msgData);
+        const encodedMsg = encodeURIComponent(zaloMessage);
+        const zaloUrl = `https://zalo.me/${SHOP_ZALO}?text=${encodedMsg}`;
+
+        // Hiển thị toast
+        App.showToast("Đang mở Zalo...", `Mã đơn: #${createdOrder.id}`);
+
+        // Mở Zalo sau 400ms (thời gian toast hiện)
         setTimeout(() => {
+          window.open(zaloUrl, "_blank", "noopener,noreferrer");
+          // Chuyển sang trang thành công
           window.location.href = `dat-hang-thanh-cong.html?id=${createdOrder.id}`;
         }, 600);
       });
