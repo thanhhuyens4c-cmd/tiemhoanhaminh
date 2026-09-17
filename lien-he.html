@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên hệ tiệm hoa & Thông tin cửa hàng — Hoa Nhà Mình</title>
+  <meta name="description" content="Liên hệ tiệm hoa tươi thủ công Hoa Nhà Mình tại Hoàng Mai, Hà Nội. Giờ nhận đơn 08:00 - 21:30. Bản đồ đường đi và form gửi tin nhắn trực tiếp.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006a38',
+            secondary: '#D95A82',
+            'paper-cream': '#F3EED8',
+            'warm-cream': '#FAF7E9'
+          },
+          fontFamily: {
+            brand: ['Pacifico', 'cursive'],
+            headline: ['Be Vietnam Pro', 'sans-serif'],
+            body: ['Be Vietnam Pro', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+
+  <!-- TOP COMMITMENT BANNER -->
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
+        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
+      </div>
+      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
+        <span class="material-symbols-outlined text-sm">call</span>
+        <span>Hotline: 094 435 56 45</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY HEADER -->
+  <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
+    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+        <div class="flex flex-col">
+          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
+        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
+        <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
+        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
+        <a href="lien-he.html" data-path="lien-he" class="text-sm text-primary font-semibold py-1 transition-colors">Liên hệ</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">search</span>
+        </button>
+        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">favorite</span>
+          <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">person</span>
+        </a>
+        <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+        <button id="mobile-menu-btn" type="button" aria-label="Mở menu" class="lg:hidden p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER HEADER -->
+  <section class="bg-[#FAF7E9] py-8 border-b border-[#E5DDCE]/60">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs text-[#857B76] mb-3">
+        <a href="index.html" class="hover:text-[#3E9B61]">Trang chủ</a>
+        <span>/</span>
+        <span class="text-[#211A18] font-semibold">Liên hệ với chúng tôi</span>
+      </nav>
+      <div class="space-y-1">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Ghé thăm tiệm hoa</span>
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight">Liên hệ tiệm Hoa Nhà Mình</h1>
+        <p class="text-xs sm:text-sm text-[#4B4240]">Chúng mình luôn sẵn lòng lắng nghe và tư vấn nhành hoa phù hợp nhất</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTACT CONTENT (BẢN ĐỒ NẰM TRONG KHỐI THÔNG TIN CỬA HÀNG THEO PRD) -->
+  <main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- CỘT 1 & 2: THÔNG TIN CỬA HÀNG + BẢN ĐỒ TÍCH HỢP (lg:col-span-7) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#E5DDCE] shadow-sm space-y-6">
+          <div class="space-y-1 pb-4 border-b border-[#E5DDCE]">
+            <span class="text-xs font-bold text-[#D95A82] uppercase tracking-wider">Thông tin cửa hàng</span>
+            <h2 class="text-xl font-bold text-[#211A18]">Tiệm hoa tươi thủ công Hoa Nhà Mình</h2>
+          </div>
+
+          <!-- Thông tin chi tiết -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-[#4B4240]">
+            
+            <!-- Địa chỉ -->
+            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF7E9]/70 border border-[#E5DDCE]">
+              <span class="material-symbols-outlined text-[#3E9B61] text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <div>
+                <strong class="text-[#211A18] block">Địa chỉ studio:</strong>
+                <p class="text-xs text-[#4B4240] mt-0.5">Số 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</p>
+              </div>
+            </div>
+
+            <!-- Giờ nhận đơn (BẮT BUỘC DÙNG "Giờ nhận đơn") -->
+            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF7E9]/70 border border-[#E5DDCE]">
+              <span class="material-symbols-outlined text-[#D95A82] text-xl flex-shrink-0 mt-0.5">schedule</span>
+              <div>
+                <strong class="text-[#211A18] block">Giờ nhận đơn:</strong>
+                <p class="text-xs text-[#4B4240] mt-0.5"><span class="text-[#3E9B61] font-bold">08:00 – 21:30</span> hàng ngày</p>
+                <p class="text-[10px] text-[#857B76]">Nhận cắm hoa theo yêu cầu 24/7 qua Zalo</p>
+              </div>
+            </div>
+
+            <!-- Hotline -->
+            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF7E9]/70 border border-[#E5DDCE]">
+              <span class="material-symbols-outlined text-[#3E9B61] text-xl flex-shrink-0 mt-0.5">call</span>
+              <div>
+                <strong class="text-[#211A18] block">Hotline / Zalo:</strong>
+                <a href="tel:0944355645" class="text-xs text-[#277A4D] font-bold hover:underline">094 435 56 45</a>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF7E9]/70 border border-[#E5DDCE]">
+              <span class="material-symbols-outlined text-[#3E9B61] text-xl flex-shrink-0 mt-0.5">mail</span>
+              <div>
+                <strong class="text-[#211A18] block">Hòm thư điện tử:</strong>
+                <p class="text-xs text-[#4B4240]">lienhe@hoanhaminh.vn</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BẢN ĐỒ TÍCH HỢP NGAY TRONG KHỐI THÔNG TIN CỬA HÀNG -->
+          <div class="space-y-2 pt-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-[#4B4240]">
+              <span class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[#3E9B61] text-sm">map</span>
+                Bản đồ vị trí tiệm tại Hà Nội
+              </span>
+              <a href="https://maps.google.com" target="_blank" rel="noopener" class="text-[#277A4D] hover:underline">Mở Google Maps &rarr;</a>
+            </div>
+
+            <!-- Map Mockup Container -->
+            <div class="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden border border-[#E5DDCE] bg-[#FAF7E9] shadow-inner">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.975877884848!2d105.852345!3d20.9936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac1a9a4b86e9%3A0xb35a0f67ea55b40!2zTmd1eeG7hW4gxJDhu6ljIEPhuqNuaCwgSG_DoG5nIE1haSwgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                class="w-full h-full filter saturate-90 contrast-95">
+              </iframe>
+              <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#E5DDCE] shadow-sm text-[11px] text-[#211A18] font-medium pointer-events-none">
+                📍 Số 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, HN
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CỘT 3: FORM GỬI LIÊN HỆ (lg:col-span-5) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#E5DDCE] shadow-sm space-y-5">
+          <div class="space-y-1 pb-3 border-b border-[#E5DDCE]">
+            <span class="text-xs font-bold text-[#3E9B61] uppercase tracking-wider">Gửi tin nhắn</span>
+            <h2 class="text-xl font-bold text-[#211A18]">Bạn cần tư vấn mẫu hoa riêng?</h2>
+            <p class="text-xs text-[#857B76]">Điền thông tin và tiệm sẽ liên hệ lại qua điện thoại / Zalo trong vòng 15 phút.</p>
+          </div>
+
+          <form id="contact-form" class="space-y-4">
+            
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-[#4B4240]">Họ và tên của bạn <span class="text-[#D95A82]">*</span></label>
+              <input required id="contact-name" type="text" placeholder="VD: Nguyễn Thị Lan" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-[#4B4240]">Số điện thoại liên hệ <span class="text-[#D95A82]">*</span></label>
+              <input required id="contact-phone" type="tel" placeholder="VD: 0987 654 321" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-[#4B4240]">Địa chỉ Email</label>
+              <input id="contact-email" type="email" placeholder="VD: lan.nguyen@gmail.com" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-[#4B4240]">Nội dung lời nhắn hoặc yêu cầu hoa <span class="text-[#D95A82]">*</span></label>
+              <textarea required id="contact-message" rows="4" placeholder="VD: Mình muốn đặt 1 bó hoa tặng sinh nhật mẹ vào thứ Bảy này, tông màu hồng ấm áp trong ngân sách 500k..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]"></textarea>
+            </div>
+
+            <button type="submit" class="w-full h-12 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+              <span class="material-symbols-outlined text-lg">send</span>
+              <span>GỬI LIÊN HỆ</span>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER (Đúng quy chuẩn PRD: Không có ảnh logo, 4 mạng xã hội, giờ nhận đơn) -->
+  <footer class="bg-[#29483C] text-[#FAF7E9] pt-14 pb-8 border-t border-[#277A4D] mt-auto">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#3E9B61]/40">
+        <div class="space-y-3">
+          <span class="font-brand text-2xl text-[#F3A8C0] tracking-wide block">Hoa Nhà Mình</span>
+          <p class="text-xs text-[#FAF7E9]/80 leading-relaxed">Tiệm hoa tươi thủ công mộc mạc. Gói ghém yêu thương trong từng nhành hoa cắt mới mỗi sớm mai.</p>
+          <p class="text-xs italic text-[#F4C52D]">"Let flowers speak your heart!"</p>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Khám phá tiệm hoa</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="san-pham.html" class="hover:text-white transition-colors">Tất cả sản phẩm hoa</a></li>
+            <li><a href="bo-suu-tap.html" class="hover:text-white transition-colors">Bộ sưu tập mùa này</a></li>
+            <li><a href="blog.html" class="hover:text-white transition-colors">Blog góc cảm xúc</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Cam kết & Hỗ trợ</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="gioi-thieu.html" class="hover:text-white transition-colors">Câu chuyện thương hiệu</a></li>
+            <li><span class="hover:text-white">Chụp ảnh duyệt hoa trước khi gửi</span></li>
+            <li><span class="hover:text-white">Giao hỏa tốc 2H nội thành Hà Nội</span></li>
+            <li><a href="admin.html" class="text-[#99f7b4] hover:underline font-semibold">Cổng quản trị Admin tiệm</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Thông tin tiệm</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4] mt-0.5">location_on</span>
+              <span>Số 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">schedule</span>
+              <span>Giờ nhận đơn: <strong class="text-white">08:00 – 21:30</strong></span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">call</span>
+              <span>Hotline / Zalo: 094 435 56 45</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FAF7E9]/70">
+        <p>© 2026 Hoa Nhà Mình. Tất cả quyền được bảo lưu.</p>
+        <div class="flex items-center gap-4">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Facebook</a>
+          <span>•</span>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Instagram</a>
+          <span>•</span>
+          <a href="https://threads.net" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Threads</a>
+          <span>•</span>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/site-settings.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contact-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("contact-name").value.trim();
+        App.showToast("Gửi lời nhắn thành công!", `Cảm ơn ${name}, tiệm sẽ liên hệ sớm nhất!`);
+        form.reset();
+      });
+    });
+  </script>
+</body>
+</html>

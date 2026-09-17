@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Hoa Nhà Mình - Tiệm hoa thủ công</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Pacifico&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-variant": "#eedfdc", "secondary-fixed-dim": "#ffb1c4", "on-primary-fixed-variant": "#00522a", "on-secondary": "#ffffff", "on-surface-variant": "#3f4940", "surface": "#fff8f6", "primary-fixed-dim": "#7dda99", "on-secondary-fixed-variant": "#871944", "surface-container-highest": "#eedfdc", "primary": "#006a38", "primary-fixed": "#99f7b4", "surface-dim": "#e5d7d4", "outline": "#6f7a6f", "secondary": "#a6335b", "tertiary-fixed-dim": "#c9c7ba", "on-surface": "#211a18", "surface-container-lowest": "#ffffff", "on-tertiary-fixed": "#1c1c14", "on-primary": "#ffffff", "on-secondary-container": "#740536", "outline-variant": "#becabd", "on-primary-container": "#f6fff4", "surface-container-low": "#fff0ed", "error": "#ba1a1a", "inverse-surface": "#372f2d", "inverse-primary": "#7dda99", "on-background": "#211a18", "on-tertiary-fixed-variant": "#48473d", "surface-tint": "#006d3a", "secondary-fixed": "#ffd9e0", "on-tertiary": "#ffffff", "secondary-container": "#fe779f", "primary-container": "#24854d", "on-primary-fixed": "#00210e", "on-error-container": "#93000a", "on-secondary-fixed": "#3f001a", "tertiary-container": "#76756a", "on-tertiary-container": "#fffbff", "tertiary": "#5d5c52", "background": "#fff8f6", "error-container": "#ffdad6", "surface-container": "#f9ebe8", "surface-bright": "#fff8f6", "on-error": "#ffffff", "tertiary-fixed": "#e5e3d5", "surface-container-high": "#f4e5e2", "inverse-on-surface": "#fceeea" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, fontFamily: { "headline": ["Be Vietnam Pro"], "display": ["Pacifico"], "body": ["Be Vietnam Pro"], "label": ["Be Vietnam Pro"] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fff8f6;color:#211a18;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body text-on-surface antialiased flex flex-col min-h-screen relative selection:bg-secondary-fixed selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe shadow-[0_2px_12px_rgba(75,66,64,0.05)]"><div class="h-16 px-3 flex items-center justify-between gap-2"><div class="flex items-center gap-1"><button aria-label="Menu điều hướng" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[24px]">menu</span></button><a class="flex items-center gap-2 pl-1 group" data-path="trang-chu" href="#"><span class="font-display text-[22px] leading-none text-secondary tracking-normal group-hover:text-primary transition-colors">Hoa Nhà Mình</span></a></div><div class="flex items-center gap-1"><button aria-label="Tìm kiếm" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><a aria-label="Hoa yêu thích" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-path="yeu-thich" href="#"><span class="material-symbols-outlined text-[22px]">favorite</span></a><a aria-label="Giỏ hàng" class="w-11 h-11 relative flex items-center justify-center rounded-xl text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-path="gio-hang" href="#"><span class="material-symbols-outlined text-[22px]">shopping_bag</span><span class="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-secondary text-on-secondary text-[10px] font-label font-bold flex items-center justify-center shadow-sm">3</span></a><div class="pl-1 flex items-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-sm ring-1 ring-surface-variant" src="https://lh3.googleusercontent.com/aida/AEtjO1XCwLiHdjrixy2nr6ZE_vqHVG76TSEzHt4jfWpWqIT5yZLADL2NcnV0QVrjH1aqLhPHsLzcPQx1MUKrqh4lVqwPxviyoXg5bdac2W6SF2JP_0vj-Tgh4I2CCtlklufZJ2HWsQvFjLl63iX6PfGPiN9mUP_Rg3XUHn92ubRZ5BqQO3RWxErWroRJ_9PrhBiq914ZiYRdQ3L5tzr_0fP80tsmTHzKyjPhK84WUmeCwNSENwQpnie92hm9HcZ40QVbAw52kI4-rbcNLj0"/></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-28 bg-surface"><div class="flex flex-col w-full">
+<!-- 1. Announcement Ticker Badge -->
+<section class="w-full px-3 pt-2 pb-1">
+<div class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-surface-container-low text-on-surface-variant shadow-sm overflow-hidden">
+<div class="flex items-center gap-1.5 min-w-0 flex-1">
+<span class="flex-shrink-0 text-base">🚚</span>
+<p class="text-[11px] font-label font-medium tracking-tight truncate">
+          Giao nhanh <strong class="text-primary font-bold">2H nội thành Hà Nội</strong> • 🌿 Hoa tươi nhập sớm mỗi ngày
+        </p>
+</div>
+<span class="flex-shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" title="Đang nhận đơn sáng"></span>
+</div>
+</section>
+<!-- 2. Hero Emotional Banner Mobile -->
+<section class="w-full px-3.5 pt-3 pb-5 flex flex-col gap-3.5">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-[11px] font-label font-bold uppercase tracking-wider text-secondary">Tiệm hoa thủ công mộc</span>
+</div>
+<h1 class="text-[26px] leading-[34px] font-headline font-bold text-on-surface tracking-tight">
+        Hoa đẹp hơn khi được <span class="text-primary">gửi gắm cảm xúc</span>
+</h1>
+<p class="font-['Pacifico'] text-[20px] text-secondary leading-snug -mt-0.5">
+        Let flowers speak your heart!
+      </p>
+<p class="text-[13px] leading-relaxed text-on-surface-variant">
+        Từng nhành hoa được chọn lọc tươi mới, gói ghém tỉ mỉ trong giấy mộc kraft và gửi trao bằng cả tấm lòng người thợ cắm hoa.
+      </p>
+</div>
+<!-- Hero Visual Card with Warm Craft Badge -->
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A warm artisan flower bouquet wrapped in brown textured craft paper tied with natural jute twine. Fresh pastel roses, daisy tana, baby breath, and eucalyptus leaves resting on a rustic wooden table with morning gentle sunlight, Vietnamese flower studio aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpgiYYd4sj-1wkth9jmU0LivllaqC-cu3FlQy_mBkDw9nc-63lIjN3_2_jvC4fmrVD2DxDZkYLOnVhhtjHndQON_IQCXAohaistKoLv9jzpAzjCCNqbxtNJZL-vxB24WI0XSbnLQ-d1g164x2xBYYc63j3bt0oZn_00BbxDEGcdvKDAgGOFnrSYTOlVUCEK-XToHoPzUbNz0O_HMiuDs4SYMgfsKyFGwm977naQ12_i4GGcZFy-HeTPg"/>
+<!-- Soft ambient gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent"></div>
+<!-- Trust badge overlay -->
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2 p-2.5 rounded-xl bg-surface/90 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary text-sm flex-shrink-0">
+            🌸
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="text-[11px] font-bold text-on-surface truncate">🌟 Đã trao hơn 1.200+ bó hoa</span>
+<span class="text-[10px] text-tertiary">Khách tin chọn gửi lời thương</span>
+</div>
+</div>
+<div class="flex -space-x-1.5 flex-shrink-0">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[9px] font-bold flex items-center justify-center">HN</div>
+<div class="w-6 h-6 rounded-full bg-primary-fixed text-on-primary-fixed text-[9px] font-bold flex items-center justify-center">TM</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface text-[9px] font-bold flex items-center justify-center">+99</div>
+</div>
+</div>
+</div>
+<!-- Hero CTAs (Touch friendly >= 46px) -->
+<div class="flex flex-col gap-2 pt-1">
+<a class="w-full h-12 rounded-xl bg-secondary text-on-secondary font-label font-semibold text-[14px] flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-transform" href="#featured-bouquets">
+<span>Khám phá mẫu hoa ngay</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="w-full h-12 rounded-xl bg-surface-container text-on-surface font-label font-medium text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform" href="https://zalo.me/0944355645" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[19px] text-primary">chat_bubble</span>
+<span>Tư vấn cắm hoa riêng (Zalo 094 435 56 45)</span>
+</a>
+</div>
+</section>
+<!-- 3. Quick Category Horizontal Scroll ("Dành Cho Ai") -->
+<section class="w-full py-4 bg-surface-container-low flex flex-col gap-3">
+<div class="px-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-[17px] font-headline font-bold text-on-surface">Bạn gửi hoa cho ai?</h2>
+<p class="text-[11px] text-tertiary">Chọn theo cảm xúc &amp; thông điệp</p>
+</div>
+<span class="text-[11px] font-label text-primary font-semibold">Vuốt chọn →</span>
+</div>
+<!-- Horizontal Scroll Bar -->
+<div class="w-full overflow-x-auto flex gap-3 px-3.5 no-scrollbar py-0.5">
+<!-- Item 1 -->
+<a class="flex-shrink-0 w-40 p-3 rounded-2xl bg-surface shadow-sm flex flex-col justify-between gap-2 active:scale-95 transition-transform" href="#">
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-xl">
+          🪴
+        </div>
+<div>
+<h3 class="font-headline font-bold text-[13px] text-on-surface">Bản thân</h3>
+<p class="text-[11px] text-tertiary line-clamp-1">Tự thưởng dịu dàng</p>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary flex items-center gap-0.5">
+          Xem gợi ý <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+</span>
+</a>
+<!-- Item 2 -->
+<a class="flex-shrink-0 w-40 p-3 rounded-2xl bg-surface shadow-sm flex flex-col justify-between gap-2 active:scale-95 transition-transform" href="#">
+<div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center text-xl">
+          💌
+        </div>
+<div>
+<h3 class="font-headline font-bold text-[13px] text-on-surface">Người yêu</h3>
+<p class="text-[11px] text-tertiary line-clamp-1">Lời yêu tinh khôi</p>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary flex items-center gap-0.5">
+          Xem gợi ý <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+</span>
+</a>
+<!-- Item 3 -->
+<a class="flex-shrink-0 w-40 p-3 rounded-2xl bg-surface shadow-sm flex flex-col justify-between gap-2 active:scale-95 transition-transform" href="#">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center text-xl">
+          🏡
+        </div>
+<div>
+<h3 class="font-headline font-bold text-[13px] text-on-surface">Gia đình</h3>
+<p class="text-[11px] text-tertiary line-clamp-1">Ấm áp &amp; biết ơn</p>
+</div>
+<span class="text-[10px] font-label font-semibold text-primary flex items-center gap-0.5">
+          Xem gợi ý <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+</span>
+</a>
+<!-- Item 4 -->
+<a class="flex-shrink-0 w-40 p-3 rounded-2xl bg-surface shadow-sm flex flex-col justify-between gap-2 active:scale-95 transition-transform" href="#">
+<div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xl">
+          🌻
+        </div>
+<div>
+<h3 class="font-headline font-bold text-[13px] text-on-surface">Bạn bè</h3>
+<p class="text-[11px] text-tertiary line-clamp-1">Năng lượng sẻ chia</p>
+</div>
+<span class="text-[10px] font-label font-semibold text-primary flex items-center gap-0.5">
+          Xem gợi ý <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+</span>
+</a>
+</div>
+</section>
+<!-- 4. Featured Products (2-Column Grid) -->
+<section class="w-full px-3.5 pt-6 pb-4 flex flex-col gap-3.5" id="featured-bouquets">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-[18px] font-headline font-bold text-on-surface tracking-tight">Hoa sớm trong ngày</h2>
+<p class="text-[12px] text-tertiary">Mỗi bó hoa đều độc bản theo mùa</p>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-[11px] font-label font-semibold">Tươi mới</span>
+</div>
+<!-- Filter Pills (Scrollable) -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+<button class="category-pill active flex-shrink-0 px-3.5 py-1.5 rounded-full bg-primary text-on-primary text-xs font-label font-medium transition-all shadow-sm" type="button">
+        Mới cắm sáng nay
+      </button>
+<button class="category-pill flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-label font-medium transition-all" type="button">
+        Bán chạy nhất
+      </button>
+<button class="category-pill flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-label font-medium transition-all" type="button">
+        Hoa giấy kraft
+      </button>
+</div>
+<!-- 2-Column Mobile Catalog Grid -->
+<div class="grid grid-cols-2 gap-2.5 pt-1">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-2.5 flex flex-col justify-between shadow-sm relative group">
+<div class="relative aspect-square w-full rounded-xl overflow-hidden bg-surface-container-high mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Delicate soft blush pink garden roses bouquet bundled with craft paper and cream ribbon, fine botanical photography, warm ambient indoor studio light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJtiQrFpMZ2DR8xItwnTJEOaICceV7SuyF892n2SOa6TjtSJnQ4h6musmjdKi-J8MVn4nxNi5ojARJACEcHTDO5N0R1tfB3T5I-gI1EranBUHX4qFps1v-T9YHry2VwRU7CqSuzRvnN-8XnXCMsi6TxXdVpsa6B3tTtzLUFRAd1aoG7nqGF3ld2XQemnNqrAfivBvYaNyzkkvmJmbGMmn2-sPg8llJIsUvY90_eiBALxppj0E5lstYvg"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-secondary text-on-secondary text-[10px] font-bold shadow-sm">
+            Bán chạy
+          </span>
+<button aria-label="Thêm vào yêu thích" class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/80 backdrop-blur-sm text-secondary flex items-center justify-center shadow-sm active:scale-90 transition-transform" onclick="toggleFavorite(this)" type="button">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-[11px] text-tertiary">
+<span class="text-secondary font-bold">4.9</span>
+<span class="text-xs">★</span>
+<span class="text-[10px]">• Kèm thiệp tay</span>
+</div>
+<h3 class="text-[13px] font-headline font-semibold text-on-surface line-clamp-2 leading-snug">
+            Bó hồng pastel 'Mộng Mơ'
+          </h3>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-[15px] font-headline font-bold text-primary">450.000₫</span>
+</div>
+</div>
+<button class="mt-2.5 w-full h-9 rounded-xl bg-primary text-on-primary text-[12px] font-label font-semibold flex items-center justify-center gap-1 active:scale-95 transition-all shadow-sm" onclick="quickAddToCart('Bó hồng pastel Mộng Mơ')" type="button">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>Chọn bó này</span>
+</button>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-2.5 flex flex-col justify-between shadow-sm relative group">
+<div class="relative aspect-square w-full rounded-xl overflow-hidden bg-surface-container-high mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Fresh white chamomile Tana daisies mixed with baby breath in rustic natural kraft paper wrap with hand-tied hemp twine, airy aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz_97479j1a7D8v-rYSqJ6GYZ0iffFIA8FhDxphsI5cdhXugN5q-7eeOlIerCSMAedpA9iuoUrtT-gC8hWxnlfG-XhICNl9ETKbewgb7KnffuoQ7c4PF2WQg_uGDnM85M2-M6AR_vOJQAxPnxTk1fK-r42t9FLT5nbxZk0LbEFtNkcs57tFlHZfAIFECtmNNyIy5BhQ3c3_hYeY_dK56TpU8KSRWz5l2Pr1FxnKLSs2cmJHpSJji1jOA"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-primary text-on-primary text-[10px] font-bold shadow-sm">
+            Hoa mới
+          </span>
+<button aria-label="Thêm vào yêu thích" class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/80 backdrop-blur-sm text-secondary flex items-center justify-center shadow-sm active:scale-90 transition-transform" onclick="toggleFavorite(this)" type="button">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-[11px] text-tertiary">
+<span class="text-secondary font-bold">4.8</span>
+<span class="text-xs">★</span>
+<span class="text-[10px]">• Nhập Đà Lạt</span>
+</div>
+<h3 class="text-[13px] font-headline font-semibold text-on-surface line-clamp-2 leading-snug">
+            Bó cúc Tana 'Thanh Xuân'
+          </h3>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-[15px] font-headline font-bold text-primary">320.000₫</span>
+</div>
+</div>
+<button class="mt-2.5 w-full h-9 rounded-xl bg-primary text-on-primary text-[12px] font-label font-semibold flex items-center justify-center gap-1 active:scale-95 transition-all shadow-sm" onclick="quickAddToCart('Bó cúc Tana Thanh Xuân')" type="button">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>Chọn bó này</span>
+</button>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-2.5 flex flex-col justify-between shadow-sm relative group">
+<div class="relative aspect-square w-full rounded-xl overflow-hidden bg-surface-container-high mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Handcrafted woven bamboo basket filled with yellow and orange warm summer wild flowers, carnations, and greenery in natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcG6jcLi4-OE52EIwjd-GZgkSaTtlU4rlynmYUVnLa8rlH3pDAJOkt1DxeB_0_ukE0AcQ5BLM3vZvnxDlyFHuZ0pIJCe2178aWQ_exN4AjIf99vKhXJKxGBH9gP3BpPkfaTFwJlaQasi0_WZo0uLFk718wqhTwbbaTnWmkgZ5ZIU9GjkgQt6DK5eu8FuU8zyzOkHodXtLTKElIPvJ-GyhtSPrXkH6DYcO163ZA3UrZlAi2IRPNPudJCg"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold shadow-sm">
+            Giỏ tre mộc
+          </span>
+<button aria-label="Thêm vào yêu thích" class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/80 backdrop-blur-sm text-secondary flex items-center justify-center shadow-sm active:scale-90 transition-transform" onclick="toggleFavorite(this)" type="button">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-[11px] text-tertiary">
+<span class="text-secondary font-bold">5.0</span>
+<span class="text-xs">★</span>
+<span class="text-[10px]">• Tươi 4-5 ngày</span>
+</div>
+<h3 class="text-[13px] font-headline font-semibold text-on-surface line-clamp-2 leading-snug">
+            Giỏ hoa mùa hạ 'Nắng Ấm'
+          </h3>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-[15px] font-headline font-bold text-primary">480.000₫</span>
+</div>
+</div>
+<button class="mt-2.5 w-full h-9 rounded-xl bg-primary text-on-primary text-[12px] font-label font-semibold flex items-center justify-center gap-1 active:scale-95 transition-all shadow-sm" onclick="quickAddToCart('Giỏ hoa mùa hạ Nắng Ấm')" type="button">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>Chọn bó này</span>
+</button>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-2xl p-2.5 flex flex-col justify-between shadow-sm relative group">
+<div class="relative aspect-square w-full rounded-xl overflow-hidden bg-surface-container-high mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Elegant pure white Dutch tulips wrapped neatly in minimalist coarse craft paper tied with rough jute string, top angle close-up shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiOlHZ_VyrNclY3j-qQUPiyl3SdvxNecwAErO7Jqv22hoIzACYy_RqrUbRUVMHOfUbII3bAtSxKdXZKKWIkB4r92RAmuyxnXrWbvYbPPHhXZHRNaeZ1zMOj4D0TAr9X05xqvh8UUgFlchuOWFfdH1THn2yfYMgV2zszmqYzEy4wfEQ-QNiz3pi94jdcAGuPZT_m8nPEGBLnSox2NJ2CuTcitQ8rm36cbqlSwYPisa8iqpHjvOZiOeoqw"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold shadow-sm">
+            Thuần khiết
+          </span>
+<button aria-label="Thêm vào yêu thích" class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/80 backdrop-blur-sm text-secondary flex items-center justify-center shadow-sm active:scale-90 transition-transform" onclick="toggleFavorite(this)" type="button">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-[11px] text-tertiary">
+<span class="text-secondary font-bold">4.9</span>
+<span class="text-xs">★</span>
+<span class="text-[10px]">• Độc quyền</span>
+</div>
+<h3 class="text-[13px] font-headline font-semibold text-on-surface line-clamp-2 leading-snug">
+            Bó tulip trắng 'Dịu Dàng'
+          </h3>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-[15px] font-headline font-bold text-primary">550.000₫</span>
+</div>
+</div>
+<button class="mt-2.5 w-full h-9 rounded-xl bg-primary text-on-primary text-[12px] font-label font-semibold flex items-center justify-center gap-1 active:scale-95 transition-all shadow-sm" onclick="quickAddToCart('Bó tulip trắng Dịu Dàng')" type="button">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>Chọn bó này</span>
+</button>
+</div>
+</div>
+<!-- View All CTA -->
+<a class="w-full py-3 mt-1 rounded-xl bg-surface-container text-on-surface text-[13px] font-label font-semibold flex items-center justify-center gap-1.5 active:scale-[0.99] transition-transform" href="#">
+<span>Xem tất cả mẫu hoa (32+ mẫu)</span>
+<span class="material-symbols-outlined text-[18px] text-primary">arrow_forward</span>
+</a>
+</section>
+<!-- 5. Artisanal Storytelling & Values -->
+<section class="w-full px-3.5 py-6 bg-surface-container-low flex flex-col gap-4">
+<div class="text-center flex flex-col items-center gap-1">
+<span class="text-[11px] font-label font-bold text-secondary tracking-widest uppercase">Gói trọn chân thành</span>
+<h2 class="text-[20px] font-headline font-bold text-on-surface">Tại sao là Hoa Nhà Mình?</h2>
+<p class="text-[12px] text-tertiary max-w-xs leading-relaxed">
+        Không chỉ bán hoa, chúng mình cùng bạn gói ghém từng cảm xúc để gửi trao trọn vẹn nhất.
+      </p>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Value 1 -->
+<div class="p-3.5 rounded-2xl bg-surface shadow-sm flex flex-col gap-2">
+<span class="text-2xl">🌿</span>
+<h3 class="text-[13px] font-headline font-bold text-on-surface">Hoa tươi nhập sớm</h3>
+<p class="text-[11px] text-tertiary leading-relaxed">Tuyển chọn hoa bông loại 1 từ nhà vườn Đà Lạt &amp; Mê Linh mỗi sớm 5h.</p>
+</div>
+<!-- Value 2 -->
+<div class="p-3.5 rounded-2xl bg-surface shadow-sm flex flex-col gap-2">
+<span class="text-2xl">✍️</span>
+<h3 class="text-[13px] font-headline font-bold text-on-surface">Thiệp nắn nót tay</h3>
+<p class="text-[11px] text-tertiary leading-relaxed">Từng nét bút viết tay riêng theo lời bạn dặn, không dùng thiệp in sẵn vô cảm.</p>
+</div>
+<!-- Value 3 -->
+<div class="p-3.5 rounded-2xl bg-surface shadow-sm flex flex-col gap-2">
+<span class="text-2xl">📦</span>
+<h3 class="text-[13px] font-headline font-bold text-on-surface">Giấy kraft mộc</h3>
+<p class="text-[11px] text-tertiary leading-relaxed">Gói bằng giấy kraft tự nhiên &amp; dây gai đay mộc mạc, thân thiện môi trường.</p>
+</div>
+<!-- Value 4 -->
+<div class="p-3.5 rounded-2xl bg-surface shadow-sm flex flex-col gap-2">
+<span class="text-2xl">📸</span>
+<h3 class="text-[13px] font-headline font-bold text-on-surface">Chụp ảnh trước giao</h3>
+<p class="text-[11px] text-tertiary leading-relaxed">Gửi ảnh thực tế sản phẩm hoàn thiện qua Zalo để bạn ưng ý trước khi đi.</p>
+</div>
+</div>
+</section>
+<!-- 6. Budget & Custom Florist Zalo Consultation Box -->
+<section class="w-full px-3.5 py-5">
+<div class="relative w-full rounded-2xl bg-gradient-to-br from-surface-container to-surface-container-high p-4 flex flex-col gap-3 shadow-sm overflow-hidden">
+<!-- Decorative watermarked floral icon in background -->
+<div class="absolute -right-6 -bottom-6 text-[100px] text-primary/5 pointer-events-none select-none">
+        🌿
+      </div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">palette</span>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<h3 class="text-[15px] font-headline font-bold text-on-surface leading-snug">
+            Cắm hoa theo ngân sách riêng?
+          </h3>
+<p class="text-[12px] text-on-surface-variant leading-relaxed">
+            Bạn cần bó hoa từ 250k hay muốn phối màu theo cá tính riêng của người nhận? Chúng mình lắng nghe và tư vấn tận tâm.
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<a class="h-11 rounded-xl bg-surface text-on-surface font-label font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" href="tel:0944355645">
+<span class="material-symbols-outlined text-[17px] text-primary">call</span>
+<span>Gọi 094 435 56 45</span>
+</a>
+<a class="h-11 rounded-xl bg-primary text-on-primary font-label font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" href="https://zalo.me/0944355645" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[17px]">chat</span>
+<span>Nhắn Zalo Tiệm</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 7. Customer Heartfelt Reviews -->
+<section class="w-full px-3.5 pt-2 pb-6 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<h2 class="text-[17px] font-headline font-bold text-on-surface">Lời nhắn từ người thương</h2>
+<span class="text-[11px] text-tertiary">Niềm hạnh phúc giản dị mỗi ngày</span>
+</div>
+<div class="flex items-center gap-1 text-secondary text-xs font-bold">
+<span>★ 4.9/5</span>
+<span class="text-[10px] text-tertiary">(80+ review)</span>
+</div>
+</div>
+<!-- Review Cards Slider/List -->
+<div class="flex flex-col gap-2.5">
+<!-- Review 1 -->
+<div class="p-3.5 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold flex items-center justify-center">
+              L
+            </div>
+<div>
+<p class="text-xs font-headline font-bold text-on-surface">Thuỳ Linh</p>
+<p class="text-[10px] text-tertiary">Hoàng Mai, Hà Nội • Đặt hoa kỷ niệm</p>
+</div>
+</div>
+<div class="flex text-secondary text-[11px]">★★★★★</div>
+</div>
+<p class="text-[12px] text-on-surface-variant leading-relaxed">
+          "Hoa tươi rất lâu luôn, giấy kraft nhìn mộc và sang xịn mịn. Đặc biệt bạn florist nắn nót viết thiệp chữ đẹp xuất sắc, bạn gái mình thích mê!"
+        </p>
+</div>
+<!-- Review 2 -->
+<div class="p-3.5 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold flex items-center justify-center">
+              M
+            </div>
+<div>
+<p class="text-xs font-headline font-bold text-on-surface">Minh Quân</p>
+<p class="text-[10px] text-tertiary">Đống Đa, Hà Nội • Đặt tặng mẹ</p>
+</div>
+</div>
+<div class="flex text-secondary text-[11px]">★★★★★</div>
+</div>
+<p class="text-[12px] text-on-surface-variant leading-relaxed">
+          "Dịch vụ cực kỳ chu đáo. Cắm xong chụp gửi mình duyệt rồi mới đi giao. Mẹ mình nhận giỏ hoa khen mãi vì hoa nở tự nhiên thơm ngát."
+        </p>
+</div>
+</div>
+</section>
+<!-- Interactive Toast Notification Popup (Hidden by default) -->
+<div class="fixed bottom-28 left-4 right-4 z-50 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-between p-3 rounded-xl bg-inverse-surface text-inverse-on-surface shadow-xl" id="cart-toast">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[20px] text-primary-fixed">check_circle</span>
+<span class="text-xs font-medium truncate" id="toast-text">Đã thêm vào giỏ hàng</span>
+</div>
+<span class="text-[11px] font-bold text-secondary-fixed flex-shrink-0">Xem giỏ</span>
+</div>
+</div>
+<script>
+  // Filter tab active toggle micro-interaction
+  document.querySelectorAll('.category-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.category-pill').forEach(p => {
+        p.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        p.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      pill.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      pill.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+    });
+  });
+
+  // Favorite heart toggle
+  function toggleFavorite(btn) {
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (btn.classList.contains('favorited')) {
+      btn.classList.remove('favorited');
+      btn.classList.remove('text-secondary');
+      btn.classList.add('text-tertiary');
+      icon.style.fontVariationSettings = "'FILL' 0";
+    } else {
+      btn.classList.add('favorited');
+      btn.classList.remove('text-tertiary');
+      btn.classList.add('text-secondary');
+      icon.style.fontVariationSettings = "'FILL' 1";
+    }
+  }
+
+  // Quick add to cart toast notification
+  let toastTimer;
+  function quickAddToCart(productName) {
+    const toast = document.getElementById('cart-toast');
+    const toastText = document.getElementById('toast-text');
+    if (!toast || !toastText) return;
+
+    toastText.textContent = `Đã thêm "${productName}" vào giỏ`;
+    toast.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 2400);
+  }
+</script><footer class="mt-12 px-5 py-8 bg-surface-container-low text-on-surface-variant rounded-t-3xl"><div class="flex flex-col gap-3"><div class="flex items-center justify-between"><span class="font-headline font-bold text-base text-primary">Hoa Nhà Mình</span><span class="text-[11px] font-label px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">Tiệm hoa thủ công</span></div><p class="text-xs leading-relaxed text-tertiary">Nhắn gửi yêu thương qua từng cánh hoa tươi nguyên bản được gói trọn bằng giấy kraft và dây gai mộc mạc.</p><div class="flex flex-col gap-1.5 pt-2 text-xs"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">call</span><a class="font-semibold text-on-surface hover:text-primary transition-colors" href="tel:0944355645">094 435 56 45</a></div><div class="flex items-start gap-2"><span class="material-symbols-outlined text-[16px] text-primary mt-0.5">location_on</span><span>Ngõ 225 Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</span></div></div><div class="flex items-center gap-3 pt-3"><a aria-label="Facebook" class="w-9 h-9 rounded-xl bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors shadow-sm" href="#"><span class="text-xs font-bold font-headline">FB</span></a><a aria-label="Instagram" class="w-9 h-9 rounded-xl bg-surface flex items-center justify-center text-on-surface-variant hover:text-secondary transition-colors shadow-sm" href="#"><span class="text-xs font-bold font-headline">IG</span></a><a aria-label="Threads" class="w-9 h-9 rounded-xl bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors shadow-sm" href="#"><span class="text-xs font-bold font-headline">TH</span></a><a aria-label="TikTok" class="w-9 h-9 rounded-xl bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors shadow-sm" href="#"><span class="text-xs font-bold font-headline">TT</span></a></div><div class="pt-4 text-[11px] text-outline flex items-center justify-between"><span>© 2025 Hoa Nhà Mình.</span><span>Mộc mạc &amp; Chân thành</span></div></div></footer></main><aside class="fixed right-4 bottom-24 z-40"><a class="flex items-center gap-2 pl-3 pr-4 h-11 bg-primary text-on-primary rounded-full shadow-[0_4px_16px_rgba(0,106,56,0.28)] hover:bg-primary-container active:scale-95 transition-all" href="https://zalo.me/0944355645" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[20px]">chat</span><span class="text-xs font-label font-semibold tracking-wide">Tư vấn: 094 435 56 45</span></a></aside><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_16px_rgba(75,66,64,0.06)]" data-active-classes="text-primary font-semibold"><div class="flex justify-around items-center h-16 px-1"><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-12 text-on-surface-variant transition-colors" data-path="trang-chu" href="#"><span class="material-symbols-outlined text-[22px]">home</span><span class="text-[11px] font-label">Trang chủ</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-12 text-on-surface-variant transition-colors" data-path="san-pham" href="#"><span class="material-symbols-outlined text-[22px]">potted_plant</span><span class="text-[11px] font-label">Sản phẩm</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-12 text-on-surface-variant transition-colors" data-path="yeu-thich" href="#"><span class="material-symbols-outlined text-[22px]">favorite</span><span class="text-[11px] font-label">Yêu thích</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-12 text-on-surface-variant transition-colors" data-path="tu-van-zalo" href="#"><span class="material-symbols-outlined text-[22px]">support_agent</span><span class="text-[11px] font-label">Tư vấn Zalo</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-12 text-on-surface-variant transition-colors" data-path="tai-khoan" href="#"><span class="material-symbols-outlined text-[22px]">person</span><span class="text-[11px] font-label">Tài khoản</span></a></div></nav></body></html>

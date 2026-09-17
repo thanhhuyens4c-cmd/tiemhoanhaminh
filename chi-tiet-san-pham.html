@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sản phẩm hoa tươi — Hoa Nhà Mình</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006a38',
+            secondary: '#D95A82',
+            'paper-cream': '#F3EED8',
+            'warm-cream': '#FAF7E9'
+          },
+          fontFamily: {
+            brand: ['Pacifico', 'cursive'],
+            headline: ['Be Vietnam Pro', 'sans-serif'],
+            body: ['Be Vietnam Pro', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+
+  <!-- TOP COMMITMENT BANNER -->
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
+        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
+      </div>
+      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
+        <span class="material-symbols-outlined text-sm">call</span>
+        <span>Hotline: 094 435 56 45</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY HEADER -->
+  <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
+    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+        <div class="flex flex-col">
+          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
+        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
+        <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
+        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
+        <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">search</span>
+        </button>
+        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">favorite</span>
+          <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">person</span>
+        </a>
+        <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+        <button id="mobile-menu-btn" type="button" aria-label="Mở menu" class="lg:hidden p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB SECTION -->
+  <section class="bg-[#FAF7E9] py-4 border-b border-[#E5DDCE]/60">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs text-[#857B76]">
+        <a href="index.html" class="hover:text-[#3E9B61] flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">home</span> Trang chủ
+        </a>
+        <span>/</span>
+        <a href="san-pham.html" class="hover:text-[#3E9B61]">Sản phẩm</a>
+        <span>/</span>
+        <span id="product-type-crumb" class="hover:text-[#3E9B61]">Bó hoa tươi mộc</span>
+        <span>/</span>
+        <span id="product-name-crumb" class="text-[#211A18] font-semibold truncate max-w-xs">Bó hoa hồng pastel 'Mộng Mơ'</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- MAIN PRODUCT DETAIL STAGE (2 CỘT) -->
+  <main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- CỘT TRÁI: GALLERY ẢNH (lg:col-span-6) -->
+      <div class="lg:col-span-6 space-y-4">
+        <!-- Ảnh chính -->
+        <div class="relative w-full aspect-square rounded-3xl overflow-hidden bg-[#FAF7E9] border border-[#E5DDCE] shadow-md group">
+          <img id="main-gallery-img" src="assets/images/bouquet-pink.png" alt="Ảnh hoa chính" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+          
+          <!-- Badges -->
+          <div class="absolute top-4 left-4 flex flex-col gap-2 pointer-events-none">
+            <span id="badge-best-seller" class="bg-[#D95A82] text-white text-xs font-bold px-3 py-1 rounded-md shadow-sm">
+              Bán chạy nhất
+            </span>
+            <span class="bg-[#3E9B61] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-md shadow-sm">
+              Cắt mới sớm mai
+            </span>
+          </div>
+
+          <!-- Wishlist Floating Button -->
+          <button id="detail-wishlist-btn" class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/95 hover:bg-white text-[#4B4240] hover:text-[#D95A82] shadow-md flex items-center justify-center transition-colors">
+            <span id="detail-wishlist-icon" class="material-symbols-outlined text-2xl">favorite</span>
+          </button>
+        </div>
+
+        <!-- Thumbnails Strip (4 Ảnh) -->
+        <div id="gallery-thumbnails" class="grid grid-cols-4 gap-3">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: THÔNG TIN SẢN PHẨM & MUA HÀNG (lg:col-span-6) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div>
+          <div class="flex items-center gap-3 text-xs text-[#857B76] mb-1">
+            <span id="product-code" class="font-mono bg-[#FAF7E9] px-2 py-0.5 rounded border border-[#E5DDCE]">#HNM-HM001</span>
+            <span>•</span>
+            <span class="text-[#3E9B61] font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#3E9B61] animate-pulse"></span>
+              Còn hoa tươi sớm nay
+            </span>
+          </div>
+
+          <h1 id="product-title" class="text-2xl sm:text-3xl font-bold text-[#211A18] leading-snug">
+            Bó Hoa Hồng Pastel 'Mộng Mơ'
+          </h1>
+
+          <!-- Ratings -->
+          <div class="flex items-center gap-2 mt-2">
+            <div class="flex items-center text-[#F4C52D]">
+              <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <span id="product-rating" class="text-xs font-bold text-[#211A18]">5.0</span>
+            <span class="text-xs text-[#857B76]">(38 lượt nhận xét)</span>
+          </div>
+        </div>
+
+        <!-- Giá bán -->
+        <div class="p-4 rounded-2xl bg-[#FAF7E9] border border-[#E5DDCE] flex items-baseline gap-4">
+          <span id="product-price" class="text-3xl font-bold text-[#D95A82]">450.000₫</span>
+          <span id="product-orig-price" class="text-sm text-[#857B76] line-through">500.000₫</span>
+          <span class="text-xs bg-[#D95A82]/10 text-[#D95A82] font-semibold px-2 py-0.5 rounded-full">Tiết kiệm 10%</span>
+        </div>
+
+        <!-- Mô tả ngắn -->
+        <p id="product-short-desc" class="text-sm text-[#4B4240] leading-relaxed">
+          Hoa hồng Ohara kết hợp cúc tana trắng tinh khôi và lá khuynh diệp thơm dịu, gói giấy kraft mộc.
+        </p>
+
+        <!-- CHỌN KÍCH THƯỚC (S, M, L) -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between text-xs font-semibold text-[#4B4240]">
+            <span>CHỌN KÍCH CỠ HOA</span>
+            <span id="selected-size-name" class="text-[#3E9B61]">M - Tiêu chuẩn (Khuyên dùng)</span>
+          </div>
+          <div id="size-options" class="grid grid-cols-3 gap-3">
+            <!-- Dynamic sizes -->
+          </div>
+        </div>
+
+        <!-- SỐ LƯỢNG & NÚT MUA HÀNG -->
+        <div class="space-y-4 pt-4 border-t border-[#E5DDCE]">
+          <div class="flex items-center gap-4">
+            <label class="text-xs font-semibold text-[#4B4240] uppercase">Số lượng:</label>
+            <div class="flex items-center border border-[#E5DDCE] rounded-xl bg-white h-11 shadow-sm">
+              <button id="qty-minus" class="px-3.5 text-base text-[#4B4240] hover:text-black transition-colors">-</button>
+              <input id="product-qty" type="number" value="1" min="1" class="w-12 text-center text-sm font-bold bg-transparent focus:outline-none" readonly>
+              <button id="qty-plus" class="px-3.5 text-base text-[#4B4240] hover:text-black transition-colors">+</button>
+            </div>
+            <span class="text-xs text-[#857B76]">Có thể đặt giao ngay hôm nay</span>
+          </div>
+
+          <!-- 2 CTA Buttons -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <!-- Thêm vào giỏ -->
+            <button id="btn-add-cart" class="h-12 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+              <span class="material-symbols-outlined text-lg">shopping_bag</span>
+              <span>Thêm vào giỏ hàng</span>
+            </button>
+
+            <!-- Mua ngay -->
+            <button id="btn-buy-now" class="h-12 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+              <span class="material-symbols-outlined text-lg">bolt</span>
+              <span>Mua ngay</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cam kết dịch vụ đi kèm -->
+        <div class="p-4 rounded-2xl bg-white border border-[#E5DDCE] space-y-2 text-xs text-[#4B4240]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-sm text-[#3E9B61]">photo_camera</span>
+            <span>Chụp ảnh thành phẩm hoa thực tế gửi bạn duyệt qua Zalo trước khi giao</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-sm text-[#D95A82]">edit_note</span>
+            <span>Tặng kèm thiệp chúc mừng thủ công viết tay nắn nót miễn phí</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-sm text-[#3E9B61]">local_shipping</span>
+            <span>Giao hỏa tốc 2H nội thành Hà Nội • Freeship đơn từ 1.000.000₫</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TABS NỘI DUNG PHÍA DƯỚI (Mô tả, Chăm sóc, Giao hàng, Đánh giá) -->
+    <section class="mt-16 bg-white rounded-3xl border border-[#E5DDCE] p-6 sm:p-10 shadow-sm">
+      <div class="flex items-center gap-6 border-b border-[#E5DDCE] pb-4 overflow-x-auto text-sm font-semibold">
+        <button class="detail-tab text-[#3E9B61] border-b-2 border-[#3E9B61] pb-2 flex-shrink-0" data-tab="desc">
+          Mô tả sản phẩm
+        </button>
+        <button class="detail-tab text-[#857B76] hover:text-black pb-2 flex-shrink-0" data-tab="care">
+          Hướng dẫn chăm sóc hoa
+        </button>
+        <button class="detail-tab text-[#857B76] hover:text-black pb-2 flex-shrink-0" data-tab="shipping">
+          Chính sách giao hàng
+        </button>
+        <button class="detail-tab text-[#857B76] hover:text-black pb-2 flex-shrink-0" data-tab="reviews">
+          Đánh giá từ khách (38)
+        </button>
+      </div>
+
+      <div class="pt-6 text-sm text-[#4B4240] leading-relaxed">
+        <!-- Tab 1: Mô tả -->
+        <div id="tab-desc-content" class="space-y-4">
+          <p id="product-long-desc">
+            Bó hoa 'Mộng Mơ' là tác phẩm được cắm tỉ mỉ nương theo vẻ đẹp nguyên bản của từng đóa hồng Ohara màu pastel. Từng nhành hoa được florists tiệm Hoa Nhà Mình cắt gốc và tạo dáng trong buổi sớm tinh mơ...
+          </p>
+        </div>
+
+        <!-- Tab 2: Chăm sóc -->
+        <div id="tab-care-content" class="hidden space-y-4">
+          <div class="space-y-3 bg-[#FAF7E9] p-5 rounded-2xl border border-[#E5DDCE]">
+            <h4 class="font-bold text-[#211A18] flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#3E9B61]">water_drop</span>
+              Cách giữ hoa tươi từ 3 - 5 ngày:
+            </h4>
+            <ul class="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
+              <li>Cắt vát gốc 45 độ dưới vòi nước sạch để tăng diện tích hút nước.</li>
+              <li>Thay nước sạch mỗi ngày một lần và cho gói dưỡng hoa sinh học được tiệm tặng kèm.</li>
+              <li>Đặt bình hoa ở nơi thoáng mát, tránh ánh nắng gắt hoặc hướng gió thổi trực tiếp từ máy điều hòa.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab 3: Giao hàng -->
+        <div id="tab-shipping-content" class="hidden space-y-4">
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">1</span>
+              <span><strong>Giao hỏa tốc 2H:</strong> Áp dụng cho toàn bộ các quận nội thành Hà Nội (Hoàn Kiếm, Ba Đình, Hai Bà Trưng, Đống Đa, Cầu Giấy, Hoàng Mai...).</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">2</span>
+              <span><strong>Duyệt ảnh trước khi giao:</strong> Tiệm luôn chụp ảnh sản phẩm hoàn thiện từ 2-3 góc gửi khách qua Zalo để khách xác nhận độ ưng ý trước khi shiper lên đường.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">3</span>
+              <span><strong>Vận chuyển cẩn trọng:</strong> Hoa được bọc túi giữ ẩm gốc và che chắn cẩn thận trong suốt quá trình di chuyển.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tab 4: Đánh giá -->
+        <div id="tab-reviews-content" class="hidden space-y-4">
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl bg-[#FAF7E9] border border-[#E5DDCE] flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl font-bold text-[#D95A82]">5.0</span>
+                <div>
+                  <div class="flex text-[#F4C52D]">
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  </div>
+                  <p class="text-xs text-[#857B76]">100% đánh giá 5 sao từ khách nhận hoa thật</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SẢN PHẨM LIÊN QUAN (4 CARDS) -->
+    <section class="mt-16 space-y-6">
+      <div class="flex items-end justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#3E9B61]">Gợi ý thêm cho bạn</span>
+          <h2 class="text-2xl font-bold text-[#211A18] tracking-tight font-headline mt-1">Tác phẩm hoa liên quan</h2>
+        </div>
+        <a href="san-pham.html" class="text-xs font-semibold text-[#277A4D] hover:underline">Xem thêm &rarr;</a>
+      </div>
+
+      <div id="related-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#29483C] text-[#FAF7E9] pt-14 pb-8 border-t border-[#277A4D] mt-auto">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#3E9B61]/40">
+        <div class="space-y-3">
+          <span class="font-brand text-2xl text-[#F3A8C0] tracking-wide block">Hoa Nhà Mình</span>
+          <p class="text-xs text-[#FAF7E9]/80 leading-relaxed">Tiệm hoa tươi thủ công mộc mạc. Gói ghém yêu thương trong từng nhành hoa cắt mới mỗi sớm mai.</p>
+          <p class="text-xs italic text-[#F4C52D]">"Let flowers speak your heart!"</p>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Khám phá tiệm hoa</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="san-pham.html" class="hover:text-white transition-colors">Tất cả sản phẩm hoa</a></li>
+            <li><a href="bo-suu-tap.html" class="hover:text-white transition-colors">Bộ sưu tập mùa này</a></li>
+            <li><a href="blog.html" class="hover:text-white transition-colors">Blog góc cảm xúc</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Cam kết & Hỗ trợ</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="gioi-thieu.html" class="hover:text-white transition-colors">Câu chuyện thương hiệu</a></li>
+            <li><span class="hover:text-white">Chụp ảnh duyệt hoa trước khi gửi</span></li>
+            <li><span class="hover:text-white">Giao hỏa tốc 2H nội thành Hà Nội</span></li>
+            <li><a href="admin.html" class="text-[#99f7b4] hover:underline font-semibold">Cổng quản trị Admin tiệm</a></li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Thông tin tiệm</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4] mt-0.5">location_on</span>
+              <span>Số 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">schedule</span>
+              <span>Giờ nhận đơn: <strong class="text-white">08:00 – 21:30</strong></span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">call</span>
+              <span>Hotline / Zalo: 094 435 56 45</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FAF7E9]/70">
+        <p>© 2026 Hoa Nhà Mình. Tất cả quyền được bảo lưu.</p>
+        <div class="flex items-center gap-4">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Facebook</a>
+          <span>•</span>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Instagram</a>
+          <span>•</span>
+          <a href="https://threads.net" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">Threads</a>
+          <span>•</span>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="hover:text-[#F3A8C0]">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/site-settings.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Lấy product ID từ URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id") || "HNM-HM001";
+      const product = getProducts().find(p => p.id === productId) || getProducts()[0];
+
+      // Đổ dữ liệu vào DOM
+      document.title = `${product.name} — Hoa Nhà Mình`;
+      document.getElementById("product-title").textContent = product.name;
+      document.getElementById("product-name-crumb").textContent = product.name;
+      document.getElementById("product-type-crumb").textContent = product.typeName;
+      document.getElementById("product-code").textContent = `#${product.id}`;
+      document.getElementById("product-rating").textContent = product.rating;
+      document.getElementById("product-short-desc").textContent = product.shortDesc;
+      document.getElementById("product-long-desc").textContent = product.description;
+      document.getElementById("main-gallery-img").src = product.image;
+
+      if (!product.isBestSeller) {
+        document.getElementById("badge-best-seller").style.display = "none";
+      }
+
+      // Trạng thái Wishlist
+      const wishlistBtn = document.getElementById("detail-wishlist-btn");
+      const wishlistIcon = document.getElementById("detail-wishlist-icon");
+      const checkWishlist = () => {
+        if (Store.isWishlisted(product.id)) {
+          wishlistIcon.classList.add("text-[#D95A82]");
+          wishlistIcon.style.fontVariationSettings = '"FILL" 1';
+        } else {
+          wishlistIcon.classList.remove("text-[#D95A82]");
+          wishlistIcon.style.fontVariationSettings = '';
+        }
+      };
+      checkWishlist();
+      wishlistBtn.addEventListener("click", () => {
+        const isAdded = Store.toggleWishlist(product.id);
+        checkWishlist();
+        App.showToast(isAdded ? "Đã lưu vào danh sách yêu thích!" : "Đã bỏ khỏi danh sách yêu thích", product.name, isAdded ? "pink" : "success");
+      });
+
+      // Gallery Thumbnails
+      const thumbsContainer = document.getElementById("gallery-thumbnails");
+      const galleryList = product.gallery || [product.image];
+      thumbsContainer.innerHTML = galleryList.map((img, idx) => `
+        <button class="thumb-btn aspect-square rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-[#3E9B61]' : 'border-transparent'} hover:border-[#3E9B61] transition-all bg-[#FAF7E9]" data-img="${img}">
+          <img src="${img}" alt="Thumbnail ${idx+1}" class="w-full h-full object-cover">
+        </button>
+      `).join('');
+
+      document.querySelectorAll(".thumb-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".thumb-btn").forEach(b => b.classList.replace("border-[#3E9B61]", "border-transparent"));
+          btn.classList.replace("border-transparent", "border-[#3E9B61]");
+          document.getElementById("main-gallery-img").src = btn.getAttribute("data-img");
+        });
+      });
+
+      // Sizes Selection
+      let currentSize = product.sizes ? product.sizes[0] : { name: "Tiêu chuẩn", price: product.price };
+      const sizeContainer = document.getElementById("size-options");
+      const priceEl = document.getElementById("product-price");
+      const origPriceEl = document.getElementById("product-orig-price");
+      const sizeLabel = document.getElementById("selected-size-name");
+
+      const updatePrice = () => {
+        priceEl.textContent = `${currentSize.price.toLocaleString('vi-VN')}₫`;
+        if (product.originalPrice) {
+          const ratio = currentSize.price / product.price;
+          origPriceEl.textContent = `${Math.round(product.originalPrice * ratio).toLocaleString('vi-VN')}₫`;
+        }
+      };
+
+      if (product.sizes && product.sizes.length > 0) {
+        sizeContainer.innerHTML = product.sizes.map((s, idx) => `
+          <button class="size-btn p-3 rounded-xl border text-left transition-all ${idx === 0 ? 'border-[#3E9B61] bg-[#FAF7E9]' : 'border-[#E5DDCE] bg-white'} hover:border-[#3E9B61]" data-size="${s.name}" data-price="${s.price}">
+            <p class="font-bold text-xs text-[#211A18]">${s.name.split(' - ')[0]}</p>
+            <p class="text-[11px] text-[#D95A82] font-semibold mt-0.5">${s.price.toLocaleString('vi-VN')}₫</p>
+          </button>
+        `).join('');
+
+        document.querySelectorAll(".size-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".size-btn").forEach(b => {
+              b.classList.remove("border-[#3E9B61]", "bg-[#FAF7E9]");
+              b.classList.add("border-[#E5DDCE]", "bg-white");
+            });
+            btn.classList.add("border-[#3E9B61]", "bg-[#FAF7E9]");
+            btn.classList.remove("border-[#E5DDCE]", "bg-white");
+            
+            const sizeName = btn.getAttribute("data-size");
+            const sizePrice = parseInt(btn.getAttribute("data-price"));
+            currentSize = { name: sizeName, price: sizePrice };
+            sizeLabel.textContent = sizeName;
+            updatePrice();
+          });
+        });
+      }
+      updatePrice();
+
+      // Quantity controls
+      const qtyInput = document.getElementById("product-qty");
+      document.getElementById("qty-minus").addEventListener("click", () => {
+        qtyInput.value = Math.max(1, parseInt(qtyInput.value) - 1);
+      });
+      document.getElementById("qty-plus").addEventListener("click", () => {
+        qtyInput.value = parseInt(qtyInput.value) + 1;
+      });
+
+      // Add to cart
+      document.getElementById("btn-add-cart").addEventListener("click", () => {
+        const qty = parseInt(qtyInput.value) || 1;
+        Store.addToCart(product, {
+          size: currentSize.name,
+          price: currentSize.price,
+          quantity: qty
+        });
+        App.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x${qty})`);
+      });
+
+      // Buy now -> Chuyển thẳng đến Thanh toán
+      document.getElementById("btn-buy-now").addEventListener("click", () => {
+        const qty = parseInt(qtyInput.value) || 1;
+        Store.addToCart(product, {
+          size: currentSize.name,
+          price: currentSize.price,
+          quantity: qty
+        });
+        window.location.href = "thanh-toan.html";
+      });
+
+      // Detail tabs
+      document.querySelectorAll(".detail-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".detail-tab").forEach(t => {
+            t.classList.remove("text-[#3E9B61]", "border-b-2", "border-[#3E9B61]");
+            t.classList.add("text-[#857B76]");
+          });
+          tab.classList.add("text-[#3E9B61]", "border-b-2", "border-[#3E9B61]");
+          tab.classList.remove("text-[#857B76]");
+
+          const target = tab.getAttribute("data-tab");
+          document.getElementById("tab-desc-content").classList.toggle("hidden", target !== "desc");
+          document.getElementById("tab-care-content").classList.toggle("hidden", target !== "care");
+          document.getElementById("tab-shipping-content").classList.toggle("hidden", target !== "shipping");
+          document.getElementById("tab-reviews-content").classList.toggle("hidden", target !== "reviews");
+        });
+      });
+
+      // Related Products (4 Cards)
+      const relatedContainer = document.getElementById("related-product-grid");
+      const related = getProducts().filter(p => p.id !== product.id).slice(0, 4);
+      relatedContainer.innerHTML = related.map(p => App.renderProductCard(p)).join('');
+    });
+  </script>
+</body>
+</html>

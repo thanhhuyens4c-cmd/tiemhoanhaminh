@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt hàng thành công — Hoa Nhà Mình</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006a38',
+            secondary: '#D95A82',
+            'paper-cream': '#F3EED8',
+            'warm-cream': '#FAF7E9'
+          },
+          fontFamily: {
+            brand: ['Pacifico', 'cursive'],
+            headline: ['Be Vietnam Pro', 'sans-serif'],
+            body: ['Be Vietnam Pro', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+
+  <!-- TOP COMMITMENT BANNER -->
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
+        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
+      </div>
+      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
+        <span class="material-symbols-outlined text-sm">call</span>
+        <span>Hotline: 094 435 56 45</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY HEADER -->
+  <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
+    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+        <div class="flex flex-col">
+          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
+        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
+        <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
+        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
+        <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="san-pham.html" class="flex items-center gap-1.5 text-xs text-[#277A4D] font-semibold bg-white px-3 py-1.5 rounded-lg border border-[#E5DDCE] hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-sm">local_florist</span>
+          <span>Khám phá thêm hoa</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONFIRMATION MAIN CONTAINER -->
+  <main class="flex-1 max-w-3xl mx-auto w-full px-4 sm:px-6 py-12 sm:py-16">
+    
+    <!-- Central Card -->
+    <div class="bg-white rounded-3xl border border-[#E5DDCE] shadow-lg p-6 sm:p-10 text-center space-y-8 animate-fade-in relative overflow-hidden">
+      
+      <!-- Ambient Flourish Header -->
+      <div class="w-20 h-20 rounded-full bg-[#FAF7E9] border-2 border-[#3E9B61] text-[#3E9B61] mx-auto flex items-center justify-center shadow-md animate-float">
+        <span class="material-symbols-outlined text-4xl font-bold">check</span>
+      </div>
+
+      <div class="space-y-2">
+        <span class="font-brand text-2xl sm:text-3xl text-[#D95A82] block">Cảm ơn bạn rất nhiều!</span>
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight">ĐẶT HÀNG THÀNH CÔNG</h1>
+        <p class="text-xs sm:text-sm text-[#4B4240] max-w-md mx-auto">
+          Đơn hoa của bạn đã được tiệm tiếp nhận và florists đang chuẩn bị những cành hoa tươi đẹp nhất để cắm cho bạn.
+        </p>
+      </div>
+
+      <!-- Order ID Callout -->
+      <div class="inline-flex items-center gap-3 bg-[#FAF7E9] px-5 py-2.5 rounded-2xl border border-[#E5DDCE]">
+        <span class="text-xs text-[#857B76]">Mã đơn hàng:</span>
+        <span id="order-code-display" class="font-mono text-base font-bold text-[#D95A82]">#HM00001</span>
+      </div>
+
+      <!-- Order Timeline Progress -->
+      <div class="pt-4 border-t border-[#E5DDCE]/70 text-left space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#4B4240] text-center">Tiến trình chuẩn bị hoa</h3>
+        <div class="grid grid-cols-5 gap-2 text-center text-[10px] sm:text-xs">
+          <div class="space-y-1 text-[#3E9B61] font-semibold">
+            <span class="w-6 h-6 rounded-full bg-[#3E9B61] text-white mx-auto flex items-center justify-center text-[10px] shadow-sm">1</span>
+            <span>Tiếp nhận</span>
+          </div>
+          <div class="space-y-1 text-[#D95A82] font-semibold">
+            <span class="w-6 h-6 rounded-full bg-[#D95A82] text-white mx-auto flex items-center justify-center text-[10px] shadow-sm animate-pulse">2</span>
+            <span>Cắm hoa</span>
+          </div>
+          <div class="space-y-1 text-[#857B76]">
+            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#857B76] mx-auto flex items-center justify-center text-[10px]">3</span>
+            <span>Gửi ảnh duyệt</span>
+          </div>
+          <div class="space-y-1 text-[#857B76]">
+            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#857B76] mx-auto flex items-center justify-center text-[10px]">4</span>
+            <span>Đang giao</span>
+          </div>
+          <div class="space-y-1 text-[#857B76]">
+            <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#857B76] mx-auto flex items-center justify-center text-[10px]">5</span>
+            <span>Hoàn tất</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Breakdown Box -->
+      <div class="bg-[#FAF7E9] rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] text-left space-y-4 text-xs sm:text-sm">
+        <h3 class="font-bold text-[#211A18] pb-2 border-b border-[#E5DDCE] flex items-center justify-between">
+          <span>Chi tiết thông tin giao nhận</span>
+          <span id="order-date" class="text-xs font-normal text-[#857B76]">15/09/2026</span>
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#4B4240]">
+          <div>
+            <span class="text-[#857B76] block text-xs">Người đặt hoa:</span>
+            <strong id="order-sender" class="text-[#211A18]">Nguyễn Thanh Trúc</strong>
+            <p id="order-sender-phone" class="text-xs text-[#857B76]">0944355645</p>
+          </div>
+          <div>
+            <span class="text-[#857B76] block text-xs">Người nhận hoa:</span>
+            <strong id="order-receiver" class="text-[#211A18]">Trần Mai Anh</strong>
+            <p id="order-receiver-phone" class="text-xs text-[#857B76]">0912345678</p>
+          </div>
+          <div class="sm:col-span-2">
+            <span class="text-[#857B76] block text-xs">Địa chỉ nhận hoa:</span>
+            <span id="order-address" class="text-[#211A18] font-medium">Số 18, Phố Huế, Quận Hai Bà Trưng, Hà Nội</span>
+          </div>
+          <div>
+            <span class="text-[#857B76] block text-xs">Thời gian giao:</span>
+            <span id="order-time" class="text-[#3E9B61] font-semibold">16/09/2026 • 08:00 - 12:00</span>
+          </div>
+          <div>
+            <span class="text-[#857B76] block text-xs">Phương thức thanh toán:</span>
+            <span id="order-payment" class="text-[#211A18] font-semibold">Chuyển khoản VietQR</span>
+          </div>
+          <div class="sm:col-span-2 pt-2 border-t border-[#E5DDCE]/60">
+            <span class="text-[#D95A82] block text-xs font-semibold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">edit_note</span> Lời chúc trên thiệp viết tay:
+            </span>
+            <p id="order-card-msg" class="italic text-[#4B4240] mt-0.5">Chúc chị sinh nhật ngập tràn nụ cười và luôn hạnh phúc rạng rỡ!</p>
+          </div>
+        </div>
+
+        <!-- Ordered Items -->
+        <div class="pt-3 border-t border-[#E5DDCE]">
+          <span class="text-[#857B76] block text-xs mb-2">Tác phẩm hoa đã chọn:</span>
+          <div id="order-items-summary" class="space-y-2">
+            <!-- Dynamic items -->
+          </div>
+          <div class="pt-3 flex items-baseline justify-between font-bold text-[#211A18]">
+            <span>Tổng tiền:</span>
+            <span id="order-total-sum" class="text-lg text-[#D95A82]">485.000₫</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action CTAs -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <a href="https://zalo.me/0944355645" target="_blank" rel="noopener" class="w-full sm:w-auto h-12 px-7 bg-[#FAF7E9] hover:bg-[#3E9B61] text-[#277A4D] hover:text-white rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 border border-[#E5DDCE] transition-all">
+          <span class="material-symbols-outlined text-base">chat</span>
+          <span>Nhắn Zalo theo dõi & duyệt ảnh</span>
+        </a>
+        <a href="san-pham.html" class="w-full sm:w-auto h-12 px-7 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+          <span class="material-symbols-outlined text-base">local_florist</span>
+          <span>Tiếp tục mua hàng</span>
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#29483C] text-[#FAF7E9] pt-12 pb-8 border-t border-[#277A4D] mt-auto">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+      <span class="font-brand text-2xl text-[#F3A8C0]">Hoa Nhà Mình</span>
+      <p class="text-xs text-[#FAF7E9]/70 max-w-md mx-auto">
+        Cảm ơn bạn đã tin tưởng trao gửi những đóa hoa yêu thương. Mọi thắc mắc vui lòng liên hệ hotline/Zalo <strong>094 435 56 45</strong>.
+      </p>
+      <p class="text-xs text-[#FAF7E9]/50 pt-3">© 2026 Hoa Nhà Mình. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/site-settings.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get("id");
+      const order = orderId ? Store.getOrderById(orderId) : Store.getOrders()[0];
+
+      if (order) {
+        document.getElementById("order-code-display").textContent = `#${order.id}`;
+        document.getElementById("order-date").textContent = order.date;
+        document.getElementById("order-sender").textContent = order.senderName;
+        document.getElementById("order-sender-phone").textContent = order.senderPhone;
+        document.getElementById("order-receiver").textContent = order.receiverName;
+        document.getElementById("order-receiver-phone").textContent = order.receiverPhone;
+        document.getElementById("order-address").textContent = order.address;
+        document.getElementById("order-time").textContent = order.deliveryTime;
+        document.getElementById("order-payment").textContent = order.paymentMethod;
+        document.getElementById("order-card-msg").textContent = order.cardMessage || "Không có lời nhắn riêng";
+        document.getElementById("order-total-sum").textContent = `${order.total.toLocaleString('vi-VN')}₫`;
+
+        const itemsBox = document.getElementById("order-items-summary");
+        itemsBox.innerHTML = (order.items || []).map(it => `
+          <div class="flex items-center justify-between py-1 text-xs">
+            <span>${it.name} (${it.size || 'M'}) x${it.quantity}</span>
+            <span class="font-semibold text-[#211A18]">${(it.price * it.quantity).toLocaleString('vi-VN')}₫</span>
+          </div>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

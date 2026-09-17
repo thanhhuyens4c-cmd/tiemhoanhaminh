@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoa Nhà Mình — Tiệm Hoa Tươi Thủ Công Hà Nội | Let flowers speak your heart!</title>
+  <meta name="description" content="Tiệm hoa tươi thủ công Hoa Nhà Mình tại Hà Nội. Hoa tươi tuyển chọn sớm mai, gói giấy kraft mộc mạc, tặng kèm thiệp viết tay và chụp ảnh duyệt trước khi gửi.">
+  
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <!-- Tailwind CDN & Custom Palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006a38',
+            'primary-container': '#24854d',
+            secondary: '#D95A82',
+            'deep-pink': '#C83F70',
+            'soft-pink': '#F3A8C0',
+            'paper-cream': '#F3EED8',
+            'warm-cream': '#FAF7E9',
+            'leaf-green': '#3E9B61',
+            'deep-leaf': '#277A4D',
+            'on-surface': '#211a18',
+            'on-surface-variant': '#4B4240',
+            tertiary: '#5d5c52',
+            'surface-container': '#f9ebe8',
+            'surface-container-low': '#FAF7E9',
+            'surface-container-lowest': '#ffffff',
+            surface: '#fff8f6'
+          },
+          fontFamily: {
+            brand: ['Pacifico', 'cursive'],
+            headline: ['Be Vietnam Pro', 'sans-serif'],
+            body: ['Be Vietnam Pro', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+
+  <!-- TOP COMMITMENT BANNER -->
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
+        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">bolt</span> Giao hỏa tốc 2H nội thành Hà Nội</span>
+      </div>
+      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
+        <span class="material-symbols-outlined text-sm">call</span>
+        <span>Hotline: 094 435 56 45</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY HEADER -->
+  <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
+    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+        <div class="flex flex-col">
+          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
+        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
+        <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
+        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
+        <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
+      </nav>
+
+      <!-- Utility Icons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Search Button -->
+        <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">search</span>
+        </button>
+
+        <!-- Wishlist Link -->
+        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">favorite</span>
+          <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+
+        <!-- Account Link -->
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+          <span class="material-symbols-outlined text-[22px]">person</span>
+        </a>
+
+        <!-- Cart Link -->
+        <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
+        </a>
+
+        <!-- Admin Shortcut -->
+        <a href="admin.html" title="Trang Quản trị Admin tiệm hoa" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-[#277A4D] bg-white px-2.5 py-1.5 rounded-lg border border-[#E5DDCE] hover:bg-[#3E9B61] hover:text-white transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-sm">dashboard</span>
+          Admin
+        </a>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobile-menu-btn" type="button" aria-label="Mở menu" class="lg:hidden p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <div id="mobile-drawer-overlay" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm transition-opacity"></div>
+  <div id="mobile-drawer" class="fixed top-0 right-0 w-[280px] h-full bg-[#FAF7E9] z-50 p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-[#E5DDCE]">
+        <div class="flex items-center gap-2.5">
+          <img src="assets/images/logo.png" alt="Logo" class="w-8 h-8 rounded-full object-cover">
+          <span class="font-brand text-xl text-[#D95A82]">Hoa Nhà Mình</span>
+        </div>
+        <button id="mobile-drawer-close" class="text-[#4B4240] hover:text-black">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+      <nav id="mobile-menu" class="flex flex-col gap-4 py-6 text-sm">
+        <a href="index.html" data-path="trang-chu" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Trang chủ</a>
+        <a href="san-pham.html" data-path="san-pham" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tất cả sản phẩm</a>
+        <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
+        <a href="blog.html" data-path="blog" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog cảm xúc</a>
+        <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu tiệm</a>
+        <a href="lien-he.html" data-path="lien-he" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ & Cửa hàng</a>
+        <a href="admin.html" class="text-[#277A4D] font-bold py-1 flex items-center gap-1.5 border-t border-[#E5DDCE] pt-3">
+          <span class="material-symbols-outlined text-base">admin_panel_settings</span> Cổng quản trị Admin
+        </a>
+      </nav>
+    </div>
+    <div class="text-xs text-[#857B76] border-t border-[#E5DDCE] pt-4">
+      <p class="font-medium text-[#211A18]">Tiệm hoa thủ công Hoa Nhà Mình</p>
+      <p class="mt-1">Hotline: 094 435 56 45</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1">
+
+    <!-- 1. HERO SECTION (2 Cột đúng Wireframe) -->
+    <section class="relative w-full bg-[#FAF7E9] overflow-hidden py-12 lg:py-20 border-b border-[#E5DDCE]/60">
+      <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          <!-- Hero Text -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3EED8] text-[#D95A82] text-xs sm:text-sm font-semibold tracking-wide shadow-sm border border-[#E5DDCE]">
+              <span class="material-symbols-outlined text-sm">yard</span>
+              Hoa tươi mỗi ngày • Gói ghém yêu thương
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#211A18] leading-[1.25] tracking-tight">
+              Hoa đẹp hơn khi được <span class="font-brand text-[#D95A82] font-normal block sm:inline">gửi gắm cảm xúc</span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-[#4B4240] leading-relaxed max-w-xl">
+              Từng đóa hoa được chọn mới mỗi 5h30 sáng, nâng niu trong giấy kraft mộc mạc và kèm theo thiệp viết tay nắn nót. Hãy để những đóa hoa thủ công thay bạn nói lời yêu thương.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="san-pham.html" class="h-12 px-7 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+                <span>Khám phá hoa</span>
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+              </a>
+              <a href="bo-suu-tap.html" class="h-12 px-7 border-2 border-[#277A4D] hover:bg-[#277A4D] text-[#277A4D] hover:text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center transition-all">
+                Xem bộ sưu tập
+              </a>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-[#E5DDCE]/70 text-xs">
+              <div>
+                <p class="font-bold text-lg sm:text-xl text-[#3E9B61]">100%</p>
+                <p class="text-[#857B76]">Hoa tươi trong ngày</p>
+              </div>
+              <div>
+                <p class="font-bold text-lg sm:text-xl text-[#D95A82]">Duyệt ảnh</p>
+                <p class="text-[#857B76]">Chụp gửi trước khi giao</p>
+              </div>
+              <div>
+                <p class="font-bold text-lg sm:text-xl text-[#3E9B61]">2 Giờ</p>
+                <p class="text-[#857B76]">Giao hỏa tốc Hà Nội</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Image Stage -->
+          <div class="lg:col-span-6 relative">
+            <div class="relative w-full aspect-square max-w-[520px] mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+              <img id="hero-banner-img" src="assets/images/hero-bouquet.png" alt="Bó hoa Ohara Garden Roses - Hoa Nhà Mình" class="w-full h-full object-cover">
+              
+              <!-- Floating Brand Quote Pill -->
+              <div class="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-[#E5DDCE] flex items-center justify-between">
+                <div>
+                  <p class="font-brand text-[#D95A82] text-lg sm:text-xl leading-tight">"Let flowers speak your heart!"</p>
+                  <p class="text-[11px] text-[#857B76] mt-0.5">Tiệm hoa thủ công mộc mạc từ Hà Nội</p>
+                </div>
+                <span class="w-10 h-10 rounded-full bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] flex-shrink-0">
+                  <span class="material-symbols-outlined text-xl">favorite</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. DANH MỤC "DÀNH CHO AI" (4 Category Cards) -->
+    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-xl mx-auto mb-10 space-y-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Gợi ý trao gửi</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline">Bạn muốn gửi tặng hoa đến ai?</h2>
+        <p class="text-xs sm:text-sm text-[#857B76]">Chọn nhành hoa phù hợp nhất với người bạn yêu mến</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        
+        <!-- Bản thân -->
+        <a href="san-pham.html?recipient=ban-than" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
+          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-3xl">sentiment_satisfied</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bản thân</h3>
+            <p class="text-xs text-[#857B76] mt-0.5">Tự thưởng góc làm việc an yên</p>
+          </div>
+          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Khám phá &rarr;
+          </span>
+        </a>
+
+        <!-- Người yêu -->
+        <a href="san-pham.html?recipient=nguoi-yeu" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
+          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#FAF0F3] flex items-center justify-center text-[#D95A82] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-3xl">favorite</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Người yêu</h3>
+            <p class="text-xs text-[#857B76] mt-0.5">Lời thề ngọt ngào, dịu êm</p>
+          </div>
+          <span class="text-xs text-[#D95A82] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Khám phá &rarr;
+          </span>
+        </a>
+
+        <!-- Gia đình -->
+        <a href="san-pham.html?recipient=gia-dinh" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
+          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#F29A38] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-3xl">cottage</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Gia đình</h3>
+            <p class="text-xs text-[#857B76] mt-0.5">Biết ơn mẹ cha, ấm áp tổ ấm</p>
+          </div>
+          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Khám phá &rarr;
+          </span>
+        </a>
+
+        <!-- Bạn bè -->
+        <a href="san-pham.html?recipient=ban-be" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
+          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#EBF7FC] flex items-center justify-center text-[#43B7D0] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-3xl">diversity_1</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bạn bè</h3>
+            <p class="text-xs text-[#857B76] mt-0.5">Chúc mừng tốt nghiệp & sinh nhật</p>
+          </div>
+          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Khám phá &rarr;
+          </span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- 3. SẢN PHẨM NỔI BẬT VỚI TABS (Mới / Bán chạy / Được yêu thích) -->
+    <section class="bg-white py-16 border-y border-[#E5DDCE]/60">
+      <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#3E9B61]">Hoa sớm mai</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline mt-1">Sản phẩm hoa nổi bật</h2>
+          </div>
+
+          <!-- Interactive Tabs -->
+          <div class="flex items-center gap-2 bg-[#FAF7E9] p-1 rounded-xl border border-[#E5DDCE] overflow-x-auto">
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#3E9B61] text-white shadow-sm" data-tab="all">
+              Tất cả
+            </button>
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="ban-chay">
+              Bán chạy nhất
+            </button>
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="moi">
+              Mới về sớm nay
+            </button>
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="yeu-thich">
+              Được yêu thích
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Product Grid -->
+        <div id="home-product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+        <div class="text-center mt-10">
+          <a href="san-pham.html" class="inline-flex items-center gap-2 px-8 py-3 bg-[#FAF7E9] hover:bg-[#3E9B61] text-[#277A4D] hover:text-white rounded-xl text-sm font-semibold border border-[#E5DDCE] transition-all shadow-sm">
+            <span>Xem toàn bộ 30+ tác phẩm hoa</span>
+            <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. EDITORIAL STORYTELLING SECTION -->
+    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div class="lg:col-span-6 relative">
+          <div class="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-white">
+            <img id="index-about-img" src="assets/images/florist-workshop.png" alt="Bàn làm việc của nghệ nhân tiệm Hoa Nhà Mình" class="w-full h-full object-cover">
+          </div>
+          <div class="absolute -bottom-6 -right-6 hidden sm:block bg-[#F3EED8] p-5 rounded-2xl shadow-lg border border-[#E5DDCE] max-w-xs">
+            <p class="font-brand text-xl text-[#D95A82]">5:30 AM mỗi sáng</p>
+            <p class="text-xs text-[#4B4240] mt-1">Chúng mình tự tay tỉa lá, chọn từng bông hoa nở đẹp độ xuân thì nhất.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-5">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Góc chuyện kể tiệm hoa</span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#211A18] tracking-tight leading-snug">
+            Cắm hoa nương theo tự nhiên, trao trọn thành ý chân thành
+          </h2>
+          <p class="text-sm sm:text-base text-[#4B4240] leading-relaxed">
+            Ở Hoa Nhà Mình, mỗi nhành hoa không bị ép uốn vào những khuôn khổ công nghiệp cứng nhắc. Chúng mình để cành hoa uốn lượn tự nhiên theo cách mà nắng sớm rọi vào tán lá.
+          </p>
+          <div class="space-y-3 pt-2 text-xs sm:text-sm text-[#4B4240]">
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#F3EED8] text-[#3E9B61] flex items-center justify-center flex-shrink-0 font-bold">✓</span>
+              <span>Gói bằng giấy kraft mộc mạc, thân thiện với môi trường.</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#F3EED8] text-[#3E9B61] flex items-center justify-center flex-shrink-0 font-bold">✓</span>
+              <span>Thiệp chúc mừng viết tay bằng mực nắn nót, không in máy vô hồn.</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-[#F3EED8] text-[#3E9B61] flex items-center justify-center flex-shrink-0 font-bold">✓</span>
+              <span>Gửi ảnh thực tế hoàn thiện qua Zalo trước khi giao nhận.</span>
+            </div>
+          </div>
+          <div class="pt-4">
+            <a href="gioi-thieu.html" class="inline-flex items-center gap-2 text-sm font-semibold text-[#277A4D] hover:text-[#D95A82] transition-colors">
+              <span>Đọc câu chuyện thương hiệu</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ĐÁNH GIÁ KHÁCH HÀNG & CẢM XÚC -->
+    <section class="bg-[#FAF7E9] py-16 border-t border-[#E5DDCE]/60">
+      <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-xl mx-auto mb-10 space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Lời thương gửi lại</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline">Cảm xúc từ những người nhận hoa</h2>
+          <p class="text-xs sm:text-sm text-[#857B76]">Những tin nhắn và nụ cười là động lực mỗi sớm mai của chúng mình</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Review 1 -->
+          <div class="bg-white p-6 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
+            <div class="flex items-center gap-1 text-[#F4C52D]">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-xs sm:text-sm text-[#4B4240] italic leading-relaxed">
+              "Bó hoa pastel ở ngoài còn xinh hơn trong ảnh! Tiệm chụp ảnh gửi mình duyệt trước khi giao làm mình cực kỳ yên tâm. Thiệp viết tay chữ nắn nót rất có tâm."
+            </p>
+            <div class="flex items-center gap-3 pt-2 border-t border-[#E5DDCE]/60">
+              <img src="assets/images/avatar-user.png" alt="Chị Minh Anh" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-xs font-bold text-[#211A18]">Chị Minh Anh</p>
+                <p class="text-[11px] text-[#857B76]">Khách quen tại Đống Đa, Hà Nội</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="bg-white p-6 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
+            <div class="flex items-center gap-1 text-[#F4C52D]">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-xs sm:text-sm text-[#4B4240] italic leading-relaxed">
+              "Giao đúng giờ hẹn dù mình đặt gấp lúc trưa. Bạn gái mình khen hoa thơm và tươi suốt 4 ngày liền. Cảm ơn tiệm đã chu đáo!"
+            </p>
+            <div class="flex items-center gap-3 pt-2 border-t border-[#E5DDCE]/60">
+              <img src="assets/images/avatar-artisan.png" alt="Anh Hoàng Dũng" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-xs font-bold text-[#211A18]">Anh Hoàng Dũng</p>
+                <p class="text-[11px] text-[#857B76]">Tặng sinh nhật người yêu</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="bg-white p-6 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
+            <div class="flex items-center gap-1 text-[#F4C52D]">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-xs sm:text-sm text-[#4B4240] italic leading-relaxed">
+              "Cúc tana ở đây bông to và tươi lắm, gói giấy báo cổ điển chụp ảnh tốt nghiệp lên hình cực thơ. Giá lại rất hợp túi tiền sinh viên."
+            </p>
+            <div class="flex items-center gap-3 pt-2 border-t border-[#E5DDCE]/60">
+              <img src="assets/images/avatar-user.png" alt="Bạn Lan Chi" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-xs font-bold text-[#211A18]">Bạn Lan Chi</p>
+                <p class="text-[11px] text-[#857B76]">Tốt nghiệp ĐH Ngoại Thương</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. BÀI VIẾT BLOG GẦN ĐÂY -->
+    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#3E9B61]">Góc cảm xúc</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline mt-1">Chuyện bên bàn cắm hoa</h2>
+        </div>
+        <a href="blog.html" class="text-xs sm:text-sm font-semibold text-[#277A4D] hover:text-[#D95A82] flex items-center gap-1 transition-colors">
+          Xem tất cả bài viết &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Article 1 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
+          <div>
+            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+              <img id="index-gallery-img-1" src="assets/images/bouquet-pink.png" alt="Hoa hồng Ohara" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-5 space-y-2">
+              <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Hoa & Cảm xúc</span>
+              <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
+                <a href="bai-viet.html?id=blog-01">Ý nghĩa của hoa hồng trong từng sắc thái và cách chọn hoa cho người thương</a>
+              </h3>
+              <p class="text-xs text-[#857B76] line-clamp-2">Mỗi sắc thái từ phớt hồng pastel đến cam ấm áp đều mang một lời nhắn gửi rất riêng...</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
+            <span>14/09/2026</span>
+            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
+          <div>
+            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+              <img id="index-gallery-img-2" src="assets/images/florist-workshop.png" alt="Chăm sóc hoa tươi" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-5 space-y-2">
+              <span class="text-[11px] font-bold text-[#3E9B61] uppercase tracking-wider">Chăm sóc hoa</span>
+              <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
+                <a href="bai-viet.html?id=blog-02">5 bí quyết giữ hoa tươi lâu tại nhà cực đơn giản từ nghệ nhân cắm hoa</a>
+              </h3>
+              <p class="text-xs text-[#857B76] line-clamp-2">Làm sao để bó hoa yêu thích vẫn giữ được độ căng tràn sức sống suốt 5-7 ngày...</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
+            <span>10/09/2026</span>
+            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
+          <div>
+            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+              <img id="index-gallery-img-3" src="assets/images/hero-bouquet.png" alt="Giấy kraft mộc" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-5 space-y-2">
+              <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Câu chuyện Hoa Nhà Mình</span>
+              <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
+                <a href="bai-viet.html?id=blog-03">Chuyện kể từ ngõ nhỏ: Vì sao chúng mình chọn gói hoa bằng giấy kraft và dây gai?</a>
+              </h3>
+              <p class="text-xs text-[#857B76] line-clamp-2">Giữa những cuộn giấy bóng kính lấp lánh, chúng mình tìm về chất giấy nâu mộc mạc...</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
+            <span>02/09/2026</span>
+            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (Đúng chuẩn PRD: Không có logo hình ảnh, chỉ text thương hiệu và 4 social links) -->
+  <footer class="bg-[#29483C] text-[#FAF7E9] pt-14 pb-8 border-t border-[#277A4D]">
+    <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#3E9B61]/40">
+        
+        <!-- Cột 1: Text Brand & Tagline -->
+        <div class="space-y-3">
+          <span class="font-brand text-2xl text-[#F3A8C0] tracking-wide block">Hoa Nhà Mình</span>
+          <p class="text-xs text-[#FAF7E9]/80 leading-relaxed">
+            Tiệm hoa tươi thủ công mộc mạc. Gói ghém yêu thương trong từng nhành hoa cắt mới mỗi sớm mai.
+          </p>
+          <p class="text-xs italic text-[#F4C52D]">"Let flowers speak your heart!"</p>
+        </div>
+
+        <!-- Cột 2: Điều hướng nhanh -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Khám phá tiệm hoa</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="san-pham.html" class="hover:text-white transition-colors">Tất cả sản phẩm hoa</a></li>
+            <li><a href="bo-suu-tap.html" class="hover:text-white transition-colors">Bộ sưu tập mùa này</a></li>
+            <li><a href="blog.html" class="hover:text-white transition-colors">Blog góc cảm xúc</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 3: Chính sách & Cam kết -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Cam kết & Hỗ trợ</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li><a href="gioi-thieu.html" class="hover:text-white transition-colors">Câu chuyện thương hiệu</a></li>
+            <li><span class="hover:text-white">Chụp ảnh duyệt hoa trước khi gửi</span></li>
+            <li><span class="hover:text-white">Giao hỏa tốc 2H nội thành Hà Nội</span></li>
+            <li><a href="admin.html" class="text-[#99f7b4] hover:underline font-semibold">Cổng quản trị Admin tiệm</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 4: Thông tin liên hệ & Giờ nhận đơn -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3A8C0]">Thông tin tiệm</h4>
+          <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4] mt-0.5">location_on</span>
+              <span>Số 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">schedule</span>
+              <span>Giờ nhận đơn: <strong class="text-white">08:00 – 21:30</strong></span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-[#99f7b4]">call</span>
+              <span>Hotline / Zalo: 094 435 56 45</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Social Icons & Copyright -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FAF7E9]/70">
+        <p>© 2026 Hoa Nhà Mình. Tất cả quyền được bảo lưu.</p>
+        
+        <!-- 4 Mạng xã hội bắt buộc theo PRD: Facebook, Instagram, Threads, TikTok -->
+        <div class="flex items-center gap-4">
+          <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook Hoa Nhà Mình" class="hover:text-[#F3A8C0] transition-colors">
+            <span class="font-bold">Facebook</span>
+          </a>
+          <span>•</span>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram Hoa Nhà Mình" class="hover:text-[#F3A8C0] transition-colors">
+            <span class="font-bold">Instagram</span>
+          </a>
+          <span>•</span>
+          <a href="https://threads.net" target="_blank" rel="noopener" aria-label="Threads Hoa Nhà Mình" class="hover:text-[#F3A8C0] transition-colors">
+            <span class="font-bold">Threads</span>
+          </a>
+          <span>•</span>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok Hoa Nhà Mình" class="hover:text-[#F3A8C0] transition-colors">
+            <span class="font-bold">TikTok</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/site-settings.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Khởi tạo tab sản phẩm nổi bật trên Trang chủ
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("home-product-grid");
+      if (!grid) return;
+
+      const renderTab = (filterKey) => {
+        let list = getProducts();
+        if (filterKey === "ban-chay") {
+          list = list.filter(p => p.isBestSeller);
+        } else if (filterKey === "moi") {
+          list = list.filter(p => p.isNew);
+        } else if (filterKey === "yeu-thich") {
+          list = list.filter(p => p.isFeatured);
+        }
+
+        grid.innerHTML = list.slice(0, 8).map(p => App.renderProductCard(p)).join('');
+      };
+
+      // Mặc định tab 'all'
+      renderTab("all");
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab-btn").forEach(b => {
+            b.classList.remove("bg-[#3E9B61]", "text-white", "shadow-sm");
+            b.classList.add("text-[#4B4240]");
+          });
+          btn.classList.add("bg-[#3E9B61]", "text-white", "shadow-sm");
+          btn.classList.remove("text-[#4B4240]");
+          renderTab(btn.getAttribute("data-tab"));
+        });
+      });
+    });
+  </script>
+</body>
+</html>

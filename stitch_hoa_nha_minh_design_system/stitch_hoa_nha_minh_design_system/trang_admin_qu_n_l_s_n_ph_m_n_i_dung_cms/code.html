@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Quản lý Sản phẩm & Nội dung CMS | Hoa Nhà Mình</title>
+  <!-- Google Fonts: Be Vietnam Pro & Pacifico -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <!-- Google Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#006a38',       /* Forest Green */
+              'primary-hover': '#00532c',
+              'primary-light': '#e8f5ed',
+              secondary: '#a6335b',     /* Deep floral berry */
+              'secondary-hover': '#8d294c',
+              'secondary-light': '#fdf0f4',
+              bg: '#fff8f6',            /* Warm paper base */
+              'bg-subtle': '#fbf3f0',
+              'surface-low': '#f7ece9',
+              'surface-card': '#ffffff',
+              border: '#eadcd8',
+              'border-subtle': '#f3e6e3',
+              text: '#2c2928',
+              'text-muted': '#5d5c52',
+              'text-subtle': '#8c887f'
+            }
+          },
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
+            handwriting: ['"Pacifico"', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: #fff8f6;
+      color: #2c2928;
+      overflow-x: hidden;
+    }
+    .font-script {
+      font-family: 'Pacifico', cursive;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fbf3f0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d8c8c4;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a6335b;
+    }
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex antialiased selection:bg-brand-secondary selection:text-white">
+
+  <!-- ==================== DEDICATED ADMIN LEFT SIDEBAR ==================== -->
+  <aside class="w-72 bg-white border-r border-brand-border flex flex-col justify-between shrink-0 fixed inset-y-0 left-0 z-30 shadow-sm transition-transform lg:translate-x-0">
+    <div class="flex flex-col h-full">
+      
+      <!-- Brand Logo Header -->
+      <div class="p-6 border-b border-brand-border-subtle bg-gradient-to-b from-brand-surface-low/30 to-white">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-primary/20 shadow-sm shrink-0 bg-brand-bg flex items-center justify-center">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIN7q4SvXe9V54Lx4KiutUMqM9RpMicnwAx18JCLm9zb0TRz9PqQfxjGVQBY8lNaxcPXthYWg_JW5LDJlJu-edHDqA_iLcRnsT5PAExXuDZEeA9xV3ua-EfTq2LaTAHssDmqXrZl_8pSGhdsxJ37woCBG6KXf-2Rw74KKFOccMICwx23SeLPVXhESO6d2Lsg57A5j5JyjgUQq7yJkeIHngpBxCD5R7oo2yfEwqqUCylGEIrI22gWZU9_2JC5Yvt1e5-o8" alt="Logo Hoa Nhà Mình" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-script text-xl text-brand-secondary leading-none">Hoa Nhà Mình</span>
+              <span class="bg-brand-primary/10 text-brand-primary text-[10px] font-semibold px-1.5 py-0.5 rounded tracking-wide uppercase">CMS</span>
+            </div>
+            <p class="text-[11px] text-brand-text-muted mt-1 font-medium tracking-tight">Hệ Thống Quản Trị Tiệm Hoa</p>
+          </div>
+        </div>
+
+        <!-- Quick Storefront Link -->
+        <a href="#" class="mt-4 flex items-center justify-between px-3 py-2 rounded-lg bg-brand-bg hover:bg-brand-surface-low text-brand-primary border border-brand-border-subtle text-xs font-semibold transition group">
+          <span class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] text-brand-primary group-hover:scale-110 transition-transform">storefront</span>
+            Xem tiệm hoa trực tuyến
+          </span>
+          <span class="material-symbols-outlined text-[14px] text-brand-text-subtle group-hover:translate-x-0.5 transition-transform">arrow_outward</span>
+        </a>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="p-4 space-y-1.5 flex-1 overflow-y-auto">
+        <p class="px-3 pt-2 pb-1 text-[10px] uppercase font-bold text-brand-text-subtle tracking-wider">Vận hành xưởng</p>
+        
+        <!-- 1. Tổng quan & Đơn hàng -->
+        <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-text-muted hover:text-brand-text hover:bg-brand-bg transition group">
+          <span class="material-symbols-outlined text-lg text-brand-text-subtle group-hover:text-brand-primary transition-colors">receipt_long</span>
+          <span class="flex-1">1. Tổng quan & Đơn hàng</span>
+          <span class="bg-brand-bg-subtle text-brand-text-muted text-[10px] font-bold px-2 py-0.5 rounded-full border border-brand-border">24</span>
+        </a>
+
+        <!-- 2. Kho cành tươi & Nhập hàng -->
+        <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-text-muted hover:text-brand-text hover:bg-brand-bg transition group">
+          <span class="material-symbols-outlined text-lg text-brand-text-subtle group-hover:text-brand-primary transition-colors">yard</span>
+          <span class="flex-1">2. Kho cành & Nhập hoa</span>
+          <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">4 cảnh báo</span>
+        </a>
+
+        <p class="px-3 pt-4 pb-1 text-[10px] uppercase font-bold text-brand-text-subtle tracking-wider">Kinh doanh & Cửa hàng</p>
+
+        <!-- 3. Quản lý Sản phẩm Bán lẻ [ACTIVE] -->
+        <a href="#retail-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-white bg-brand-primary shadow-sm shadow-brand-primary/30 transition">
+          <span class="material-symbols-outlined text-lg text-white">local_florist</span>
+          <span class="flex-1">3. Quản lý Sản phẩm Bán lẻ</span>
+          <span class="bg-white/20 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Đang mở</span>
+        </a>
+
+        <!-- 4. Cấu hình Giao diện & Banner [CMS] -->
+        <a href="#cms-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-text-muted hover:text-brand-text hover:bg-brand-bg transition group">
+          <span class="material-symbols-outlined text-lg text-brand-text-subtle group-hover:text-brand-secondary transition-colors">web</span>
+          <span class="flex-1">4. Cấu hình CMS & Banner</span>
+          <span class="bg-rose-50 text-brand-secondary text-[10px] font-bold px-1.5 py-0.5 rounded border border-brand-secondary/20">No-Code</span>
+        </a>
+
+        <!-- 5. Báo cáo & Cài đặt -->
+        <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-text-muted hover:text-brand-text hover:bg-brand-bg transition group">
+          <span class="material-symbols-outlined text-lg text-brand-text-subtle group-hover:text-brand-primary transition-colors">monitoring</span>
+          <span class="flex-1">5. Báo cáo & Cài đặt</span>
+        </a>
+      </nav>
+
+      <!-- Bottom System Status & Workspace Info -->
+      <div class="p-4 border-t border-brand-border-subtle bg-brand-bg/50">
+        <div class="bg-white p-3 rounded-xl border border-brand-border shadow-xs flex items-center gap-3">
+          <div class="relative">
+            <div class="w-9 h-9 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-xs">
+              LĐ
+            </div>
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+          </div>
+          <div class="overflow-hidden flex-1">
+            <h4 class="text-xs font-bold text-brand-text truncate">Linh Đan</h4>
+            <p class="text-[11px] text-brand-text-muted truncate">Quản trị viên • Ca sáng</p>
+          </div>
+          <button class="text-brand-text-subtle hover:text-brand-secondary p-1 rounded transition" title="Đăng xuất">
+            <span class="material-symbols-outlined text-lg">logout</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN WORKSPACE AREA ==================== -->
+  <main class="flex-1 min-w-0 pl-72 flex flex-col">
+
+    <!-- Top Persistent Admin Bar -->
+    <header class="h-16 bg-white border-b border-brand-border sticky top-0 z-20 px-8 flex items-center justify-between shadow-xs">
+      <!-- Breadcrumbs & Quick Title -->
+      <div class="flex items-center gap-3 text-xs">
+        <span class="text-brand-text-subtle flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">space_dashboard</span>
+          Cổng Quản Trị
+        </span>
+        <span class="text-brand-border">/</span>
+        <span class="text-brand-text-muted font-medium">Kinh doanh & Cửa hàng</span>
+        <span class="text-brand-border">/</span>
+        <span class="text-brand-primary font-bold bg-brand-primary-light px-2.5 py-1 rounded-md">3. Quản lý Sản phẩm & CMS Storefront</span>
+      </div>
+
+      <!-- Action Search & Admin Profile Controls -->
+      <div class="flex items-center gap-4">
+        <!-- Search bar -->
+        <div class="relative w-80">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-brand-text-subtle text-base">search</span>
+          <input type="text" placeholder="Tìm tên hoa, mã SKU, thành phần cành..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-brand-bg rounded-lg border border-brand-border focus:bg-white focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition placeholder:text-brand-text-subtle">
+          <kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-brand-text-subtle bg-white px-1.5 py-0.5 rounded border border-brand-border">⌘K</kbd>
+        </div>
+
+        <!-- Quick Notifications -->
+        <button class="relative p-2 rounded-lg text-brand-text-muted hover:text-brand-primary hover:bg-brand-bg transition">
+          <span class="material-symbols-outlined text-xl">notifications</span>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-secondary rounded-full"></span>
+        </button>
+
+        <div class="h-5 w-[1px] bg-brand-border"></div>
+
+        <!-- Direct Live Sync button -->
+        <button class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 text-xs font-semibold transition shadow-xs">
+          <span class="material-symbols-outlined text-sm text-emerald-600 animate-spin" style="animation-duration: 4s;">sync</span>
+          <span>Đã đồng bộ Live (09:40)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace Content Container -->
+    <div class="p-8 space-y-10 max-w-7xl mx-auto w-full">
+
+      <!-- ========================================================================= -->
+      <!-- SECTION 1: QUẢN LÝ BÓ HOA & SẢN PHẨM BÁN LẺ (RETAIL FLOWER MANAGEMENT) -->
+      <!-- ========================================================================= -->
+      <section id="retail-management" class="space-y-6">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-brand-border shadow-xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-primary-light text-brand-primary uppercase tracking-wide">Phân hệ Sản phẩm</span>
+              <span class="text-xs text-brand-text-subtle">• 32 mẫu hoa trong danh mục</span>
+            </div>
+            <h1 class="text-2xl font-bold text-brand-text flex items-center gap-2.5">
+              Quản lý Bó hoa & Sản phẩm Bán lẻ
+              <span class="font-script text-base text-brand-secondary font-normal">Let flowers speak your heart!</span>
+            </h1>
+            <p class="text-xs text-brand-text-muted max-w-3xl">
+              Cập nhật thông tin các mẫu cắm xưởng, giá niêm yết, công thức phối cành hoa tươi và trạng thái bật/tắt hiển thị trực tiếp ngoài website khách hàng.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 shrink-0">
+            <button class="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-brand-border bg-white hover:bg-brand-bg text-brand-text-muted text-xs font-semibold transition">
+              <span class="material-symbols-outlined text-base">file_download</span>
+              Xuất Excel
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-primary hover:bg-brand-primary-hover text-white text-xs font-bold transition shadow-sm shadow-brand-primary/30">
+              <span class="material-symbols-outlined text-base">add_circle</span>
+              Thêm mẫu hoa mới
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-brand-bg/70 p-4 rounded-xl border border-brand-border">
+          <!-- Filter by Collection -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <span class="text-xs font-bold text-brand-text-muted mr-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">filter_alt</span> Bộ sưu tập:
+            </span>
+            <button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-primary text-white shadow-xs">Tất cả (32)</button>
+            <button class="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-text-muted hover:text-brand-text bg-white border border-brand-border hover:bg-brand-surface-low transition">Hoa sinh nhật (12)</button>
+            <button class="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-text-muted hover:text-brand-text bg-white border border-brand-border hover:bg-brand-surface-low transition">Khai trương hồng phát (8)</button>
+            <button class="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-text-muted hover:text-brand-text bg-white border border-brand-border hover:bg-brand-surface-low transition">Hoa cưới & Kỷ niệm (6)</button>
+            <button class="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-text-muted hover:text-brand-text bg-white border border-brand-border hover:bg-brand-surface-low transition">Bó hoa mộc Kraft (6)</button>
+          </div>
+
+          <!-- Filter by Status -->
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-brand-text-subtle font-medium">Trạng thái:</span>
+            <select class="px-3 py-1.5 bg-white border border-brand-border rounded-lg text-xs text-brand-text focus:outline-none focus:border-brand-primary font-medium">
+              <option>Tất cả trạng thái</option>
+              <option selected>Đang hiển thị (28)</option>
+              <option>Tạm ẩn (4)</option>
+              <option>Hết hàng tạm thời (1)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- FORM PANEL: BIỂU MẪU THÊM/SỬA SẢN PHẨM TRỰC QUAN (PRODUCT CREATION / EDIT) -->
+        <!-- ========================================================================= -->
+        <div class="bg-white rounded-2xl border-2 border-brand-primary/20 shadow-sm overflow-hidden">
+          
+          <!-- Form Header Bar -->
+          <div class="bg-gradient-to-r from-brand-primary-light via-brand-bg to-white px-6 py-4 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-brand-primary text-white flex items-center justify-center font-bold">
+                <span class="material-symbols-outlined text-lg">edit_note</span>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-brand-text">Biểu mẫu Chỉnh sửa & Đăng bán mẫu hoa</h3>
+                <p class="text-[11px] text-brand-text-muted">Đang sửa: <span class="font-bold text-brand-primary">Bó hoa hồng pastel 'Mộng Mơ'</span> (Mã SKU: <span class="font-mono">HNM-MM024</span>)</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Đang kích hoạt trên website
+              </span>
+            </div>
+          </div>
+
+          <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Column: Media Uploader (5 cols) -->
+            <div class="lg:col-span-5 space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-brand-text mb-1">
+                  Hình ảnh đại diện & Bộ sưu tập thực tế <span class="text-brand-secondary">*</span>
+                </label>
+                <p class="text-[11px] text-brand-text-muted mb-3">
+                  Khuyến nghị ảnh tỷ lệ 1:1 hoặc 4:3, chụp ánh sáng tự nhiên trên bàn gỗ hoặc giấy mộc kraft (tối đa 5MB/ảnh).
+                </p>
+              </div>
+
+              <!-- Primary Image Preview with Drag-and-Drop Zone -->
+              <div class="relative group rounded-xl border-2 border-dashed border-brand-primary/40 bg-brand-bg p-4 flex flex-col items-center justify-center text-center hover:bg-brand-primary-light/20 transition cursor-pointer overflow-hidden">
+                <div class="w-full aspect-[4/3] rounded-lg overflow-hidden relative shadow-xs">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Bó hoa hồng pastel Mộng Mơ" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                    <button class="p-2 rounded-lg bg-white/90 hover:bg-white text-brand-text text-xs font-bold flex items-center gap-1 shadow">
+                      <span class="material-symbols-outlined text-sm">crop</span> Cắt ảnh
+                    </button>
+                    <button class="p-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center gap-1 shadow">
+                      <span class="material-symbols-outlined text-sm">delete</span> Đổi ảnh
+                    </button>
+                  </div>
+                  <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-bold bg-brand-primary text-white shadow">Ảnh chính (Cover)</span>
+                </div>
+                <p class="text-[11px] text-brand-text-muted mt-3 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm text-brand-primary">cloud_upload</span> Kéo thả ảnh mới vào đây hoặc nhấp để tải lên từ máy tính
+                </p>
+              </div>
+
+              <!-- Gallery Preview Thumbnails -->
+              <div>
+                <p class="text-[11px] font-semibold text-brand-text-muted mb-2">Ảnh góc chụp cận cảnh & giấy gói mộc (3/4 ảnh):</p>
+                <div class="grid grid-cols-4 gap-2.5">
+                  <!-- Thumb 1 (Active) -->
+                  <div class="aspect-square rounded-lg border-2 border-brand-primary overflow-hidden relative group">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Thumb 1" class="w-full h-full object-cover">
+                    <button class="absolute top-1 right-1 w-4 h-4 bg-rose-600 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition">×</button>
+                  </div>
+                  <!-- Thumb 2 -->
+                  <div class="aspect-square rounded-lg border border-brand-border overflow-hidden relative group bg-brand-bg-subtle flex items-center justify-center">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8jtz4kEDmEYuDq0h8MlWS8I80UjJdYg5P4QO8iaHESINN_cqQkGDUChPBFxpGaz5wY5C89Uh8ih7Db6BXrsDWsHL32KI8NS8mPMXNbJNSxkzW1-UcvENRW6Z5HaPtvqPFmggSfYmNXZ1SlOl6JL6VIxtfPqxVJXPsnLzphtafUua0exqyl6YcqilJHwfO9P8mTtBErImCr2j2PAUC2UCddqVWgLLiY7kOQjbDFfnW4XEyNR9PeWuypF-uuaArVNO8DuY" alt="Thumb 2" class="w-full h-full object-cover opacity-80">
+                    <button class="absolute top-1 right-1 w-4 h-4 bg-rose-600 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition">×</button>
+                  </div>
+                  <!-- Thumb 3 -->
+                  <div class="aspect-square rounded-lg border border-brand-border bg-white flex flex-col items-center justify-center text-center p-1 cursor-pointer hover:border-brand-primary transition group">
+                    <span class="material-symbols-outlined text-base text-brand-text-subtle group-hover:text-brand-primary">add_photo_alternate</span>
+                    <span class="text-[9px] text-brand-text-subtle mt-0.5">Thêm ảnh</span>
+                  </div>
+                  <!-- Thumb 4 (Empty slot) -->
+                  <div class="aspect-square rounded-lg border border-dashed border-brand-border bg-brand-bg/40 flex items-center justify-center text-brand-text-subtle text-[10px]">
+                    Trống
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floral Composition Tags Input -->
+              <div class="p-3.5 rounded-xl bg-brand-bg border border-brand-border space-y-2">
+                <label class="block text-xs font-bold text-brand-text">
+                  Thành phần cành hoa tươi (Tags)
+                </label>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="tag-chip bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    Hồng Ohara Pháp (5 cành)
+                    <button class="hover:text-rose-600 text-xs">×</button>
+                  </span>
+                  <span class="tag-chip bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    Cúc Tana đồng nội (1 nhánh)
+                    <button class="hover:text-rose-600 text-xs">×</button>
+                  </span>
+                  <span class="tag-chip bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    Lá bạc Eucalyptus nhập khẩu
+                    <button class="hover:text-rose-600 text-xs">×</button>
+                  </span>
+                  <span class="tag-chip bg-amber-50 text-amber-900 border border-amber-200">
+                    Giấy gói Kraft mộc 2 lớp
+                    <button class="hover:text-rose-600 text-xs">×</button>
+                  </span>
+                </div>
+                <div class="flex gap-1.5 pt-1">
+                  <input type="text" placeholder="Gõ tên loài hoa hoặc phụ liệu rồi Enter..." class="flex-1 px-2.5 py-1 text-xs bg-white rounded-lg border border-brand-border focus:outline-none focus:border-brand-primary">
+                  <button class="px-2.5 py-1 bg-white hover:bg-brand-surface-low border border-brand-border text-brand-primary text-xs font-bold rounded-lg transition">Thêm tag</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Product Details & Pricing / Inventory (7 cols) -->
+            <div class="lg:col-span-7 space-y-5">
+              
+              <!-- Row 1: Name & SKU -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Tên tác phẩm bó hoa <span class="text-brand-secondary">*</span>
+                  </label>
+                  <input type="text" value="Bó hoa hồng pastel 'Mộng Mơ'" class="w-full px-3.5 py-2 text-xs font-semibold bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Mã SKU xưởng <span class="text-brand-secondary">*</span>
+                  </label>
+                  <input type="text" value="HNM-MM024" class="w-full px-3.5 py-2 text-xs font-mono font-bold bg-brand-bg rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary">
+                </div>
+              </div>
+
+              <!-- Row 2: Category & Primary Flower Tone -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Danh mục kiểu dáng <span class="text-brand-secondary">*</span>
+                  </label>
+                  <select class="w-full px-3.5 py-2 text-xs bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary font-medium">
+                    <option selected>Bó hoa tươi mộc (Giấy Kraft & Dây thừng)</option>
+                    <option>Hộp hoa quà tặng cao cấp</option>
+                    <option>Giỏ hoa tre đan thủ công Phú Vinh</option>
+                    <option>Bình gốm mộc vuốt tay Bát Tràng</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Tông màu chủ đạo
+                  </label>
+                  <select class="w-full px-3.5 py-2 text-xs bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary font-medium">
+                    <option selected>Pastel dịu nhẹ (Hồng kem, Trắng tinh khôi)</option>
+                    <option>Trắng thanh khiết</option>
+                    <option>Hồng ngọt ngào</option>
+                    <option>Vàng & Cam rực rỡ</option>
+                    <option>Xanh lá & Tím lãng mạn</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Row 3: Story & Message behind the Bouquet -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-bold text-brand-text">
+                    Thông điệp & Câu chuyện thủ công (Story behind bouquet)
+                  </label>
+                  <span class="text-[11px] text-brand-secondary font-script">Nắn nót viết tay</span>
+                </div>
+                <textarea rows="3" class="w-full p-3 text-xs bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition placeholder:text-brand-text-subtle leading-relaxed" placeholder="Chia sẻ cảm xúc khi florist lựa chọn từng cành hoa, ý nghĩa trao gửi...">Từng bông hồng Pink Ohara nở e ấp kết hợp cùng sự dung dị của cúc Tana nhỏ nhắn trên nền giấy kraft mộc. Mẫu hoa gửi gắm lời nhắn về một ngày bình yên, dịu dàng và chân thành nhất gửi tới người thương.</textarea>
+              </div>
+
+              <!-- Row 4: Pricing & Margin Calculation -->
+              <div class="p-4 rounded-xl bg-brand-surface-low/50 border border-brand-border space-y-3">
+                <h4 class="text-xs font-bold text-brand-text flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm text-brand-primary">payments</span>
+                  Thiết lập giá bán & Biên độ lợi nhuận xưởng
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-brand-text-muted mb-1">Giá niêm yết (VND)</label>
+                    <input type="text" value="520.000" class="w-full px-3 py-1.5 text-xs font-bold bg-white rounded-lg border border-brand-border">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-brand-primary mb-1">Giá ưu đãi trên web (VND)</label>
+                    <input type="text" value="450.000" class="w-full px-3 py-1.5 text-xs font-bold text-brand-secondary bg-white rounded-lg border-2 border-brand-secondary/30">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-brand-text-muted mb-1">Giá vốn cành & Phụ liệu</label>
+                    <div class="px-3 py-1.5 text-xs bg-brand-bg rounded-lg border border-brand-border font-medium flex items-center justify-between">
+                      <span>234.000₫</span>
+                      <span class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.2 rounded">Lãi 48%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 5: Stock Status & Visibility Toggles -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <!-- Stock Status Toggle -->
+                <div class="flex items-center justify-between p-3 rounded-xl border border-brand-border bg-white">
+                  <div>
+                    <p class="text-xs font-bold text-brand-text">Tình trạng cành tươi xưởng</p>
+                    <p class="text-[11px] text-brand-text-muted">Đủ cành cắm cho 12 bó trong ngày</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+
+                <!-- Visibility Toggle -->
+                <div class="flex items-center justify-between p-3 rounded-xl border border-brand-border bg-white">
+                  <div>
+                    <p class="text-xs font-bold text-brand-text">Hiển thị ngoài Storefront</p>
+                    <p class="text-[11px] text-emerald-700 font-medium">Khách hàng đặt mua được</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Form Action Buttons -->
+              <div class="flex items-center justify-end gap-3 pt-3 border-t border-brand-border">
+                <button type="button" class="px-4 py-2 rounded-xl text-xs font-semibold text-brand-text-muted hover:bg-brand-bg transition">Hủy bỏ</button>
+                <button type="button" class="px-4 py-2 rounded-xl text-xs font-semibold border border-brand-border bg-white hover:bg-brand-surface-low text-brand-text transition flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm">save</span> Lưu bản nháp xưởng
+                </button>
+                <button type="button" class="px-5 py-2 rounded-xl text-xs font-bold bg-brand-primary hover:bg-brand-primary-hover text-white shadow-sm shadow-brand-primary/30 transition flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm">publish</span> Cập nhật & Đăng Live Website
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- DATA TABLE: DANH SÁCH BÓ HOA & SẢN PHẨM BÁN LẺ (RETAIL PRODUCTS TABLE) -->
+        <!-- ========================================================================= -->
+        <div class="bg-white rounded-2xl border border-brand-border shadow-xs overflow-hidden">
+          
+          <div class="p-4 border-b border-brand-border flex items-center justify-between bg-brand-bg/30">
+            <h3 class="text-xs font-bold text-brand-text flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-brand-primary">table_chart</span>
+              Danh sách sản phẩm bó hoa thủ công đang kinh doanh (32 sản phẩm)
+            </h3>
+            <span class="text-[11px] text-brand-text-subtle">Cập nhật lúc 09:30 từ kho xưởng</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-brand-surface-low/50 text-[11px] font-bold text-brand-text-muted uppercase tracking-wider border-b border-brand-border">
+                  <th class="py-3 px-4">Ảnh & Tên sản phẩm</th>
+                  <th class="py-3 px-4">Bộ sưu tập / Dịp</th>
+                  <th class="py-3 px-4">Giá niêm yết & Ưu đãi</th>
+                  <th class="py-3 px-4">Thành phần cành nổi bật</th>
+                  <th class="py-3 px-4 text-center">Trạng thái bán</th>
+                  <th class="py-3 px-4 text-center">Hiển thị Web</th>
+                  <th class="py-3 px-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-brand-border-subtle text-xs">
+                
+                <!-- Item 1 -->
+                <tr class="hover:bg-brand-bg/60 transition group">
+                  <td class="py-3.5 px-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-12 h-12 rounded-lg overflow-hidden border border-brand-border shrink-0 bg-brand-bg">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Bó hồng pastel Mộng Mơ" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-brand-text group-hover:text-brand-primary transition">Bó hoa hồng pastel 'Mộng Mơ'</h4>
+                        <div class="flex items-center gap-1.5 text-[11px] text-brand-text-muted mt-0.5">
+                          <span class="font-mono text-brand-text-subtle">#HNM-MM024</span>
+                          <span>•</span>
+                          <span class="text-brand-secondary font-medium">Bán chạy nhất tuần</span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-50 text-rose-800 border border-rose-200">
+                      Hoa sinh nhật & Tình yêu
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <div>
+                      <span class="font-bold text-brand-secondary text-sm">450.000₫</span>
+                      <span class="text-[11px] text-brand-text-subtle line-through ml-1">520.000₫</span>
+                      <span class="block text-[10px] text-emerald-700 font-bold mt-0.5">Tiết kiệm 13%</span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <p class="text-[11px] text-brand-text font-medium">Hồng Ohara Pháp, Cúc Tana, Lá bạc</p>
+                    <p class="text-[10px] text-brand-text-subtle">Gói giấy mộc Kraft 2 lớp, dây thừng</p>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Còn hàng
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" checked class="sr-only peer">
+                      <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+                    </label>
+                  </td>
+                  <td class="py-3.5 px-4 text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-primary transition" title="Chỉnh sửa chi tiết">
+                        <span class="material-symbols-outlined text-base">edit</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-secondary transition" title="Xem trên website khách hàng">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-rose-600 transition" title="Xóa bỏ mẫu hoa">
+                        <span class="material-symbols-outlined text-base">delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Item 2 -->
+                <tr class="hover:bg-brand-bg/60 transition group">
+                  <td class="py-3.5 px-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-12 h-12 rounded-lg overflow-hidden border border-brand-border shrink-0 bg-brand-bg flex items-center justify-center">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Bó cúc Tana Thanh Xuân" class="w-full h-full object-cover scale-110">
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-brand-text group-hover:text-brand-primary transition">Bó cúc Tana mộc mạc 'Thanh Xuân'</h4>
+                        <div class="flex items-center gap-1.5 text-[11px] text-brand-text-muted mt-0.5">
+                          <span class="font-mono text-brand-text-subtle">#HNM-TN012</span>
+                          <span>•</span>
+                          <span class="text-amber-800 font-medium">Bó mộc Kraft</span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-amber-50 text-amber-900 border border-amber-200">
+                      Kỷ niệm & Tốt nghiệp
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <div>
+                      <span class="font-bold text-brand-text text-sm">320.000₫</span>
+                      <span class="block text-[10px] text-brand-text-subtle mt-0.5">Giá gốc niêm yết</span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <p class="text-[11px] text-brand-text font-medium">Cúc Tana Mê Linh, cỏ đồng nội, lá bạc</p>
+                    <p class="text-[10px] text-brand-text-subtle">Giấy xi măng nâu cổ điển</p>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Còn hàng
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" checked class="sr-only peer">
+                      <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+                    </label>
+                  </td>
+                  <td class="py-3.5 px-4 text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-primary transition">
+                        <span class="material-symbols-outlined text-base">edit</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-secondary transition">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-rose-600 transition">
+                        <span class="material-symbols-outlined text-base">delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Item 3 -->
+                <tr class="hover:bg-brand-bg/60 transition group">
+                  <td class="py-3.5 px-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-12 h-12 rounded-lg overflow-hidden border border-brand-border shrink-0 bg-brand-bg flex items-center justify-center">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Giỏ hoa mùa hạ Nắng Ban Mai" class="w-full h-full object-cover saturate-150">
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-brand-text group-hover:text-brand-primary transition">Giỏ hoa tre thủ công 'Nắng Ban Mai'</h4>
+                        <div class="flex items-center gap-1.5 text-[11px] text-brand-text-muted mt-0.5">
+                          <span class="font-mono text-brand-text-subtle">#HNM-GM009</span>
+                          <span>•</span>
+                          <span class="text-emerald-700 font-medium">Giỏ đan Phú Vinh</span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      Khai trương & Tri ân
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <div>
+                      <span class="font-bold text-brand-secondary text-sm">680.000₫</span>
+                      <span class="text-[11px] text-brand-text-subtle line-through ml-1">750.000₫</span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <p class="text-[11px] text-brand-text font-medium">Hướng dương lùn, Hồng Sa Mạc, lan bọ cạp</p>
+                    <p class="text-[10px] text-brand-text-subtle">Giỏ tre đan tay mộc mạc size M</p>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Còn 3 giỏ mây
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" checked class="sr-only peer">
+                      <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+                    </label>
+                  </td>
+                  <td class="py-3.5 px-4 text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-primary transition">
+                        <span class="material-symbols-outlined text-base">edit</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-secondary transition">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-rose-600 transition">
+                        <span class="material-symbols-outlined text-base">delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Item 4 (Tạm ẩn) -->
+                <tr class="hover:bg-brand-bg/60 transition group bg-stone-50/40">
+                  <td class="py-3.5 px-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-12 h-12 rounded-lg overflow-hidden border border-brand-border shrink-0 bg-brand-bg opacity-60">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Bó tulip trắng Dịu Dàng" class="w-full h-full object-cover grayscale">
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-brand-text-muted group-hover:text-brand-primary transition">Bó tulip trắng Hà Lan 'Dịu Dàng'</h4>
+                        <div class="flex items-center gap-1.5 text-[11px] text-brand-text-subtle mt-0.5">
+                          <span class="font-mono">#HNM-TL065</span>
+                          <span>•</span>
+                          <span>Hoa theo mùa vụ lạnh</span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                      Theo mùa vụ
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <div>
+                      <span class="font-bold text-brand-text-muted text-sm">580.000₫</span>
+                      <span class="block text-[10px] text-brand-text-subtle mt-0.5">Tạm chưa kích hoạt</span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <p class="text-[11px] text-brand-text-muted">10 cành tulip trắng, lá măng tây</p>
+                    <p class="text-[10px] text-brand-text-subtle">Hết cành tươi tại vườn</p>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                      Tạm hết hoa
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 text-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" class="sr-only peer">
+                      <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+                    </label>
+                  </td>
+                  <td class="py-3.5 px-4 text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-primary transition">
+                        <span class="material-symbols-outlined text-base">edit</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-brand-secondary transition">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                      </button>
+                      <button class="p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-brand-border text-brand-text-subtle hover:text-rose-600 transition">
+                        <span class="material-symbols-outlined text-base">delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer Pagination -->
+          <div class="p-4 border-t border-brand-border bg-white flex items-center justify-between text-xs text-brand-text-muted">
+            <span>Hiển thị 4 trên 32 mẫu hoa</span>
+            <div class="flex items-center gap-1.5">
+              <button class="px-2.5 py-1 rounded-lg border border-brand-border hover:bg-brand-bg disabled:opacity-40" disabled>Trước</button>
+              <button class="px-2.5 py-1 rounded-lg bg-brand-primary text-white font-bold">1</button>
+              <button class="px-2.5 py-1 rounded-lg border border-brand-border hover:bg-brand-bg">2</button>
+              <button class="px-2.5 py-1 rounded-lg border border-brand-border hover:bg-brand-bg">3</button>
+              <button class="px-2.5 py-1 rounded-lg border border-brand-border hover:bg-brand-bg">Sau</button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SECTION 2: CẤU HÌNH NỘI DUNG TRANG CHỦ & GIAO DIỆN (STOREFRONT NO-CODE CMS) -->
+      <!-- ========================================================================= -->
+      <section id="cms-management" class="space-y-6 pt-4 border-t-2 border-brand-border">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-brand-surface-low via-white to-white p-6 rounded-2xl border border-brand-border shadow-xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-secondary/10 text-brand-secondary uppercase tracking-wide">Trình Quản lý Giao diện CMS No-Code</span>
+              <span class="text-xs text-brand-text-subtle">• Áp dụng ngay cho Trang chủ & Storefront</span>
+            </div>
+            <h2 class="text-2xl font-bold text-brand-text flex items-center gap-2">
+              Cấu hình Nội dung Trang chủ & Giao diện
+              <span class="material-symbols-outlined text-brand-secondary">auto_fix_high</span>
+            </h2>
+            <p class="text-xs text-brand-text-muted max-w-3xl">
+              Dành riêng cho nhân viên tiệm hoa cập nhật trực quan banner khuyến mãi, lời chúc thương hiệu, số hotline và thông báo giao hàng mà không cần can thiệp mã lập trình.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 shrink-0">
+            <button class="px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-brand-border hover:bg-brand-bg text-brand-text transition flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base text-brand-text-subtle">visibility</span>
+              Xem trước Trang chủ
+            </button>
+            <button class="px-5 py-2 rounded-xl text-xs font-bold bg-brand-secondary hover:bg-brand-secondary-hover text-white transition shadow-sm shadow-brand-secondary/30 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base">rocket_launch</span>
+              Xuất bản thay đổi CMS
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 Core CMS Settings Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- 1. Hero Banner Management Card (lg:col-span-7) -->
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-brand-border p-6 shadow-xs space-y-5 flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between border-b border-brand-border-subtle pb-3">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-brand-secondary/10 text-brand-secondary flex items-center justify-center font-bold">
+                    <span class="material-symbols-outlined text-base">image</span>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-bold text-brand-text">1. Khu vực Hero Banner Trang chủ</h3>
+                    <p class="text-[11px] text-brand-text-muted">Hình ảnh và lời chào đầu tiên khi khách hàng bước vào tiệm trực tuyến</p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-brand-primary bg-brand-primary-light px-2 py-0.5 rounded">Vị trí #1</span>
+              </div>
+
+              <!-- Current Image Preview with Replace Button -->
+              <div>
+                <label class="block text-xs font-bold text-brand-text mb-2">Ảnh bìa Hero đang hiển thị</label>
+                <div class="relative rounded-xl overflow-hidden border border-brand-border group aspect-[16/8] bg-brand-bg">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj65gLK0L4VagCw9yxYXm5GcVLcbRbVpu6ZYJEmMg6GQ6Bc_FGhpNsIunmO2BfP2N8W06-qUPFV5RJlnugbh5LVHrKW6WikklAsSfymlznijfCocyMncLvBr_R_uoiDp7ep1T8AwQgVc4hOYFEaNz8E4FQyjrrxfKnj-GYI8CyzVwHVqB2Y7HIePbhj8ss-g7tAwlBBqfiWD25gIyAXXVedJ6gxQ7tqigMNg4CV4BZBSAH2hBYVG-TTw" alt="Hero Banner Preview" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4 justify-between">
+                    <div class="text-white text-xs">
+                      <span class="bg-brand-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Ảnh hiện tại</span>
+                      <p class="text-[11px] text-white/90 mt-1">Độ phân giải: 1920x960px • Ánh sáng tự nhiên xưởng hoa</p>
+                    </div>
+                    <button class="px-3 py-1.5 bg-white text-brand-text hover:bg-brand-surface-low rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition">
+                      <span class="material-symbols-outlined text-sm text-brand-secondary">add_photo_alternate</span>
+                      Thay đổi ảnh banner
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Headline & Sub-headline Inputs -->
+              <div class="grid grid-cols-1 gap-3.5">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label class="block text-xs font-bold text-brand-text">Tiêu đề lớn (Headline)</label>
+                    <span class="text-[11px] text-brand-text-subtle">Hỗ trợ nhấn mạnh cảm xúc</span>
+                  </div>
+                  <input type="text" value="Hoa đẹp hơn khi được gửi gắm cảm xúc" class="w-full px-3.5 py-2 text-xs font-semibold bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">Đoạn văn mở đầu (Sub-headline)</label>
+                  <textarea rows="2" class="w-full p-3 text-xs bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary leading-relaxed">Từng nhành hoa được chọn lọc tươi mới, gói ghém tỉ mỉ trong giấy mộc kraft và gửi trao bằng cả tấm lòng người thợ cắm hoa.</textarea>
+                </div>
+
+                <!-- Call-to-action Button Text & Link -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <label class="block text-xs font-bold text-brand-text mb-1">Chữ trên nút bấm chính (CTA)</label>
+                    <input type="text" value="Khám phá mẫu hoa ngay ↓" class="w-full px-3 py-1.5 text-xs bg-white rounded-lg border border-brand-border font-semibold text-brand-primary">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-brand-text mb-1">Đường dẫn liên kết (Link)</label>
+                    <input type="text" value="/san-pham" class="w-full px-3 py-1.5 text-xs bg-white rounded-lg border border-brand-border font-mono text-brand-text-muted">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-brand-border-subtle flex justify-end">
+              <button class="px-3.5 py-1.5 bg-brand-bg hover:bg-brand-surface-low border border-brand-border text-brand-text text-xs font-semibold rounded-lg transition flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">check_circle</span> Áp dụng cho Hero
+              </button>
+            </div>
+          </div>
+
+          <!-- 2 & 3: Store Identity & Notification Bar (lg:col-span-5) -->
+          <div class="lg:col-span-5 space-y-6">
+
+            <!-- 2. Store Identity & Contact Card -->
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs space-y-4">
+              <div class="flex items-center justify-between border-b border-brand-border-subtle pb-3">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold">
+                    <span class="material-symbols-outlined text-base">pin_drop</span>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-bold text-brand-text">2. Định danh Tiệm hoa & Hotline</h3>
+                    <p class="text-[11px] text-brand-text-muted">Thông tin hiển thị toàn hệ thống chân trang và nút liên hệ</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-3.5">
+                <!-- Hotline / Zalo Phone Input -->
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Số Hotline / Zalo tư vấn chính thức
+                  </label>
+                  <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-brand-primary text-base">phone_in_talk</span>
+                    <input type="text" value="094 435 56 45" class="w-full pl-9 pr-3.5 py-2 text-xs font-bold text-brand-text bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary">
+                  </div>
+                </div>
+
+                <!-- Workshop Physical Address Input -->
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Địa chỉ xưởng hoa thủ công Hà Nội
+                  </label>
+                  <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5 text-brand-secondary text-base">home_pin</span>
+                    <textarea rows="2" class="w-full pl-9 pr-3.5 py-2 text-xs font-medium text-brand-text bg-white rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary leading-relaxed">Số 25, ngõ 225 Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội</textarea>
+                  </div>
+                </div>
+
+                <!-- Brand Slogan Signature -->
+                <div>
+                  <label class="block text-xs font-bold text-brand-text mb-1">
+                    Slogan chữ ký thương hiệu
+                  </label>
+                  <div class="relative">
+                    <span class="font-script absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary text-sm">✿</span>
+                    <input type="text" value="Let flowers speak your heart!" class="w-full pl-8 pr-3.5 py-2 text-xs font-script text-brand-secondary bg-brand-bg rounded-xl border border-brand-border focus:outline-none focus:border-brand-secondary">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Notification Bar (Thanh thông báo đầu trang) Card -->
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs space-y-4">
+              <div class="flex items-center justify-between border-b border-brand-border-subtle pb-3">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
+                    <span class="material-symbols-outlined text-base">campaign</span>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-bold text-brand-text">3. Thanh thông báo đầu trang (Top Marquee)</h3>
+                    <p class="text-[11px] text-brand-text-muted">Dòng chữ chạy đầu trang thông báo cam kết vận chuyển</p>
+                  </div>
+                </div>
+                <!-- Active status -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+                </label>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-brand-text mb-1.5">
+                  Nội dung thông báo khuyến mại / cam kết dịch vụ
+                </label>
+                <div class="relative">
+                  <input type="text" value="Giao hoa hỏa tốc trong 2 giờ nội thành Hà Nội • Hoa tươi nhập sớm từ vườn lúc 5h" class="w-full px-3.5 py-2 text-xs font-medium bg-brand-bg text-brand-text rounded-xl border border-brand-border focus:bg-white focus:outline-none focus:border-brand-primary">
+                </div>
+                <div class="mt-2.5 p-2 rounded-lg bg-amber-50/70 border border-amber-200/60 flex items-center gap-2 text-[11px] text-amber-900">
+                  <span class="material-symbols-outlined text-sm text-amber-700">info</span>
+                  <span>Hiển thị dưới dạng dải thông báo màu kem mộc kèm icon xe giao hàng trên cùng màn hình.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Bottom System Help & Shortcuts Hint -->
+      <div class="p-4 rounded-xl bg-white border border-brand-border flex flex-col sm:flex-row items-center justify-between text-xs text-brand-text-muted gap-2">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-base text-brand-primary">verified</span>
+          <span>Hệ thống quản trị nội bộ <strong>Hoa Nhà Mình v2.5</strong> • Dành riêng cho thợ cắm hoa & quản trị viên.</span>
+        </div>
+        <div class="flex items-center gap-4 text-[11px]">
+          <span>Phím tắt: <kbd class="px-1.5 py-0.5 bg-brand-bg border border-brand-border rounded">⌘ + S</kbd> Lưu nhanh</span>
+          <span>Hotline hỗ trợ kỹ thuật: <strong>094 435 56 45</strong></span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
