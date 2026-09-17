@@ -71,10 +71,10 @@ const PRODUCTS = [
   },
   {
     id: "HNM-HM003",
-    name: "Hộp Hoa Gỗ 'Ấm Áp Gia Đình'",
-    slug: "hop-hoa-go-am-ap-gia-dinh",
-    type: "hop-hoa",
-    typeName: "Hộp hoa thiết kế",
+    name: "Giỏ Hoa Mộc 'Ấm Áp Gia Đình'",
+    slug: "gio-hoa-moc-am-ap-gia-dinh",
+    type: "gio-hoa",
+    typeName: "Giỏ hoa thủ công",
     color: "hong",
     colorName: "Hồng ấm áp",
     price: 650000,
@@ -91,8 +91,8 @@ const PRODUCTS = [
     gallery: [
       "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80"
     ],
-    shortDesc: "Hộp gỗ thông mộc mạc cắm hoa hồng phớt, cẩm chướng và hoa baby trắng, bền hoa 4-5 ngày.",
-    description: "Được sắp xếp trang nhã trong hộp gỗ tự nhiên khắc laser chữ 'Gia Đình Yêu Thương'. Bông hoa được cắm trên xốp giữ ẩm cao cấp nhập khẩu, giúp hoa giữ được độ tươi lâu mà không cần tốn công thay nước mỗi ngày.",
+    shortDesc: "Giỏ hoa gỗ thông mộc mạc cắm hoa hồng phớt, cẩm chướng và hoa baby trắng, bền hoa 4-5 ngày.",
+    description: "Được sắp xếp trang nhã trong giỏ gỗ tự nhiên khắc laser chữ 'Gia Đình Yêu Thương'. Bông hoa được cắm trên xốp giữ ẩm cao cấp nhập khẩu, giúp hoa giữ được độ tươi lâu mà không cần tốn công thay nước mỗi ngày.",
     careInstructions: "Châm thêm nửa chén nước sạch vào gốc xốp cắm hoa mỗi buổi sáng. Tránh luồng gió quạt mạnh.",
     sizes: [
       { name: "M - Tiêu chuẩn", price: 650000, desc: "Kích thước 22 x 22 cm" },
@@ -106,7 +106,7 @@ const PRODUCTS = [
     type: "gio-hoa",
     typeName: "Giỏ hoa thủ công",
     color: "pastel",
-    colorName: "Pastel cam đào",
+    colorName: "Mix pastel cam đào",
     price: 780000,
     originalPrice: 850000,
     rating: 4.8,
@@ -135,7 +135,7 @@ const PRODUCTS = [
     slug: "bo-hoa-cam-tu-cau-xanh-bien-troi-diu-em",
     type: "bo-hoa",
     typeName: "Bó hoa tươi",
-    color: "xanh",
+    color: "xanh-duong",
     colorName: "Xanh dương thanh mát",
     price: 390000,
     originalPrice: 430000,
@@ -193,12 +193,12 @@ const PRODUCTS = [
   },
   {
     id: "HNM-HM007",
-    name: "Hộp Hoa Mica 'Tím Thủy Chung'",
-    slug: "hop-hoa-mica-tim-thuy-chung",
-    type: "hop-hoa",
-    typeName: "Hộp hoa thiết kế",
-    color: "tim",
-    colorName: "Tím mộng mơ",
+    name: "Giỏ Hoa Mây 'Tím Thủy Chung'",
+    slug: "gio-hoa-may-tim-thuy-chung",
+    type: "gio-hoa",
+    typeName: "Giỏ hoa thủ công",
+    color: "pastel",
+    colorName: "Mix pastel tím mộng mơ",
     price: 590000,
     originalPrice: 650000,
     rating: 4.8,
@@ -213,8 +213,8 @@ const PRODUCTS = [
     gallery: [
       "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80"
     ],
-    shortDesc: "Hộp trong suốt cắm hoa cát tường tím, hoa phi yến và thạch thảo lãng mạn.",
-    description: "Sắc tím thủy chung và tao nhã của hoa cát tường phối cùng phi yến trong hộp mica trong suốt, thắt ruy băng lụa tiệp màu trang trọng.",
+    shortDesc: "Giỏ mây cắm hoa cát tường tím, hoa phi yến và thạch thảo lãng mạn.",
+    description: "Sắc tím dịu dàng tao nhã của hoa cát tường phối cùng phi yến trong giỏ mây truyền thống, thắt ruy băng lụa tiệp màu trang trọng.",
     careInstructions: "Châm nước vào miếng xốp cách ngày một lần.",
     sizes: [
       { name: "M - Tiêu chuẩn", price: 590000, desc: "Kích thước 20 x 20 cm" },
@@ -228,7 +228,7 @@ const PRODUCTS = [
     type: "gio-hoa",
     typeName: "Giỏ hoa thủ công",
     color: "pastel",
-    colorName: "Pastel đa sắc",
+    colorName: "Mix pastel đa sắc",
     price: 890000,
     originalPrice: 990000,
     rating: 5.0,
@@ -279,6 +279,96 @@ const PRODUCTS = [
     sizes: [
       { name: "M - 10 cành", price: 620000, desc: "Bó chuẩn 10 cành tươi" },
       { name: "L - 20 cành", price: 1100000, desc: "Bó xum xuê 20 cành" }
+    ]
+  },
+  {
+    id: "HNM-HM010",
+    name: "Bó Hoa Cúc Mẫu Đơn 'Mầm Xanh Sớm Mai'",
+    slug: "bo-hoa-cuc-mau-don-mam-xanh-som-mai",
+    type: "bo-hoa",
+    typeName: "Bó hoa tươi",
+    color: "xanh-la",
+    colorName: "Xanh lá tươi mát",
+    price: 460000,
+    originalPrice: 520000,
+    rating: 4.9,
+    reviewsCount: 18,
+    isBestSeller: false,
+    isNew: true,
+    isFeatured: true,
+    occasion: ["sinh-nhat", "tot-nghiep"],
+    recipient: ["ban-be", "ban-than"],
+    tags: ["moi"],
+    image: "https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=800&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=800&q=80"
+    ],
+    shortDesc: "Cúc mẫu đơn xanh bơ kết hợp lá bạch đàn táo và chuỗi ngọc xanh, tràn đầy năng lượng tươi mới.",
+    description: "Tone màu xanh lá dịu mát như cơn mưa đầu hạ gột rửa mọi ưu phiền. Bó hoa mang thông điệp về sự sinh sôi, hy vọng và niềm tin vào những khởi đầu tươi sáng.",
+    careInstructions: "Thay nước mỗi ngày, cắt vát cành và để nơi thoáng mát tránh ánh nắng gắt.",
+    sizes: [
+      { name: "M - Tiêu chuẩn", price: 460000, desc: "Bó vừa tay 5 cành mẫu đơn" },
+      { name: "L - Đặc biệt", price: 680000, desc: "Bó xum xuê 8 cành kèm hoa phụ" }
+    ]
+  },
+  {
+    id: "HNM-HM011",
+    name: "Giỏ Hoa Mây 'Sắc Đỏ May Mắn'",
+    slug: "gio-hoa-may-sac-do-may-man",
+    type: "gio-hoa",
+    typeName: "Giỏ hoa thủ công",
+    color: "do",
+    colorName: "Đỏ may mắn",
+    price: 680000,
+    originalPrice: 750000,
+    rating: 5.0,
+    reviewsCount: 34,
+    isBestSeller: true,
+    isNew: false,
+    isFeatured: true,
+    occasion: ["khac", "sinh-nhat"],
+    recipient: ["gia-dinh", "nguoi-yeu"],
+    tags: ["ban-chay"],
+    image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80"
+    ],
+    shortDesc: "Giỏ mây mộc đan tay phối hoa hồng đỏ nhung, chuỗi ngọc và lá tùng tươi tốt.",
+    description: "Giỏ hoa đỏ rực rỡ tượng trưng cho may mắn, thịnh vượng và hạnh phúc đong đầy, là món quà sang trọng cho các dịp chúc mừng.",
+    careInstructions: "Châm nước vào giữa xốp mỗi sáng sớm.",
+    sizes: [
+      { name: "M - Tiêu chuẩn", price: 680000, desc: "Giỏ quai tròn để bàn" },
+      { name: "L - Sung túc", price: 920000, desc: "Giỏ lớn bề thế mừng khai trương, sinh nhật" }
+    ]
+  },
+  {
+    id: "HNM-HM012",
+    name: "Giỏ Hoa Mây 'Ban Mai Xanh Mát'",
+    slug: "gio-hoa-may-ban-mai-xanh-mat",
+    type: "gio-hoa",
+    typeName: "Giỏ hoa thủ công",
+    color: "xanh-la",
+    colorName: "Xanh lá thanh bình",
+    price: 620000,
+    originalPrice: 690000,
+    rating: 4.9,
+    reviewsCount: 16,
+    isBestSeller: false,
+    isNew: true,
+    isFeatured: false,
+    occasion: ["sinh-nhat", "khac"],
+    recipient: ["gia-dinh", "ban-be"],
+    tags: ["moi"],
+    image: "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80"
+    ],
+    shortDesc: "Giỏ hoa phối hoa cát tường xanh non, cúc tana trắng và lá bạc mộc mạc an nhiên.",
+    description: "Sự kết hợp tinh tế giữa cúc tana và hoa cát tường xanh mướt mang đến cảm giác thanh bình như một sớm mai dạo quanh vườn nhà.",
+    careInstructions: "Châm một cốc nước nhỏ vào xốp giữ ẩm mỗi sáng.",
+    sizes: [
+      { name: "M - Tiêu chuẩn", price: 620000, desc: "Giỏ mây đường kính 25cm" },
+      { name: "L - Cao cấp", price: 850000, desc: "Giỏ mây đường kính 35cm" }
     ]
   }
 ];

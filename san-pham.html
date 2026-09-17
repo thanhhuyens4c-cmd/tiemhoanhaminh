@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tất cả sản phẩm hoa tươi — Hoa Nhà Mình</title>
-  <meta name="description" content="Khám phá các mẫu bó hoa, hộp hoa, giỏ hoa tươi thủ công tại Hoa Nhà Mình. Lọc theo màu sắc, loại hoa và mức giá dễ dàng.">
+  <meta name="description" content="Khám phá các mẫu bó hoa, giỏ hoa tươi thủ công tại Hoa Nhà Mình. Lọc theo màu sắc, loại hoa và mức giá dễ dàng.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,52 +145,48 @@
           <div class="space-y-2 text-xs text-[#4B4240]">
             <label class="flex items-center gap-2.5 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="type" value="bo-hoa" class="filter-checkbox rounded text-[#3E9B61] focus:ring-[#3E9B61]">
-              <span>Bó hoa tươi mộc</span>
-            </label>
-            <label class="flex items-center gap-2.5 cursor-pointer hover:text-[#D95A82]">
-              <input type="checkbox" name="type" value="hop-hoa" class="filter-checkbox rounded text-[#3E9B61] focus:ring-[#3E9B61]">
-              <span>Hộp hoa gỗ & mica</span>
+              <span>Bó hoa</span>
             </label>
             <label class="flex items-center gap-2.5 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="type" value="gio-hoa" class="filter-checkbox rounded text-[#3E9B61] focus:ring-[#3E9B61]">
-              <span>Giỏ hoa mây tự nhiên</span>
+              <span>Giỏ hoa</span>
             </label>
           </div>
         </div>
 
-        <!-- 2. BỘ LỌC THEO MÀU SẮC (Trắng, Hồng, Xanh, Đỏ, Tím, Pastel) -->
+        <!-- 2. BỘ LỌC THEO MÀU SẮC (Trắng, Hồng, Đỏ, Xanh lá, Xanh dương, Mix pastel) -->
         <div class="space-y-3 pt-4 border-t border-[#E5DDCE]">
           <h3 class="text-xs font-bold text-[#211A18] uppercase tracking-wider">Màu sắc hoa</h3>
           <div class="grid grid-cols-2 gap-2 text-xs text-[#4B4240]">
             <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="color" value="trang" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-white border border-gray-400"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-white border border-gray-300 shadow-xs flex-shrink-0"></span>
               <span>Trắng</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="color" value="hong" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-[#F3A8C0]"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-[#F3A8C0] border border-[#F3A8C0] flex-shrink-0"></span>
               <span>Hồng</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
-              <input type="checkbox" name="color" value="xanh" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-[#43B7D0]"></span>
-              <span>Xanh</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="color" value="do" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-[#BA1A1A]"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-[#BA1A1A] border border-[#BA1A1A] flex-shrink-0"></span>
               <span>Đỏ</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
-              <input type="checkbox" name="color" value="tim" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-[#A45AA7]"></span>
-              <span>Tím</span>
+              <input type="checkbox" name="color" value="xanh-la" class="filter-checkbox rounded text-[#3E9B61]">
+              <span class="w-3.5 h-3.5 rounded-full bg-[#3E9B61] border border-[#3E9B61] flex-shrink-0"></span>
+              <span>Xanh lá</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
+              <input type="checkbox" name="color" value="xanh-duong" class="filter-checkbox rounded text-[#3E9B61]">
+              <span class="w-3.5 h-3.5 rounded-full bg-[#3B82F6] border border-[#3B82F6] flex-shrink-0"></span>
+              <span>Xanh dương</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-[#D95A82]">
               <input type="checkbox" name="color" value="pastel" class="filter-checkbox rounded text-[#3E9B61]">
-              <span class="w-3 h-3 rounded-full bg-[#F3EED8] border border-[#D95A82]"></span>
-              <span>Pastel</span>
+              <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-[#F3A8C0] via-[#FAF7E9] to-[#99F7B4] border border-[#D95A82]/50 flex-shrink-0"></span>
+              <span>Mix pastel</span>
             </label>
           </div>
         </div>
@@ -349,10 +345,17 @@
       const recipientParam = urlParams.get("recipient");
       const filterParam = urlParams.get("filter");
       const typeParam = urlParams.get("type");
+      const colorParam = urlParams.get("color");
 
       if (typeParam) {
         checkboxes.forEach(cb => {
           if (cb.name === "type" && cb.value === typeParam) cb.checked = true;
+        });
+      }
+
+      if (colorParam) {
+        checkboxes.forEach(cb => {
+          if (cb.name === "color" && cb.value === colorParam) cb.checked = true;
         });
       }
 
@@ -364,27 +367,62 @@
         const sortVal = sortSelect.value;
 
         let filtered = [...getProducts()];
+        const activeLabels = [];
 
         // Lọc theo Recipient từ URL nếu có
         if (recipientParam) {
           filtered = filtered.filter(p => p.recipient && p.recipient.includes(recipientParam));
-          activeBadge.classList.remove("hidden");
-          activeBadge.classList.add("inline-flex");
-          activeBadgeText.textContent = `Dành cho: ${recipientParam}`;
+          activeLabels.push(`Dành cho: ${recipientParam}`);
         }
 
-
-        // Lọc theo Loại hoa
+        // Lọc theo Loại hoa (bó hoa, giỏ hoa)
         if (selectedTypes.length > 0) {
           filtered = filtered.filter(p => selectedTypes.includes(p.type));
+          const typeNames = selectedTypes.map(t => t === "bo-hoa" ? "Bó hoa" : "Giỏ hoa");
+          activeLabels.push(typeNames.join(", "));
         }
 
-        // Lọc theo Màu sắc
+        // Lọc theo Màu sắc: trắng, hồng, đỏ, xanh lá, xanh dương, Mix pastel
         if (selectedColors.length > 0) {
-          filtered = filtered.filter(p => selectedColors.includes(p.color));
+          filtered = filtered.filter(p => {
+            return selectedColors.some(c => {
+              if (c === "xanh-duong") {
+                return p.color === "xanh-duong" || p.color === "xanh" || 
+                  (p.colorName && (p.colorName.toLowerCase().includes("xanh dương") || p.colorName.toLowerCase().includes("xanh biếc")));
+              }
+              if (c === "xanh-la") {
+                return p.color === "xanh-la" || 
+                  (p.colorName && (p.colorName.toLowerCase().includes("xanh lá") || p.colorName.toLowerCase().includes("xanh bơ") || p.colorName.toLowerCase().includes("xanh mát")));
+              }
+              if (c === "pastel") {
+                return p.color === "pastel" || p.color === "mix-pastel" || p.color === "mix" ||
+                  (p.colorName && (p.colorName.toLowerCase().includes("pastel") || p.colorName.toLowerCase().includes("mix") || p.colorName.toLowerCase().includes("đa sắc")));
+              }
+              if (c === "trang") {
+                return p.color === "trang" || (p.colorName && p.colorName.toLowerCase().includes("trắng"));
+              }
+              if (c === "hong") {
+                return p.color === "hong" || (p.colorName && p.colorName.toLowerCase().includes("hồng"));
+              }
+              if (c === "do") {
+                return p.color === "do" || (p.colorName && p.colorName.toLowerCase().includes("đỏ"));
+              }
+              return p.color === c;
+            });
+          });
+
+          const colorMap = {
+            "trang": "Trắng",
+            "hong": "Hồng",
+            "do": "Đỏ",
+            "xanh-la": "Xanh lá",
+            "xanh-duong": "Xanh dương",
+            "pastel": "Mix pastel"
+          };
+          activeLabels.push(selectedColors.map(c => colorMap[c] || c).join(", "));
         }
 
-        // Lọc theo Mức giá
+        // Lọc theo Mức giá (giữ nguyên)
         if (selectedPrices.length > 0) {
           filtered = filtered.filter(p => {
             return selectedPrices.some(range => {
@@ -395,6 +433,23 @@
               return false;
             });
           });
+          const priceMap = {
+            "under-300": "< 300k",
+            "300-500": "300k - 500k",
+            "500-800": "500k - 800k",
+            "over-800": "> 800k"
+          };
+          activeLabels.push(selectedPrices.map(pr => priceMap[pr] || pr).join(", "));
+        }
+
+        // Hiển thị badge bộ lọc đang chọn
+        if (activeLabels.length > 0) {
+          activeBadge.classList.remove("hidden");
+          activeBadge.classList.add("inline-flex");
+          activeBadgeText.textContent = `Đang lọc: ${activeLabels.join(" • ")}`;
+        } else {
+          activeBadge.classList.add("hidden");
+          activeBadge.classList.remove("inline-flex");
         }
 
         // Sắp xếp
