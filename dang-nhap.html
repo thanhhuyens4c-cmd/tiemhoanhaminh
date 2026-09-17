@@ -31,6 +31,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="css/custom.css">
 
   <style>
     :root {
@@ -46,11 +47,26 @@
 
     * { box-sizing: border-box; }
 
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       min-height: 100vh;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+      margin: 0;
+      padding: 0;
       display: flex;
       font-family: 'Be Vietnam Pro', sans-serif;
       background: var(--warm);
+      box-sizing: border-box;
     }
 
     /* ── Left decorative panel ─────────────────────── */
@@ -415,9 +431,45 @@
     .pw-bar.strong { background: #3E9B61; }
 
     /* ── Responsive ────────────────────────────────── */
-    @media (max-width: 768px) {
-      .panel-left { display: none; }
-      .panel-right { padding: 24px 16px; align-items: flex-start; padding-top: 40px; }
+    @media (max-width: 1023px) {
+      body {
+        flex-direction: column;
+        overflow-x: hidden;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: #FAF7E9;
+      }
+      .panel-left { display: none !important; }
+      .panel-right {
+        padding: 16px 16px 32px;
+        align-items: flex-start;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden;
+        box-sizing: border-box;
+      }
+      .auth-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+      .form-input {
+        height: 44px;
+        font-size: 14px;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      .btn-primary {
+        height: 46px;
+        font-size: 14px;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      .tab-btn {
+        padding: 9px 6px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -479,14 +531,26 @@
   <div class="panel-right">
     <div class="auth-card">
 
-      <!-- Mobile brand header -->
-      <div class="text-center mb-8 md:hidden">
-        <div class="font-brand text-3xl text-[#D95A82]">Hoa Nhà Mình</div>
-        <div class="text-xs text-[#857B76] mt-1">Let Flowers Speak Your Heart</div>
+      <!-- Back to Home bar on Mobile -->
+      <div class="flex items-center justify-between mb-4 md:mb-6">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs text-[#4B4240] hover:text-[#3E9B61] font-semibold py-1.5 px-3 rounded-full bg-white/80 border border-[#E5DDCE] transition-all">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          <span>Trang chủ</span>
+        </a>
+        <span class="text-[11px] text-[#857B76]">Hỗ trợ: 094 435 56 45</span>
       </div>
 
-      <h1 class="text-xl font-bold text-[#211A18] mb-1" id="form-title">Chào mừng trở lại! 👋</h1>
-      <p class="text-xs text-[#857B76] mb-6" id="form-subtitle">Đăng nhập để theo dõi đơn hoa và nhận ưu đãi.</p>
+      <!-- Mobile brand header -->
+      <div class="text-center mb-6 md:hidden">
+        <div class="inline-flex items-center gap-2.5 mb-1">
+          <img src="assets/images/logo.png" alt="Logo" class="w-9 h-9 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30">
+          <div class="font-brand text-2xl text-[#D95A82]">Hoa Nhà Mình</div>
+        </div>
+        <div class="text-[11px] text-[#857B76]">Tiệm hoa tươi thủ công mộc mạc Hà Nội</div>
+      </div>
+
+      <h1 class="text-lg sm:text-xl font-bold text-[#211A18] mb-1" id="form-title">Chào mừng trở lại! 👋</h1>
+      <p class="text-xs text-[#857B76] mb-5 sm:mb-6" id="form-subtitle">Đăng nhập để theo dõi đơn hoa và nhận ưu đãi.</p>
 
       <!-- Tab bar -->
       <div class="tab-bar" role="tablist">
@@ -624,6 +688,7 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/site-settings.js"></script>
   <script>
     // ── State ──────────────────────────────────────────
     let currentTab = 'login';

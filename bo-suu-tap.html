@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -36,31 +36,27 @@
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
 
   <!-- TOP COMMITMENT BANNER -->
-  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
-    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
-        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2 px-3 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex items-center justify-between gap-2 text-[11px] sm:text-xs">
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <span class="material-symbols-outlined text-[#3E9B61] text-sm sm:text-base flex-shrink-0">local_florist</span>
+        <span class="font-medium truncate block">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
       </div>
-      <div class="hidden md:flex items-center gap-6">
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
-      </div>
-      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
-        <span class="material-symbols-outlined text-sm">call</span>
-        <span>Hotline: 094 435 56 45</span>
-      </div>
+      <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 hover:underline">
+        <span class="material-symbols-outlined text-xs sm:text-sm">call</span>
+        <span class="hidden sm:inline">Hotline: </span><span>094 435 56 45</span>
+      </a>
     </div>
   </section>
 
   <!-- STICKY HEADER -->
   <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
-    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
-        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+    <div class="h-16 sm:h-20 max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
         <div class="flex flex-col">
-          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
-          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+          <span class="font-brand text-xl sm:text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[9px] sm:text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5 hidden xs:block sm:block">LET FLOWERS SPEAK YOUR HEART</span>
         </div>
       </a>
 
@@ -73,19 +69,19 @@
         <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
       </nav>
 
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-1 sm:gap-2">
         <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
-          <span class="material-symbols-outlined text-[22px]">search</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">search</span>
         </button>
-        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="hidden sm:inline-flex p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
           <span class="material-symbols-outlined text-[22px]">favorite</span>
           <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </a>
-        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="hidden sm:inline-flex p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
           <span class="material-symbols-outlined text-[22px]">person</span>
         </a>
         <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
-          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">shopping_bag</span>
           <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </a>
         <button id="mobile-menu-btn" type="button" aria-label="Mở menu" class="lg:hidden p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl">
@@ -218,7 +214,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="relative rounded-2xl overflow-hidden shadow-md group aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Mùa Xuân" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <img id="collection-spring-img" src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Mùa Xuân" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-5 flex flex-col justify-end text-white">
             <span class="text-[10px] uppercase font-bold tracking-wider text-[#99f7b4]">Tháng 1 - Tháng 3</span>
             <h3 class="text-lg font-bold">Mùa Xuân Chớm Nở</h3>
@@ -227,7 +223,7 @@
         </div>
 
         <div class="relative rounded-2xl overflow-hidden shadow-md group aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80" alt="Mùa Hạ" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <img id="collection-summer-img" src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80" alt="Mùa Hạ" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-5 flex flex-col justify-end text-white">
             <span class="text-[10px] uppercase font-bold tracking-wider text-[#ffd9e0]">Tháng 4 - Tháng 6</span>
             <h3 class="text-lg font-bold">Mùa Hạ Rực Rỡ</h3>
@@ -337,8 +333,36 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("collection-product-grid");
-      grid.innerHTML = getProducts().slice(0, 4).map(p => App.renderProductCard(p)).join('');
+      if (grid) {
+        grid.innerHTML = getProducts().slice(0, 4).map(p => App.renderProductCard(p)).join('');
+      }
     });
   </script>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav" aria-label="Thanh điều hướng di động">
+    <a href="index.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">home</span>
+      <span>Trang chủ</span>
+    </a>
+    <a href="san-pham.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">local_florist</span>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="tai-khoan.html?tab=wishlist" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">favorite</span>
+      <span class="wishlist-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Yêu thích</span>
+    </a>
+    <a href="gio-hang.html" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <span class="cart-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Giỏ hàng</span>
+    </a>
+    <a href="tai-khoan.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">person</span>
+      <span>Tài khoản</span>
+    </a>
+  </nav>
 </body>
 </html>

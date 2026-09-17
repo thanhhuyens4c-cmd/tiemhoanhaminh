@@ -65,31 +65,31 @@
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
 
   <!-- TOP COMMITMENT BANNER -->
-  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
-    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
-        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <span class="material-symbols-outlined text-[#3E9B61] text-sm flex-shrink-0">local_florist</span>
+        <span class="font-medium truncate block">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
       </div>
-      <div class="hidden md:flex items-center gap-6">
+      <div class="hidden md:flex items-center gap-6 flex-shrink-0">
         <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
         <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
       </div>
-      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
+      <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 text-xs">
         <span class="material-symbols-outlined text-sm">call</span>
-        <span>Hotline: 094 435 56 45</span>
-      </div>
+        <span class="hidden sm:inline">Hotline: </span><span>094 435 56 45</span>
+      </a>
     </div>
   </section>
 
   <!-- STICKY HEADER -->
   <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
-    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
-        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+    <div class="h-16 sm:h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
         <div class="flex flex-col">
-          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
-          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+          <span class="font-brand text-xl sm:text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[9px] sm:text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
         </div>
       </a>
 
@@ -105,7 +105,8 @@
       <div class="flex items-center gap-2 sm:gap-3">
         <a href="san-pham.html" class="flex items-center gap-1.5 text-xs text-[#277A4D] font-semibold bg-white px-3 py-1.5 rounded-lg border border-[#E5DDCE] hover:bg-[#FAF7E9] transition-colors">
           <span class="material-symbols-outlined text-sm">local_florist</span>
-          <span>Khám phá thêm hoa</span>
+          <span class="hidden sm:inline">Khám phá thêm hoa</span>
+          <span class="sm:hidden">Xem thêm</span>
         </a>
       </div>
     </div>
@@ -293,6 +294,36 @@
       <p class="text-xs text-[#FAF7E9]/50 pt-3">© 2026 Hoa Nhà Mình. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav" aria-label="Điều hướng di động">
+    <a href="index.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">home</span>
+      <span>Trang chủ</span>
+    </a>
+    <a href="san-pham.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">local_florist</span>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="tai-khoan.html#tab-wishlist" class="mobile-bottom-nav__item">
+      <div class="relative">
+        <span class="material-symbols-outlined">favorite</span>
+        <span class="mobile-bottom-nav__badge wishlist-count-badge" style="display:none">0</span>
+      </div>
+      <span>Yêu thích</span>
+    </a>
+    <a href="gio-hang.html" class="mobile-bottom-nav__item">
+      <div class="relative">
+        <span class="material-symbols-outlined">shopping_bag</span>
+        <span class="mobile-bottom-nav__badge cart-count-badge" style="display:none">0</span>
+      </div>
+      <span>Giỏ hàng</span>
+    </a>
+    <a href="tai-khoan.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">person</span>
+      <span>Tài khoản</span>
+    </a>
+  </nav>
 
   <script src="js/data.js"></script>
   <script src="js/site-settings.js"></script>

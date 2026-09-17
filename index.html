@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -50,34 +50,34 @@
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
 
   <!-- TOP COMMITMENT BANNER -->
-  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
-    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
-        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2 px-3 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex items-center justify-between gap-2 text-[11px] sm:text-xs">
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <span class="material-symbols-outlined text-[#3E9B61] text-sm sm:text-base flex-shrink-0">local_florist</span>
+        <span class="font-medium truncate block">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
       </div>
       <div class="hidden md:flex items-center gap-6">
         <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
         <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
         <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">bolt</span> Giao hỏa tốc 2H nội thành Hà Nội</span>
       </div>
-      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
-        <span class="material-symbols-outlined text-sm">call</span>
-        <span>Hotline: 094 435 56 45</span>
-      </div>
+      <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 hover:underline">
+        <span class="material-symbols-outlined text-xs sm:text-sm">call</span>
+        <span class="hidden sm:inline">Hotline: </span><span>094 435 56 45</span>
+      </a>
     </div>
   </section>
 
   <!-- STICKY HEADER -->
   <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
-    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+    <div class="h-16 sm:h-20 max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
-        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
         <div class="flex flex-col">
-          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
-          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+          <span class="font-brand text-xl sm:text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[9px] sm:text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5 hidden xs:block sm:block">LET FLOWERS SPEAK YOUR HEART</span>
         </div>
       </a>
 
@@ -92,26 +92,26 @@
       </nav>
 
       <!-- Utility Icons -->
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-1 sm:gap-2">
         <!-- Search Button -->
         <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
-          <span class="material-symbols-outlined text-[22px]">search</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">search</span>
         </button>
 
-        <!-- Wishlist Link -->
-        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+        <!-- Wishlist Link (Desktop/Tablet) -->
+        <a href="tai-khoan.html?tab=wishlist" aria-label="Yêu thích" class="hidden sm:inline-flex p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
           <span class="material-symbols-outlined text-[22px]">favorite</span>
           <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </a>
 
-        <!-- Account Link -->
-        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
+        <!-- Account Link (Desktop/Tablet) -->
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="hidden sm:inline-flex p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors">
           <span class="material-symbols-outlined text-[22px]">person</span>
         </a>
 
         <!-- Cart Link -->
         <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
-          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">shopping_bag</span>
           <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </a>
 
@@ -124,8 +124,8 @@
   </header>
 
   <!-- MOBILE DRAWER -->
-  <div id="mobile-drawer-overlay" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm transition-opacity"></div>
-  <div id="mobile-drawer" class="fixed top-0 right-0 w-[280px] h-full bg-[#FAF7E9] z-50 p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300">
+  <div id="mobile-drawer-overlay" class="fixed inset-0 bg-black/40 z-[150] hidden backdrop-blur-sm transition-opacity"></div>
+  <div id="mobile-drawer" class="fixed top-0 right-0 w-[280px] max-w-[85vw] h-full bg-[#FAF7E9] z-[151] p-6 flex flex-col justify-between shadow-2xl transform translate-x-full invisible transition-transform duration-300">
     <div>
       <div class="flex items-center justify-between pb-6 border-b border-[#E5DDCE]">
         <div class="flex items-center gap-2.5">
@@ -155,65 +155,65 @@
   <main class="flex-1">
 
     <!-- 1. HERO SECTION (2 Cột đúng Wireframe) -->
-    <section class="relative w-full bg-[#FAF7E9] overflow-hidden py-12 lg:py-20 border-b border-[#E5DDCE]/60">
+    <section class="relative w-full bg-[#FAF7E9] overflow-hidden py-8 sm:py-12 lg:py-20 border-b border-[#E5DDCE]/60">
       <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           <!-- Hero Text -->
-          <div class="lg:col-span-6 space-y-6">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3EED8] text-[#D95A82] text-xs sm:text-sm font-semibold tracking-wide shadow-sm border border-[#E5DDCE]">
+          <div class="lg:col-span-6 space-y-4 sm:space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#F3EED8] text-[#D95A82] text-xs sm:text-sm font-semibold tracking-wide shadow-sm border border-[#E5DDCE]">
               <span class="material-symbols-outlined text-sm">yard</span>
               Hoa tươi mỗi ngày • Gói ghém yêu thương
             </div>
 
-            <h1 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#211A18] leading-[1.25] tracking-tight">
+            <h1 class="text-2xl sm:text-4xl lg:text-[46px] font-bold text-[#211A18] leading-[1.3] sm:leading-[1.25] tracking-tight">
               Hoa đẹp hơn khi được <span class="font-brand text-[#D95A82] font-normal block sm:inline">gửi gắm cảm xúc</span>
             </h1>
 
-            <p class="text-sm sm:text-base text-[#4B4240] leading-relaxed max-w-xl">
+            <p class="text-xs sm:text-base text-[#4B4240] leading-relaxed max-w-xl mx-auto lg:mx-0">
               Từng đóa hoa được chọn mới mỗi 5h30 sáng, nâng niu trong giấy kraft mộc mạc và kèm theo thiệp viết tay nắn nót. Hãy để những đóa hoa thủ công thay bạn nói lời yêu thương.
             </p>
 
-            <div class="flex flex-wrap items-center gap-4 pt-2">
-              <a href="san-pham.html" class="h-12 px-7 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1 sm:pt-2">
+              <a href="san-pham.html" class="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-7 bg-[#D95A82] hover:bg-[#C83F70] text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
                 <span>Khám phá hoa</span>
-                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                <span class="material-symbols-outlined text-base sm:text-lg">arrow_forward</span>
               </a>
-              <a href="bo-suu-tap.html" class="h-12 px-7 border-2 border-[#277A4D] hover:bg-[#277A4D] text-[#277A4D] hover:text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center transition-all">
+              <a href="bo-suu-tap.html" class="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-7 border-2 border-[#277A4D] hover:bg-[#277A4D] text-[#277A4D] hover:text-white rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center transition-all">
                 Xem bộ sưu tập
               </a>
             </div>
 
             <!-- Trust Badges -->
-            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-[#E5DDCE]/70 text-xs">
-              <div>
-                <p class="font-bold text-lg sm:text-xl text-[#3E9B61]">100%</p>
-                <p class="text-[#857B76]">Hoa tươi trong ngày</p>
+            <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-4 sm:pt-6 border-t border-[#E5DDCE]/70 text-xs">
+              <div class="p-1">
+                <p class="font-bold text-base sm:text-xl text-[#3E9B61]">100%</p>
+                <p class="text-[11px] sm:text-xs text-[#857B76]">Hoa tươi ngày</p>
               </div>
-              <div>
-                <p class="font-bold text-lg sm:text-xl text-[#D95A82]">Duyệt ảnh</p>
-                <p class="text-[#857B76]">Chụp gửi trước khi giao</p>
+              <div class="p-1">
+                <p class="font-bold text-base sm:text-xl text-[#D95A82]">Duyệt ảnh</p>
+                <p class="text-[11px] sm:text-xs text-[#857B76]">Gửi trước khi giao</p>
               </div>
-              <div>
-                <p class="font-bold text-lg sm:text-xl text-[#3E9B61]">2 Giờ</p>
-                <p class="text-[#857B76]">Giao hỏa tốc Hà Nội</p>
+              <div class="p-1">
+                <p class="font-bold text-base sm:text-xl text-[#3E9B61]">2 Giờ</p>
+                <p class="text-[11px] sm:text-xs text-[#857B76]">Hỏa tốc Hà Nội</p>
               </div>
             </div>
           </div>
 
           <!-- Hero Image Stage -->
           <div class="lg:col-span-6 relative">
-            <div class="relative w-full aspect-square max-w-[520px] mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <div class="relative w-full aspect-[4/3] sm:aspect-square max-w-[340px] sm:max-w-[520px] mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white">
               <img id="hero-banner-img" src="assets/images/hero-bouquet.png" alt="Bó hoa Ohara Garden Roses - Hoa Nhà Mình" class="w-full h-full object-cover">
               
               <!-- Floating Brand Quote Pill -->
-              <div class="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-[#E5DDCE] flex items-center justify-between">
+              <div class="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-5 bg-white/95 backdrop-blur-md p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg border border-[#E5DDCE] flex items-center justify-between">
                 <div>
-                  <p class="font-brand text-[#D95A82] text-lg sm:text-xl leading-tight">"Let flowers speak your heart!"</p>
-                  <p class="text-[11px] text-[#857B76] mt-0.5">Tiệm hoa thủ công mộc mạc từ Hà Nội</p>
+                  <p class="font-brand text-[#D95A82] text-sm sm:text-xl leading-tight">"Let flowers speak your heart!"</p>
+                  <p class="text-[10px] sm:text-[11px] text-[#857B76] mt-0.5">Tiệm hoa thủ công mộc mạc từ Hà Nội</p>
                 </div>
-                <span class="w-10 h-10 rounded-full bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] flex-shrink-0">
-                  <span class="material-symbols-outlined text-xl">favorite</span>
+                <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] flex-shrink-0">
+                  <span class="material-symbols-outlined text-base sm:text-xl">favorite</span>
                 </span>
               </div>
             </div>
@@ -224,67 +224,67 @@
     </section>
 
     <!-- 2. DANH MỤC "DÀNH CHO AI" (4 Category Cards) -->
-    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center max-w-xl mx-auto mb-10 space-y-2">
+    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <div class="text-center max-w-xl mx-auto mb-6 sm:mb-10 space-y-1 sm:space-y-2">
         <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Gợi ý trao gửi</span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline">Bạn muốn gửi tặng hoa đến ai?</h2>
+        <h2 class="text-xl sm:text-3xl font-bold text-[#211A18] tracking-tight font-headline">Bạn muốn gửi tặng hoa đến ai?</h2>
         <p class="text-xs sm:text-sm text-[#857B76]">Chọn nhành hoa phù hợp nhất với người bạn yêu mến</p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         
         <!-- Bản thân -->
-        <a href="san-pham.html?recipient=ban-than" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
-          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] shadow-sm transition-colors">
-            <span class="material-symbols-outlined text-3xl">sentiment_satisfied</span>
+        <a href="san-pham.html?recipient=ban-than" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-3.5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-2 sm:gap-3">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#3E9B61] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-2xl sm:text-3xl">sentiment_satisfied</span>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bản thân</h3>
-            <p class="text-xs text-[#857B76] mt-0.5">Tự thưởng góc làm việc an yên</p>
+            <h3 class="font-bold text-sm sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bản thân</h3>
+            <p class="text-[11px] sm:text-xs text-[#857B76] mt-0.5 line-clamp-1">Tự thưởng góc an yên</p>
           </div>
-          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span class="text-[11px] sm:text-xs text-[#277A4D] font-semibold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
             Khám phá &rarr;
           </span>
         </a>
 
         <!-- Người yêu -->
-        <a href="san-pham.html?recipient=nguoi-yeu" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
-          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#FAF0F3] flex items-center justify-center text-[#D95A82] shadow-sm transition-colors">
-            <span class="material-symbols-outlined text-3xl">favorite</span>
+        <a href="san-pham.html?recipient=nguoi-yeu" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-3.5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-2 sm:gap-3">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white group-hover:bg-[#FAF0F3] flex items-center justify-center text-[#D95A82] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-2xl sm:text-3xl">favorite</span>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Người yêu</h3>
-            <p class="text-xs text-[#857B76] mt-0.5">Lời thề ngọt ngào, dịu êm</p>
+            <h3 class="font-bold text-sm sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Người yêu</h3>
+            <p class="text-[11px] sm:text-xs text-[#857B76] mt-0.5 line-clamp-1">Lời thề ngọt ngào</p>
           </div>
-          <span class="text-xs text-[#D95A82] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span class="text-[11px] sm:text-xs text-[#D95A82] font-semibold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
             Khám phá &rarr;
           </span>
         </a>
 
         <!-- Gia đình -->
-        <a href="san-pham.html?recipient=gia-dinh" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
-          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#F29A38] shadow-sm transition-colors">
-            <span class="material-symbols-outlined text-3xl">cottage</span>
+        <a href="san-pham.html?recipient=gia-dinh" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-3.5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-2 sm:gap-3">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white group-hover:bg-[#F3EED8] flex items-center justify-center text-[#F29A38] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-2xl sm:text-3xl">cottage</span>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Gia đình</h3>
-            <p class="text-xs text-[#857B76] mt-0.5">Biết ơn mẹ cha, ấm áp tổ ấm</p>
+            <h3 class="font-bold text-sm sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Gia đình</h3>
+            <p class="text-[11px] sm:text-xs text-[#857B76] mt-0.5 line-clamp-1">Ấm áp tổ ấm yêu thương</p>
           </div>
-          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span class="text-[11px] sm:text-xs text-[#277A4D] font-semibold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
             Khám phá &rarr;
           </span>
         </a>
 
         <!-- Bạn bè -->
-        <a href="san-pham.html?recipient=ban-be" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-3">
-          <div class="w-16 h-16 rounded-full bg-white group-hover:bg-[#EBF7FC] flex items-center justify-center text-[#43B7D0] shadow-sm transition-colors">
-            <span class="material-symbols-outlined text-3xl">diversity_1</span>
+        <a href="san-pham.html?recipient=ban-be" class="group bg-[#FAF7E9] hover:bg-white rounded-2xl p-3.5 sm:p-6 border border-[#E5DDCE] card-lift text-center flex flex-col items-center gap-2 sm:gap-3">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white group-hover:bg-[#EBF7FC] flex items-center justify-center text-[#43B7D0] shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-2xl sm:text-3xl">diversity_1</span>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bạn bè</h3>
-            <p class="text-xs text-[#857B76] mt-0.5">Chúc mừng tốt nghiệp & sinh nhật</p>
+            <h3 class="font-bold text-sm sm:text-lg text-[#211A18] group-hover:text-[#D95A82] transition-colors">Bạn bè</h3>
+            <p class="text-[11px] sm:text-xs text-[#857B76] mt-0.5 line-clamp-1">Tốt nghiệp & sinh nhật</p>
           </div>
-          <span class="text-xs text-[#277A4D] font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span class="text-[11px] sm:text-xs text-[#277A4D] font-semibold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
             Khám phá &rarr;
           </span>
         </a>
@@ -303,17 +303,17 @@
           </div>
 
           <!-- Interactive Tabs -->
-          <div class="flex items-center gap-2 bg-[#FAF7E9] p-1 rounded-xl border border-[#E5DDCE] overflow-x-auto">
-            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#3E9B61] text-white shadow-sm" data-tab="all">
+          <div class="flex items-center gap-2 bg-[#FAF7E9] p-1 rounded-xl border border-[#E5DDCE] overflow-x-auto w-full max-w-full min-w-0 scrollbar-none">
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#3E9B61] text-white shadow-sm flex-shrink-0" data-tab="all">
               Tất cả
             </button>
-            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="ban-chay">
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black flex-shrink-0" data-tab="ban-chay">
               Bán chạy nhất
             </button>
-            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="moi">
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black flex-shrink-0" data-tab="moi">
               Mới về sớm nay
             </button>
-            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black" data-tab="yeu-thich">
+            <button class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-[#4B4240] hover:text-black flex-shrink-0" data-tab="yeu-thich">
               Được yêu thích
             </button>
           </div>
@@ -335,7 +335,7 @@
     </section>
 
     <!-- 4. EDITORIAL STORYTELLING SECTION -->
-    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         <div class="lg:col-span-6 relative">
           <div class="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-white">
@@ -592,7 +592,7 @@
         <p>© 2026 Hoa Nhà Mình. Tất cả quyền được bảo lưu.</p>
         
         <!-- 4 Mạng xã hội bắt buộc theo PRD: Facebook, Instagram, Threads, TikTok -->
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook Hoa Nhà Mình" class="hover:text-[#F3A8C0] transition-colors">
             <span class="font-bold">Facebook</span>
           </a>
@@ -612,6 +612,32 @@
       </div>
     </div>
   </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION (Tối ưu trải nghiệm mobile như App) -->
+  <nav class="mobile-bottom-nav" aria-label="Thanh điều hướng di động">
+    <a href="index.html" class="mobile-bottom-nav__item active">
+      <span class="material-symbols-outlined">home</span>
+      <span>Trang chủ</span>
+    </a>
+    <a href="san-pham.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">local_florist</span>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="tai-khoan.html?tab=wishlist" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">favorite</span>
+      <span class="wishlist-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Yêu thích</span>
+    </a>
+    <a href="gio-hang.html" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <span class="cart-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Giỏ hàng</span>
+    </a>
+    <a href="tai-khoan.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">person</span>
+      <span>Tài khoản</span>
+    </a>
+  </nav>
 
   <!-- SCRIPTS -->
   <script src="js/data.js"></script>

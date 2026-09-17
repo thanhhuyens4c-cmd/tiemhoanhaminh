@@ -101,20 +101,56 @@ const App = {
   // Xử lý Mobile Menu Drawer
   initMobileMenu() {
     const btn = document.getElementById("mobile-menu-btn");
-    const drawer = document.getElementById("mobile-drawer");
-    const closeBtn = document.getElementById("mobile-drawer-close");
-    const overlay = document.getElementById("mobile-drawer-overlay");
+    if (!btn) return;
 
-    if (!btn || !drawer) return;
+    let drawer = document.getElementById("mobile-drawer");
+    let overlay = document.getElementById("mobile-drawer-overlay");
+
+    if (!drawer) {
+      const drawerHtml = `
+        <div id="mobile-drawer-overlay" class="fixed inset-0 bg-black/40 z-[150] hidden backdrop-blur-sm transition-opacity"></div>
+        <div id="mobile-drawer" class="fixed top-0 right-0 w-[280px] max-w-[85vw] h-full bg-[#FAF7E9] z-[151] p-6 flex flex-col justify-between shadow-2xl transform translate-x-full invisible transition-transform duration-300">
+          <div>
+            <div class="flex items-center justify-between pb-6 border-b border-[#E5DDCE]">
+              <div class="flex items-center gap-2.5">
+                <img src="assets/images/logo.png" alt="Logo" class="w-8 h-8 rounded-full object-cover">
+                <span class="font-brand text-xl text-[#D95A82]">Hoa Nhà Mình</span>
+              </div>
+              <button id="mobile-drawer-close" class="text-[#4B4240] hover:text-black p-1">
+                <span class="material-symbols-outlined text-xl">close</span>
+              </button>
+            </div>
+            <nav id="mobile-menu" class="flex flex-col gap-4 py-6 text-sm">
+              <a href="index.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Trang chủ</a>
+              <a href="san-pham.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tất cả sản phẩm</a>
+              <a href="bo-suu-tap.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
+              <a href="blog.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog cảm xúc</a>
+              <a href="gioi-thieu.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu tiệm</a>
+              <a href="lien-he.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ & Cửa hàng</a>
+              <a href="tai-khoan.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tài khoản cá nhân</a>
+            </nav>
+          </div>
+          <div class="text-xs text-[#857B76] border-t border-[#E5DDCE] pt-4">
+            <p class="font-medium text-[#211A18]">Tiệm hoa thủ công Hoa Nhà Mình</p>
+            <p class="mt-1">Hotline: <a href="tel:0944355645" class="text-[#277A4D] font-semibold">094 435 56 45</a></p>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', drawerHtml);
+      drawer = document.getElementById("mobile-drawer");
+      overlay = document.getElementById("mobile-drawer-overlay");
+    }
+
+    const closeBtn = document.getElementById("mobile-drawer-close");
 
     const open = () => {
-      drawer.classList.remove("translate-x-full");
+      drawer.classList.remove("translate-x-full", "invisible");
       if (overlay) overlay.classList.remove("hidden");
       document.body.style.overflow = "hidden";
     };
 
     const close = () => {
-      drawer.classList.add("translate-x-full");
+      drawer.classList.add("translate-x-full", "invisible");
       if (overlay) overlay.classList.add("hidden");
       document.body.style.overflow = "";
     };
@@ -130,7 +166,7 @@ const App = {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "quick-view-modal";
-      modal.className = "fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop";
+      modal.className = "fixed inset-0 z-[200] hidden items-center justify-center p-4 modal-backdrop";
       modal.innerHTML = `
         <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in border border-[#E5DDCE]">
           <button id="quick-view-close" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-[#FAF7E9] text-[#4B4240] hover:text-black flex items-center justify-center transition-colors">
@@ -236,7 +272,7 @@ const App = {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "search-modal";
-      modal.className = "fixed inset-0 z-50 hidden items-start justify-center pt-20 px-4 modal-backdrop";
+      modal.className = "fixed inset-0 z-[200] hidden items-start justify-center pt-16 sm:pt-20 px-4 modal-backdrop";
       modal.innerHTML = `
         <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl p-6 relative animate-fade-in border border-[#E5DDCE]">
           <div class="flex items-center justify-between pb-4 border-b border-[#E5DDCE]">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -44,31 +44,27 @@
   onload="document.documentElement.style.visibility='visible'">
 
   <!-- TOP COMMITMENT BANNER -->
-  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
-    <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-[#3E9B61] text-base">local_florist</span>
-        <span class="font-medium">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
+  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2 px-3 sm:px-6 border-b border-[#E5DDCE]/50">
+    <div class="max-w-[1240px] mx-auto flex items-center justify-between gap-2 text-[11px] sm:text-xs">
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <span class="material-symbols-outlined text-[#3E9B61] text-sm sm:text-base flex-shrink-0">local_florist</span>
+        <span class="font-medium truncate block">Hoa tươi cắt mới mỗi 5:30 sáng từ nông trại Đà Lạt</span>
       </div>
-      <div class="hidden md:flex items-center gap-6">
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
-      </div>
-      <div class="flex items-center gap-1 text-[#277A4D] font-semibold">
-        <span class="material-symbols-outlined text-sm">call</span>
-        <span>Hotline: 094 435 56 45</span>
-      </div>
+      <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 hover:underline">
+        <span class="material-symbols-outlined text-xs sm:text-sm">call</span>
+        <span class="hidden sm:inline">Hotline: </span><span>094 435 56 45</span>
+      </a>
     </div>
   </section>
 
   <!-- STICKY HEADER -->
   <header class="sticky top-0 left-0 right-0 w-full z-50 bg-[#F3EED8]/95 backdrop-blur-md shadow-[0_2px_12px_rgba(75,66,64,0.06)] border-b border-[#E5DDCE]/80">
-    <div class="h-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-      <a href="index.html" class="flex items-center gap-3 flex-shrink-0 group">
-        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
+    <div class="h-16 sm:h-20 max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 group">
+        <img src="assets/images/logo.png" alt="Logo Hoa Nhà Mình" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm ring-2 ring-[#D95A82]/30 group-hover:scale-105 transition-transform">
         <div class="flex flex-col">
-          <span class="font-brand text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
-          <span class="text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5">LET FLOWERS SPEAK YOUR HEART</span>
+          <span class="font-brand text-xl sm:text-2xl text-[#D95A82] tracking-wide leading-none">Hoa Nhà Mình</span>
+          <span class="text-[9px] sm:text-[10px] text-[#277A4D] font-medium tracking-wider mt-0.5 hidden xs:block sm:block">LET FLOWERS SPEAK YOUR HEART</span>
         </div>
       </a>
 
@@ -81,19 +77,19 @@
         <a href="lien-he.html" data-path="lien-he" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Liên hệ</a>
       </nav>
 
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-1 sm:gap-2">
         <button type="button" data-action="open-search" aria-label="Tìm kiếm" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors">
-          <span class="material-symbols-outlined text-[22px]">search</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">search</span>
         </button>
-        <button id="header-wishlist-tab" aria-label="Yêu thích" class="p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
+        <button id="header-wishlist-tab" aria-label="Yêu thích" class="hidden sm:inline-flex p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
           <span class="material-symbols-outlined text-[22px]">favorite</span>
           <span class="wishlist-count-badge absolute top-1 right-1 bg-[#D95A82] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </button>
-        <a href="tai-khoan.html" aria-label="Tài khoản" class="p-2 text-[#3E9B61] font-semibold rounded-xl bg-[#FAF7E9] transition-colors">
+        <a href="tai-khoan.html" aria-label="Tài khoản" class="hidden sm:inline-flex p-2 text-[#3E9B61] font-semibold rounded-xl bg-[#FAF7E9] transition-colors">
           <span class="material-symbols-outlined text-[22px]">person</span>
         </a>
         <a href="gio-hang.html" aria-label="Giỏ hàng" class="p-2 text-[#4B4240] hover:text-[#3E9B61] rounded-xl hover:bg-[#FAF7E9] transition-colors relative">
-          <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">shopping_bag</span>
           <span class="cart-count-badge absolute top-1 right-1 bg-[#3E9B61] text-white text-[10px] font-bold rounded-full w-4 h-4 items-center justify-center shadow-sm leading-none" style="display: none;">0</span>
         </a>
         <button id="mobile-menu-btn" type="button" aria-label="Mở menu" class="lg:hidden p-2 text-[#4B4240] hover:text-[#D95A82] rounded-xl">
@@ -104,23 +100,66 @@
   </header>
 
   <!-- BANNER -->
-  <section class="bg-[#FAF7E9] py-6 border-b border-[#E5DDCE]/60">
+  <section class="bg-[#FAF7E9] py-4 sm:py-6 border-b border-[#E5DDCE]/60">
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-xs text-[#857B76] mb-2">
+      <nav class="flex items-center gap-2 text-[11px] sm:text-xs text-[#857B76] mb-1 sm:mb-2">
         <a href="index.html" class="hover:text-[#3E9B61]">Trang chủ</a>
         <span>/</span>
-        <span class="text-[#211A18] font-semibold">Khu vực tài khoản thành viên</span>
+        <span class="text-[#211A18] font-semibold">Tài khoản</span>
       </nav>
-      <h1 class="text-2xl font-bold text-[#211A18]">Tài khoản cá nhân & Đơn hàng</h1>
+      <h1 class="text-lg sm:text-2xl font-bold text-[#211A18]">Tài khoản & Đơn đặt hoa</h1>
     </div>
   </section>
 
   <!-- MAIN ACCOUNT STAGE -->
-  <main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <main class="flex-1 max-w-[1240px] mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 sm:py-14">
+
+    <!-- MOBILE USER BIO & HORIZONTAL TABS (Chỉ hiện trên mobile, ẩn trên Desktop) -->
+    <div class="lg:hidden mb-5 space-y-3">
+      <!-- Compact User Card -->
+      <div class="bg-white p-3.5 rounded-2xl border border-[#E5DDCE] shadow-sm flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img id="user-avatar-img-mobile" src="assets/images/avatar-user.png" alt="Avatar" class="w-11 h-11 rounded-full object-cover border-2 border-[#3E9B61]/30">
+          <div>
+            <h3 id="user-display-name-mobile" class="font-bold text-sm text-[#211A18]">Nguyễn Thanh Trúc</h3>
+            <p id="user-display-email-mobile" class="text-xs text-[#857B76]">truc.nguyen@example.com</p>
+            <span id="user-role-badge-mobile" class="inline-block mt-0.5 text-[9px] font-bold bg-[#FAF7E9] text-[#277A4D] px-1.5 py-0.5 rounded">Thành viên thân thiết</span>
+          </div>
+        </div>
+        <button onclick="handleUserLogout()" class="p-2 text-[#BA1A1A] hover:bg-red-50 rounded-xl flex items-center justify-center transition-colors" title="Đăng xuất">
+          <span class="material-symbols-outlined text-xl">logout</span>
+        </button>
+      </div>
+
+      <!-- Horizontal Tab Bar (Trượt ngang mượt mà, không che khuất nội dung) -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none w-full max-w-full min-w-0">
+        <button class="account-mobile-tab-btn active" data-view="profile">
+          <span class="material-symbols-outlined text-base">person</span>
+          <span>Thông tin</span>
+        </button>
+        <button class="account-mobile-tab-btn" data-view="orders">
+          <span class="material-symbols-outlined text-base">receipt_long</span>
+          <span>Đơn hàng</span>
+        </button>
+        <button class="account-mobile-tab-btn" data-view="wishlist">
+          <span class="material-symbols-outlined text-base">favorite</span>
+          <span>Yêu thích</span>
+        </button>
+        <button class="account-mobile-tab-btn" data-view="address">
+          <span class="material-symbols-outlined text-base">home_pin</span>
+          <span>Địa chỉ</span>
+        </button>
+        <a id="admin-panel-link-mobile" href="admin.html" class="account-mobile-tab-btn hidden text-[#277A4D] bg-[#F0FBF4]">
+          <span class="material-symbols-outlined text-base">admin_panel_settings</span>
+          <span>Admin</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
       
-      <!-- SIDEBAR TÀI KHOẢN (Theo Wireframe PRD) -->
-      <aside class="lg:col-span-4 bg-white p-6 rounded-3xl border border-[#E5DDCE] shadow-sm space-y-6">
+      <!-- SIDEBAR TÀI KHOẢN (Chỉ hiện trên Desktop lg:block) -->
+      <aside class="hidden lg:block lg:col-span-4 bg-white p-6 rounded-3xl border border-[#E5DDCE] shadow-sm space-y-6">
         
         <!-- User Bio Card -->
         <div class="flex items-center gap-4 pb-6 border-b border-[#E5DDCE]">
@@ -187,7 +226,7 @@
       </aside>
 
       <!-- CONTENT STAGE (~8 Cột) -->
-      <section class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-[#E5DDCE] shadow-sm">
+      <section class="lg:col-span-8 bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E5DDCE] shadow-sm w-full">
         
         <!-- VIEW 1: THÔNG TIN CÁ NHÂN -->
         <div id="view-profile" class="space-y-6">
@@ -362,6 +401,32 @@
     </div>
   </footer>
 
+  <!-- MOBILE BOTTOM NAVIGATION (Tối ưu trải nghiệm mobile như App) -->
+  <nav class="mobile-bottom-nav" aria-label="Thanh điều hướng di động">
+    <a href="index.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">home</span>
+      <span>Trang chủ</span>
+    </a>
+    <a href="san-pham.html" class="mobile-bottom-nav__item">
+      <span class="material-symbols-outlined">local_florist</span>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="tai-khoan.html?tab=wishlist" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">favorite</span>
+      <span class="wishlist-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Yêu thích</span>
+    </a>
+    <a href="gio-hang.html" class="mobile-bottom-nav__item relative">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <span class="cart-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
+      <span>Giỏ hàng</span>
+    </a>
+    <a href="tai-khoan.html" class="mobile-bottom-nav__item active">
+      <span class="material-symbols-outlined">person</span>
+      <span>Tài khoản</span>
+    </a>
+  </nav>
+
   <script src="js/data.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
@@ -378,17 +443,38 @@
         const badgeEl   = document.getElementById('user-role-badge');
         const adminLink = document.getElementById('admin-panel-link');
         const avatarImg = document.getElementById('user-avatar-img');
-        const avatarCir = document.getElementById('user-avatar-circle');
+
+        // Mobile elements
+        const nameMobEl  = document.getElementById('user-display-name-mobile');
+        const emailMobEl = document.getElementById('user-display-email-mobile');
+        const badgeMobEl = document.getElementById('user-role-badge-mobile');
+        const adminMobLink = document.getElementById('admin-panel-link-mobile');
+        const avatarMobImg = document.getElementById('user-avatar-img-mobile');
 
         if (nameEl)  nameEl.textContent  = session.name;
         if (emailEl) emailEl.textContent = session.email;
+        if (nameMobEl)  nameMobEl.textContent  = session.name;
+        if (emailMobEl) emailMobEl.textContent = session.email;
+
+        if (session.avatar) {
+          if (avatarImg) avatarImg.src = session.avatar;
+          if (avatarMobImg) avatarMobImg.src = session.avatar;
+        }
+
         if (badgeEl) {
           badgeEl.textContent = session.role === 'admin' ? '✨ Quản trị viên' : 'Thành viên thân thiết';
           if (session.role === 'admin') {
             badgeEl.className = 'inline-block mt-1 text-[10px] font-bold bg-[#29483C] text-[#99f7b4] px-2 py-0.5 rounded';
           }
         }
+        if (badgeMobEl) {
+          badgeMobEl.textContent = session.role === 'admin' ? '✨ Quản trị viên' : 'Thành viên thân thiết';
+          if (session.role === 'admin') {
+            badgeMobEl.className = 'inline-block mt-0.5 text-[9px] font-bold bg-[#29483C] text-[#99f7b4] px-1.5 py-0.5 rounded';
+          }
+        }
         if (adminLink && session.role === 'admin') adminLink.classList.remove('hidden');
+        if (adminMobLink && session.role === 'admin') adminMobLink.classList.remove('hidden');
 
         // Pre-fill profile form
         const nameInput  = document.getElementById('prof-name');
@@ -408,7 +494,7 @@
         auth:    document.getElementById("view-auth")
       };
 
-      const navBtns = document.querySelectorAll(".account-nav-btn");
+      const navBtns = document.querySelectorAll(".account-nav-btn, .account-mobile-tab-btn");
 
       function switchView(targetKey) {
         Object.keys(views).forEach(k => {
@@ -416,11 +502,18 @@
         });
         if (views[targetKey]) views[targetKey].classList.remove("hidden");
 
-        navBtns.forEach(btn => {
+        // Sync Desktop buttons
+        document.querySelectorAll(".account-nav-btn").forEach(btn => {
           const isCurrent = btn.getAttribute("data-view") === targetKey;
           btn.classList.toggle("bg-[#FAF7E9]", isCurrent);
           btn.classList.toggle("text-[#3E9B61]", isCurrent);
           btn.classList.toggle("text-[#4B4240]", !isCurrent);
+        });
+
+        // Sync Mobile tab buttons
+        document.querySelectorAll(".account-mobile-tab-btn").forEach(btn => {
+          const isCurrent = btn.getAttribute("data-view") === targetKey;
+          btn.classList.toggle("active", isCurrent);
         });
 
         if (targetKey === "orders")  renderOrders();
@@ -517,9 +610,11 @@
         const email = document.getElementById("prof-email").value.trim();
         const phone = document.getElementById("prof-phone").value.trim();
         Store.saveUser({ name, email, phone });
-        document.getElementById("user-display-name").textContent = name;
-        document.getElementById("user-display-email").textContent = email;
-      App.showToast("Cập nhật thông tin thành công!");
+        if (document.getElementById("user-display-name")) document.getElementById("user-display-name").textContent = name;
+        if (document.getElementById("user-display-email")) document.getElementById("user-display-email").textContent = email;
+        if (document.getElementById("user-display-name-mobile")) document.getElementById("user-display-name-mobile").textContent = name;
+        if (document.getElementById("user-display-email-mobile")) document.getElementById("user-display-email-mobile").textContent = email;
+        App.showToast("Cập nhật thông tin thành công!");
       });
     });
 
