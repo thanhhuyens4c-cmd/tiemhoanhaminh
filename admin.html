@@ -31,6 +31,17 @@
   </script>
   <link rel="stylesheet" href="css/custom.css">
 
+  <!-- Auth guard: chặn truy cập trước khi DOM load -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Chặn ngay lập tức — trước khi render bất kỳ thứ gì
+    if (!Auth.requireAdmin()) {
+      document.documentElement.style.visibility = 'hidden';
+    }
+  </script>
+
   <style>
     .modal-box { transition: transform .2s ease, opacity .2s ease; }
     .cms-input {
@@ -49,7 +60,8 @@
     .tab-inactive:hover { background: #FAF7E9; }
   </style>
 </head>
-<body class="bg-[#F8F9FA] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+<body class="bg-[#F8F9FA] font-body text-[#211A18] antialiased min-h-screen flex flex-col"
+  onload="document.documentElement.style.visibility='visible'">
 
   <!-- ═══ TOP ADMIN BAR ═══ -->
   <header class="h-16 bg-[#29483C] text-white px-4 sm:px-8 flex items-center justify-between shadow-md sticky top-0 z-50">
@@ -70,9 +82,15 @@
         <span class="hidden sm:inline">Xem website tiệm hoa</span>
       </a>
       <div class="flex items-center gap-2 pl-3 border-l border-white/20">
-        <div class="w-7 h-7 rounded-full bg-[#D95A82] flex items-center justify-center text-white font-bold text-xs">A</div>
-        <span class="font-semibold hidden sm:inline">Florist Quản lý</span>
+        <div id="admin-avatar" class="w-7 h-7 rounded-full bg-[#D95A82] flex items-center justify-center text-white font-bold text-xs">A</div>
+        <span id="admin-display-name" class="font-semibold hidden sm:inline">Admin</span>
       </div>
+      <button onclick="handleAdminLogout()"
+        class="flex items-center gap-1.5 text-white/80 hover:text-white bg-white/10 hover:bg-red-500/80 px-3 py-1.5 rounded-lg transition-colors ml-1"
+        title="Đăng xuất">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span class="hidden sm:inline">Đăng xuất</span>
+      </button>
     </div>
   </header>
 
@@ -1348,6 +1366,25 @@
       SiteSettings.resetAll();
       renderMediaSlots();
       showToast('♻️ Đã khôi phục toàn bộ ảnh về mặc định.');
+    }
+  </script>
+
+  <script>
+    // ── Admin: load user info vào topbar ──────────────────────────
+    (function initAdminHeader() {
+      const session = Auth.getSession();
+      if (!session) return;
+      const nameEl   = document.getElementById('admin-display-name');
+      const avatarEl = document.getElementById('admin-avatar');
+      if (nameEl)   nameEl.textContent = session.name;
+      if (avatarEl) avatarEl.textContent = Auth.getInitials(session.name);
+    })();
+
+    // ── Đăng xuất admin ───────────────────────────────────────────
+    function handleAdminLogout() {
+      if (!confirm('Bạn có muốn đăng xuất khỏi trang quản trị không?')) return;
+      Auth.logout();
+      window.location.replace('dang-nhap.html');
     }
   </script>
 </body>

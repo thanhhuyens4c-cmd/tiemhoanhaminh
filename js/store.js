@@ -281,23 +281,35 @@ const Store = {
   },
 
   // ===== NGƯỜI DÙNG (USER / AUTH) =====
+  /**
+   * Lấy thông tin user từ session Auth (nếu Auth được load)
+   * Fallback về localStorage legacy nếu Auth chưa sẵn sàng
+   */
   getUser() {
+    // Ưu tiên dùng Auth session
+    if (window.Auth) {
+      const session = Auth.getSession();
+      if (session) return { ...session, isLoggedIn: true };
+      return null;
+    }
+    // Fallback legacy
     try {
       const u = localStorage.getItem(this.KEYS.USER);
-      return u ? JSON.parse(u) : {
-        name: "Nguyễn Thanh Trúc",
-        email: "truc.nguyen@example.com",
-        phone: "094 435 56 45",
-        address: "Số nhà 25, ngõ 225, Nguyễn Đức Cảnh, Hoàng Mai, Hà Nội",
-        isLoggedIn: true
-      };
+      return u ? JSON.parse(u) : null;
     } catch {
       return null;
     }
   },
 
+  /**
+   * Lưu thông tin user — delegate sang Auth.updateProfile nếu có
+   */
   saveUser(userData) {
-    localStorage.setItem(this.KEYS.USER, JSON.stringify(userData));
+    if (window.Auth && Auth.isLoggedIn()) {
+      Auth.updateProfile(userData);
+    } else {
+      localStorage.setItem(this.KEYS.USER, JSON.stringify(userData));
+    }
   }
 };
 

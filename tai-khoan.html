@@ -31,8 +31,17 @@
     }
   </script>
   <link rel="stylesheet" href="css/custom.css">
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Guard: chưa đăng nhập → redirect
+    if (!Auth.requireLogin()) {
+      document.documentElement.style.visibility = 'hidden';
+    }
+  </script>
 </head>
-<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
+<body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col"
+  onload="document.documentElement.style.visibility='visible'">
 
   <!-- TOP COMMITMENT BANNER -->
   <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2.5 px-4 sm:px-6 border-b border-[#E5DDCE]/50">
@@ -115,11 +124,12 @@
         
         <!-- User Bio Card -->
         <div class="flex items-center gap-4 pb-6 border-b border-[#E5DDCE]">
-          <img src="assets/images/avatar-user.png" alt="Avatar người dùng" class="w-14 h-14 rounded-full object-cover border-2 border-[#3E9B61]/30">
+          <div id="user-avatar-circle" class="w-14 h-14 rounded-full bg-gradient-to-br from-[#D95A82] to-[#F3A8C0] flex items-center justify-center text-white font-bold text-xl border-2 border-[#3E9B61]/30 flex-shrink-0" style="display:none!important">?</div>
+          <img id="user-avatar-img" src="assets/images/avatar-user.png" alt="Avatar người dùng" class="w-14 h-14 rounded-full object-cover border-2 border-[#3E9B61]/30">
           <div>
             <h3 id="user-display-name" class="font-bold text-base text-[#211A18]">Nguyễn Thanh Trúc</h3>
             <p id="user-display-email" class="text-xs text-[#857B76]">truc.nguyen@example.com</p>
-            <span class="inline-block mt-1 text-[10px] font-bold bg-[#FAF7E9] text-[#277A4D] px-2 py-0.5 rounded">Thành viên thân thiết</span>
+            <span id="user-role-badge" class="inline-block mt-1 text-[10px] font-bold bg-[#FAF7E9] text-[#277A4D] px-2 py-0.5 rounded">"Thành viên thân thiết"</span>
           </div>
         </div>
 
@@ -157,10 +167,19 @@
             <span class="material-symbols-outlined text-base">chevron_right</span>
           </button>
 
-          <button id="auth-toggle-btn" class="w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-red-50 text-[#BA1A1A] pt-4 border-t border-[#E5DDCE] mt-3">
+          <!-- Nút vào trang admin (chỉ hiện với admin) -->
+          <a id="admin-panel-link" href="admin.html" class="hidden w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[#FAF7E9] text-[#277A4D] border border-[#3E9B61]/20 bg-[#F0FBF4]">
+            <span class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+              Trang Quản trị Admin
+            </span>
+            <span class="material-symbols-outlined text-base">open_in_new</span>
+          </a>
+
+          <button id="logout-btn" class="w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-red-50 text-[#BA1A1A] pt-4 border-t border-[#E5DDCE] mt-3">
             <span class="flex items-center gap-2.5">
               <span class="material-symbols-outlined text-lg">logout</span>
-              Đổi tài khoản / Đăng nhập lại
+              Đăng xuất
             </span>
           </button>
         </nav>
@@ -257,57 +276,26 @@
           </div>
         </div>
 
-        <!-- VIEW 5: FORM ĐĂNG NHẬP / ĐĂNG KÝ (SCREEN 09) -->
+        <!-- VIEW 5: XÁC NHẬN ĐĂNG XUẤT -->
         <div id="view-auth" class="hidden space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            
-            <!-- Form Đăng nhập -->
-            <div class="space-y-4 p-6 rounded-2xl bg-[#FAF7E9]/50 border border-[#E5DDCE]">
-              <h3 class="text-base font-bold text-[#211A18]">ĐĂNG NHẬP</h3>
-              <div class="space-y-3 text-xs">
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Email</label>
-                  <input type="email" placeholder="email@example.com" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-white">
-                </div>
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Mật khẩu</label>
-                  <input type="password" placeholder="••••••••" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-white">
-                </div>
-                <div class="flex items-center justify-between text-[11px]">
-                  <a href="#" class="text-[#277A4D] hover:underline">Quên mật khẩu?</a>
-                </div>
-                <button type="button" onclick="App.showToast('Đăng nhập thành công!', 'Chào mừng bạn quay lại'); location.reload();" class="w-full h-10 bg-[#3E9B61] text-white font-bold rounded-lg hover:bg-[#277A4D] transition-colors">
-                  ĐĂNG NHẬP
-                </button>
-              </div>
+          <div class="pb-3 border-b border-[#E5DDCE]">
+            <h2 class="text-lg font-bold text-[#211A18]">Đăng xuất tài khoản</h2>
+            <p class="text-xs text-[#857B76]">Bạn có chắc muốn thoát phương này?</p>
+          </div>
+          <div class="flex flex-col items-center text-center py-8 space-y-4">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#D95A82] to-[#F3A8C0] flex items-center justify-center shadow-lg">
+              <span class="material-symbols-outlined text-white text-4xl">logout</span>
             </div>
-
-            <!-- Form Đăng ký -->
-            <div class="space-y-4 p-6 rounded-2xl bg-white border border-[#E5DDCE]">
-              <h3 class="text-base font-bold text-[#211A18]">ĐĂNG KÝ</h3>
-              <div class="space-y-3 text-xs">
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Họ và tên</label>
-                  <input type="text" placeholder="Nguyễn Văn A" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE]">
-                </div>
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Email</label>
-                  <input type="email" placeholder="email@example.com" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE]">
-                </div>
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Số điện thoại</label>
-                  <input type="tel" placeholder="0901234567" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE]">
-                </div>
-                <div>
-                  <label class="block font-semibold text-[#4B4240] mb-1">Mật khẩu</label>
-                  <input type="password" placeholder="••••••••" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE]">
-                </div>
-                <button type="button" onclick="App.showToast('Đăng ký thành công!', 'Chào mừng thành viên mới!'); location.reload();" class="w-full h-10 bg-[#D95A82] text-white font-bold rounded-lg hover:bg-[#C83F70] transition-colors">
-                  TẠO TÀI KHOẢN
-                </button>
-              </div>
+            <p class="text-sm font-semibold text-[#211A18]">Bạn sắp đăng xuất khỏi Hoa Nhà Mình</p>
+            <p class="text-xs text-[#857B76] max-w-xs">Giỏ hàng và sản phẩm yêu thích sẽ được giữ nguyên khi bạn đăng nhập lại.</p>
+            <div class="flex gap-3 pt-2">
+              <button onclick="switchView('profile')" class="px-6 py-2.5 border border-[#E5DDCE] rounded-xl text-sm font-semibold text-[#4B4240] hover:bg-[#FAF7E9] transition-colors">
+                Huỷ bỏ
+              </button>
+              <button onclick="handleUserLogout()" class="px-6 py-2.5 bg-[#BA1A1A] hover:bg-[#9B0000] text-white rounded-xl text-sm font-bold transition-colors">
+                Xác nhận đăng xuất
+              </button>
             </div>
-
           </div>
         </div>
 
@@ -378,15 +366,47 @@
   <script src="js/data.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+
+      // ── Load session vào UI ──────────────────────────────────
+      const session = Auth.getSession();
+      if (session) {
+        const nameEl    = document.getElementById('user-display-name');
+        const emailEl   = document.getElementById('user-display-email');
+        const badgeEl   = document.getElementById('user-role-badge');
+        const adminLink = document.getElementById('admin-panel-link');
+        const avatarImg = document.getElementById('user-avatar-img');
+        const avatarCir = document.getElementById('user-avatar-circle');
+
+        if (nameEl)  nameEl.textContent  = session.name;
+        if (emailEl) emailEl.textContent = session.email;
+        if (badgeEl) {
+          badgeEl.textContent = session.role === 'admin' ? '✨ Quản trị viên' : 'Thành viên thân thiết';
+          if (session.role === 'admin') {
+            badgeEl.className = 'inline-block mt-1 text-[10px] font-bold bg-[#29483C] text-[#99f7b4] px-2 py-0.5 rounded';
+          }
+        }
+        if (adminLink && session.role === 'admin') adminLink.classList.remove('hidden');
+
+        // Pre-fill profile form
+        const nameInput  = document.getElementById('prof-name');
+        const emailInput = document.getElementById('prof-email');
+        const phoneInput = document.getElementById('prof-phone');
+        if (nameInput)  nameInput.value  = session.name  || '';
+        if (emailInput) emailInput.value = session.email || '';
+        if (phoneInput) phoneInput.value = session.phone || '';
+      }
+
+      // ── View switching ────────────────────────────────────
       const views = {
         profile: document.getElementById("view-profile"),
-        orders: document.getElementById("view-orders"),
-        wishlist: document.getElementById("view-wishlist"),
+        orders:  document.getElementById("view-orders"),
+        wishlist:document.getElementById("view-wishlist"),
         address: document.getElementById("view-address"),
-        auth: document.getElementById("view-auth")
+        auth:    document.getElementById("view-auth")
       };
 
       const navBtns = document.querySelectorAll(".account-nav-btn");
@@ -404,24 +424,40 @@
           btn.classList.toggle("text-[#4B4240]", !isCurrent);
         });
 
-        if (targetKey === "orders") renderOrders();
+        if (targetKey === "orders")  renderOrders();
         if (targetKey === "wishlist") renderWishlist();
       }
+
+      // Expose for inline onclick
+      window.switchView = switchView;
 
       navBtns.forEach(btn => {
         btn.addEventListener("click", () => switchView(btn.getAttribute("data-view")));
       });
 
-      document.getElementById("auth-toggle-btn").addEventListener("click", () => switchView("auth"));
-      document.getElementById("header-wishlist-tab").addEventListener("click", () => switchView("wishlist"));
+      // Logout button
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => switchView('auth'));
+      }
+
+      // Wishlist tab in header
+      const wishlistHeaderBtn = document.getElementById("header-wishlist-tab");
+      if (wishlistHeaderBtn) {
+        wishlistHeaderBtn.addEventListener("click", () => switchView("wishlist"));
+      }
 
       // Check URL param ?tab=wishlist
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("tab") === "wishlist") {
-        switchView("wishlist");
+      if (urlParams.get("tab") === "wishlist") switchView("wishlist");
+
+      // Access denied notice
+      if (sessionStorage.getItem('hnm_access_denied')) {
+        sessionStorage.removeItem('hnm_access_denied');
+        App.showToast('Bạn không có quyền truy cập trang quản trị.', '', 'error');
       }
 
-      // Render Orders
+      // ── Render Orders ────────────────────────────────────
       function renderOrders() {
         const box = document.getElementById("orders-list-box");
         const orders = Store.getOrders();
@@ -429,7 +465,6 @@
           box.innerHTML = `<p class="text-xs text-[#857B76] text-center py-8">Bạn chưa có đơn đặt hoa nào.</p>`;
           return;
         }
-
         box.innerHTML = orders.map(o => `
           <div class="p-5 rounded-2xl bg-[#FAF7E9]/60 border border-[#E5DDCE] space-y-3">
             <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#E5DDCE]/60 text-xs">
@@ -441,13 +476,11 @@
                 ${o.orderStatus}
               </span>
             </div>
-
             <div class="text-xs space-y-1 text-[#4B4240]">
               <p><strong>Người nhận:</strong> ${o.receiverName} (${o.receiverPhone})</p>
               <p><strong>Địa chỉ:</strong> ${o.address}</p>
               <p><strong>Hẹn giao:</strong> <span class="text-[#3E9B61] font-semibold">${o.deliveryTime}</span></p>
             </div>
-
             <div class="pt-2 border-t border-[#E5DDCE]/50 flex items-center justify-between text-xs">
               <span class="text-[#857B76]">${(o.items || []).length} tác phẩm hoa</span>
               <div class="flex items-center gap-3">
@@ -459,16 +492,16 @@
         `).join('');
       }
 
-      // Render Wishlist
+      // ── Render Wishlist ───────────────────────────────────
       function renderWishlist() {
-        const grid = document.getElementById("wishlist-grid");
-        const empty = document.getElementById("wishlist-empty");
+        const grid       = document.getElementById("wishlist-grid");
+        const empty      = document.getElementById("wishlist-empty");
         const countBadge = document.getElementById("wishlist-count-badge-text");
         const wishlistIds = Store.getWishlist();
-        const items = getProducts().filter(p => wishlistIds.includes(p.id));
+        const allProducts = (window.AdminCMS ? AdminCMS.getProducts() : (window.PRODUCTS || []));
+        const items = allProducts.filter(p => wishlistIds.includes(p.id));
 
         countBadge.textContent = `${items.length} sản phẩm`;
-
         if (items.length === 0) {
           grid.innerHTML = "";
           empty.classList.remove("hidden");
@@ -478,18 +511,25 @@
         }
       }
 
-      // Profile Form submit
+      // ── Profile Form submit ───────────────────────────────
       document.getElementById("profile-form").addEventListener("submit", (e) => {
         e.preventDefault();
-        const name = document.getElementById("prof-name").value.trim();
+        const name  = document.getElementById("prof-name").value.trim();
         const email = document.getElementById("prof-email").value.trim();
         const phone = document.getElementById("prof-phone").value.trim();
         Store.saveUser({ name, email, phone });
         document.getElementById("user-display-name").textContent = name;
         document.getElementById("user-display-email").textContent = email;
-        App.showToast("Cập nhật thông tin thành công!");
+      App.showToast("Cập nhật thông tin thành công!");
       });
     });
+
+    // ── Logout handler (global, dùng bởi inline onclick) ──
+    function handleUserLogout() {
+      Auth.logout();
+      window.location.replace('dang-nhap.html');
+    }
+    window.handleUserLogout = handleUserLogout;
   </script>
 </body>
 </html>
