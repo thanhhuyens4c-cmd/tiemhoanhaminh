@@ -607,26 +607,17 @@
         </div>
 
         <!-- Giá gốc (so sánh) -->
-        <div class="space-y-1.5">
-          <label class="text-xs font-bold text-[#211A18]">Giá gốc (giá so sánh / gạch ngang)</label>
-          <input type="number" name="originalPrice" placeholder="VD: 500000 (không điền nếu không có khuyến mãi)"
-            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
-        </div>
-
-        <!-- Size & Giá từng size -->
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <label class="text-xs font-bold text-[#211A18]">
-              Tùy chọn Size &amp; Giá <span class="text-[#D95A82]">*</span>
-              <span class="text-[10px] text-[#857B76] font-normal ml-1">(giá size đầu tiên là giá hiển thị)</span>
-            </label>
-            <button type="button" onclick="addSizeRow('add-sizes-container')"
-              class="flex items-center gap-1 text-[#3E9B61] text-xs font-bold hover:underline">
-              <span class="material-symbols-outlined text-sm">add_circle</span> Thêm size
-            </button>
+        <!-- Giá bán & Giá gốc -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Giá bán <span class="text-[#D95A82]">*</span></label>
+            <input type="number" name="price" required placeholder="VD: 450000"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
           </div>
-          <div id="add-sizes-container" class="space-y-2">
-            <!-- default size row injected by JS -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Giá gốc (so sánh / gạch ngang)</label>
+            <input type="number" name="originalPrice" placeholder="VD: 500000"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
           </div>
         </div>
 
@@ -782,24 +773,18 @@
         </div>
 
         <!-- Giá gốc -->
-        <div class="space-y-1.5">
-          <label class="text-xs font-bold text-[#211A18]">Giá gốc (giá so sánh / gạch ngang)</label>
-          <input type="number" name="originalPrice"
-            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82]">
-        </div>
-
-        <!-- Sizes -->
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <label class="text-xs font-bold text-[#211A18]">
-              Tùy chọn Size &amp; Giá <span class="text-[#D95A82]">*</span>
-            </label>
-            <button type="button" onclick="addSizeRow('edit-sizes-container')"
-              class="flex items-center gap-1 text-[#3E9B61] text-xs font-bold hover:underline">
-              <span class="material-symbols-outlined text-sm">add_circle</span> Thêm size
-            </button>
+        <!-- Giá bán & Giá gốc -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Giá bán <span class="text-[#D95A82]">*</span></label>
+            <input type="number" name="price" required placeholder="VD: 450000"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82]">
           </div>
-          <div id="edit-sizes-container" class="space-y-2"></div>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Giá gốc (so sánh / gạch ngang)</label>
+            <input type="number" name="originalPrice"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82]">
+          </div>
         </div>
 
         <!-- Mô tả ngắn -->

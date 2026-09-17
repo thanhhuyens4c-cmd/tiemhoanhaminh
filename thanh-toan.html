@@ -600,7 +600,7 @@
     // ─── Tạo nội dung tin nhắn Zalo mẫu ──────────────────
     function buildZaloMessage(data) {
       const itemLines = (data.items || []).map(it =>
-        `   - ${it.name} (${it.size || 'M'}) x${it.quantity} — ${(it.price * it.quantity).toLocaleString('vi-VN')}₫`
+        `   - ${it.name} x${it.quantity} — ${(it.price * it.quantity).toLocaleString('vi-VN')}₫`
       ).join('\n');
 
       const shippingText = data.shippingFee === 0 ? "Miễn phí" : `${data.shippingFee.toLocaleString('vi-VN')}₫`;
@@ -693,7 +693,7 @@ Gửi qua website Hoa Nhà Mình`;
           <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 border border-[#E5DDCE]">
           <div class="flex-1 min-w-0">
             <h4 class="text-xs font-semibold text-[#211A18] truncate">${item.name}</h4>
-            <p class="text-[11px] text-[#857B76]">${item.size || 'M'} • SL: ${item.quantity}</p>
+            <p class="text-[11px] text-[#857B76]">SL: ${item.quantity}</p>
           </div>
           <span class="text-xs font-bold text-[#D95A82] flex-shrink-0">${(item.price * item.quantity).toLocaleString('vi-VN')}₫</span>
         </div>

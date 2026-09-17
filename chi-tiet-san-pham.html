@@ -186,16 +186,6 @@
           Hoa hồng Ohara kết hợp cúc tana trắng tinh khôi và lá khuynh diệp thơm dịu, gói giấy kraft mộc.
         </p>
 
-        <!-- CHỌN KÍCH THƯỚC (S, M, L) -->
-        <div class="space-y-3 pt-2">
-          <div class="flex items-center justify-between text-xs font-semibold text-[#4B4240]">
-            <span>CHỌN KÍCH CỠ HOA</span>
-            <span id="selected-size-name" class="text-[#3E9B61]">M - Tiêu chuẩn (Khuyên dùng)</span>
-          </div>
-          <div id="size-options" class="grid grid-cols-3 gap-3">
-            <!-- Dynamic sizes -->
-          </div>
-        </div>
 
         <!-- SỐ LƯỢNG & NÚT MUA HÀNG -->
         <div class="space-y-4 pt-4 border-t border-[#E5DDCE]">
@@ -479,47 +469,17 @@
         });
       });
 
-      // Sizes Selection
-      let currentSize = product.sizes ? product.sizes[0] : { name: "Tiêu chuẩn", price: product.price };
-      const sizeContainer = document.getElementById("size-options");
+      // Price display
       const priceEl = document.getElementById("product-price");
       const origPriceEl = document.getElementById("product-orig-price");
-      const sizeLabel = document.getElementById("selected-size-name");
-
-      const updatePrice = () => {
-        priceEl.textContent = `${currentSize.price.toLocaleString('vi-VN')}₫`;
+      if (priceEl) priceEl.textContent = `${product.price.toLocaleString('vi-VN')}₫`;
+      if (origPriceEl) {
         if (product.originalPrice) {
-          const ratio = currentSize.price / product.price;
-          origPriceEl.textContent = `${Math.round(product.originalPrice * ratio).toLocaleString('vi-VN')}₫`;
+          origPriceEl.textContent = `${product.originalPrice.toLocaleString('vi-VN')}₫`;
+        } else {
+          origPriceEl.style.display = "none";
         }
-      };
-
-      if (product.sizes && product.sizes.length > 0) {
-        sizeContainer.innerHTML = product.sizes.map((s, idx) => `
-          <button class="size-btn p-3 rounded-xl border text-left transition-all ${idx === 0 ? 'border-[#3E9B61] bg-[#FAF7E9]' : 'border-[#E5DDCE] bg-white'} hover:border-[#3E9B61]" data-size="${s.name}" data-price="${s.price}">
-            <p class="font-bold text-xs text-[#211A18]">${s.name.split(' - ')[0]}</p>
-            <p class="text-[11px] text-[#D95A82] font-semibold mt-0.5">${s.price.toLocaleString('vi-VN')}₫</p>
-          </button>
-        `).join('');
-
-        document.querySelectorAll(".size-btn").forEach(btn => {
-          btn.addEventListener("click", () => {
-            document.querySelectorAll(".size-btn").forEach(b => {
-              b.classList.remove("border-[#3E9B61]", "bg-[#FAF7E9]");
-              b.classList.add("border-[#E5DDCE]", "bg-white");
-            });
-            btn.classList.add("border-[#3E9B61]", "bg-[#FAF7E9]");
-            btn.classList.remove("border-[#E5DDCE]", "bg-white");
-            
-            const sizeName = btn.getAttribute("data-size");
-            const sizePrice = parseInt(btn.getAttribute("data-price"));
-            currentSize = { name: sizeName, price: sizePrice };
-            sizeLabel.textContent = sizeName;
-            updatePrice();
-          });
-        });
       }
-      updatePrice();
 
       // Quantity controls
       const qtyInput = document.getElementById("product-qty");
@@ -534,8 +494,7 @@
       document.getElementById("btn-add-cart").addEventListener("click", () => {
         const qty = parseInt(qtyInput.value) || 1;
         Store.addToCart(product, {
-          size: currentSize.name,
-          price: currentSize.price,
+          price: product.price,
           quantity: qty
         });
         App.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x${qty})`);
@@ -545,8 +504,7 @@
       document.getElementById("btn-buy-now").addEventListener("click", () => {
         const qty = parseInt(qtyInput.value) || 1;
         Store.addToCart(product, {
-          size: currentSize.name,
-          price: currentSize.price,
+          price: product.price,
           quantity: qty
         });
         window.location.href = "thanh-toan.html";

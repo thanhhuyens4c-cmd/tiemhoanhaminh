@@ -23,7 +23,6 @@ const Store = {
           name: "Bó Hoa Hồng Pastel 'Mộng Mơ'",
           price: 450000,
           originalPrice: 500000,
-          size: "M - Tiêu chuẩn",
           color: "Pastel dịu ngọt",
           image: "assets/images/bouquet-pink.png",
           quantity: 1,
@@ -47,14 +46,13 @@ const Store = {
 
   addToCart(product, options = {}) {
     const cart = this.getCart();
-    const sizeName = options.size || (product.sizes ? product.sizes[0].name : "Tiêu chuẩn");
-    const sizePrice = options.price || (product.sizes ? product.sizes.find(s => s.name === sizeName)?.price || product.price : product.price);
+    const price = options.price || product.price;
     const quantity = options.quantity || 1;
     const color = options.color || product.colorName || "Mặc định";
     const cardMessage = options.cardMessage || "";
 
-    // Kiểm tra xem sản phẩm cùng ID và cùng Size đã có trong giỏ chưa
-    const existingIndex = cart.findIndex(item => item.id === product.id && item.size === sizeName);
+    // Kiểm tra xem sản phẩm cùng ID đã có trong giỏ chưa
+    const existingIndex = cart.findIndex(item => item.id === product.id);
     if (existingIndex > -1) {
       cart[existingIndex].quantity += quantity;
       if (cardMessage) cart[existingIndex].cardMessage = cardMessage;
@@ -62,9 +60,8 @@ const Store = {
       cart.push({
         id: product.id,
         name: product.name,
-        price: sizePrice,
-        originalPrice: product.originalPrice || sizePrice,
-        size: sizeName,
+        price: price,
+        originalPrice: product.originalPrice || price,
         color: color,
         image: product.image,
         quantity: quantity,

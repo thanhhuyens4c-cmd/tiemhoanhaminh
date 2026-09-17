@@ -278,38 +278,6 @@ function openAddModal() {
   openModal("modal-add");
 }
 
-function defaultSizeRow(name = "", price = "", desc = "") {
-  return `
-    <div class="size-row flex gap-2 items-start">
-      <input type="text" placeholder="Tên size, VD: M - Tiêu chuẩn" value="${name}"
-        class="size-name flex-1 border border-[#E5DDCE] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#3E9B61]">
-      <input type="number" placeholder="Giá (₫)" value="${price}"
-        class="size-price w-28 border border-[#E5DDCE] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#3E9B61]">
-      <input type="text" placeholder="Mô tả size ngắn" value="${desc}"
-        class="size-desc flex-1 border border-[#E5DDCE] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#3E9B61]">
-      <button type="button" onclick="this.closest('.size-row').remove()"
-        class="text-[#D95A82] hover:text-red-600 mt-1.5 flex-shrink-0">
-        <span class="material-symbols-outlined text-lg">remove_circle</span>
-      </button>
-    </div>`;
-}
-
-function addSizeRow(containerId) {
-  document.getElementById(containerId).insertAdjacentHTML("beforeend", defaultSizeRow());
-}
-
-function collectSizes(containerId) {
-  const rows = document.querySelectorAll(`#${containerId} .size-row`);
-  const sizes = [];
-  rows.forEach(row => {
-    const name = row.querySelector(".size-name").value.trim();
-    const price = parseInt(row.querySelector(".size-price").value) || 0;
-    const desc = row.querySelector(".size-desc").value.trim();
-    if (name && price) sizes.push({ name, price, desc });
-  });
-  return sizes;
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   // ── Setup image uploads ──────────────────────────────────────────
   setupImageUpload(
@@ -329,10 +297,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const fd = new FormData(e.target);
     const imgData = document.getElementById("add-img-data").value;
     const imgUrl  = fd.get("imageUrl") || "";
+    const price   = parseInt(fd.get("price")) || 0;
 
-    const sizes = collectSizes("add-sizes-container");
-    if (sizes.length === 0) {
-      showToast("Vui lòng thêm ít nhất 1 size và giá bán!", "error"); return;
+    if (!price) {
+      showToast("Vui lòng nhập giá bán sản phẩm!", "error"); return;
     }
 
     const productData = {
@@ -341,8 +309,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeName:      fd.get("typeName") || "Bó hoa tươi",
       color:         fd.get("color") || "hong",
       colorName:     fd.get("colorName") || "Hồng",
-      price:         sizes[0].price,
-      originalPrice: parseInt(fd.get("originalPrice")) || sizes[0].price,
+      price:         price,
+      originalPrice: parseInt(fd.get("originalPrice")) || price,
       image:         imgData || imgUrl || "assets/images/hero-bouquet.png",
       shortDesc:     fd.get("shortDesc") || "",
       description:   fd.get("description") || "",
@@ -351,8 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
       isNew:         fd.get("isNew") === "on",
-      isFeatured:    fd.get("isFeatured") === "on",
-      sizes
+      isFeatured:    fd.get("isFeatured") === "on"
     };
 
     AdminCMS.addProduct(productData);
@@ -368,11 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const id  = document.getElementById("edit-product-id").value;
     const imgData = document.getElementById("edit-img-data").value;
     const imgUrl  = fd.get("imageUrl") || "";
-
-    const sizes = collectSizes("edit-sizes-container");
-    if (sizes.length === 0) {
-      showToast("Vui lòng thêm ít nhất 1 size!", "error"); return;
-    }
+    const price   = parseInt(fd.get("price")) || 0;
 
     const updates = {
       name:          fd.get("name"),
@@ -380,8 +343,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeName:      fd.get("typeName"),
       color:         fd.get("color"),
       colorName:     fd.get("colorName"),
-      price:         sizes[0].price,
-      originalPrice: parseInt(fd.get("originalPrice")) || sizes[0].price,
+      price:         price,
+      originalPrice: parseInt(fd.get("originalPrice")) || price,
       shortDesc:     fd.get("shortDesc"),
       description:   fd.get("description"),
       careInstructions: fd.get("careInstructions"),
@@ -389,8 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
       isNew:         fd.get("isNew") === "on",
-      isFeatured:    fd.get("isFeatured") === "on",
-      sizes
+      isFeatured:    fd.get("isFeatured") === "on"
     };
 
     if (imgData) updates.image = imgData;
@@ -421,6 +383,7 @@ function openEditModal(id) {
   f.querySelector("[name=typeName]").value = p.typeName || "";
   f.querySelector("[name=color]").value = p.color || "";
   f.querySelector("[name=colorName]").value = p.colorName || "";
+  f.querySelector("[name=price]").value = p.price || "";
   f.querySelector("[name=originalPrice]").value = p.originalPrice || "";
   f.querySelector("[name=shortDesc]").value = p.shortDesc || "";
   f.querySelector("[name=description]").value = p.description || "";
@@ -437,13 +400,6 @@ function openEditModal(id) {
   editImgPreview.classList.toggle("hidden", !p.image);
   document.getElementById("edit-img-data").value = "";
   f.querySelector("[name=imageUrl]").value = "";
-
-  // Sizes
-  const sizeCon = document.getElementById("edit-sizes-container");
-  sizeCon.innerHTML = "";
-  (p.sizes || [{ name: "M - Tiêu chuẩn", price: p.price, desc: "" }]).forEach(s => {
-    sizeCon.insertAdjacentHTML("beforeend", defaultSizeRow(s.name, s.price, s.desc));
-  });
 
   openModal("modal-edit");
 }

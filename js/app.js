@@ -214,13 +214,6 @@ const App = {
           </div>
           <p class="text-xs sm:text-sm text-[#857B76] line-clamp-3">${product.shortDesc}</p>
           
-          <div class="space-y-2 pt-2">
-            <label class="block text-xs font-semibold text-[#4B4240] uppercase">Kích thước</label>
-            <select id="qv-size" class="w-full h-10 px-3 rounded-lg border border-[#E5DDCE] bg-white text-xs focus:ring-2 focus:ring-[#3E9B61] focus:outline-none">
-              ${(product.sizes || []).map(s => `<option value="${s.name}" data-price="${s.price}">${s.name} — ${s.price.toLocaleString('vi-VN')}₫</option>`).join('')}
-            </select>
-          </div>
-
           <div class="flex items-center gap-3 pt-3">
             <div class="flex items-center border border-[#E5DDCE] rounded-lg bg-[#FAF7E9] h-10">
               <button class="px-3 text-[#4B4240] hover:text-black" onclick="const input = document.getElementById('qv-qty'); input.value = Math.max(1, parseInt(input.value) - 1);">-</button>
@@ -243,15 +236,10 @@ const App = {
     `;
 
     document.getElementById("qv-add-btn").addEventListener("click", () => {
-      const sizeSelect = document.getElementById("qv-size");
-      const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
-      const sizeName = sizeSelect.value;
-      const sizePrice = parseInt(selectedOption.getAttribute("data-price")) || product.price;
       const qty = parseInt(document.getElementById("qv-qty").value) || 1;
 
       Store.addToCart(product, {
-        size: sizeName,
-        price: sizePrice,
+        price: product.price,
         quantity: qty
       });
 

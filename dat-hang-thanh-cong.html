@@ -374,7 +374,7 @@
           <div class="flex items-center justify-between py-1.5 text-xs border-b border-[#E5DDCE]/50 last:border-0">
             <div class="flex items-center gap-2">
               ${it.image ? `<img src="${it.image}" class="w-8 h-8 rounded-md object-cover border border-[#E5DDCE]" alt="${it.name}">` : ''}
-              <span>${it.name} (${it.size || 'M'}) x${it.quantity}</span>
+              <span>${it.name} x${it.quantity}</span>
             </div>
             <span class="font-semibold text-[#211A18] flex-shrink-0">${(it.price * it.quantity).toLocaleString('vi-VN')}₫</span>
           </div>
