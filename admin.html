@@ -42,7 +42,6 @@
     }
   </script>
 
-  <style>
     .modal-box { transition: transform .2s ease, opacity .2s ease; }
     .cms-input {
       @apply w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-sm
@@ -58,6 +57,28 @@
     .tab-active { background: #FAF7E9; color: #3E9B61; }
     .tab-inactive { color: #4B4240; }
     .tab-inactive:hover { background: #FAF7E9; }
+
+    /* AI suggestion highlight animation */
+    @keyframes ai-glow {
+      0%   { box-shadow: 0 0 0 0 rgba(139,92,246,.5); border-color: #8b5cf6; background: #f5f3ff; }
+      60%  { box-shadow: 0 0 0 6px rgba(139,92,246,.0); border-color: #a78bfa; background: #ede9fe; }
+      100% { box-shadow: none; border-color: #E5DDCE; background: white; }
+    }
+    .ai-filled {
+      animation: ai-glow 1.8s ease forwards;
+    }
+    /* AI button gradient */
+    .btn-ai {
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
+      color: white;
+      border: none;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-ai:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-ai:active { transform: translateY(0); }
+    .btn-ai:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ai-spinner { animation: spin .7s linear infinite; display: inline-block; }
   </style>
 </head>
 <body class="bg-[#F8F9FA] font-body text-[#211A18] antialiased min-h-screen flex flex-col"
@@ -146,6 +167,14 @@
         <p class="text-[10px] mt-2 leading-relaxed">
           Dữ liệu sản phẩm được lưu tự động trên trình duyệt (localStorage).
         </p>
+        <!-- AI Settings button -->
+        <button onclick="openAISettings()"
+          class="mt-3 w-full flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-semibold
+                 bg-gradient-to-r from-violet-500/10 to-pink-500/10 text-violet-700
+                 border border-violet-200 hover:border-violet-400 transition-colors">
+          <span class="material-symbols-outlined text-sm">psychology</span>
+          <span id="ai-sidebar-label">Cài đặt AI Gemini</span>
+        </button>
       </div>
     </aside>
 
@@ -561,6 +590,15 @@
           <img id="add-img-preview" src="" alt="Preview" class="hidden w-full max-h-56 object-cover rounded-xl border border-[#E5DDCE]">
           <input id="add-img-data" type="hidden">
 
+          <!-- AI Analyze button (visible after image uploaded) -->
+          <div id="add-ai-btn-wrap" class="hidden">
+            <button type="button" id="add-ai-btn" onclick="triggerAIAnalysis('add')"
+              class="btn-ai w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold shadow-sm">
+              <span class="material-symbols-outlined text-base" id="add-ai-icon">auto_awesome</span>
+              <span id="add-ai-label">✨ AI phân tích ảnh &amp; gợi ý mô tả</span>
+            </button>
+          </div>
+
           <!-- Hoặc URL -->
           <div class="flex items-center gap-2 mt-1">
             <div class="h-px bg-[#E5DDCE] flex-1"></div>
@@ -735,6 +773,13 @@
           <input id="edit-img-data" type="hidden">
           <input type="text" name="imageUrl" placeholder="Hoặc dán URL ảnh mới..."
             class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82]">
+
+          <!-- AI Analyze button (always visible in edit mode) -->
+          <button type="button" id="edit-ai-btn" onclick="triggerAIAnalysis('edit')"
+            class="btn-ai w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold shadow-sm">
+            <span class="material-symbols-outlined text-base" id="edit-ai-icon">auto_awesome</span>
+            <span id="edit-ai-label">✨ AI phân tích ảnh &amp; gợi ý mô tả</span>
+          </button>
         </div>
 
         <!-- Tên -->
@@ -1072,11 +1117,80 @@
   </div>
 
 
+  <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+  <!-- ║  MODAL: CÀI ĐẶT GEMINI AI                                   ║ -->
+  <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+  <div id="modal-ai-settings" class="fixed inset-0 z-[400] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="modal-box scale-95 opacity-0 bg-white rounded-3xl shadow-2xl w-full max-w-md p-7 space-y-5">
+
+      <!-- Header -->
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
+             style="background:linear-gradient(135deg,#7c3aed,#ec4899)">
+          <span class="material-symbols-outlined text-white text-xl">psychology</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-base font-bold text-[#211A18]">Cài đặt AI Gemini</h3>
+          <p class="text-xs text-[#857B76]">Nhập API Key để bật phân tích ảnh thông minh</p>
+        </div>
+        <button onclick="closeModal('modal-ai-settings')" class="w-8 h-8 rounded-full hover:bg-[#F3EED8] flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-[#4B4240] text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Instructions -->
+      <div class="bg-violet-50 border border-violet-200 rounded-2xl p-4 space-y-2 text-xs text-[#4B4240]">
+        <p class="font-bold text-violet-700 flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">tips_and_updates</span>
+          Cách lấy Gemini API Key miễn phí:
+        </p>
+        <ol class="list-decimal list-inside space-y-1 text-[11px] leading-relaxed">
+          <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-violet-600 underline font-semibold">aistudio.google.com/app/apikey</a></li>
+          <li>Nhấn <strong>"Get API key"</strong> → <strong>"Create API key"</strong></li>
+          <li>Copy key và dán vào ô bên dưới</li>
+        </ol>
+        <p class="text-[10px] text-[#857B76]">⚡ Model dùng: <strong>Gemini 2.0 Flash</strong> — miễn phí, nhanh, hỗ trợ phân tích ảnh.<br>🔒 Key lưu cục bộ trong trình duyệt, không gửi đi đâu khác.</p>
+      </div>
+
+      <!-- API Key Input -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-[#211A18]">Gemini API Key</label>
+        <div class="relative">
+          <input id="ai-key-input" type="password" placeholder="AIzaSy..."
+            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20 pr-12 transition-colors">
+          <button type="button"
+            onclick="const inp=document.getElementById('ai-key-input'); inp.type=inp.type==='password'?'text':'password'; this.querySelector('span').textContent=inp.type==='password'?'visibility':'visibility_off'"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-[#857B76] hover:text-[#211A18] transition-colors">
+            <span class="material-symbols-outlined text-lg">visibility</span>
+          </button>
+        </div>
+        <div id="ai-key-status" class="hidden text-[11px] font-semibold flex items-center gap-1.5 py-1"></div>
+      </div>
+
+      <!-- Test + Save buttons -->
+      <div class="flex gap-3">
+        <button type="button" onclick="testAndSaveAIKey()"
+          class="flex-1 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-sm transition-opacity"
+          style="background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899)">
+          <span class="material-symbols-outlined text-base" id="ai-save-icon">save</span>
+          <span id="ai-save-label">Lưu &amp; Kiểm tra</span>
+        </button>
+        <button type="button" onclick="clearAIKey()"
+          class="px-4 py-3 rounded-xl text-sm font-semibold border border-[#E5DDCE] text-[#857B76] hover:border-red-300 hover:text-red-500 transition-colors">
+          Xóa key
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
   <!-- ═══ SCRIPTS ═══ -->
   <script src="js/data.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/ai-helper.js"></script>
   <script src="js/admin.js"></script>
 
   <script>
@@ -1160,7 +1274,7 @@
       }
 
       // ── CLOSE MODAL ON BACKDROP CLICK ───────────────────────────
-      ["modal-add", "modal-edit", "modal-delete", "modal-blog", "modal-delete-blog"].forEach(id => {
+      ["modal-add", "modal-edit", "modal-delete", "modal-blog", "modal-delete-blog", "modal-ai-settings"].forEach(id => {
         const el = document.getElementById(id);
         el?.addEventListener("click", e => {
           if (e.target === el) closeModal(id);
