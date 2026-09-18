@@ -51,12 +51,11 @@ const ProductAPI = {
     this._cacheTime = 0;
   },
 
-  FETCH_TIMEOUT: 15000,
-
   /**
    * Lấy danh sách sản phẩm từ Supabase
    * Có cache ngắn hạn (30s) để tránh gọi API quá nhiều
-   * Timeout 5s để tránh chờ Supabase free-tier thức dậy quá lâu
+   * Không dùng client-side timeout — để Supabase hoàn thành query
+   * (free-tier cold start có thể mất 10-30s nhưng vẫn trả về đúng)
    */
   async getProducts(forceRefresh = false) {
     if (!forceRefresh && this._cache && (Date.now() - this._cacheTime < this.CACHE_TTL)) {
@@ -69,19 +68,11 @@ const ProductAPI = {
     }
 
     try {
-      const supabaseQuery = client
+      const { data, error } = await client
         .from("products")
         .select("id,name,slug,type,type_name,color,color_name,price,original_price,image_url,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order")
         .eq("is_active", true)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false });
-
-      const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Supabase timeout")), this.FETCH_TIMEOUT)
-      );
-
-      const result = await Promise.race([supabaseQuery, timeout]);
-      const { data, error } = result;
+        .order("sort_order", { ascending: true });
 
       if (error) throw error;
 
@@ -104,18 +95,12 @@ const ProductAPI = {
     if (!client) return null;
 
     try {
-      const query = client
+      const { data, error } = await client
         .from("products")
         .select("*")
         .eq("id", id)
         .single();
 
-      const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Supabase timeout")), this.FETCH_TIMEOUT)
-      );
-
-      const result = await Promise.race([query, timeout]);
-      const { data, error } = result;
       if (error) throw error;
       return this._mapFromDB(data);
     } catch (err) {
