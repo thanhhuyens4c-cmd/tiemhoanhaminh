@@ -138,8 +138,8 @@ const Store = {
     window.dispatchEvent(new CustomEvent("hnm:cart-updated"));
   },
 
-  // Tính toán tổng đơn (gồm ship, giảm giá)
-  getOrderTotals() {
+  // Tính toán tổng đơn (gồm ship, giảm giá, tiền cọc)
+  getOrderTotals(depositPercent) {
     const subtotal = this.getCartSubtotal();
     const coupon = this.getAppliedCoupon();
     let shippingFee = subtotal >= 1000000 || (coupon && coupon.freeShip) ? 0 : 35000;
@@ -154,12 +154,22 @@ const Store = {
       }
     }
 
-    const total = Math.max(0, subtotal + shippingFee - discount);
+    const flowerSubtotal = Math.max(0, subtotal - discount);
+    const depPct = Math.max(50, Math.min(100, depositPercent || 50));
+    const depositAmount = Math.round(flowerSubtotal * (depPct / 100));
+    const initialPayment = depositAmount + shippingFee;
+    const remainingPayment = flowerSubtotal - depositAmount;
+    const total = flowerSubtotal + shippingFee;
 
     return {
       subtotal,
       shippingFee,
       discount,
+      flowerSubtotal,
+      depositPercentage: depPct,
+      depositAmount,
+      initialPayment,
+      remainingPayment,
       total,
       isFreeShip: shippingFee === 0 && subtotal > 0,
       freeShipProgress: Math.min(100, Math.round((subtotal / 1000000) * 100)),
@@ -219,8 +229,10 @@ const Store = {
     const newOrder = {
       id: orderId,
       date: dateFormatted,
-      orderStatus: "Đã tiếp nhận",
-      paymentStatus: orderData.paymentMethod === "COD" ? "Chưa thanh toán (COD)" : "Đang chờ xác nhận chuyển khoản",
+      created_at: now.toISOString(),
+      orderStatus: "PENDING",
+      paymentStatus: "DEPOSIT_PENDING",
+      amountPaid: 0,
       ...orderData
     };
 

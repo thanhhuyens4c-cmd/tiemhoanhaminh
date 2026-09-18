@@ -369,33 +369,79 @@
           <!-- Totals Breakdown -->
           <div class="space-y-2.5 text-xs sm:text-sm text-[#4B4240] pt-3 border-t border-[#E5DDCE]">
             <div class="flex items-center justify-between">
-              <span>Tạm tính</span>
+              <span>Tạm tính sản phẩm</span>
               <span id="chk-subtotal" class="font-bold text-[#211A18]">0₫</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span>Phí vận chuyển</span>
-              <span id="chk-shipping" class="font-semibold text-[#3E9B61]">35.000₫</span>
             </div>
             <div id="chk-discount-row" class="hidden items-center justify-between text-[#D95A82]">
               <span>Mã ưu đãi giảm</span>
               <span id="chk-discount" class="font-bold">-0₫</span>
             </div>
-            <div class="pt-3 border-t border-[#E5DDCE] flex items-baseline justify-between text-base font-bold text-[#211A18]">
-              <span>Tổng dự tính</span>
-              <span id="chk-total" class="text-2xl font-bold text-[#D95A82]">0₫</span>
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-[#211A18]">Tiền hoa</span>
+              <span id="chk-flower-subtotal" class="font-bold text-[#211A18]">0₫</span>
+            </div>
+
+            <!-- Deposit slider -->
+            <div class="pt-3 border-t border-[#E5DDCE] space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-[#211A18]">Tiền cọc tối thiểu <span id="chk-deposit-pct" class="text-[#D95A82]">50%</span></span>
+                <span id="chk-deposit" class="font-bold text-[#D95A82]">0₫</span>
+              </div>
+              <input id="deposit-slider" type="range" min="50" max="100" value="50" step="5" class="w-full h-2 bg-[#E5DDCE] rounded-lg appearance-none cursor-pointer accent-[#D95A82]">
+              <p class="text-[10px] text-[#857B76] text-center">Kéo để điều chỉnh mức cọc (tối thiểu 50%)</p>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span>Phí vận chuyển</span>
+              <span id="chk-shipping" class="font-semibold text-[#3E9B61]">35.000₫</span>
+            </div>
+
+            <!-- Initial payment highlight -->
+            <div class="pt-3 border-t-2 border-[#D95A82]/30 bg-[#D95A82]/5 rounded-xl p-3 space-y-2">
+              <div class="flex items-baseline justify-between font-bold text-[#211A18]">
+                <span class="text-sm">THANH TOÁN TRƯỚC</span>
+                <span id="chk-initial-payment" class="text-xl text-[#D95A82]">0₫</span>
+              </div>
+              <p class="text-[10px] text-[#857B76]">= Tiền cọc + Phí vận chuyển</p>
+            </div>
+
+            <!-- Remaining payment -->
+            <div class="flex items-baseline justify-between bg-[#FAF7E9] rounded-xl p-3">
+              <span class="text-sm font-semibold text-[#4B4240]">Còn lại khi nhận hoa</span>
+              <span id="chk-remaining" class="text-lg font-bold text-[#277A4D]">0₫</span>
+            </div>
+
+            <div class="flex items-baseline justify-between pt-2 border-t border-[#E5DDCE]">
+              <span class="text-xs text-[#857B76]">Tổng giá trị đơn hàng</span>
+              <span id="chk-total" class="text-sm font-bold text-[#211A18]">0₫</span>
             </div>
           </div>
 
-          <!-- Zalo confirm note -->
+          <!-- Payment Policy -->
           <div class="bg-[#FAF7E9] rounded-xl p-3 space-y-2 text-[11px] text-[#4B4240] border border-[#E5DDCE]">
             <p class="font-semibold text-[#211A18] flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-[#D95A82]">policy</span>
+              Chính sách thanh toán
+            </p>
+            <div class="space-y-1.5 pl-5">
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">•</span> Cọc tối thiểu 50% giá trị hoa.</p>
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">•</span> Phí vận chuyển được thanh toán trước.</p>
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">•</span> Tiệm chuẩn bị và giao hoa sau khi xác nhận thanh toán.</p>
+              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">•</span> Khách thanh toán phần tiền hoa còn lại khi nhận hoa.</p>
+            </div>
+          </div>
+
+          <!-- Process note -->
+          <div class="bg-[#edfff5] rounded-xl p-3 space-y-2 text-[11px] text-[#4B4240] border border-[#3E9B61]/20">
+            <p class="font-semibold text-[#277A4D] flex items-center gap-1.5">
               <span class="material-symbols-outlined text-sm text-[#3E9B61]">info</span>
               Quy trình sau khi đặt hoa:
             </p>
             <div class="space-y-1.5 pl-5">
-              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">①</span> Đơn hoa gửi về Zalo tiệm ngay lập tức</p>
-              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">②</span> Shop xác nhận & báo giá chính xác qua Zalo (15–30 phút)</p>
-              <p class="flex items-start gap-2"><span class="text-[#D95A82] font-bold flex-shrink-0">③</span> Florist cắm hoa → Chụp ảnh gửi duyệt → Thanh toán → Giao hoa</p>
+              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">①</span> Đơn hoa gửi về Zalo tiệm ngay lập tức</p>
+              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">②</span> Shop xác nhận & hướng dẫn thanh toán cọc + ship qua Zalo</p>
+              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">③</span> Florist cắm hoa → Chụp ảnh gửi duyệt → Giao hoa</p>
+              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">④</span> Khách nhận hoa → Thanh toán phần tiền hoa còn lại</p>
             </div>
           </div>
 
@@ -633,12 +679,15 @@ ${data.senderEmail ? `   Email: ${data.senderEmail}` : ''}
 💐 SẢN PHẨM ĐẶT HOA:
 ${itemLines}
 
-💰 TÓM TẮT CHI PHÍ:
-   Tạm tính: ${data.subtotal.toLocaleString('vi-VN')}₫
+💰 CHI TIẾT THANH TOÁN:
+   Tiền hoa: ${data.flowerSubtotal.toLocaleString('vi-VN')}₫
+${data.discount > 0 ? `   Giảm giá: -${data.discount.toLocaleString('vi-VN')}₫\n` : ''}   Tiền cọc (${data.depositPercentage}%): ${data.depositAmount.toLocaleString('vi-VN')}₫
    Phí vận chuyển: ${shippingText}
-${data.discount > 0 ? `   Giảm giá: -${data.discount.toLocaleString('vi-VN')}₫\n` : ''}   ➤ TỔNG DỰ TÍNH: ${data.total.toLocaleString('vi-VN')}₫
-
-💳 THANH TOÁN DỰ KIẾN: ${data.paymentNote}
+   ━━━━━━━━━━━━━━━━
+   ✅ THANH TOÁN TRƯỚC: ${data.initialPayment.toLocaleString('vi-VN')}₫
+      (= Tiền cọc + Phí ship)
+   💵 CÒN LẠI KHI NHẬN HOA: ${data.remainingPayment.toLocaleString('vi-VN')}₫
+   ➤ TỔNG GIÁ TRỊ ĐƠN: ${data.total.toLocaleString('vi-VN')}₫
 
 ✉️ LỜI CHÚC TRÊN THIỆP:
    "${data.cardMessage || 'Không có lời chúc'}"
@@ -660,19 +709,47 @@ Gửi qua website Hoa Nhà Mình`;
         deliverySlot: document.getElementById("delivery-time-slot").value,
         cardMessage: document.getElementById("order-card-message").value.trim(),
         customerZalo: document.getElementById("customer-zalo").value.trim() || "(chưa điền)",
-        paymentNote: document.getElementById("payment-note").value,
         items: cart,
         subtotal: totals.subtotal,
         shippingFee: totals.shippingFee,
         discount: totals.discount,
+        flowerSubtotal: totals.flowerSubtotal,
+        depositPercentage: totals.depositPercentage,
+        depositAmount: totals.depositAmount,
+        initialPayment: totals.initialPayment,
+        remainingPayment: totals.remainingPayment,
         total: totals.total
       };
     }
 
     // ─── Cập nhật preview tin nhắn ───────────────────────
+    function getDepositPercent() {
+      const slider = document.getElementById("deposit-slider");
+      return slider ? parseInt(slider.value) : 50;
+    }
+
+    function updateCheckoutSummary(totals) {
+      const fmt = v => v.toLocaleString('vi-VN');
+      document.getElementById("chk-subtotal").textContent = `${fmt(totals.subtotal)}₫`;
+      document.getElementById("chk-flower-subtotal").textContent = `${fmt(totals.flowerSubtotal)}₫`;
+      document.getElementById("chk-deposit-pct").textContent = `${totals.depositPercentage}%`;
+      document.getElementById("chk-deposit").textContent = `${fmt(totals.depositAmount)}₫`;
+      document.getElementById("chk-shipping").textContent = totals.shippingFee === 0 ? "Miễn phí" : `${fmt(totals.shippingFee)}₫`;
+      document.getElementById("chk-initial-payment").textContent = `${fmt(totals.initialPayment)}₫`;
+      document.getElementById("chk-remaining").textContent = `${fmt(totals.remainingPayment)}₫`;
+      document.getElementById("chk-total").textContent = `${fmt(totals.total)}₫`;
+      if (totals.discount > 0) {
+        const discRow = document.getElementById("chk-discount-row");
+        discRow.classList.remove("hidden");
+        discRow.classList.add("flex");
+        document.getElementById("chk-discount").textContent = `-${fmt(totals.discount)}₫`;
+      }
+    }
+
     function updatePreview() {
       const cart = Store.getCart();
-      const totals = Store.getOrderTotals();
+      const totals = Store.getOrderTotals(getDepositPercent());
+      updateCheckoutSummary(totals);
       const data = getFormData(cart, totals, "PREVIEW");
       document.getElementById("zalo-preview-box").textContent = buildZaloMessage(data);
     }
@@ -680,7 +757,6 @@ Gửi qua website Hoa Nhà Mình`;
     // ─── MAIN DOMContentLoaded ────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
       const cart = Store.getCart();
-      const totals = Store.getOrderTotals();
 
       if (cart.length === 0) {
         window.location.href = "gio-hang.html";
@@ -706,16 +782,13 @@ Gửi qua website Hoa Nhà Mình`;
         </div>
       `).join('');
 
-      // Totals
-      document.getElementById("chk-subtotal").textContent = `${totals.subtotal.toLocaleString('vi-VN')}₫`;
-      document.getElementById("chk-shipping").textContent = totals.shippingFee === 0 ? "Miễn phí" : `${totals.shippingFee.toLocaleString('vi-VN')}₫`;
-      if (totals.discount > 0) {
-        const discRow = document.getElementById("chk-discount-row");
-        discRow.classList.remove("hidden");
-        discRow.classList.add("flex");
-        document.getElementById("chk-discount").textContent = `-${totals.discount.toLocaleString('vi-VN')}₫`;
-      }
-      document.getElementById("chk-total").textContent = `${totals.total.toLocaleString('vi-VN')}₫`;
+      // Initial summary with deposit
+      const totals = Store.getOrderTotals(getDepositPercent());
+      updateCheckoutSummary(totals);
+
+      // Deposit slider real-time update
+      const depositSlider = document.getElementById("deposit-slider");
+      depositSlider.addEventListener("input", updatePreview);
 
       // Checkbox Giao cho chính tôi
       document.getElementById("same-as-sender").addEventListener("change", (e) => {
@@ -768,7 +841,8 @@ Gửi qua website Hoa Nhà Mình`;
         const deliverySlot = document.getElementById("delivery-time-slot").value;
         const cardMessage = document.getElementById("order-card-message").value.trim();
         const customerZalo = document.getElementById("customer-zalo").value.trim();
-        const paymentNote = document.getElementById("payment-note").value;
+
+        const currentTotals = Store.getOrderTotals(getDepositPercent());
 
         // Lưu đơn vào store
         const orderData = {
@@ -776,35 +850,24 @@ Gửi qua website Hoa Nhà Mình`;
           receiverName, receiverPhone,
           address: receiverAddress,
           deliveryTime: `${deliveryDate} — ${deliverySlot}`,
-          paymentMethod: paymentNote,
           cardMessage,
           customerZalo,
           items: cart,
-          subtotal: totals.subtotal,
-          shippingFee: totals.shippingFee,
-          discount: totals.discount,
-          total: totals.total
+          subtotal: currentTotals.subtotal,
+          shippingFee: currentTotals.shippingFee,
+          discount: currentTotals.discount,
+          flowerSubtotal: currentTotals.flowerSubtotal,
+          depositPercentage: currentTotals.depositPercentage,
+          depositAmount: currentTotals.depositAmount,
+          initialPayment: currentTotals.initialPayment,
+          remainingPayment: currentTotals.remainingPayment,
+          total: currentTotals.total
         };
 
         const createdOrder = Store.saveOrder(orderData);
 
         // Tạo nội dung tin nhắn Zalo
-        const msgData = {
-          orderId: createdOrder.id,
-          senderName, senderPhone, senderEmail,
-          receiverName, receiverPhone,
-          address: receiverAddress,
-          deliveryDate,
-          deliverySlot,
-          cardMessage,
-          customerZalo,
-          paymentNote,
-          items: cart,
-          subtotal: totals.subtotal,
-          shippingFee: totals.shippingFee,
-          discount: totals.discount,
-          total: totals.total
-        };
+        const msgData = getFormData(cart, currentTotals, createdOrder.id);
 
         const zaloMessage = buildZaloMessage(msgData);
 

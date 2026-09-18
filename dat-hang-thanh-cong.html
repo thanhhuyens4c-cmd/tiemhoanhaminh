@@ -272,11 +272,35 @@
         <div class="pt-3 border-t border-[#E5DDCE]">
           <span class="text-[#857B76] block text-xs mb-2">Tác phẩm hoa đã chọn:</span>
           <div id="order-items-summary" class="space-y-2"><!-- Dynamic --></div>
-          <div class="pt-3 flex items-baseline justify-between font-bold text-[#211A18]">
-            <span>Tổng dự tính:</span>
-            <span id="order-total-sum" class="text-lg text-[#D95A82]">—</span>
+
+          <!-- Payment breakdown -->
+          <div class="pt-3 mt-3 border-t border-[#E5DDCE] space-y-2 text-sm">
+            <div class="flex items-center justify-between text-[#4B4240]">
+              <span>Tiền hoa</span>
+              <span id="order-flower-subtotal" class="font-semibold">—</span>
+            </div>
+            <div class="flex items-center justify-between text-[#4B4240]">
+              <span>Tiền cọc (<span id="order-deposit-pct">50</span>%)</span>
+              <span id="order-deposit-amount" class="font-semibold text-[#D95A82]">—</span>
+            </div>
+            <div class="flex items-center justify-between text-[#4B4240]">
+              <span>Phí vận chuyển</span>
+              <span id="order-shipping-fee" class="font-semibold text-[#3E9B61]">—</span>
+            </div>
+            <div class="bg-[#D95A82]/5 rounded-xl p-3 flex items-baseline justify-between font-bold text-[#211A18]">
+              <span>Thanh toán trước</span>
+              <span id="order-initial-payment" class="text-lg text-[#D95A82]">—</span>
+            </div>
+            <div class="bg-[#FAF7E9] rounded-xl p-3 flex items-baseline justify-between font-semibold">
+              <span class="text-[#4B4240]">Còn lại khi nhận hoa</span>
+              <span id="order-remaining" class="text-lg text-[#277A4D]">—</span>
+            </div>
+            <div class="flex items-baseline justify-between pt-2 border-t border-[#E5DDCE]">
+              <span class="text-xs text-[#857B76]">Tổng giá trị đơn hàng</span>
+              <span id="order-total-sum" class="font-bold text-[#211A18]">—</span>
+            </div>
           </div>
-          <p class="text-[11px] text-[#857B76] mt-1">* Giá cuối sẽ được Shop xác nhận qua Zalo trước khi thanh toán.</p>
+          <p class="text-[11px] text-[#857B76] mt-1">* Shop sẽ xác nhận chi tiết thanh toán qua Zalo.</p>
         </div>
       </div>
 
@@ -371,9 +395,19 @@
         document.getElementById("order-receiver-phone").textContent = order.receiverPhone || "—";
         document.getElementById("order-address").textContent = order.address || "—";
         document.getElementById("order-time").textContent = order.deliveryTime || "—";
-        document.getElementById("order-payment").textContent = order.paymentMethod || "—";
         document.getElementById("order-card-msg").textContent = order.cardMessage || "Không có lời nhắn riêng";
-        document.getElementById("order-total-sum").textContent = `${(order.total || 0).toLocaleString('vi-VN')}₫`;
+
+        // Payment breakdown
+        const fmt = v => (v || 0).toLocaleString('vi-VN');
+        document.getElementById("order-flower-subtotal").textContent = `${fmt(order.flowerSubtotal)}₫`;
+        document.getElementById("order-deposit-pct").textContent = order.depositPercentage || 50;
+        document.getElementById("order-deposit-amount").textContent = `${fmt(order.depositAmount)}₫`;
+        document.getElementById("order-shipping-fee").textContent = order.shippingFee === 0 ? "Miễn phí" : `${fmt(order.shippingFee)}₫`;
+        document.getElementById("order-initial-payment").textContent = `${fmt(order.initialPayment)}₫`;
+        document.getElementById("order-remaining").textContent = `${fmt(order.remainingPayment)}₫`;
+        document.getElementById("order-total-sum").textContent = `${fmt(order.total)}₫`;
+        const paymentEl = document.getElementById("order-payment");
+        if (paymentEl) paymentEl.textContent = order.paymentStatus || "DEPOSIT_PENDING";
 
         // Items
         const itemsBox = document.getElementById("order-items-summary");
