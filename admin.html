@@ -255,9 +255,12 @@
                   <th class="p-3.5">Mã đơn</th>
                   <th class="p-3.5">Thời gian &amp; Khách hàng</th>
                   <th class="p-3.5">Người nhận &amp; Địa chỉ</th>
-                  <th class="p-3.5">Lời nhắn thiệp</th>
-                  <th class="p-3.5">Tổng tiền</th>
-                  <th class="p-3.5">Trạng thái</th>
+                  <th class="p-3.5">Tiền hoa</th>
+                  <th class="p-3.5">Cọc / Ship</th>
+                  <th class="p-3.5">Thanh toán trước</th>
+                  <th class="p-3.5">Còn lại</th>
+                  <th class="p-3.5">TT Thanh toán</th>
+                  <th class="p-3.5">TT Đơn hàng</th>
                   <th class="p-3.5 text-right">Thao tác</th>
                 </tr>
               </thead>
@@ -1148,8 +1151,35 @@
       const orderBody = document.getElementById("admin-orders-table-body");
       const orders = Store.getOrders();
 
+      function paymentStatusBadge(status) {
+        const map = {
+          DEPOSIT_PENDING: { bg: "bg-[#F4C52D]/15", text: "text-[#8B6914]", label: "Chờ cọc" },
+          DEPOSIT_PAID: { bg: "bg-[#3E9B61]/10", text: "text-[#277A4D]", label: "Đã cọc" },
+          PARTIALLY_PAID: { bg: "bg-[#D95A82]/10", text: "text-[#D95A82]", label: "Thanh toán 1 phần" },
+          FULLY_PAID: { bg: "bg-[#3E9B61]/20", text: "text-[#1B5E2E]", label: "Đã thanh toán đủ" },
+          UNPAID: { bg: "bg-[#857B76]/10", text: "text-[#857B76]", label: "Chưa thanh toán" }
+        };
+        const s = map[status] || map.UNPAID;
+        return `<span class="px-2 py-1 rounded-full text-[10px] font-bold ${s.bg} ${s.text}">${s.label}</span>`;
+      }
+      function orderStatusBadge(status) {
+        const map = {
+          PENDING: { bg: "bg-[#F4C52D]/15", text: "text-[#8B6914]", label: "Chờ xác nhận" },
+          CONFIRMED: { bg: "bg-[#3E9B61]/10", text: "text-[#277A4D]", label: "Đã xác nhận" },
+          PREPARING: { bg: "bg-[#D95A82]/10", text: "text-[#D95A82]", label: "Đang chuẩn bị" },
+          READY_TO_DELIVER: { bg: "bg-[#277A4D]/15", text: "text-[#277A4D]", label: "Sẵn sàng giao" },
+          DELIVERING: { bg: "bg-[#3E9B61]/20", text: "text-[#1B5E2E]", label: "Đang giao" },
+          DELIVERED: { bg: "bg-[#3E9B61]/25", text: "text-[#1B5E2E]", label: "Đã giao" },
+          COMPLETED: { bg: "bg-[#1B5E2E]/20", text: "text-[#1B5E2E]", label: "Hoàn thành" },
+          CANCELLED: { bg: "bg-red-100", text: "text-red-600", label: "Đã huỷ" }
+        };
+        const s = map[status] || map.PENDING;
+        return `<span class="px-2 py-1 rounded-full text-[10px] font-bold ${s.bg} ${s.text}">${s.label}</span>`;
+      }
+      const fmt = v => (v || 0).toLocaleString("vi-VN");
+
       if (orders.length === 0) {
-        orderBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-[#857B76] italic">Chưa có đơn hàng nào.</td></tr>`;
+        orderBody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-[#857B76] italic">Chưa có đơn hàng nào.</td></tr>`;
       } else {
         orderBody.innerHTML = orders.map(o => `
           <tr class="hover:bg-[#FAF7E9]/40 transition-colors">
@@ -1164,15 +1194,16 @@
               <p class="text-[11px] text-[#857B76] truncate max-w-xs">${o.address || ""}</p>
               <p class="text-[11px] text-[#3E9B61] font-medium">${o.deliveryTime || ""}</p>
             </td>
-            <td class="p-3.5 max-w-xs truncate italic text-[#4B4240]">"${o.cardMessage || 'Không ghi chú'}"</td>
-            <td class="p-3.5 font-bold text-[#D95A82]">${(o.total || 0).toLocaleString("vi-VN")}₫</td>
-            <td class="p-3.5">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">
-                ${o.orderStatus || "—"}
-              </span>
+            <td class="p-3.5 font-semibold text-[#211A18]">${fmt(o.flowerSubtotal)}₫</td>
+            <td class="p-3.5 text-[11px]">
+              <p>Cọc ${o.depositPercentage || 50}%: <strong class="text-[#D95A82]">${fmt(o.depositAmount)}₫</strong></p>
+              <p>Ship: <strong>${o.shippingFee === 0 ? "Free" : fmt(o.shippingFee) + "₫"}</strong></p>
             </td>
+            <td class="p-3.5 font-bold text-[#D95A82]">${fmt(o.initialPayment)}₫</td>
+            <td class="p-3.5 font-bold text-[#277A4D]">${fmt(o.remainingPayment)}₫</td>
+            <td class="p-3.5">${paymentStatusBadge(o.paymentStatus)}</td>
+            <td class="p-3.5">${orderStatusBadge(o.orderStatus)}</td>
             <td class="p-3.5 text-right space-x-2">
-              <button class="text-[#277A4D] hover:underline font-semibold text-xs">Gửi ảnh</button>
               <a href="dat-hang-thanh-cong.html?id=${o.id}" class="text-[#D95A82] hover:underline font-semibold text-xs">Xem</a>
             </td>
           </tr>
