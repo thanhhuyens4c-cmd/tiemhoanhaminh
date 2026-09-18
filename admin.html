@@ -473,9 +473,10 @@
           <div class="relative flex-1 min-w-48">
             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#857B76] text-base">search</span>
             <input id="blog-search" type="text" placeholder="Tìm theo tiêu đề, tác giả hoặc từ khóa..."
+              oninput="filterBlogs()"
               class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5DDCE] rounded-xl bg-white focus:outline-none focus:border-[#3E9B61]">
           </div>
-          <select id="blog-category-filter"
+          <select id="blog-category-filter" onchange="filterBlogs()"
             class="px-3 py-2 text-xs border border-[#E5DDCE] rounded-xl bg-white focus:outline-none focus:border-[#3E9B61]">
             <option value="">Tất cả chuyên mục</option>
             <option value="Hoa & Cảm xúc">Hoa &amp; Cảm xúc</option>
@@ -911,7 +912,7 @@
       </div>
 
       <!-- Form body -->
-      <form id="blog-form" class="px-6 py-5 space-y-5" onsubmit="saveBlogSubmit(event); return false;">
+      <form id="blog-form" class="px-6 py-5 space-y-5">
         <input type="hidden" id="blog-form-id">
 
         <!-- ẢNH BÌA BÀI VIẾT -->
@@ -1032,7 +1033,7 @@
             class="flex-1 py-3 border border-[#E5DDCE] rounded-xl text-sm font-semibold text-[#4B4240] hover:bg-[#FAF7E9] transition-colors">
             Hủy bỏ
           </button>
-          <button type="submit" onclick="saveBlogSubmit(event)"
+          <button type="submit"
             class="flex-1 py-3 bg-[#3E9B61] text-white rounded-xl text-sm font-bold hover:bg-[#277A4D] transition-colors flex items-center justify-center gap-2 shadow-sm">
             <span class="material-symbols-outlined text-base">publish</span>
             Lưu &amp; Xuất bản bài viết
@@ -1106,6 +1107,14 @@
 
         if (key === "blogs") {
           renderBlogTable();
+        }
+
+        // Ẩn sidebar trên mobile sau khi chọn tab
+        const sidebar = document.querySelector("aside");
+        if (sidebar && window.innerWidth < 768) {
+          sidebar.style.display = "none";
+          // Hiện lại sau 300ms để không lock layout
+          setTimeout(() => { sidebar.style.display = ""; }, 300);
         }
       }
 

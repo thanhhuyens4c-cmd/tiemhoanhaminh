@@ -21,7 +21,25 @@ const AdminCMS = {
 
   /** Ghi mảng sản phẩm vào localStorage */
   saveProducts(list) {
-    localStorage.setItem(this.LS_KEY, JSON.stringify(list));
+    try {
+      localStorage.setItem(this.LS_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.warn("localStorage đầy, thử tối ưu ảnh...", e);
+      // Fallback: loại bỏ ảnh base64 của sản phẩm cũ hơn để tiết kiệm dung lượng
+      try {
+        const optimized = list.map((p, i) => {
+          if (i > 0 && p.image && p.image.startsWith("data:")) {
+            return { ...p, image: "assets/images/hero-bouquet.png", gallery: ["assets/images/hero-bouquet.png"] };
+          }
+          return p;
+        });
+        localStorage.setItem(this.LS_KEY, JSON.stringify(optimized));
+        showToast("⚠️ Bộ nhớ gần đầy – ảnh upload của sản phẩm cũ được tối ưu. Hãy dùng URL ảnh!", "warning");
+      } catch (e2) {
+        showToast("❌ Bộ nhớ trình duyệt đầy! Vui lòng dùng URL ảnh thay vì upload.", "error");
+        return;
+      }
+    }
     // Phát sự kiện để các trang khác reload nếu cần
     window.dispatchEvent(new CustomEvent("hnm:products-updated", { detail: list }));
   },
@@ -31,17 +49,19 @@ const AdminCMS = {
     const list = this.getProducts();
     const timestamp = Date.now();
     const slug = this._toSlug(productData.name) + "-" + timestamp;
+    // Spread productData trước, sau đó ghi đè các field hệ thống để tránh bị override
     const newProduct = {
+      ...productData,
       id: "HNM-CUSTOM-" + timestamp,
       slug,
-      rating: 5.0,
-      reviewsCount: 0,
-      isBestSeller: false,
-      isNew: true,
+      rating: productData.rating || 5.0,
+      reviewsCount: productData.reviewsCount || 0,
+      isBestSeller: productData.isBestSeller || false,
+      isNew: productData.isNew !== undefined ? productData.isNew : true,
       isFeatured: productData.isFeatured || false,
-      tags: ["moi"],
-      gallery: productData.image ? [productData.image] : [],
-      ...productData
+      tags: productData.tags || ["moi"],
+      // gallery luôn đặt sau spread để đảm bảo đúng ảnh chính
+      gallery: productData.image ? [productData.image] : []
     };
     list.unshift(newProduct);
     this.saveProducts(list);
@@ -53,10 +73,13 @@ const AdminCMS = {
     const list = this.getProducts();
     const idx = list.findIndex(p => p.id === id);
     if (idx === -1) return null;
+    // Lưu ảnh cũ trước khi merge để lọc khỏi gallery
+    const oldImage = list[idx].image;
     list[idx] = { ...list[idx], ...updates };
     // Cập nhật gallery[0] khi ảnh chính thay đổi
     if (updates.image) {
-      list[idx].gallery = [updates.image, ...(list[idx].gallery || []).filter(g => g !== list[idx].image)];
+      const oldGallery = (list[idx].gallery || []).filter(g => g !== oldImage && g !== updates.image);
+      list[idx].gallery = [updates.image, ...oldGallery];
     }
     this.saveProducts(list);
     return list[idx];
@@ -273,8 +296,6 @@ function openAddModal() {
   document.getElementById("add-form").reset();
   document.getElementById("add-img-preview").classList.add("hidden");
   document.getElementById("add-img-data").value = "";
-  // Reset sizes
-  document.getElementById("add-sizes-container").innerHTML = defaultSizeRow();
   openModal("modal-add");
 }
 
@@ -291,30 +312,51 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("edit-img-data")
   );
 
+  // ── Auto-sync typeName khi chọn loại hoa (form Thêm) ────────────
+  const TYPE_NAMES = { "bo-hoa": "Bó hoa tươi", "gio-hoa": "Giỏ hoa thủ công" };
+  const addTypeSelect = document.querySelector("#add-form [name=type]");
+  const addTypeNameInput = document.querySelector("#add-form [name=typeName]");
+  if (addTypeSelect && addTypeNameInput) {
+    addTypeSelect.addEventListener("change", () => {
+      if (!addTypeNameInput.value || Object.values(TYPE_NAMES).includes(addTypeNameInput.value)) {
+        addTypeNameInput.value = TYPE_NAMES[addTypeSelect.value] || "";
+      }
+    });
+  }
+
   // ── ADD form submit ──────────────────────────────────────────────
   document.getElementById("add-form").addEventListener("submit", e => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const imgData = document.getElementById("add-img-data").value;
     const imgUrl  = fd.get("imageUrl") || "";
+    const name    = (fd.get("name") || "").trim();
     const price   = parseInt(fd.get("price")) || 0;
 
+    if (!name) {
+      showToast("Vui lòng nhập tên sản phẩm!", "error");
+      e.target.querySelector("[name=name]")?.focus();
+      return;
+    }
     if (!price) {
-      showToast("Vui lòng nhập giá bán sản phẩm!", "error"); return;
+      showToast("Vui lòng nhập giá bán sản phẩm!", "error");
+      e.target.querySelector("[name=price]")?.focus();
+      return;
     }
 
+    const typeVal = fd.get("type") || "bo-hoa";
     const productData = {
-      name:          fd.get("name") || "Sản phẩm mới",
-      type:          fd.get("type") || "bo-hoa",
-      typeName:      fd.get("typeName") || "Bó hoa tươi",
-      color:         fd.get("color") || "hong",
-      colorName:     fd.get("colorName") || "Hồng",
-      price:         price,
+      name,
+      type:          typeVal,
+      typeName:      (fd.get("typeName") || "").trim() || TYPE_NAMES[typeVal] || "Bó hoa tươi",
+      color:         (fd.get("color") || "hong").trim(),
+      colorName:     (fd.get("colorName") || "Hồng").trim(),
+      price,
       originalPrice: parseInt(fd.get("originalPrice")) || price,
       image:         imgData || imgUrl || "assets/images/hero-bouquet.png",
-      shortDesc:     fd.get("shortDesc") || "",
-      description:   fd.get("description") || "",
-      careInstructions: fd.get("careInstructions") || "",
+      shortDesc:     (fd.get("shortDesc") || "").trim(),
+      description:   (fd.get("description") || "").trim(),
+      careInstructions: (fd.get("careInstructions") || "").trim(),
       occasion:      (fd.get("occasion") || "").split(",").map(s => s.trim()).filter(Boolean),
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
@@ -335,19 +377,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const id  = document.getElementById("edit-product-id").value;
     const imgData = document.getElementById("edit-img-data").value;
     const imgUrl  = fd.get("imageUrl") || "";
+    const name    = (fd.get("name") || "").trim();
     const price   = parseInt(fd.get("price")) || 0;
 
+    if (!name) {
+      showToast("Vui lòng nhập tên sản phẩm!", "error");
+      e.target.querySelector("[name=name]")?.focus();
+      return;
+    }
+    if (!price) {
+      showToast("Vui lòng nhập giá bán sản phẩm!", "error");
+      e.target.querySelector("[name=price]")?.focus();
+      return;
+    }
+
+    const typeVal = fd.get("type") || "bo-hoa";
     const updates = {
-      name:          fd.get("name"),
-      type:          fd.get("type"),
-      typeName:      fd.get("typeName"),
-      color:         fd.get("color"),
-      colorName:     fd.get("colorName"),
-      price:         price,
+      name,
+      type:          typeVal,
+      typeName:      (fd.get("typeName") || "").trim() || TYPE_NAMES[typeVal] || "Bó hoa tươi",
+      color:         (fd.get("color") || "").trim(),
+      colorName:     (fd.get("colorName") || "").trim(),
+      price,
       originalPrice: parseInt(fd.get("originalPrice")) || price,
-      shortDesc:     fd.get("shortDesc"),
-      description:   fd.get("description"),
-      careInstructions: fd.get("careInstructions"),
+      shortDesc:     (fd.get("shortDesc") || "").trim(),
+      description:   (fd.get("description") || "").trim(),
+      careInstructions: (fd.get("careInstructions") || "").trim(),
       occasion:      (fd.get("occasion") || "").split(",").map(s => s.trim()).filter(Boolean),
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
@@ -362,6 +417,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProductTable();
     closeModal("modal-edit");
     showToast(`✅ Đã cập nhật "${updates.name}" thành công!`);
+  });
+
+  // ── Đồng bộ khi tab/cửa sổ khác cập nhật localStorage ──────────
+  window.addEventListener("storage", e => {
+    if (e.key === AdminCMS.LS_KEY) {
+      renderProductTable();
+    }
+    if (e.key === AdminBlogCMS.LS_KEY) {
+      renderBlogTable();
+    }
   });
 
   // ── Initial render ───────────────────────────────────────────────
@@ -730,6 +795,7 @@ function openEditBlogModal(id) {
 function saveBlogSubmit(e) {
   if (e && typeof e.preventDefault === "function") {
     e.preventDefault();
+    e.stopImmediatePropagation();
   }
 
   const idEl = document.getElementById("blog-form-id");
