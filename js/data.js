@@ -81,7 +81,7 @@ const REVIEWS = [];
 
 /**
  * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Ưu tiên Supabase, fallback về localStorage/PRODUCTS tĩnh.
+ * Ưu tiên Supabase (có timeout 5s), fallback về localStorage/PRODUCTS tĩnh.
  * Dùng: const products = await getProducts();
  */
 async function getProducts() {
@@ -109,6 +109,19 @@ async function getProducts() {
     });
   }
   return products;
+}
+
+/**
+ * Làm mới sản phẩm từ Supabase ở background (không chặn UI).
+ * Gọi callback khi có dữ liệu mới khác cache.
+ */
+function refreshProductsInBackground(onUpdate) {
+  if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) return;
+  ProductAPI.getProducts(true).then(fresh => {
+    if (fresh && fresh.length > 0 && typeof onUpdate === "function") {
+      onUpdate(fresh);
+    }
+  }).catch(() => {});
 }
 
 /**

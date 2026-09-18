@@ -51,9 +51,12 @@ const ProductAPI = {
     this._cacheTime = 0;
   },
 
+  FETCH_TIMEOUT: 5000,
+
   /**
    * Lấy danh sách sản phẩm từ Supabase
    * Có cache ngắn hạn (30s) để tránh gọi API quá nhiều
+   * Timeout 5s để tránh chờ Supabase free-tier thức dậy quá lâu
    */
   async getProducts(forceRefresh = false) {
     if (!forceRefresh && this._cache && (Date.now() - this._cacheTime < this.CACHE_TTL)) {
@@ -66,18 +69,25 @@ const ProductAPI = {
     }
 
     try {
-      const { data, error } = await client
+      const supabaseQuery = client
         .from("products")
         .select("*")
         .eq("is_active", true)
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false });
 
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Supabase timeout")), this.FETCH_TIMEOUT)
+      );
+
+      const { data, error } = await Promise.race([supabaseQuery, timeout]);
+
       if (error) throw error;
 
       const products = (data || []).map(row => this._mapFromDB(row));
       this._cache = products;
       this._cacheTime = Date.now();
+      this._saveFallbackCache(products);
       return products;
     } catch (err) {
       console.error("Lỗi tải sản phẩm từ Supabase:", err);
@@ -156,6 +166,15 @@ const ProductAPI = {
 
     if (error) throw error;
     this._clearCache();
+  },
+
+  /**
+   * Lưu sản phẩm từ Supabase vào localStorage để lần sau load nhanh
+   */
+  _saveFallbackCache(products) {
+    try {
+      localStorage.setItem("hnm_products_v1", JSON.stringify(products));
+    } catch (e) {}
   },
 
   /**
