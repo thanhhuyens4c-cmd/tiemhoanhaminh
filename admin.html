@@ -1257,6 +1257,7 @@
               SiteSettings.set(slot.key, src);
               markSlotCustom(slot.key, true);
               showToast(`✅ Đã cập nhật "${slot.label}" thành công!`);
+              showSyncBanner();
             } catch (err) {
               console.error(err);
               showToast('Lỗi khi tải ảnh, vui lòng thử lại!', 'error');
@@ -1274,6 +1275,7 @@
             if (preview) { preview.src = url; preview.classList.remove('opacity-50'); }
             markSlotCustom(slot.key, true);
             showToast(`✅ Đã cập nhật "${slot.label}" thành công!`);
+            showSyncBanner();
           });
         }
 
@@ -1372,7 +1374,48 @@
       SiteSettings.resetAll();
       renderMediaSlots();
       showToast('♻️ Đã khôi phục toàn bộ ảnh về mặc định.');
+      hideSyncBanner();
     }
+
+    function showSyncBanner() {
+      let banner = document.getElementById('sync-config-banner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'sync-config-banner';
+        banner.className = 'fixed bottom-0 left-0 right-0 z-[9999] bg-[#D95A82] text-white px-4 py-3 shadow-lg flex items-center justify-between gap-3 flex-wrap';
+        banner.innerHTML = `
+          <div class="flex items-center gap-2 text-sm">
+            <span class="material-symbols-outlined text-lg">sync_problem</span>
+            <span><strong>Ảnh đã thay đổi!</strong> Tải file cấu hình và thay vào <code class="bg-white/20 px-1 rounded">js/site-config.js</code> rồi push GitHub để điện thoại cập nhật.</span>
+          </div>
+          <div class="flex gap-2 flex-shrink-0">
+            <button onclick="downloadSiteConfig()" class="px-4 py-1.5 bg-white text-[#D95A82] rounded-lg text-xs font-bold hover:bg-[#FAF7E9] transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">download</span>
+              Tải site-config.js
+            </button>
+            <button onclick="hideSyncBanner()" class="px-2 py-1.5 text-white/80 hover:text-white text-xs">Đóng</button>
+          </div>`;
+        document.body.appendChild(banner);
+      }
+      banner.style.display = 'flex';
+    }
+
+    function hideSyncBanner() {
+      const banner = document.getElementById('sync-config-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    window.showSyncBanner = showSyncBanner;
+    window.hideSyncBanner = hideSyncBanner;
+
+    // Auto-detect unsynced changes on page load
+    (function checkUnsyncedChanges() {
+      const config = (typeof SITE_IMAGE_CONFIG !== "undefined") ? SITE_IMAGE_CONFIG : {};
+      if (typeof SiteSettings === "undefined") return;
+      const all = SiteSettings.getAll();
+      const hasLocalChanges = SiteSettings.SLOTS.some(s => all[s.key] && all[s.key].src && all[s.key].src !== config[s.key]);
+      if (hasLocalChanges) showSyncBanner();
+    })();
   </script>
 
   <script>
