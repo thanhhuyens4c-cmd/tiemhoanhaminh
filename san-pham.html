@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
   <title>Tất cả sản phẩm hoa tươi — Hoa Nhà Mình</title>
   <meta name="description" content="Khám phá các mẫu bó hoa, giỏ hoa tươi thủ công tại Hoa Nhà Mình. Lọc theo màu sắc, loại hoa và mức giá dễ dàng.">
   
@@ -250,7 +252,10 @@
 
         <!-- Product Grid -->
         <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-          <!-- Dynamic cards -->
+          <div class="col-span-full text-center py-12 text-[#857B76]">
+            <span class="material-symbols-outlined animate-spin text-3xl">progress_activity</span>
+            <p class="mt-2 text-sm">Đang tải sản phẩm...</p>
+          </div>
         </div>
 
         <!-- Empty State nếu lọc không ra -->
@@ -329,6 +334,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
@@ -366,14 +373,14 @@
         });
       }
 
-      function filterAndRender() {
+      async function filterAndRender() {
         // Lấy selected values
         const selectedTypes = Array.from(document.querySelectorAll("input[name='type']:checked")).map(cb => cb.value);
         const selectedColors = Array.from(document.querySelectorAll("input[name='color']:checked")).map(cb => cb.value);
         const selectedPrices = Array.from(document.querySelectorAll("input[name='price']:checked")).map(cb => cb.value);
         const sortVal = sortSelect.value;
 
-        let filtered = [...getProducts()];
+        let filtered = [...(await getProducts())];
         const activeLabels = [];
 
         // Lọc theo Recipient từ URL nếu có
