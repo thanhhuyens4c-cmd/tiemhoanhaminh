@@ -51,7 +51,7 @@ const ProductAPI = {
     this._cacheTime = 0;
   },
 
-  FETCH_TIMEOUT: 5000,
+  FETCH_TIMEOUT: 15000,
 
   /**
    * Lấy danh sách sản phẩm từ Supabase
@@ -71,7 +71,7 @@ const ProductAPI = {
     try {
       const supabaseQuery = client
         .from("products")
-        .select("*")
+        .select("id,name,slug,type,type_name,color,color_name,price,original_price,image_url,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order")
         .eq("is_active", true)
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false });
@@ -93,6 +93,34 @@ const ProductAPI = {
     } catch (err) {
       console.error("Lỗi tải sản phẩm từ Supabase:", err.message || err);
       return this._fallbackGetProducts();
+    }
+  },
+
+  /**
+   * Lấy chi tiết 1 sản phẩm từ Supabase (bao gồm description, gallery, care_instructions)
+   */
+  async getProductById(id) {
+    const client = SupabaseClient.getClient();
+    if (!client) return null;
+
+    try {
+      const query = client
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Supabase timeout")), this.FETCH_TIMEOUT)
+      );
+
+      const result = await Promise.race([query, timeout]);
+      const { data, error } = result;
+      if (error) throw error;
+      return this._mapFromDB(data);
+    } catch (err) {
+      console.error("Lỗi tải chi tiết sản phẩm:", err.message || err);
+      return null;
     }
   },
 
