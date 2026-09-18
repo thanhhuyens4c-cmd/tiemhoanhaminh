@@ -528,6 +528,64 @@ function resetProductsToDefault() {
 window.AdminCMS = AdminCMS;
 
 // ═══════════════════════════════════════════════════════════════════
+//  XUẤT CẤU HÌNH ẢNH (đồng bộ desktop ↔ mobile)
+// ═══════════════════════════════════════════════════════════════════
+
+function exportSiteConfig() {
+  const imageConfig = {};
+  if (typeof SiteSettings !== "undefined") {
+    const all = SiteSettings.getAll();
+    SiteSettings.SLOTS.forEach(slot => {
+      if (all[slot.key] && all[slot.key].src) {
+        imageConfig[slot.key] = all[slot.key].src;
+      }
+    });
+  }
+
+  const productOverrides = {};
+  const products = AdminCMS.getProducts();
+  const defaults = JSON.parse(JSON.stringify(typeof PRODUCTS !== "undefined" ? PRODUCTS : []));
+  products.forEach(p => {
+    const original = defaults.find(d => d.id === p.id);
+    if (original && p.image !== original.image) {
+      productOverrides[p.id] = p.image;
+    }
+    if (!original) {
+      productOverrides[p.id] = p.image;
+    }
+  });
+
+  const configLines = [];
+  configLines.push("const SITE_IMAGE_CONFIG = {");
+  Object.entries(imageConfig).forEach(([key, val]) => {
+    configLines.push(`  "${key}": "${val}",`);
+  });
+  configLines.push("};");
+
+  if (Object.keys(productOverrides).length > 0) {
+    configLines.push("");
+    configLines.push("const PRODUCT_IMAGE_OVERRIDES = {");
+    Object.entries(productOverrides).forEach(([id, img]) => {
+      configLines.push(`  "${id}": "${img}",`);
+    });
+    configLines.push("};");
+  }
+
+  const code = configLines.join("\n");
+
+  const textarea = document.createElement("textarea");
+  textarea.value = code;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+
+  showToast("📋 Đã copy cấu hình! Dán vào file js/site-config.js để đồng bộ ảnh giữa các thiết bị.");
+}
+
+window.exportSiteConfig = exportSiteConfig;
+
+// ═══════════════════════════════════════════════════════════════════
 //  BLOG STORE (localStorage layer on top of static BLOG_POSTS[])
 // ═══════════════════════════════════════════════════════════════════
 const AdminBlogCMS = {
