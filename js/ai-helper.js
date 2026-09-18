@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AI Helper - Hoa Nha Minh Admin CMS
  * Tich hop Google Gemini Vision API de phan tich anh hoa
  * va tu dong goi y mo ta san pham bang tieng Viet
@@ -6,7 +6,8 @@
 
 const AdminAI = {
   LS_KEY:   "hnm_gemini_api_key",
-  MODEL:    "gemini-2.0-flash",
+  MODEL:    "gemini-3.6-flash",
+  CANDIDATE_MODELS: ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"],
   API_BASE: "https://generativelanguage.googleapis.com/v1beta/models",
 
   getApiKey()  { return localStorage.getItem(this.LS_KEY) || ""; },
@@ -16,6 +17,49 @@ const AdminAI = {
     const k = (key || "").trim();
     k ? localStorage.setItem(this.LS_KEY, k) : localStorage.removeItem(this.LS_KEY);
     return k;
+  },
+
+  /** Kiểm tra tính hợp lệ của API Key với danh sách model hỗ trợ */
+  async testKey(key) {
+    const k = (key || "").trim();
+    if (!k) throw new Error("Chưa nhập API Key");
+
+    const modelsToTry = [this.MODEL, ...this.CANDIDATE_MODELS.filter(m => m !== this.MODEL)];
+    let lastErr = null;
+
+    for (const model of modelsToTry) {
+      try {
+        const endpoint = `${this.API_BASE}/${model}:generateContent?key=${k}`;
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: "ping" }] }],
+            generationConfig: { maxOutputTokens: 5 }
+          })
+        });
+
+        if (res.ok) {
+          this.MODEL = model;
+          return { success: true, model };
+        }
+
+        const errData = await res.json().catch(() => ({}));
+        const msg = errData?.error?.message || `HTTP ${res.status}`;
+
+        // Nếu API key không hợp lệ từ Google
+        if (msg.includes("API key not valid") || msg.includes("API_KEY_INVALID") || (res.status === 400 && msg.toLowerCase().includes("key"))) {
+          throw new Error("API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại key tại Google AI Studio.");
+        }
+
+        lastErr = new Error(msg);
+      } catch (e) {
+        if (e.message && e.message.includes("API Key không hợp lệ")) throw e;
+        lastErr = e;
+      }
+    }
+
+    throw lastErr || new Error("Không thể kết nối đến Gemini API. Vui lòng kiểm tra mạng hoặc thử lại.");
   },
 
   async analyzeFlowerImage(imageDataUrl, productName = "") {
@@ -42,31 +86,52 @@ Hay phan tich buc anh san pham hoa nay${productName ? ` (ten san pham: "${produc
 
 Chi tra ve JSON, khong them bat ky text nao khac.`;
 
-    const endpoint = `${this.API_BASE}/${this.MODEL}:generateContent?key=${apiKey}`;
-
-    const response = await fetch(endpoint, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [
-          { text: prompt },
-          { inline_data: { mime_type: mimeType, data: base64Data } }
-        ]}],
-        generationConfig: { temperature: 0.75, maxOutputTokens: 1024 }
-      })
+    const requestBody = JSON.stringify({
+      contents: [{ parts: [
+        { text: prompt },
+        { inline_data: { mime_type: mimeType, data: base64Data } }
+      ]}],
+      generationConfig: { temperature: 0.75, maxOutputTokens: 1024 }
     });
 
-    if (!response.ok) {
-      let errMsg = `Loi API Gemini: ${response.status}`;
-      try { const e = await response.json(); errMsg = e?.error?.message || errMsg; } catch (_) {}
-      throw new Error(errMsg);
+    const modelsToTry = [this.MODEL, ...this.CANDIDATE_MODELS.filter(m => m !== this.MODEL)];
+    let lastErr = null;
+
+    for (const model of modelsToTry) {
+      try {
+        const endpoint = `${this.API_BASE}/${model}:generateContent?key=${apiKey}`;
+        const response = await fetch(endpoint, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body: requestBody
+        });
+
+        if (!response.ok) {
+          let errMsg = `Lỗi API Gemini (${model}): ${response.status}`;
+          try { const e = await response.json(); errMsg = e?.error?.message || errMsg; } catch (_) {}
+          lastErr = new Error(errMsg);
+          if (errMsg.includes("no longer available") || errMsg.includes("not found") || response.status === 404) {
+            continue;
+          }
+          throw lastErr;
+        }
+
+        this.MODEL = model;
+        const data    = await response.json();
+        const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        const match   = rawText.match(/\{[\s\S]*\}/);
+        if (!match) throw new Error("AI trả về định dạng không hợp lệ. Vui lòng thử lại.");
+        return JSON.parse(match[0]);
+      } catch (err) {
+        lastErr = err;
+        if (err.message && (err.message.includes("no longer available") || err.message.includes("not found"))) {
+          continue;
+        }
+        throw err;
+      }
     }
 
-    const data    = await response.json();
-    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    const match   = rawText.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("AI tra ve dinh dang khong hop le. Vui long thu lai.");
-    return JSON.parse(match[0]);
+    throw lastErr || new Error("Không thể phân tích ảnh hoa bằng AI. Vui lòng thử lại.");
   },
 
   fillFormWithAISuggestions(formEl, suggestions, overwrite = false) {

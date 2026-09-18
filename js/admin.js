@@ -641,22 +641,8 @@ async function testAndSaveAIKey() {
   if (saveIconEl)  saveIconEl.innerHTML  = `<span class="ai-spinner">⟳</span>`;
   if (saveLabelEl) saveLabelEl.textContent = "Đang kiểm tra...";
 
-  try {
-    // Test key bằng cách gọi API với text đơn giản (không cần ảnh)
-    const testEndpoint = `${AdminAI.API_BASE}/${AdminAI.MODEL}:generateContent?key=${key}`;
-    const testRes = await fetch(testEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: "Hi" }] }],
-        generationConfig: { maxOutputTokens: 5 }
-      })
-    });
-
-    if (!testRes.ok) {
-      const errData = await testRes.json().catch(() => ({}));
-      throw new Error(errData?.error?.message || `HTTP ${testRes.status}`);
-    }
+    // Test key bằng AdminAI (tự động thử các model khả dụng)
+    const result = await AdminAI.testKey(key);
 
     // Lưu key
     AdminAI.saveApiKey(key);
@@ -664,7 +650,7 @@ async function testAndSaveAIKey() {
 
     if (status) {
       status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-green-600 py-1";
-      status.innerHTML = `<span class="material-symbols-outlined text-sm">check_circle</span> API Key hợp lệ! AI sẵn sàng phân tích ảnh hoa 🌸`;
+      status.innerHTML = `<span class="material-symbols-outlined text-sm">check_circle</span> API Key hợp lệ (Model: ${result?.model || AdminAI.MODEL})! AI sẵn sàng phân tích ảnh hoa 🌸`;
     }
     showToast("✅ Đã lưu Gemini API Key thành công!");
 
@@ -673,7 +659,7 @@ async function testAndSaveAIKey() {
   } catch (err) {
     if (status) {
       status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-red-500 py-1";
-      status.innerHTML = `<span class="material-symbols-outlined text-sm">error</span> Key không hợp lệ: ${err.message}`;
+      status.innerHTML = `<span class="material-symbols-outlined text-sm">error</span> ${err.message}`;
     }
   } finally {
     if (saveIconEl)  saveIconEl.textContent = "save";
