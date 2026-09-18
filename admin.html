@@ -126,11 +126,6 @@
           <span>Báo cáo Doanh thu</span>
         </button>
 
-        <button class="admin-tab-btn tab-inactive w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors" data-tab="inventory">
-          <span class="material-symbols-outlined text-lg">inventory_2</span>
-          <span>Kho cành tươi Đà Lạt</span>
-        </button>
-
         <button class="admin-tab-btn tab-inactive w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors" data-tab="promotions">
           <span class="material-symbols-outlined text-lg">percent</span>
           <span>Giá bán &amp; Khuyến mãi</span>
@@ -228,6 +223,12 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Pagination -->
+          <div id="product-pagination" class="flex items-center justify-between px-5 py-3 border-t border-[#E5DDCE]">
+            <span id="product-page-info" class="text-xs text-[#857B76]"></span>
+            <div class="flex items-center gap-1" id="product-page-buttons"></div>
+          </div>
         </div>
 
       </section>
@@ -316,43 +317,25 @@
       </section>
 
       <!-- ╔══════════════════════════════════════════╗ -->
-      <!-- ║  TAB 4: KHO CÀNH                         ║ -->
-      <!-- ╚══════════════════════════════════════════╝ -->
-      <section id="module-inventory" class="hidden space-y-5">
-        <div>
-          <h1 class="text-xl font-bold text-[#211A18]">Quản lý kho hoa cành tươi</h1>
-          <p class="text-xs text-[#857B76]">Theo dõi tồn kho cành tươi nhập từ nông trại</p>
-        </div>
-        <div class="bg-white rounded-2xl border border-[#E5DDCE] overflow-hidden shadow-sm">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-[#FAF7E9] text-[#4B4240] font-bold border-b border-[#E5DDCE]">
-              <tr>
-                <th class="p-3.5">Tên loài hoa cành</th>
-                <th class="p-3.5">Xuất xứ</th>
-                <th class="p-3.5">Tồn kho</th>
-                <th class="p-3.5">Bảo quản</th>
-                <th class="p-3.5">Độ tươi</th>
-                <th class="p-3.5 text-right">Cập nhật</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#E5DDCE]/60">
-              <tr><td colspan="6" class="p-8 text-center text-sm text-[#857B76]">Kho hàng trống. Hãy nhập hoa cành để bắt đầu kinh doanh.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════════════════════╗ -->
       <!-- ║  TAB 5: KHUYẾN MÃI                       ║ -->
       <!-- ╚══════════════════════════════════════════╝ -->
       <section id="module-promotions" class="hidden space-y-5">
-        <div>
-          <h1 class="text-xl font-bold text-[#211A18]">Chương trình ưu đãi &amp; Mã giảm giá</h1>
-          <p class="text-xs text-[#857B76]">Quản lý các mã voucher tri ân khách hàng</p>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-bold text-[#211A18]">Chương trình ưu đãi &amp; Mã giảm giá</h1>
+            <p class="text-xs text-[#857B76]">Quản lý các mã voucher tri ân khách hàng</p>
+          </div>
+          <button onclick="openModal('modal-add-promo')"
+            class="px-4 py-2 bg-[#3E9B61] text-white rounded-xl text-xs font-bold hover:bg-[#277A4D] flex items-center gap-1.5 shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-sm">add_circle</span>
+            Thêm chương trình khuyến mãi
+          </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- Promotions list -->
+        <div id="promotions-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div class="p-5 rounded-2xl bg-white border border-dashed border-[#E5DDCE] shadow-sm flex items-center justify-center">
-            <p class="text-xs text-[#857B76] text-center">Chưa có chương trình khuyến mãi nào.<br>Hãy thêm mã voucher mới để bắt đầu.</p>
+            <p class="text-xs text-[#857B76] text-center">Chưa có chương trình khuyến mãi nào.<br>Hãy nhấn "Thêm chương trình khuyến mãi" để bắt đầu.</p>
           </div>
         </div>
       </section>
@@ -1071,6 +1054,97 @@
   </div>
 
 
+  <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+  <!-- ║  MODAL: THÊM CHƯƠNG TRÌNH KHUYẾN MÃI                        ║ -->
+  <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+  <div id="modal-add-promo" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="modal-box scale-95 opacity-0 bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto flex flex-col">
+
+      <div class="flex items-center justify-between px-6 py-5 border-b border-[#E5DDCE] sticky top-0 bg-white z-10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-[#3E9B61]/10 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#3E9B61] text-xl">percent</span>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-[#211A18]">Thêm chương trình khuyến mãi</h2>
+            <p class="text-xs text-[#857B76]">Tạo mã voucher mới cho khách hàng</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-add-promo')" class="w-8 h-8 rounded-full hover:bg-[#F3EED8] flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[#4B4240] text-xl">close</span>
+        </button>
+      </div>
+
+      <form id="promo-form" class="px-6 py-5 space-y-4">
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18]">Tên chương trình <span class="text-[#D95A82]">*</span></label>
+          <input type="text" name="promoName" required placeholder="VD: Ưu đãi mùa Thu - Giảm 20%"
+            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#3E9B61]">
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18]">Mã voucher <span class="text-[#D95A82]">*</span></label>
+          <input type="text" name="promoCode" required placeholder="VD: MUATHU20" style="text-transform:uppercase"
+            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-sm font-mono focus:outline-none focus:border-[#3E9B61]">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Loại giảm giá</label>
+            <select name="promoType" class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
+              <option value="percent">Giảm theo %</option>
+              <option value="fixed">Giảm số tiền cố định</option>
+              <option value="freeship">Miễn phí ship</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Giá trị giảm <span class="text-[#D95A82]">*</span></label>
+            <input type="number" name="promoValue" required placeholder="VD: 20"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Ngày bắt đầu</label>
+            <input type="date" name="promoStart"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-[#211A18]">Ngày kết thúc</label>
+            <input type="date" name="promoEnd"
+              class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18]">Đơn tối thiểu (₫)</label>
+          <input type="number" name="promoMinOrder" placeholder="VD: 300000 (để trống = không yêu cầu)"
+            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61]">
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18]">Mô tả chương trình</label>
+          <textarea name="promoDesc" rows="2" placeholder="Mô tả ngắn về chương trình ưu đãi..."
+            class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61] resize-none"></textarea>
+        </div>
+
+        <div class="flex gap-3 pt-2 border-t border-[#E5DDCE]">
+          <button type="button" onclick="closeModal('modal-add-promo')"
+            class="flex-1 py-3 border border-[#E5DDCE] rounded-xl text-sm font-semibold text-[#4B4240] hover:bg-[#FAF7E9] transition-colors">
+            Hủy bỏ
+          </button>
+          <button type="submit"
+            class="flex-1 py-3 bg-[#3E9B61] text-white rounded-xl text-sm font-bold hover:bg-[#277A4D] transition-colors flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">add_circle</span>
+            Tạo chương trình
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
   <!-- ═══ SCRIPTS ═══ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
@@ -1090,7 +1164,6 @@
         blogs:      document.getElementById("module-blogs"),
         orders:     document.getElementById("module-orders"),
         reports:    document.getElementById("module-reports"),
-        inventory:  document.getElementById("module-inventory"),
         promotions: document.getElementById("module-promotions"),
         media:      document.getElementById("module-media")
       };
@@ -1109,6 +1182,9 @@
 
         if (key === "blogs") {
           renderBlogTable();
+        }
+        if (key === "promotions" && typeof renderPromotionsList === "function") {
+          renderPromotionsList();
         }
 
         // Ẩn sidebar trên mobile sau khi chọn tab
@@ -1190,7 +1266,7 @@
       }
 
       // ── CLOSE MODAL ON BACKDROP CLICK ───────────────────────────
-      ["modal-add", "modal-edit", "modal-delete", "modal-blog", "modal-delete-blog"].forEach(id => {
+      ["modal-add", "modal-edit", "modal-delete", "modal-blog", "modal-delete-blog", "modal-add-promo"].forEach(id => {
         const el = document.getElementById(id);
         el?.addEventListener("click", e => {
           if (e.target === el) closeModal(id);

@@ -218,8 +218,112 @@ function setupImageUpload(inputEl, previewEl, hiddenEl) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  PRODUCT TABLE RENDERER (async)
+//  PRODUCT TABLE RENDERER (async) — paginated 20 items/page
 // ═══════════════════════════════════════════════════════════════════
+const PRODUCTS_PER_PAGE = 20;
+let _currentProductPage = 1;
+let _allProductsCache = [];
+
+function renderProductRow(p) {
+  return `
+    <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
+      <td class="p-3">
+        <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
+          <img src="${p.image}" alt="${p.name}"
+            class="w-full h-full object-cover"
+            onerror="this.src='assets/images/hero-bouquet.png'">
+        </div>
+      </td>
+      <td class="p-3">
+        <p class="font-bold text-[#211A18] text-sm leading-tight">${p.name}</p>
+        <p class="text-[11px] text-[#857B76] mt-0.5 font-mono">${p.id}</p>
+      </td>
+      <td class="p-3 text-xs text-[#4B4240]">${p.typeName || "—"}</td>
+      <td class="p-3 text-xs text-[#4B4240]">${p.colorName || "—"}</td>
+      <td class="p-3">
+        <p class="font-bold text-[#D95A82] text-sm">${fmt(p.price)}₫</p>
+        ${p.originalPrice && p.originalPrice > p.price
+          ? `<p class="text-[10px] text-[#857B76] line-through">${fmt(p.originalPrice)}₫</p>` : ""}
+      </td>
+      <td class="p-3">
+        <div class="flex flex-wrap gap-1">
+          ${p.isBestSeller ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#D95A82]/10 text-[#D95A82]">Bán chạy</span>` : ""}
+          ${p.isNew ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">Mới</span>` : ""}
+          ${p.isFeatured ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#F29A38]/15 text-[#B96B00]">Nổi bật</span>` : ""}
+        </div>
+      </td>
+      <td class="p-3 text-right space-x-1">
+        <button onclick="openEditModal('${p.id}')"
+          class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3E9B61]/10 text-[#277A4D] rounded-lg text-xs font-semibold hover:bg-[#3E9B61]/20 transition-colors">
+          <span class="material-symbols-outlined text-sm">edit</span>Sửa
+        </button>
+        <button onclick="confirmDelete('${p.id}', '${(p.name || "").replace(/'/g, "\\'")}')"
+          class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#D95A82]/10 text-[#D95A82] rounded-lg text-xs font-semibold hover:bg-[#D95A82]/20 transition-colors">
+          <span class="material-symbols-outlined text-sm">delete</span>Xóa
+        </button>
+      </td>
+    </tr>`;
+}
+
+function renderProductPagination(total) {
+  const totalPages = Math.ceil(total / PRODUCTS_PER_PAGE);
+  const pageInfo = document.getElementById("product-page-info");
+  const pageBtns = document.getElementById("product-page-buttons");
+  if (!pageInfo || !pageBtns) return;
+
+  if (totalPages <= 1) {
+    pageInfo.textContent = `${total} sản phẩm`;
+    pageBtns.innerHTML = "";
+    return;
+  }
+
+  const start = ((_currentProductPage - 1) * PRODUCTS_PER_PAGE) + 1;
+  const end = Math.min(_currentProductPage * PRODUCTS_PER_PAGE, total);
+  pageInfo.textContent = `Hiển thị ${start}–${end} / ${total} sản phẩm`;
+
+  let btns = "";
+  const btnClass = (active) => active
+    ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-[#3E9B61] text-white"
+    : "px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-[#E5DDCE] text-[#4B4240] hover:bg-[#FAF7E9] transition-colors";
+
+  if (_currentProductPage > 1) {
+    btns += `<button onclick="goToProductPage(${_currentProductPage - 1})" class="${btnClass(false)}">
+      <span class="material-symbols-outlined text-sm align-middle">chevron_left</span>
+    </button>`;
+  }
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - _currentProductPage) > 1) {
+      if (i === 3 || i === totalPages - 2) btns += `<span class="px-1 text-xs text-[#857B76]">...</span>`;
+      continue;
+    }
+    btns += `<button onclick="goToProductPage(${i})" class="${btnClass(i === _currentProductPage)}">${i}</button>`;
+  }
+
+  if (_currentProductPage < totalPages) {
+    btns += `<button onclick="goToProductPage(${_currentProductPage + 1})" class="${btnClass(false)}">
+      <span class="material-symbols-outlined text-sm align-middle">chevron_right</span>
+    </button>`;
+  }
+
+  pageBtns.innerHTML = btns;
+}
+
+function goToProductPage(page) {
+  _currentProductPage = page;
+  renderProductTablePage();
+}
+
+function renderProductTablePage() {
+  const tbody = document.getElementById("admin-products-table-body");
+  if (!tbody) return;
+  const total = _allProductsCache.length;
+  const start = (_currentProductPage - 1) * PRODUCTS_PER_PAGE;
+  const pageItems = _allProductsCache.slice(start, start + PRODUCTS_PER_PAGE);
+  tbody.innerHTML = pageItems.map(renderProductRow).join("");
+  renderProductPagination(total);
+}
+
 async function renderProductTable() {
   const tbody = document.getElementById("admin-products-table-body");
   if (!tbody) return;
@@ -231,54 +335,19 @@ async function renderProductTable() {
 
   try {
     const products = await AdminCMS.getProducts();
+    _allProductsCache = products;
 
     if (products.length === 0) {
       tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#857B76] italic">Chưa có sản phẩm nào.</td></tr>`;
       document.getElementById("product-count").textContent = "0 sản phẩm";
+      renderProductPagination(0);
       return;
     }
 
     document.getElementById("product-count").textContent = `${products.length} sản phẩm`;
-
-    tbody.innerHTML = products.map(p => `
-      <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
-        <td class="p-3">
-          <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
-            <img src="${p.image}" alt="${p.name}"
-              class="w-full h-full object-cover"
-              onerror="this.src='assets/images/hero-bouquet.png'">
-          </div>
-        </td>
-        <td class="p-3">
-          <p class="font-bold text-[#211A18] text-sm leading-tight">${p.name}</p>
-          <p class="text-[11px] text-[#857B76] mt-0.5 font-mono">${p.id}</p>
-        </td>
-        <td class="p-3 text-xs text-[#4B4240]">${p.typeName || "—"}</td>
-        <td class="p-3 text-xs text-[#4B4240]">${p.colorName || "—"}</td>
-        <td class="p-3">
-          <p class="font-bold text-[#D95A82] text-sm">${fmt(p.price)}₫</p>
-          ${p.originalPrice && p.originalPrice > p.price
-            ? `<p class="text-[10px] text-[#857B76] line-through">${fmt(p.originalPrice)}₫</p>` : ""}
-        </td>
-        <td class="p-3">
-          <div class="flex flex-wrap gap-1">
-            ${p.isBestSeller ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#D95A82]/10 text-[#D95A82]">Bán chạy</span>` : ""}
-            ${p.isNew ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">Mới</span>` : ""}
-            ${p.isFeatured ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#F29A38]/15 text-[#B96B00]">Nổi bật</span>` : ""}
-          </div>
-        </td>
-        <td class="p-3 text-right space-x-1">
-          <button onclick="openEditModal('${p.id}')"
-            class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3E9B61]/10 text-[#277A4D] rounded-lg text-xs font-semibold hover:bg-[#3E9B61]/20 transition-colors">
-            <span class="material-symbols-outlined text-sm">edit</span>Sửa
-          </button>
-          <button onclick="confirmDelete('${p.id}', '${(p.name || "").replace(/'/g, "\\'")}')"
-            class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#D95A82]/10 text-[#D95A82] rounded-lg text-xs font-semibold hover:bg-[#D95A82]/20 transition-colors">
-            <span class="material-symbols-outlined text-sm">delete</span>Xóa
-          </button>
-        </td>
-      </tr>
-    `).join("");
+    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+    if (_currentProductPage > totalPages) _currentProductPage = totalPages;
+    renderProductTablePage();
   } catch (err) {
     console.error("Lỗi render product table:", err);
     tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#D95A82]">Lỗi tải sản phẩm. Vui lòng thử lại.</td></tr>`;
@@ -533,23 +602,18 @@ async function filterProducts() {
   const q = (document.getElementById("product-search")?.value || "").toLowerCase();
   const typeFilter = (document.getElementById("product-type-filter")?.value || "");
 
-  const rows = document.querySelectorAll("#admin-products-table-body tr[data-id]");
-  const products = await AdminCMS.getProducts();
-  let visible = 0;
-  rows.forEach(row => {
-    const id = row.getAttribute("data-id");
-    const p = products.find(x => x.id === id);
-    if (!p) { row.style.display = "none"; return; }
-
+  const allProducts = await AdminCMS.getProducts();
+  const filtered = allProducts.filter(p => {
     const matchQ = !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q) || (p.colorName || "").toLowerCase().includes(q);
     const matchType = !typeFilter || p.type === typeFilter;
-
-    row.style.display = matchQ && matchType ? "" : "none";
-    if (matchQ && matchType) visible++;
+    return matchQ && matchType;
   });
 
+  _allProductsCache = filtered;
+  _currentProductPage = 1;
   const countEl = document.getElementById("product-count");
-  if (countEl) countEl.textContent = `${visible} sản phẩm`;
+  if (countEl) countEl.textContent = `${filtered.length} sản phẩm`;
+  renderProductTablePage();
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1049,3 +1113,137 @@ function selectBlogSampleImage(src) {
 }
 
 window.AdminBlogCMS = AdminBlogCMS;
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROMOTION STORE (localStorage)
+// ═══════════════════════════════════════════════════════════════════
+const AdminPromoCMS = {
+  LS_KEY: "hnm_promotions_v1",
+
+  getPromos() {
+    try {
+      const saved = localStorage.getItem(this.LS_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) { return []; }
+  },
+
+  savePromos(list) {
+    localStorage.setItem(this.LS_KEY, JSON.stringify(list));
+  },
+
+  addPromo(data) {
+    const list = this.getPromos();
+    const promo = {
+      id: "promo-" + Date.now(),
+      name: data.name,
+      code: (data.code || "").toUpperCase(),
+      type: data.type || "percent",
+      value: parseFloat(data.value) || 0,
+      minOrder: parseInt(data.minOrder) || 0,
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      description: data.description || "",
+      createdAt: new Date().toISOString()
+    };
+    list.unshift(promo);
+    this.savePromos(list);
+    return promo;
+  },
+
+  deletePromo(id) {
+    const list = this.getPromos().filter(p => p.id !== id);
+    this.savePromos(list);
+  }
+};
+
+function renderPromotionsList() {
+  const container = document.getElementById("promotions-list");
+  if (!container) return;
+  const promos = AdminPromoCMS.getPromos();
+
+  if (promos.length === 0) {
+    container.innerHTML = `<div class="p-5 rounded-2xl bg-white border border-dashed border-[#E5DDCE] shadow-sm flex items-center justify-center">
+      <p class="text-xs text-[#857B76] text-center">Chưa có chương trình khuyến mãi nào.<br>Hãy nhấn "Thêm chương trình khuyến mãi" để bắt đầu.</p>
+    </div>`;
+    return;
+  }
+
+  const typeLabels = { percent: "Giảm %", fixed: "Giảm tiền", freeship: "Free ship" };
+
+  container.innerHTML = promos.map(p => {
+    const valueDisplay = p.type === "percent" ? `${p.value}%` : p.type === "freeship" ? "Miễn phí" : `${fmt(p.value)}₫`;
+    const now = new Date();
+    const end = p.endDate ? new Date(p.endDate) : null;
+    const isExpired = end && end < now;
+    const statusClass = isExpired
+      ? "bg-[#857B76]/10 text-[#857B76] border-[#857B76]/20"
+      : "bg-[#3E9B61]/10 text-[#277A4D] border-[#3E9B61]/20";
+    const statusLabel = isExpired ? "Hết hạn" : "Đang hoạt động";
+
+    return `
+      <div class="p-5 rounded-2xl bg-white border border-[#E5DDCE] shadow-sm space-y-3">
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex-1 min-w-0">
+            <p class="font-bold text-sm text-[#211A18] truncate">${p.name}</p>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border mt-1 ${statusClass}">${statusLabel}</span>
+          </div>
+          <button onclick="deletePromotion('${p.id}')" class="w-7 h-7 rounded-lg flex items-center justify-center text-[#857B76] hover:text-[#D95A82] hover:bg-[#D95A82]/10 transition-colors flex-shrink-0" title="Xóa">
+            <span class="material-symbols-outlined text-base">delete</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-3 py-1.5 rounded-xl bg-[#FAF7E9] border border-dashed border-[#3E9B61] text-[#277A4D] font-mono font-bold text-sm tracking-wider">${p.code}</span>
+          <span class="text-xs text-[#857B76]">${typeLabels[p.type] || p.type}</span>
+        </div>
+        <div class="text-2xl font-bold text-[#D95A82]">${valueDisplay}</div>
+        ${p.minOrder ? `<p class="text-[11px] text-[#857B76]">Đơn tối thiểu: ${fmt(p.minOrder)}₫</p>` : ""}
+        ${p.startDate || p.endDate ? `<p class="text-[11px] text-[#857B76]">${p.startDate || "..."} → ${p.endDate || "..."}</p>` : ""}
+        ${p.description ? `<p class="text-xs text-[#4B4240] leading-relaxed">${p.description}</p>` : ""}
+      </div>`;
+  }).join("");
+}
+
+function deletePromotion(id) {
+  if (!confirm("Bạn có chắc muốn xóa chương trình khuyến mãi này?")) return;
+  AdminPromoCMS.deletePromo(id);
+  renderPromotionsList();
+  showToast("Đã xóa chương trình khuyến mãi.", "warning");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderPromotionsList();
+
+  const promoForm = document.getElementById("promo-form");
+  if (promoForm) {
+    promoForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const name = (fd.get("promoName") || "").trim();
+      const code = (fd.get("promoCode") || "").trim();
+      const value = fd.get("promoValue");
+
+      if (!name || !code || !value) {
+        showToast("Vui lòng điền đầy đủ thông tin bắt buộc!", "error");
+        return;
+      }
+
+      AdminPromoCMS.addPromo({
+        name,
+        code,
+        type: fd.get("promoType") || "percent",
+        value,
+        minOrder: fd.get("promoMinOrder") || 0,
+        startDate: fd.get("promoStart") || "",
+        endDate: fd.get("promoEnd") || "",
+        description: (fd.get("promoDesc") || "").trim()
+      });
+
+      closeModal("modal-add-promo");
+      promoForm.reset();
+      renderPromotionsList();
+      showToast("Đã tạo chương trình khuyến mãi thành công!");
+    });
+  }
+});
+
+window.AdminPromoCMS = AdminPromoCMS;
