@@ -7,3 +7,4 @@
  */
 const SITE_IMAGE_CONFIG = {};
 const PRODUCT_IMAGE_OVERRIDES = {};
+const PRODUCTS_CUSTOM = [];

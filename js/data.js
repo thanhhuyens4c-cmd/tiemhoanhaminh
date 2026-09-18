@@ -499,6 +499,13 @@ function getProducts() {
       }
     });
   }
+  if (typeof PRODUCTS_CUSTOM !== "undefined" && Array.isArray(PRODUCTS_CUSTOM)) {
+    PRODUCTS_CUSTOM.forEach(cp => {
+      if (!products.find(p => p.id === cp.id)) {
+        products.push(JSON.parse(JSON.stringify(cp)));
+      }
+    });
+  }
   return products;
 }
 

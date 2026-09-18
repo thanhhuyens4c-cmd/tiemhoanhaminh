@@ -585,6 +585,10 @@ const ConfigSync = {
       lines.push('  "' + id + '": "' + escaped + '",');
     });
     lines.push("};");
+
+    const customProducts = products.filter(p => !defaults.find(d => d.id === p.id));
+    lines.push("const PRODUCTS_CUSTOM = " + JSON.stringify(customProducts, null, 2) + ";");
+
     return lines.join("\n");
   },
 

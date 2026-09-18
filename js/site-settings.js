@@ -230,7 +230,7 @@ if (document.readyState === "loading") {
     .then(text => {
       if (!text) return;
       try {
-        const fn = new Function(text + "\nreturn { SITE_IMAGE_CONFIG: typeof SITE_IMAGE_CONFIG!=='undefined'?SITE_IMAGE_CONFIG:{}, PRODUCT_IMAGE_OVERRIDES: typeof PRODUCT_IMAGE_OVERRIDES!=='undefined'?PRODUCT_IMAGE_OVERRIDES:{} };");
+        const fn = new Function(text + "\nreturn { SITE_IMAGE_CONFIG: typeof SITE_IMAGE_CONFIG!=='undefined'?SITE_IMAGE_CONFIG:{}, PRODUCT_IMAGE_OVERRIDES: typeof PRODUCT_IMAGE_OVERRIDES!=='undefined'?PRODUCT_IMAGE_OVERRIDES:{}, PRODUCTS_CUSTOM: typeof PRODUCTS_CUSTOM!=='undefined'?PRODUCTS_CUSTOM:[] };");
         const fresh = fn();
         let changed = false;
         const currentConfig = (typeof SITE_IMAGE_CONFIG !== "undefined") ? SITE_IMAGE_CONFIG : {};
@@ -243,11 +243,16 @@ if (document.readyState === "loading") {
             if (fresh.PRODUCT_IMAGE_OVERRIDES[k] !== currentProd[k]) { changed = true; break; }
           }
         }
+        if (!changed) {
+          const currentCustom = (typeof PRODUCTS_CUSTOM !== "undefined") ? PRODUCTS_CUSTOM : [];
+          if (JSON.stringify(fresh.PRODUCTS_CUSTOM) !== JSON.stringify(currentCustom)) { changed = true; }
+        }
         if (changed) {
           if (typeof window.SITE_IMAGE_CONFIG !== "undefined") Object.assign(window.SITE_IMAGE_CONFIG, fresh.SITE_IMAGE_CONFIG);
           else window.SITE_IMAGE_CONFIG = fresh.SITE_IMAGE_CONFIG;
           if (typeof window.PRODUCT_IMAGE_OVERRIDES !== "undefined") Object.assign(window.PRODUCT_IMAGE_OVERRIDES, fresh.PRODUCT_IMAGE_OVERRIDES);
           else window.PRODUCT_IMAGE_OVERRIDES = fresh.PRODUCT_IMAGE_OVERRIDES;
+          window.PRODUCTS_CUSTOM = fresh.PRODUCTS_CUSTOM;
           SiteSettings.applyToPage();
         }
       } catch (e) {}
