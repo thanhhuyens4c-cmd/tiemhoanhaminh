@@ -236,9 +236,9 @@
               <textarea required id="contact-message" rows="4" placeholder="VD: Mình muốn đặt 1 bó hoa tặng sinh nhật mẹ vào thứ Bảy này, tông màu hồng ấm áp trong ngân sách 500k..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]"></textarea>
             </div>
 
-            <button type="submit" class="w-full h-12 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
-              <span class="material-symbols-outlined text-lg">send</span>
-              <span>GỬI LIÊN HỆ</span>
+            <button type="submit" class="w-full h-12 bg-[#0068FF] hover:bg-[#0054CC] text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2C11.85 2 2 10.95 2 22c0 5.9 2.87 11.15 7.36 14.79V46l8.64-4.74c2 .55 4.12.85 6.36.85C36.15 42.11 46 33.05 46 22S36.15 2 24 2zm2.54 27.27-5.1-5.44-9.96 5.5 10.95-11.62 5.23 5.44 9.83-5.5-10.95 11.62z"/></svg>
+              <span>GỬI QUA ZALO</span>
             </button>
 
           </form>
@@ -320,8 +320,19 @@
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const name = document.getElementById("contact-name").value.trim();
-        App.showToast("Gửi lời nhắn thành công!", `Cảm ơn ${name}, tiệm sẽ liên hệ sớm nhất!`);
-        form.reset();
+        const phone = document.getElementById("contact-phone").value.trim();
+        const email = document.getElementById("contact-email").value.trim();
+        const message = document.getElementById("contact-message").value.trim();
+
+        let zaloText = `Xin chào Hoa Nhà Mình 🌸\n\n`;
+        zaloText += `Mình là ${name}\n`;
+        zaloText += `SĐT: ${phone}\n`;
+        if (email) zaloText += `Email: ${email}\n`;
+        zaloText += `\n${message}`;
+
+        const zaloUrl = `https://zalo.me/0944355645?text=${encodeURIComponent(zaloText)}`;
+        window.open(zaloUrl, "_blank", "noopener");
+        App.showToast("Đang mở Zalo…", `Gửi tin nhắn tư vấn cho tiệm qua Zalo nhé, ${name}!`);
       });
     });
   </script>
