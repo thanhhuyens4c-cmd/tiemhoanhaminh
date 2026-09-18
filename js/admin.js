@@ -301,24 +301,16 @@ function openAddModal() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // ── Setup image uploads ──────────────────────────────────────────
-  const addImgInput = document.getElementById("add-img-input");
-  const addImgPreview = document.getElementById("add-img-preview");
-  const addImgData = document.getElementById("add-img-data");
-  setupImageUpload(addImgInput, addImgPreview, addImgData);
-  // Hiện nút AI sau khi upload ảnh
-  if (addImgInput) {
-    addImgInput.addEventListener("change", () => {
-      if (addImgInput.files[0]) showAIButtonOnImageUpload("add");
-    });
-  }
-
-  const editImgInput = document.getElementById("edit-img-input");
-  const editImgPreview = document.getElementById("edit-img-preview");
-  const editImgData = document.getElementById("edit-img-data");
-  setupImageUpload(editImgInput, editImgPreview, editImgData);
-
-  // Khởi tạo label sidebar AI
-  updateAISidebarLabel();
+  setupImageUpload(
+    document.getElementById("add-img-input"),
+    document.getElementById("add-img-preview"),
+    document.getElementById("add-img-data")
+  );
+  setupImageUpload(
+    document.getElementById("edit-img-input"),
+    document.getElementById("edit-img-preview"),
+    document.getElementById("edit-img-data")
+  );
 
   // ── Auto-sync typeName khi chọn loại hoa (form Thêm) ────────────
   const TYPE_NAMES = { "bo-hoa": "Bó hoa tươi", "gio-hoa": "Giỏ hoa thủ công" };
@@ -534,182 +526,6 @@ function resetProductsToDefault() {
 }
 
 window.AdminCMS = AdminCMS;
-
-// ═══════════════════════════════════════════════════════════════════
-//  AI DESCRIPTION ASSISTANT
-// ═══════════════════════════════════════════════════════════════════
-
-/**
- * Kích hoạt phân tích ảnh AI cho form "add" hoặc "edit"
- * @param {string} formPrefix - "add" hoặc "edit"
- */
-async function triggerAIAnalysis(formPrefix) {
-  // Lấy ảnh hiện tại (ưu tiên: base64 đã upload → src của preview)
-  const hiddenInput = document.getElementById(`${formPrefix}-img-data`);
-  const preview     = document.getElementById(`${formPrefix}-img-preview`);
-
-  let imageDataUrl = (hiddenInput?.value || "").trim();
-
-  // Nếu chưa upload file, lấy từ src preview (có thể là URL ảnh cũ trong edit)
-  if (!imageDataUrl && preview && preview.src && !preview.classList.contains("hidden")) {
-    const src = preview.getAttribute("src") || preview.src;
-    if (src && src.startsWith("data:")) {
-      imageDataUrl = src;
-    } else if (src && src.startsWith("http")) {
-      // URL ảnh — cần fetch và convert, báo người dùng
-      showToast("⚠️ AI chỉ phân tích được ảnh đã upload từ máy tính. Vui lòng upload ảnh trước!", "warning");
-      return;
-    }
-  }
-
-  if (!imageDataUrl) {
-    showToast("⚠️ Chưa có ảnh để phân tích! Vui lòng upload ảnh trước.", "warning");
-    return;
-  }
-
-  // Kiểm tra API Key
-  if (!AdminAI.hasApiKey()) {
-    showToast("🔑 Chưa cài đặt Gemini API Key!", "warning");
-    openAISettings();
-    return;
-  }
-
-  // Lấy tên sản phẩm từ form (nếu có)
-  const formEl = document.getElementById(`${formPrefix}-form`);
-  const productName = formEl?.querySelector("[name=name]")?.value || "";
-
-  // Hiển thị loading state (cả nút ở phần ảnh và nút ở phần mô tả)
-  const btn        = document.getElementById(`${formPrefix}-ai-btn`);
-  const descBtn    = document.getElementById(`${formPrefix}-ai-desc-btn`);
-  const iconEl     = document.getElementById(`${formPrefix}-ai-icon`);
-  const descIconEl = document.getElementById(`${formPrefix}-ai-desc-icon`);
-  const labelEl    = document.getElementById(`${formPrefix}-ai-label`);
-  const descLabelEl= document.getElementById(`${formPrefix}-ai-desc-label`);
-
-  const setLoading = (loading) => {
-    [btn, descBtn].forEach(b => { if (b) b.disabled = loading; });
-    if (loading) {
-      if (iconEl)      iconEl.innerHTML     = `<span class="ai-spinner">⟳</span>`;
-      if (descIconEl)  descIconEl.innerHTML  = `<span class="ai-spinner">⟳</span>`;
-      if (labelEl)     labelEl.textContent   = "AI đang phân tích...";
-      if (descLabelEl) descLabelEl.textContent = "AI đang phân tích...";
-    } else {
-      if (iconEl)      iconEl.textContent    = "auto_awesome";
-      if (descIconEl)  descIconEl.textContent = "auto_awesome";
-      if (labelEl)     labelEl.innerHTML     = "✨ AI phân tích ảnh &amp; gợi ý mô tả";
-      if (descLabelEl) descLabelEl.innerHTML  = "✨ Phân tích &amp; Gợi ý";
-    }
-  };
-
-  setLoading(true);
-
-  try {
-    const suggestions = await AdminAI.analyzeFlowerImage(imageDataUrl, productName);
-
-    // Điền kết quả vào form (không ghi đè nếu đã có nội dung)
-    if (formEl) {
-      AdminAI.fillFormWithAISuggestions(formEl, suggestions, false);
-    }
-
-    showToast("✨ AI đã gợi ý mô tả thành công! Các trường đang trống được điền tự động.", "success");
-
-  } catch (err) {
-    if (err.message === "NO_API_KEY") {
-      showToast("🔑 Chưa cài đặt Gemini API Key!", "warning");
-      openAISettings();
-    } else {
-      console.error("AI Error:", err);
-      showToast(`❌ AI lỗi: ${err.message}`, "error");
-    }
-  } finally {
-    setLoading(false);
-  }
-}
-
-/** Mở modal cài đặt Gemini API */
-function openAISettings() {
-  const inp    = document.getElementById("ai-key-input");
-  const status = document.getElementById("ai-key-status");
-  if (inp) inp.value = AdminAI.getApiKey();
-  if (status) { status.className = "hidden"; status.innerHTML = ""; }
-  openModal("modal-ai-settings");
-}
-
-/** Kiểm tra & lưu API Key */
-async function testAndSaveAIKey() {
-  const inp    = document.getElementById("ai-key-input");
-  const status = document.getElementById("ai-key-status");
-  const saveIconEl  = document.getElementById("ai-save-icon");
-  const saveLabelEl = document.getElementById("ai-save-label");
-
-  const key = (inp?.value || "").trim();
-  if (!key) {
-    if (status) {
-      status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-red-500 py-1";
-      status.innerHTML = `<span class="material-symbols-outlined text-sm">error</span> Vui lòng nhập API Key!`;
-    }
-    return;
-  }
-
-  // Loading state
-  if (saveIconEl)  saveIconEl.innerHTML  = `<span class="ai-spinner">⟳</span>`;
-  if (saveLabelEl) saveLabelEl.textContent = "Đang kiểm tra...";
-
-  try {
-    // Test key bằng AdminAI (tự động thử các model khả dụng)
-    const result = await AdminAI.testKey(key);
-
-    // Lưu key
-    AdminAI.saveApiKey(key);
-    updateAISidebarLabel();
-
-    if (status) {
-      status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-green-600 py-1";
-      status.innerHTML = `<span class="material-symbols-outlined text-sm">check_circle</span> API Key hợp lệ (Model: ${result?.model || AdminAI.MODEL})! AI sẵn sàng phân tích ảnh hoa 🌸`;
-    }
-    showToast("✅ Đã lưu Gemini API Key thành công!");
-
-    setTimeout(() => closeModal("modal-ai-settings"), 1500);
-
-  } catch (err) {
-    if (status) {
-      status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-red-500 py-1";
-      status.innerHTML = `<span class="material-symbols-outlined text-sm">error</span> ${err.message}`;
-    }
-  } finally {
-    if (saveIconEl)  saveIconEl.textContent = "save";
-    if (saveLabelEl) saveLabelEl.textContent = "Lưu & Kiểm tra";
-  }
-}
-
-/** Xóa API Key */
-function clearAIKey() {
-  if (!confirm("Bạn có chắc muốn xóa Gemini API Key đã lưu không?")) return;
-  AdminAI.saveApiKey("");
-  const inp    = document.getElementById("ai-key-input");
-  const status = document.getElementById("ai-key-status");
-  if (inp) inp.value = "";
-  if (status) {
-    status.className = "flex items-center gap-1.5 text-[11px] font-semibold text-[#857B76] py-1";
-    status.innerHTML = `<span class="material-symbols-outlined text-sm">info</span> API Key đã được xóa.`;
-  }
-  updateAISidebarLabel();
-  showToast("🗑️ Đã xóa API Key.", "warning");
-}
-
-/** Cập nhật label nút AI trong sidebar */
-function updateAISidebarLabel() {
-  const el = document.getElementById("ai-sidebar-label");
-  if (!el) return;
-  el.textContent = AdminAI.hasApiKey() ? "✨ AI đã kích hoạt" : "Cài đặt AI Gemini";
-}
-
-/** Hiển thị nút AI khi ảnh được upload */
-function showAIButtonOnImageUpload(formPrefix) {
-  const wrap = document.getElementById(`${formPrefix}-ai-btn-wrap`);
-  if (wrap) wrap.classList.remove("hidden");
-}
-
 
 // ═══════════════════════════════════════════════════════════════════
 //  BLOG STORE (localStorage layer on top of static BLOG_POSTS[])
