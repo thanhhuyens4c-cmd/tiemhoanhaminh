@@ -104,13 +104,10 @@ function _getLocalProducts() {
 
 /**
  * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Ưu tiên localStorage cache (instant) → nếu trống thì chờ Supabase (có thể mất 10-30s lần đầu).
- * Sau khi Supabase trả về, lưu vào localStorage → các lần sau load tức thì.
+ * Luôn gọi Supabase nếu có → cập nhật localStorage cache.
+ * Nếu Supabase lỗi → fallback về localStorage/PRODUCTS.
  */
 async function getProducts() {
-  const cached = _getLocalProducts();
-  if (cached.length > 0) return cached;
-
   if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
     try {
       return await ProductAPI.getProducts();
@@ -118,23 +115,7 @@ async function getProducts() {
       console.error("Supabase getProducts error:", e);
     }
   }
-  return cached;
-}
-
-/**
- * Làm mới sản phẩm từ Supabase ở background (không chặn UI).
- * Chỉ gọi callback khi dữ liệu thực sự thay đổi so với cache.
- */
-function refreshProductsInBackground(onUpdate) {
-  if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) return;
-  const before = JSON.stringify(_getLocalProducts().map(p => p.id).sort());
-  ProductAPI.getProducts(true).then(fresh => {
-    if (!fresh || fresh.length === 0) return;
-    const after = JSON.stringify(fresh.map(p => p.id).sort());
-    if (after !== before && typeof onUpdate === "function") {
-      onUpdate(fresh);
-    }
-  }).catch(() => {});
+  return _getLocalProducts();
 }
 
 /**
