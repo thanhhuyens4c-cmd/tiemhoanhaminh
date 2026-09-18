@@ -685,15 +685,6 @@
 
       await renderTab("all");
 
-      // Làm mới từ Supabase ở background
-      if (typeof refreshProductsInBackground === "function") {
-        refreshProductsInBackground(() => {
-          const activeTab = document.querySelector(".tab-btn.bg-\\[\\#3E9B61\\]");
-          const key = activeTab ? activeTab.getAttribute("data-tab") : "all";
-          renderTab(key);
-        });
-      }
-
       document.querySelectorAll(".tab-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           document.querySelectorAll(".tab-btn").forEach(b => {

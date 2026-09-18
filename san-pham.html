@@ -503,13 +503,8 @@
       if (emptyResetBtn) emptyResetBtn.addEventListener("click", resetAll);
       if (clearBadgeBtn) clearBadgeBtn.addEventListener("click", resetAll);
 
-      // Chạy lần đầu (hiển thị dữ liệu cache ngay lập tức)
+      // Chạy lần đầu
       filterAndRender();
-
-      // Làm mới từ Supabase ở background, cập nhật nếu có thay đổi
-      if (typeof refreshProductsInBackground === "function") {
-        refreshProductsInBackground(() => filterAndRender());
-      }
 
       // Mobile filter toggle
       const mobFilterBtn = document.getElementById("mobile-filter-btn");
