@@ -6,8 +6,9 @@
 
 const AdminAI = {
   LS_KEY:   "hnm_gemini_api_key",
-  MODEL:    "gemini-3.6-flash",
-  CANDIDATE_MODELS: ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"],
+  MODEL:    "gemini-2.5-flash",
+  // Thứ tự ưu tiên: thử từng model khi model trước bị lỗi/quá tải
+  CANDIDATE_MODELS: ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-3.6-flash"],
   API_BASE: "https://generativelanguage.googleapis.com/v1beta/models",
 
   getApiKey()  { return localStorage.getItem(this.LS_KEY) || ""; },
@@ -18,6 +19,27 @@ const AdminAI = {
     k ? localStorage.setItem(this.LS_KEY, k) : localStorage.removeItem(this.LS_KEY);
     return k;
   },
+
+  /** Trả về true nếu lỗi là tạm thời (quá tải, rate limit) → nên thử model khác */
+  _isRetryableError(msg, status) {
+    if (!msg) return false;
+    const m = msg.toLowerCase();
+    return (
+      status === 429 || status === 503 || status === 429 ||
+      m.includes("high demand") ||
+      m.includes("resource_exhausted") ||
+      m.includes("quota") ||
+      m.includes("rate limit") ||
+      m.includes("try again") ||
+      m.includes("overloaded") ||
+      m.includes("no longer available") ||
+      m.includes("not found") ||
+      m.includes("deprecated")
+    );
+  },
+
+  /** Chờ một khoảng ms */
+  _wait(ms) { return new Promise(r => setTimeout(r, ms)); },
 
   /** Kiểm tra tính hợp lệ của API Key với danh sách model hỗ trợ */
   async testKey(key) {
@@ -34,7 +56,7 @@ const AdminAI = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: "ping" }] }],
+            contents: [{ parts: [{ text: "Hi" }] }],
             generationConfig: { maxOutputTokens: 5 }
           })
         });
@@ -47,19 +69,22 @@ const AdminAI = {
         const errData = await res.json().catch(() => ({}));
         const msg = errData?.error?.message || `HTTP ${res.status}`;
 
-        // Nếu API key không hợp lệ từ Google
-        if (msg.includes("API key not valid") || msg.includes("API_KEY_INVALID") || (res.status === 400 && msg.toLowerCase().includes("key"))) {
-          throw new Error("API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại key tại Google AI Studio.");
+        // API key sai thật sự → dừng ngay, không thử tiếp
+        if (res.status === 400 || msg.includes("API key not valid") || msg.includes("API_KEY_INVALID")) {
+          throw new Error("API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại tại Google AI Studio.");
         }
 
+        // Lỗi tạm thời hoặc model không có → thử model tiếp theo
         lastErr = new Error(msg);
+        continue;
+
       } catch (e) {
         if (e.message && e.message.includes("API Key không hợp lệ")) throw e;
         lastErr = e;
       }
     }
 
-    throw lastErr || new Error("Không thể kết nối đến Gemini API. Vui lòng kiểm tra mạng hoặc thử lại.");
+    throw lastErr || new Error("Không thể kết nối đến Gemini API. Vui lòng kiểm tra lại kết nối mạng.");
   },
 
   async analyzeFlowerImage(imageDataUrl, productName = "") {
@@ -94,43 +119,67 @@ Chi tra ve JSON, khong them bat ky text nao khac.`;
       generationConfig: { temperature: 0.75, maxOutputTokens: 1024 }
     });
 
+    // Thử từng model, mỗi model thử tối đa 2 lần (delay giữa các lần)
     const modelsToTry = [this.MODEL, ...this.CANDIDATE_MODELS.filter(m => m !== this.MODEL)];
     let lastErr = null;
 
-    for (const model of modelsToTry) {
-      try {
-        const endpoint = `${this.API_BASE}/${model}:generateContent?key=${apiKey}`;
-        const response = await fetch(endpoint, {
-          method:  "POST",
-          headers: { "Content-Type": "application/json" },
-          body: requestBody
-        });
+    for (let mi = 0; mi < modelsToTry.length; mi++) {
+      const model = modelsToTry[mi];
+      const maxRetries = 2;
 
-        if (!response.ok) {
-          let errMsg = `Lỗi API Gemini (${model}): ${response.status}`;
-          try { const e = await response.json(); errMsg = e?.error?.message || errMsg; } catch (_) {}
-          lastErr = new Error(errMsg);
-          if (errMsg.includes("no longer available") || errMsg.includes("not found") || response.status === 404) {
-            continue;
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+          // Delay nhẹ trước lần thử lại (không delay lần đầu)
+          if (attempt > 0) await this._wait(1500);
+
+          const endpoint = `${this.API_BASE}/${model}:generateContent?key=${apiKey}`;
+          const response = await fetch(endpoint, {
+            method:  "POST",
+            headers: { "Content-Type": "application/json" },
+            body: requestBody
+          });
+
+          if (!response.ok) {
+            let errMsg = "";
+            try { const e = await response.json(); errMsg = e?.error?.message || ""; } catch (_) {}
+            errMsg = errMsg || `HTTP ${response.status}`;
+            lastErr = new Error(errMsg);
+
+            if (this._isRetryableError(errMsg, response.status)) {
+              // Thử lại hoặc chuyển sang model kế nếu hết lượt retry
+              if (attempt < maxRetries - 1) continue;
+              else break; // chuyển sang model tiếp
+            }
+            // Lỗi không phải tạm thời (VD: API key sai) → ném ngay
+            throw lastErr;
           }
-          throw lastErr;
-        }
 
-        this.MODEL = model;
-        const data    = await response.json();
-        const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        const match   = rawText.match(/\{[\s\S]*\}/);
-        if (!match) throw new Error("AI trả về định dạng không hợp lệ. Vui lòng thử lại.");
-        return JSON.parse(match[0]);
-      } catch (err) {
-        lastErr = err;
-        if (err.message && (err.message.includes("no longer available") || err.message.includes("not found"))) {
-          continue;
+          // Thành công
+          this.MODEL = model;
+          const data    = await response.json();
+          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const match   = rawText.match(/\{[\s\S]*\}/);
+          if (!match) throw new Error("AI trả về định dạng không hợp lệ. Vui lòng thử lại.");
+          return JSON.parse(match[0]);
+
+        } catch (err) {
+          lastErr = err;
+          // Lỗi mạng hoặc không phải retryable → chuyển model tiếp ngay
+          if (!this._isRetryableError(err.message, 0)) {
+            mi = modelsToTry.length; // thoát vòng ngoài
+            break;
+          }
+          if (attempt < maxRetries - 1) continue;
+          // Hết retry, chuyển model tiếp
         }
-        throw err;
       }
     }
 
+    // Thông báo lỗi thân thiện
+    const msg = (lastErr?.message || "").toLowerCase();
+    if (msg.includes("high demand") || msg.includes("overloaded") || msg.includes("try again") || msg.includes("resource_exhausted")) {
+      throw new Error("Gemini đang bận, vui lòng thử lại sau vài giây ⏳");
+    }
     throw lastErr || new Error("Không thể phân tích ảnh hoa bằng AI. Vui lòng thử lại.");
   },
 
