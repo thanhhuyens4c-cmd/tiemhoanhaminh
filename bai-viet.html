@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
   <title>Chi tiết bài viết — Hoa Nhà Mình</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -262,6 +264,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
@@ -287,7 +291,8 @@
       // Related flowers
       const flowerBox = document.getElementById("post-related-flowers");
       const relIds = post.relatedProducts || ["HNM-HM001", "HNM-HM002"];
-      const relProducts = getProducts().filter(p => relIds.includes(p.id));
+      const allProds = await getProducts();
+      const relProducts = allProds.filter(p => relIds.includes(p.id));
       flowerBox.innerHTML = relProducts.map(p => `
         <a href="chi-tiet-san-pham.html?id=${p.id}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-[#FAF7E9] transition-colors group">
           <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 border border-[#E5DDCE]">

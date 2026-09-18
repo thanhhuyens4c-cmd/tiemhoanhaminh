@@ -193,8 +193,9 @@ const App = {
     }
   },
 
-  openQuickView(productId) {
-    const product = getProducts().find(p => p.id === productId);
+  async openQuickView(productId) {
+    const products = await getProducts();
+    const product = products.find(p => p.id === productId);
     if (!product) return;
 
     const modal = document.getElementById("quick-view-modal");
@@ -307,17 +308,18 @@ const App = {
       const input = document.getElementById("search-input");
       const resultsContainer = document.getElementById("search-results");
 
-      input.addEventListener("input", (e) => {
+      input.addEventListener("input", async (e) => {
         const query = e.target.value.toLowerCase().trim();
         if (!query) {
           resultsContainer.innerHTML = `<p class="text-xs text-[#857B76] py-2">Gợi ý từ khóa: <em>Hoa hồng, Sinh nhật, Tốt nghiệp, Cúc tana, Hộp hoa</em></p>`;
           return;
         }
 
-        const matched = getProducts().filter(p =>
+        const allProducts = await getProducts();
+        const matched = allProducts.filter(p =>
           p.name.toLowerCase().includes(query) ||
-          p.shortDesc.toLowerCase().includes(query) ||
-          p.colorName.toLowerCase().includes(query)
+          (p.shortDesc || "").toLowerCase().includes(query) ||
+          (p.colorName || "").toLowerCase().includes(query)
         );
 
         if (matched.length === 0) {
@@ -402,14 +404,15 @@ const App = {
 
   // Event delegation cho Wishlist, Quick View, Add to Cart
   initGlobalListeners() {
-    document.addEventListener("click", (e) => {
+    document.addEventListener("click", async (e) => {
       // Wishlist Button
       const wishlistBtn = e.target.closest(".wishlist-btn");
       if (wishlistBtn) {
         e.preventDefault();
         e.stopPropagation();
         const id = wishlistBtn.getAttribute("data-id");
-        const product = getProducts().find(p => p.id === id);
+        const products = await getProducts();
+        const product = products.find(p => p.id === id);
         const isAdded = Store.toggleWishlist(id);
         const icon = wishlistBtn.querySelector(".material-symbols-outlined");
 
@@ -445,7 +448,8 @@ const App = {
         e.preventDefault();
         e.stopPropagation();
         const id = addCartBtn.getAttribute("data-id");
-        const product = getProducts().find(p => p.id === id);
+        const allProducts = await getProducts();
+        const product = allProducts.find(p => p.id === id);
         if (product) {
           Store.addToCart(product);
           this.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x1)`);

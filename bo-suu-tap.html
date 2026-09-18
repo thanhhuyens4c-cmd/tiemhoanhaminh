@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
   <title>Bộ sưu tập hoa tươi thủ công — Hoa Nhà Mình</title>
   <meta name="description" content="Khám phá các bộ sưu tập hoa tươi theo chủ đề Romantic, Sinh nhật, Tốt nghiệp và theo mùa tại tiệm Hoa Nhà Mình.">
   
@@ -224,7 +226,10 @@
       </div>
 
       <div id="collection-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-        <!-- Rendered dynamically -->
+        <div class="col-span-full text-center py-12 text-[#857B76]">
+          <span class="material-symbols-outlined animate-spin text-3xl">progress_activity</span>
+          <p class="mt-2 text-sm">Đang tải sản phẩm...</p>
+        </div>
       </div>
     </section>
 
@@ -289,16 +294,19 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const grid = document.getElementById("collection-product-grid");
       if (grid) {
-        grid.innerHTML = getProducts().slice(0, 4).map(p => App.renderProductCard(p)).join('');
+        const products = await getProducts();
+        grid.innerHTML = products.slice(0, 4).map(p => App.renderProductCard(p)).join('');
       }
     });
   </script>

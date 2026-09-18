@@ -84,12 +84,18 @@ const PROMOTIONS = [
 const REVIEWS = [];
 
 /**
- * getProducts() – Trả về danh sách sản phẩm hiện hành.
- * Ưu tiên dữ liệu đã chỉnh sửa bởi admin (localStorage),
- * fallback về mảng PRODUCTS tĩnh trong file này.
- * Dùng hàm này thay cho PRODUCTS[] trực tiếp ở mọi trang.
+ * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
+ * Ưu tiên Supabase, fallback về localStorage/PRODUCTS tĩnh.
+ * Dùng: const products = await getProducts();
  */
-function getProducts() {
+async function getProducts() {
+  if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+    try {
+      return await ProductAPI.getProducts();
+    } catch (e) {
+      console.error("Supabase getProducts error, using fallback:", e);
+    }
+  }
   try {
     const saved = localStorage.getItem("hnm_products_v1");
     if (saved) {

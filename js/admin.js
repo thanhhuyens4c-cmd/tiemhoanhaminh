@@ -1,59 +1,40 @@
 /**
  * Admin CMS – Hoa Nhà Mình
- * Quản lý sản phẩm, ảnh hoa, giá bán, nội dung text qua localStorage
+ * Quản lý sản phẩm, ảnh hoa, giá bán, nội dung text qua Supabase (fallback localStorage)
  */
 
 // ═══════════════════════════════════════════════════════════════════
-//  PRODUCT STORE  (localStorage layer on top of static PRODUCTS[])
+//  PRODUCT STORE  (Supabase primary, localStorage fallback)
 // ═══════════════════════════════════════════════════════════════════
 const AdminCMS = {
   LS_KEY: "hnm_products_v1",
 
-  /** Lấy danh sách sản phẩm (ưu tiên localStorage, fallback về data.js) */
-  getProducts() {
+  _useSupabase() {
+    return typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured();
+  },
+
+  /** Lấy danh sách sản phẩm (async — Supabase hoặc localStorage) */
+  async getProducts() {
+    if (this._useSupabase()) {
+      try {
+        return await ProductAPI.getAllProducts();
+      } catch (e) {
+        console.error("Admin getProducts Supabase error:", e);
+      }
+    }
     try {
       const saved = localStorage.getItem(this.LS_KEY);
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    // Deep-clone static data để không mutate gốc
     return JSON.parse(JSON.stringify(PRODUCTS));
   },
 
-  /** Ghi mảng sản phẩm vào localStorage */
-  saveProducts(list) {
-    try {
-      localStorage.setItem(this.LS_KEY, JSON.stringify(list));
-    } catch (e) {
-      console.warn("localStorage đầy, thử tối ưu ảnh...", e);
-      // Fallback: loại bỏ ảnh base64 của sản phẩm cũ hơn để tiết kiệm dung lượng
-      try {
-        const optimized = list.map((p, i) => {
-          if (i > 0 && p.image && p.image.startsWith("data:")) {
-            return { ...p, image: "assets/images/hero-bouquet.png", gallery: ["assets/images/hero-bouquet.png"] };
-          }
-          return p;
-        });
-        localStorage.setItem(this.LS_KEY, JSON.stringify(optimized));
-        showToast("⚠️ Bộ nhớ gần đầy – ảnh upload của sản phẩm cũ được tối ưu. Hãy dùng URL ảnh!", "warning");
-      } catch (e2) {
-        showToast("❌ Bộ nhớ trình duyệt đầy! Vui lòng dùng URL ảnh thay vì upload.", "error");
-        return;
-      }
-    }
-    // Phát sự kiện để các trang khác reload nếu cần
-    window.dispatchEvent(new CustomEvent("hnm:products-updated", { detail: list }));
-    if (typeof autoSyncToGitHub === "function") autoSyncToGitHub();
-  },
-
-  /** Thêm sản phẩm mới */
-  addProduct(productData) {
-    const list = this.getProducts();
+  /** Thêm sản phẩm mới (async) */
+  async addProduct(productData) {
     const timestamp = Date.now();
     const slug = this._toSlug(productData.name) + "-" + timestamp;
-    // Spread productData trước, sau đó ghi đè các field hệ thống để tránh bị override
     const newProduct = {
       ...productData,
-      id: "HNM-CUSTOM-" + timestamp,
       slug,
       rating: productData.rating || 5.0,
       reviewsCount: productData.reviewsCount || 0,
@@ -61,35 +42,60 @@ const AdminCMS = {
       isNew: productData.isNew !== undefined ? productData.isNew : true,
       isFeatured: productData.isFeatured || false,
       tags: productData.tags || ["moi"],
-      // gallery luôn đặt sau spread để đảm bảo đúng ảnh chính
+      isActive: true,
+      sortOrder: 0,
       gallery: productData.image ? [productData.image] : []
     };
+
+    if (this._useSupabase()) {
+      const result = await ProductAPI.addProduct(newProduct);
+      window.dispatchEvent(new CustomEvent("hnm:products-updated"));
+      return result;
+    }
+
+    // Fallback localStorage
+    const list = await this.getProducts();
+    newProduct.id = "HNM-CUSTOM-" + timestamp;
     list.unshift(newProduct);
-    this.saveProducts(list);
+    this._saveToLS(list);
     return newProduct;
   },
 
-  /** Cập nhật sản phẩm theo id */
-  updateProduct(id, updates) {
-    const list = this.getProducts();
+  /** Cập nhật sản phẩm theo id (async) */
+  async updateProduct(id, updates) {
+    if (this._useSupabase()) {
+      if (updates.image) {
+        updates.gallery = [updates.image];
+      }
+      const result = await ProductAPI.updateProduct(id, updates);
+      window.dispatchEvent(new CustomEvent("hnm:products-updated"));
+      return result;
+    }
+
+    // Fallback localStorage
+    const list = await this.getProducts();
     const idx = list.findIndex(p => p.id === id);
     if (idx === -1) return null;
-    // Lưu ảnh cũ trước khi merge để lọc khỏi gallery
     const oldImage = list[idx].image;
     list[idx] = { ...list[idx], ...updates };
-    // Cập nhật gallery[0] khi ảnh chính thay đổi
     if (updates.image) {
       const oldGallery = (list[idx].gallery || []).filter(g => g !== oldImage && g !== updates.image);
       list[idx].gallery = [updates.image, ...oldGallery];
     }
-    this.saveProducts(list);
+    this._saveToLS(list);
     return list[idx];
   },
 
-  /** Xóa sản phẩm theo id */
-  deleteProduct(id) {
-    const list = this.getProducts().filter(p => p.id !== id);
-    this.saveProducts(list);
+  /** Xóa sản phẩm theo id (async) */
+  async deleteProduct(id) {
+    if (this._useSupabase()) {
+      await ProductAPI.deleteProduct(id);
+      window.dispatchEvent(new CustomEvent("hnm:products-updated"));
+      return;
+    }
+
+    const list = (await this.getProducts()).filter(p => p.id !== id);
+    this._saveToLS(list);
   },
 
   /** Reset về dữ liệu gốc từ data.js */
@@ -97,10 +103,19 @@ const AdminCMS = {
     localStorage.removeItem(this.LS_KEY);
   },
 
-  // ── Helper ────────────────────────────────────────────────────────
+  _saveToLS(list) {
+    try {
+      localStorage.setItem(this.LS_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.warn("localStorage đầy:", e);
+      showToast("Bộ nhớ trình duyệt đầy! Vui lòng dùng URL ảnh.", "error");
+    }
+    window.dispatchEvent(new CustomEvent("hnm:products-updated", { detail: list }));
+  },
+
   _toSlug(str) {
     return (str || "")
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
       .toLowerCase().replace(/đ/g, "d")
       .replace(/[^a-z0-9\s-]/g, "")
       .trim().replace(/\s+/g, "-");
@@ -128,7 +143,6 @@ function showToast(msg, type = "success") {
 
 // ═══════════════════════════════════════════════════════════════════
 //  IMAGE UPLOAD & CANVAS COMPRESSION
-//  Tự động nén ảnh xuống dưới 100KB để lưu trữ offline an toàn trong localStorage
 // ═══════════════════════════════════════════════════════════════════
 function compressImageFile(file, maxWidth = 1200, maxHeight = 900, quality = 0.75) {
   return new Promise((resolve, reject) => {
@@ -157,7 +171,6 @@ function compressImageFile(file, maxWidth = 1200, maxHeight = 900, quality = 0.7
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Nén ảnh sang định dạng JPEG nhẹ nhàng
         const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
         resolve(compressedDataUrl);
       };
@@ -187,10 +200,9 @@ function setupImageUpload(inputEl, previewEl, hiddenEl) {
         previewEl.style.opacity = "1";
       }
       if (hiddenEl) hiddenEl.value = compressedDataUrl;
-      showToast("📸 Đã nén và tải ảnh thành công!");
+      showToast("Đã nén và tải ảnh thành công!");
     } catch (err) {
       console.error("Lỗi nén ảnh:", err);
-      // Fallback nếu canvas lỗi
       const fallbackReader = new FileReader();
       fallbackReader.onload = ev => {
         if (previewEl) {
@@ -206,60 +218,71 @@ function setupImageUpload(inputEl, previewEl, hiddenEl) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  PRODUCT TABLE RENDERER
+//  PRODUCT TABLE RENDERER (async)
 // ═══════════════════════════════════════════════════════════════════
-function renderProductTable() {
+async function renderProductTable() {
   const tbody = document.getElementById("admin-products-table-body");
   if (!tbody) return;
-  const products = AdminCMS.getProducts();
 
-  if (products.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#857B76] italic">Chưa có sản phẩm nào.</td></tr>`;
-    document.getElementById("product-count").textContent = "0 sản phẩm";
-    return;
+  tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#857B76]">
+    <span class="material-symbols-outlined animate-spin text-[#3E9B61]">progress_activity</span>
+    <span class="ml-2">Đang tải sản phẩm...</span>
+  </td></tr>`;
+
+  try {
+    const products = await AdminCMS.getProducts();
+
+    if (products.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#857B76] italic">Chưa có sản phẩm nào.</td></tr>`;
+      document.getElementById("product-count").textContent = "0 sản phẩm";
+      return;
+    }
+
+    document.getElementById("product-count").textContent = `${products.length} sản phẩm`;
+
+    tbody.innerHTML = products.map(p => `
+      <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
+        <td class="p-3">
+          <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
+            <img src="${p.image}" alt="${p.name}"
+              class="w-full h-full object-cover"
+              onerror="this.src='assets/images/hero-bouquet.png'">
+          </div>
+        </td>
+        <td class="p-3">
+          <p class="font-bold text-[#211A18] text-sm leading-tight">${p.name}</p>
+          <p class="text-[11px] text-[#857B76] mt-0.5 font-mono">${p.id}</p>
+        </td>
+        <td class="p-3 text-xs text-[#4B4240]">${p.typeName || "—"}</td>
+        <td class="p-3 text-xs text-[#4B4240]">${p.colorName || "—"}</td>
+        <td class="p-3">
+          <p class="font-bold text-[#D95A82] text-sm">${fmt(p.price)}₫</p>
+          ${p.originalPrice && p.originalPrice > p.price
+            ? `<p class="text-[10px] text-[#857B76] line-through">${fmt(p.originalPrice)}₫</p>` : ""}
+        </td>
+        <td class="p-3">
+          <div class="flex flex-wrap gap-1">
+            ${p.isBestSeller ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#D95A82]/10 text-[#D95A82]">Bán chạy</span>` : ""}
+            ${p.isNew ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">Mới</span>` : ""}
+            ${p.isFeatured ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#F29A38]/15 text-[#B96B00]">Nổi bật</span>` : ""}
+          </div>
+        </td>
+        <td class="p-3 text-right space-x-1">
+          <button onclick="openEditModal('${p.id}')"
+            class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3E9B61]/10 text-[#277A4D] rounded-lg text-xs font-semibold hover:bg-[#3E9B61]/20 transition-colors">
+            <span class="material-symbols-outlined text-sm">edit</span>Sửa
+          </button>
+          <button onclick="confirmDelete('${p.id}', '${(p.name || "").replace(/'/g, "\\'")}')"
+            class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#D95A82]/10 text-[#D95A82] rounded-lg text-xs font-semibold hover:bg-[#D95A82]/20 transition-colors">
+            <span class="material-symbols-outlined text-sm">delete</span>Xóa
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  } catch (err) {
+    console.error("Lỗi render product table:", err);
+    tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-[#D95A82]">Lỗi tải sản phẩm. Vui lòng thử lại.</td></tr>`;
   }
-
-  document.getElementById("product-count").textContent = `${products.length} sản phẩm`;
-
-  tbody.innerHTML = products.map(p => `
-    <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
-      <td class="p-3">
-        <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
-          <img src="${p.image}" alt="${p.name}"
-            class="w-full h-full object-cover"
-            onerror="this.src='assets/images/hero-bouquet.png'">
-        </div>
-      </td>
-      <td class="p-3">
-        <p class="font-bold text-[#211A18] text-sm leading-tight">${p.name}</p>
-        <p class="text-[11px] text-[#857B76] mt-0.5 font-mono">${p.id}</p>
-      </td>
-      <td class="p-3 text-xs text-[#4B4240]">${p.typeName || "—"}</td>
-      <td class="p-3 text-xs text-[#4B4240]">${p.colorName || "—"}</td>
-      <td class="p-3">
-        <p class="font-bold text-[#D95A82] text-sm">${fmt(p.price)}₫</p>
-        ${p.originalPrice && p.originalPrice > p.price
-          ? `<p class="text-[10px] text-[#857B76] line-through">${fmt(p.originalPrice)}₫</p>` : ""}
-      </td>
-      <td class="p-3">
-        <div class="flex flex-wrap gap-1">
-          ${p.isBestSeller ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#D95A82]/10 text-[#D95A82]">Bán chạy</span>` : ""}
-          ${p.isNew ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">Mới</span>` : ""}
-          ${p.isFeatured ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#F29A38]/15 text-[#B96B00]">Nổi bật</span>` : ""}
-        </div>
-      </td>
-      <td class="p-3 text-right space-x-1">
-        <button onclick="openEditModal('${p.id}')"
-          class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3E9B61]/10 text-[#277A4D] rounded-lg text-xs font-semibold hover:bg-[#3E9B61]/20 transition-colors">
-          <span class="material-symbols-outlined text-sm">edit</span>Sửa
-        </button>
-        <button onclick="confirmDelete('${p.id}', '${p.name.replace(/'/g, "\\'")}')"
-          class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#D95A82]/10 text-[#D95A82] rounded-lg text-xs font-semibold hover:bg-[#D95A82]/20 transition-colors">
-          <span class="material-symbols-outlined text-sm">delete</span>Xóa
-        </button>
-      </td>
-    </tr>
-  `).join("");
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -293,7 +316,6 @@ function closeModal(id) {
 //  MODAL THÊM SẢN PHẨM MỚI
 // ═══════════════════════════════════════════════════════════════════
 function openAddModal() {
-  // Reset form
   document.getElementById("add-form").reset();
   document.getElementById("add-img-preview").classList.add("hidden");
   document.getElementById("add-img-data").value = "";
@@ -325,8 +347,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ── ADD form submit ──────────────────────────────────────────────
-  document.getElementById("add-form").addEventListener("submit", e => {
+  // ── ADD form submit (async) ─────────────────────────────────────
+  document.getElementById("add-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const imgData = document.getElementById("add-img-data").value;
@@ -365,14 +387,19 @@ document.addEventListener("DOMContentLoaded", () => {
       isFeatured:    fd.get("isFeatured") === "on"
     };
 
-    AdminCMS.addProduct(productData);
-    renderProductTable();
-    closeModal("modal-add");
-    showToast(`✅ Đã thêm "${productData.name}" thành công!`);
+    try {
+      await AdminCMS.addProduct(productData);
+      await renderProductTable();
+      closeModal("modal-add");
+      showToast("Đã thêm \"" + productData.name + "\" thành công!");
+    } catch (err) {
+      console.error("Lỗi thêm sản phẩm:", err);
+      showToast("Lỗi thêm sản phẩm: " + err.message, "error");
+    }
   });
 
-  // ── EDIT form submit ─────────────────────────────────────────────
-  document.getElementById("edit-form").addEventListener("submit", e => {
+  // ── EDIT form submit (async) ────────────────────────────────────
+  document.getElementById("edit-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const id  = document.getElementById("edit-product-id").value;
@@ -414,10 +441,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (imgData) updates.image = imgData;
     else if (imgUrl) updates.image = imgUrl;
 
-    AdminCMS.updateProduct(id, updates);
-    renderProductTable();
-    closeModal("modal-edit");
-    showToast(`✅ Đã cập nhật "${updates.name}" thành công!`);
+    try {
+      await AdminCMS.updateProduct(id, updates);
+      await renderProductTable();
+      closeModal("modal-edit");
+      showToast("Đã cập nhật \"" + updates.name + "\" thành công!");
+    } catch (err) {
+      console.error("Lỗi cập nhật sản phẩm:", err);
+      showToast("Lỗi cập nhật: " + err.message, "error");
+    }
   });
 
   // ── Đồng bộ khi tab/cửa sổ khác cập nhật localStorage ──────────
@@ -435,10 +467,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ═══════════════════════════════════════════════════════════════════
-//  MODAL SỬA SẢN PHẨM – điền dữ liệu vào form
+//  MODAL SỬA SẢN PHẨM – điền dữ liệu vào form (async)
 // ═══════════════════════════════════════════════════════════════════
-function openEditModal(id) {
-  const products = AdminCMS.getProducts();
+async function openEditModal(id) {
+  const products = await AdminCMS.getProducts();
   const p = products.find(x => x.id === id);
   if (!p) { showToast("Không tìm thấy sản phẩm!", "error"); return; }
 
@@ -460,7 +492,6 @@ function openEditModal(id) {
   f.querySelector("[name=isNew]").checked = !!p.isNew;
   f.querySelector("[name=isFeatured]").checked = !!p.isFeatured;
 
-  // Ảnh hiện tại
   const editImgPreview = document.getElementById("edit-img-preview");
   editImgPreview.src = p.image || "";
   editImgPreview.classList.toggle("hidden", !p.image);
@@ -471,7 +502,7 @@ function openEditModal(id) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  XÁC NHẬN XÓA
+//  XÁC NHẬN XÓA (async)
 // ═══════════════════════════════════════════════════════════════════
 let _pendingDeleteId = null;
 
@@ -481,26 +512,31 @@ function confirmDelete(id, name) {
   openModal("modal-delete");
 }
 
-function executeDelete() {
+async function executeDelete() {
   if (!_pendingDeleteId) return;
-  AdminCMS.deleteProduct(_pendingDeleteId);
-  _pendingDeleteId = null;
-  renderProductTable();
-  closeModal("modal-delete");
-  showToast("🗑️ Đã xóa sản phẩm thành công.", "warning");
+  try {
+    await AdminCMS.deleteProduct(_pendingDeleteId);
+    _pendingDeleteId = null;
+    await renderProductTable();
+    closeModal("modal-delete");
+    showToast("Đã xóa sản phẩm thành công.", "warning");
+  } catch (err) {
+    console.error("Lỗi xóa sản phẩm:", err);
+    showToast("Lỗi xóa sản phẩm: " + err.message, "error");
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  SEARCH / FILTER
+//  SEARCH / FILTER (async)
 // ═══════════════════════════════════════════════════════════════════
-function filterProducts() {
+async function filterProducts() {
   const q = (document.getElementById("product-search")?.value || "").toLowerCase();
   const typeFilter = (document.getElementById("product-type-filter")?.value || "");
 
   const rows = document.querySelectorAll("#admin-products-table-body tr[data-id]");
+  const products = await AdminCMS.getProducts();
   let visible = 0;
   rows.forEach(row => {
-    const products = AdminCMS.getProducts();
     const id = row.getAttribute("data-id");
     const p = products.find(x => x.id === id);
     if (!p) { row.style.display = "none"; return; }
@@ -523,7 +559,7 @@ function resetProductsToDefault() {
   if (!confirm("Bạn có chắc muốn xóa toàn bộ thay đổi và khôi phục dữ liệu gốc không?")) return;
   AdminCMS.resetToDefault();
   renderProductTable();
-  showToast("♻️ Đã khôi phục dữ liệu sản phẩm gốc.");
+  showToast("Đã khôi phục dữ liệu sản phẩm gốc.");
 }
 
 window.AdminCMS = AdminCMS;
@@ -544,7 +580,7 @@ const ConfigSync = {
     localStorage.setItem(this.LS_REPO, JSON.stringify({ owner, repo }));
   },
 
-  buildConfigContent() {
+  async buildConfigContent() {
     const imageConfig = {};
     if (typeof SiteSettings !== "undefined") {
       const all = SiteSettings.getAll();
@@ -556,7 +592,7 @@ const ConfigSync = {
     }
 
     const productOverrides = {};
-    const products = AdminCMS.getProducts();
+    const products = await AdminCMS.getProducts();
     const defaults = JSON.parse(JSON.stringify(typeof PRODUCTS !== "undefined" ? PRODUCTS : []));
     products.forEach(p => {
       const original = defaults.find(d => d.id === p.id);
@@ -588,8 +624,8 @@ const ConfigSync = {
     return lines.join("\n");
   },
 
-  downloadConfig() {
-    const content = this.buildConfigContent();
+  async downloadConfig() {
+    const content = await this.buildConfigContent();
     const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -610,7 +646,7 @@ function autoSyncToGitHub() {
 
 function exportSiteConfig() {
   ConfigSync.downloadConfig();
-  showToast("✅ Đã tải site-config.js!");
+  showToast("Đã tải site-config.js!");
 }
 
 window.exportSiteConfig = exportSiteConfig;
@@ -638,7 +674,6 @@ const AdminBlogCMS = {
     } catch (e) {
       console.warn("Lưu localStorage bài viết bị giới hạn dung lượng, đang tối ưu:", e);
       try {
-        // Tối ưu: Nếu quota đầy do ảnh cũ, chuyển các ảnh cũ về ảnh mẫu để ưu tiên lưu bài mới nhất
         const optimized = list.map((b, idx) => {
           if (idx > 0 && b.image && b.image.startsWith("data:")) {
             return { ...b, image: "assets/images/bouquet-pink.png" };
@@ -649,7 +684,7 @@ const AdminBlogCMS = {
         window.dispatchEvent(new CustomEvent("hnm:blogs-updated", { detail: optimized }));
         return true;
       } catch (err2) {
-        showToast("⚠️ Bộ nhớ trình duyệt đầy, vui lòng dùng link ảnh URL cho bài viết!", "warning");
+        showToast("Bộ nhớ trình duyệt đầy, vui lòng dùng link ảnh URL cho bài viết!", "warning");
         return false;
       }
     }
@@ -722,7 +757,6 @@ function renderBlogTable() {
   if (!tbody) return;
   const blogs = AdminBlogCMS.getBlogs();
 
-  // Update counters
   const totalCountEl = document.getElementById("blog-total-count");
   const countEmotionEl = document.getElementById("blog-count-emotion");
   const countCareEl = document.getElementById("blog-count-care");
@@ -778,7 +812,7 @@ function renderBlogTable() {
         </td>
         <td class="p-3 text-xs">
           <span class="px-2 py-0.5 rounded-lg bg-[#FAF7E9] text-[#277A4D] font-semibold border border-[#E5DDCE] text-[11px]">
-            🌸 ${relCount} hoa
+            ${relCount} hoa
           </span>
         </td>
         <td class="p-3 text-right space-x-1 whitespace-nowrap">
@@ -803,10 +837,10 @@ function renderBlogTable() {
 // ═══════════════════════════════════════════════════════════════════
 //  BLOG MODAL LOGIC (ADD / EDIT)
 // ═══════════════════════════════════════════════════════════════════
-function populateRelatedProductsCheckboxes(selectedIds = []) {
+async function populateRelatedProductsCheckboxes(selectedIds = []) {
   const container = document.getElementById("blog-related-products-list");
   if (!container) return;
-  const products = AdminCMS.getProducts();
+  const products = await AdminCMS.getProducts();
 
   container.innerHTML = products.map(p => {
     const isChecked = selectedIds.includes(p.id);
@@ -823,14 +857,13 @@ function populateRelatedProductsCheckboxes(selectedIds = []) {
   }).join("");
 }
 
-function openAddBlogModal() {
+async function openAddBlogModal() {
   const f = document.getElementById("blog-form");
   if (!f) return;
   f.reset();
   document.getElementById("blog-modal-title").textContent = "Đăng bài viết Blog mới";
   document.getElementById("blog-form-id").value = "";
 
-  // Set default date
   const now = new Date();
   const day = String(now.getDate()).padStart(2, "0");
   const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -839,20 +872,18 @@ function openAddBlogModal() {
   document.getElementById("blog-form-author").value = "Thu Trang (Florist Hoa Nhà Mình)";
   document.getElementById("blog-form-readtime").value = "5 phút đọc";
 
-  // Reset image
   const preview = document.getElementById("blog-img-preview");
   preview.src = "assets/images/bouquet-pink.png";
   document.getElementById("blog-img-data").value = "";
   document.getElementById("blog-form-image-url").value = "";
 
-  // Content template
   document.getElementById("blog-form-content").value = `<p>Nhập lời tựa ngọt ngào mở đầu bài viết ở đây...</p>\n\n<h3>1. Tiêu đề phần chia sẻ thứ nhất</h3>\n<p>Nội dung câu chuyện hoặc mẹo chăm sóc hoa chi tiết...</p>\n\n<h3>2. Góc cảm xúc tiệm Hoa Nhà Mình</h3>\n<p>Lời kết gửi gắm yêu thương đến bạn đọc...</p>`;
 
-  populateRelatedProductsCheckboxes(["HNM-HM001", "HNM-HM002"]);
+  await populateRelatedProductsCheckboxes(["HNM-HM001", "HNM-HM002"]);
   openModal("modal-blog");
 }
 
-function openEditBlogModal(id) {
+async function openEditBlogModal(id) {
   const blogs = AdminBlogCMS.getBlogs();
   const b = blogs.find(x => x.id === id);
   if (!b) return;
@@ -871,13 +902,12 @@ function openEditBlogModal(id) {
   document.getElementById("blog-form-excerpt").value = b.excerpt || "";
   document.getElementById("blog-form-content").value = b.content || "";
 
-  // Image preview
   const preview = document.getElementById("blog-img-preview");
   preview.src = b.image || "assets/images/bouquet-pink.png";
   document.getElementById("blog-img-data").value = "";
   document.getElementById("blog-form-image-url").value = b.image && b.image.startsWith("data:") ? "" : (b.image || "");
 
-  populateRelatedProductsCheckboxes(b.relatedProducts || []);
+  await populateRelatedProductsCheckboxes(b.relatedProducts || []);
   openModal("modal-blog");
 }
 
@@ -897,14 +927,12 @@ function saveBlogSubmit(e) {
   let excerpt = (document.getElementById("blog-form-excerpt")?.value || "").trim();
   let content = (document.getElementById("blog-form-content")?.value || "").trim();
 
-  // Image handling
   const uploadedImg = document.getElementById("blog-img-data")?.value || "";
   const urlImg = (document.getElementById("blog-form-image-url")?.value || "").trim();
   const previewEl = document.getElementById("blog-img-preview");
   const currentPreview = previewEl?.getAttribute("src") || previewEl?.src || "assets/images/bouquet-pink.png";
   const image = uploadedImg || urlImg || currentPreview;
 
-  // Related products
   const relatedProducts = Array.from(document.querySelectorAll("input[name='blogRelated']:checked")).map(cb => cb.value);
 
   if (!title) {
@@ -918,30 +946,21 @@ function saveBlogSubmit(e) {
   }
 
   if (!excerpt) {
-    // Tự động trích xuất tóm tắt ngắn từ nội dung không chứa thẻ HTML
     const plain = content.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
     excerpt = plain.length > 140 ? plain.substring(0, 137) + "..." : (plain || "Bài viết chia sẻ từ Hoa Nhà Mình.");
   }
 
   const blogData = {
-    title,
-    category,
-    author,
-    date,
-    readTime,
-    excerpt,
-    content,
-    image,
-    relatedProducts
+    title, category, author, date, readTime, excerpt, content, image, relatedProducts
   };
 
   try {
     if (id) {
       AdminBlogCMS.updateBlog(id, blogData);
-      showToast("✅ Đã cập nhật bài viết thành công!");
+      showToast("Đã cập nhật bài viết thành công!");
     } else {
       AdminBlogCMS.addBlog(blogData);
-      showToast("🎉 Đã xuất bản bài viết Blog mới thành công!");
+      showToast("Đã xuất bản bài viết Blog mới thành công!");
     }
 
     closeModal("modal-blog");
@@ -971,14 +990,14 @@ function executeDeleteBlog() {
   _pendingDeleteBlogId = null;
   renderBlogTable();
   closeModal("modal-delete-blog");
-  showToast("🗑️ Đã xóa bài viết blog thành công.", "warning");
+  showToast("Đã xóa bài viết blog thành công.", "warning");
 }
 
 function resetBlogsToDefault() {
   if (!confirm("Bạn có chắc muốn khôi phục danh sách blog về 3 bài viết mẫu ban đầu không? Mọi bài viết tự đăng sẽ bị xóa.")) return;
   AdminBlogCMS.resetToDefault();
   renderBlogTable();
-  showToast("♻️ Đã khôi phục blog về các bài mẫu mặc định.");
+  showToast("Đã khôi phục blog về các bài mẫu mặc định.");
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1008,7 +1027,6 @@ function filterBlogs() {
   if (countDisplay) countDisplay.textContent = `${visible} bài viết`;
 }
 
-// Helper insert formatting tags into blog content textarea
 function insertBlogTag(openTag, closeTag = "") {
   const textarea = document.getElementById("blog-form-content");
   if (!textarea) return;
@@ -1021,7 +1039,6 @@ function insertBlogTag(openTag, closeTag = "") {
   textarea.setSelectionRange(start + openTag.length, start + openTag.length + selected.length);
 }
 
-// Quick image select for blog
 function selectBlogSampleImage(src) {
   const preview = document.getElementById("blog-img-preview");
   const urlInput = document.getElementById("blog-form-image-url");
@@ -1032,4 +1049,3 @@ function selectBlogSampleImage(src) {
 }
 
 window.AdminBlogCMS = AdminBlogCMS;
-

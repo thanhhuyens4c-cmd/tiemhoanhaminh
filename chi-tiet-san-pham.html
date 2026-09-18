@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
   <title>Chi tiết sản phẩm hoa tươi — Hoa Nhà Mình</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -413,17 +415,19 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Lấy product ID từ URL params
+    document.addEventListener("DOMContentLoaded", async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get("id") || "HNM-HM001";
-      const product = getProducts().find(p => p.id === productId) || getProducts()[0];
+      const allProducts = await getProducts();
+      const product = allProducts.find(p => p.id === productId) || allProducts[0];
 
       // Đổ dữ liệu vào DOM
       document.title = `${product.name} — Hoa Nhà Mình`;
@@ -537,7 +541,7 @@
 
       // Related Products (4 Cards)
       const relatedContainer = document.getElementById("related-product-grid");
-      const related = getProducts().filter(p => p.id !== product.id).slice(0, 4);
+      const related = allProducts.filter(p => p.id !== product.id).slice(0, 4);
       relatedContainer.innerHTML = related.map(p => App.renderProductCard(p)).join('');
     });
   </script>

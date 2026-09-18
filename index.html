@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
   <title>Hoa Nhà Mình — Tiệm Hoa Tươi Thủ Công Hà Nội | Let flowers speak your heart!</title>
   <meta name="description" content="Tiệm hoa tươi thủ công Hoa Nhà Mình tại Hà Nội. Hoa tươi tuyển chọn sớm mai, gói giấy kraft mộc mạc, tặng kèm thiệp viết tay và chụp ảnh duyệt trước khi gửi.">
   
@@ -650,19 +652,22 @@
   </nav>
 
   <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script>
-    // Khởi tạo tab sản phẩm nổi bật trên Trang chủ
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const grid = document.getElementById("home-product-grid");
       if (!grid) return;
 
-      const renderTab = (filterKey) => {
-        let list = getProducts();
+      grid.innerHTML = '<div class="col-span-full text-center py-8 text-[#857B76]"><span class="material-symbols-outlined animate-spin text-[#3E9B61]">progress_activity</span> Đang tải sản phẩm...</div>';
+
+      const renderTab = async (filterKey) => {
+        let list = await getProducts();
         if (filterKey === "ban-chay") {
           list = list.filter(p => p.isBestSeller);
         } else if (filterKey === "moi") {
@@ -671,11 +676,14 @@
           list = list.filter(p => p.isFeatured);
         }
 
-        grid.innerHTML = list.slice(0, 8).map(p => App.renderProductCard(p)).join('');
+        if (list.length === 0) {
+          grid.innerHTML = '<div class="col-span-full text-center py-8 text-[#857B76]">Chưa có sản phẩm nào.</div>';
+        } else {
+          grid.innerHTML = list.slice(0, 8).map(p => App.renderProductCard(p)).join('');
+        }
       };
 
-      // Mặc định tab 'all'
-      renderTab("all");
+      await renderTab("all");
 
       document.querySelectorAll(".tab-btn").forEach(btn => {
         btn.addEventListener("click", () => {
