@@ -75,11 +75,7 @@ const BLOG_POSTS = [
   }
 ];
 
-const PROMOTIONS = [
-  { code: "HOANHAMINH10", discountPercent: 10, minOrder: 300000, desc: "Giảm 10% cho mọi đơn hàng từ 300.000₫" },
-  { code: "FREESHIP", freeShip: true, minOrder: 500000, desc: "Miễn phí vận chuyển nội thành Hà Nội cho đơn từ 500.000₫" },
-  { code: "BANMOI", discountAmount: 50000, minOrder: 400000, desc: "Giảm 50.000₫ cho khách hàng đặt hoa lần đầu" }
-];
+const PROMOTIONS = [];
 
 const REVIEWS = [];
 
