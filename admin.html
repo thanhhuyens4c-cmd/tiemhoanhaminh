@@ -166,9 +166,9 @@
           <div class="flex gap-2 flex-shrink-0">
             <button onclick="exportSiteConfig()"
               class="px-3 py-2 border border-[#3E9B61] bg-white text-[#3E9B61] rounded-xl text-xs font-semibold hover:bg-[#3E9B61] hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
-              title="Copy cấu hình ảnh để đồng bộ giữa desktop và mobile">
+              title="Đồng bộ ảnh sản phẩm lên GitHub">
               <span class="material-symbols-outlined text-sm">sync</span>
-              <span class="hidden sm:inline">Xuất cấu hình ảnh</span>
+              <span class="hidden sm:inline">Đồng bộ ảnh</span>
             </button>
             <button onclick="resetProductsToDefault()"
               class="px-3 py-2 border border-[#E5DDCE] bg-white text-[#857B76] rounded-xl text-xs font-semibold hover:border-[#D95A82] hover:text-[#D95A82] transition-colors flex items-center gap-1.5 shadow-sm">
@@ -387,9 +387,9 @@
           <div class="flex gap-2 flex-shrink-0">
             <button onclick="exportSiteConfig()"
               class="px-3 py-2 border border-[#3E9B61] bg-white text-[#3E9B61] rounded-xl text-xs font-semibold hover:bg-[#3E9B61] hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
-              title="Copy cấu hình ảnh để đồng bộ giữa desktop và mobile">
+              title="Đồng bộ ảnh lên GitHub">
               <span class="material-symbols-outlined text-sm">sync</span>
-              Xuất cấu hình ảnh
+              <span class="hidden sm:inline">Đồng bộ ảnh</span>
             </button>
             <button onclick="resetAllSiteImages()"
               class="px-3 py-2 border border-[#E5DDCE] bg-white text-[#857B76] rounded-xl text-xs font-semibold hover:border-[#D95A82] hover:text-[#D95A82] transition-colors flex items-center gap-1.5 shadow-sm">
@@ -398,6 +398,9 @@
             </button>
           </div>
         </div>
+
+        <!-- GitHub Auto-Sync -->
+        <div id="github-setup-section"></div>
 
         <!-- Hướng dẫn nhanh -->
         <div class="bg-[#3E9B61]/5 border border-[#3E9B61]/20 rounded-2xl px-5 py-4 flex items-start gap-3">
@@ -1257,7 +1260,7 @@
               SiteSettings.set(slot.key, src);
               markSlotCustom(slot.key, true);
               showToast(`✅ Đã cập nhật "${slot.label}" thành công!`);
-              showSyncBanner();
+              autoSyncToGitHub();
             } catch (err) {
               console.error(err);
               showToast('Lỗi khi tải ảnh, vui lòng thử lại!', 'error');
@@ -1275,7 +1278,7 @@
             if (preview) { preview.src = url; preview.classList.remove('opacity-50'); }
             markSlotCustom(slot.key, true);
             showToast(`✅ Đã cập nhật "${slot.label}" thành công!`);
-            showSyncBanner();
+            autoSyncToGitHub();
           });
         }
 
@@ -1374,48 +1377,109 @@
       SiteSettings.resetAll();
       renderMediaSlots();
       showToast('♻️ Đã khôi phục toàn bộ ảnh về mặc định.');
-      hideSyncBanner();
+      autoSyncToGitHub();
+    }
+  </script>
+
+  <!-- Sync Setup UI -->
+  <script>
+    function renderGitHubSetup() {
+      const container = document.getElementById('github-setup-section');
+      if (!container) return;
+      const info = ConfigSync.getRepoInfo();
+      const hasSaved = !!(info.owner && info.repo);
+
+      container.innerHTML = hasSaved ? `
+        <div class="bg-[#3E9B61]/5 border border-[#3E9B61]/20 rounded-2xl px-5 py-4">
+          <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#3E9B61]">cloud_done</span>
+              <div>
+                <p class="text-sm font-bold text-[#277A4D]">Đồng bộ ảnh qua GitHub</p>
+                <p class="text-[11px] text-[#857B76]">Repo: ${info.owner}/${info.repo} · Khi thay đổi ảnh, nhấn "Cập nhật lên GitHub" để điện thoại thấy ảnh mới</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="pushViaGitHubWeb()" class="px-4 py-2 bg-[#3E9B61] text-white rounded-xl text-xs font-bold hover:bg-[#277A4D] transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">cloud_upload</span> Cập nhật lên GitHub
+              </button>
+              <button onclick="ConfigSync.saveRepoInfo('',''); renderGitHubSetup();" class="px-2 py-2 border border-[#E5DDCE] text-[#857B76] rounded-xl text-xs hover:text-[#D95A82] transition-colors">Xóa</button>
+            </div>
+          </div>
+        </div>
+      ` : `
+        <div class="bg-[#F29A38]/5 border border-[#F29A38]/20 rounded-2xl px-5 py-4 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#F29A38]">sync_problem</span>
+            <div>
+              <p class="text-sm font-bold text-[#211A18]">Cài đặt đồng bộ ảnh giữa máy tính và điện thoại</p>
+              <p class="text-[11px] text-[#857B76]">Nhập thông tin GitHub repo để khi thay đổi ảnh, bạn chỉ cần nhấn 1 nút là điện thoại cập nhật</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input id="gh-owner" type="text" placeholder="GitHub username (ví dụ: thanhhuyens4c-cmd)" value="${info.owner || ''}"
+              class="border border-[#E5DDCE] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#3E9B61] bg-white">
+            <input id="gh-repo" type="text" placeholder="Tên repo (ví dụ: tiemhoanhaminh)" value="${info.repo || ''}"
+              class="border border-[#E5DDCE] rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#3E9B61] bg-white">
+          </div>
+          <button onclick="saveRepoSetup()" class="px-4 py-2 bg-[#3E9B61] text-white rounded-xl text-xs font-bold hover:bg-[#277A4D] transition-colors flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">save</span> Lưu
+          </button>
+        </div>
+      `;
+    }
+
+    function saveRepoSetup() {
+      const owner = (document.getElementById('gh-owner')?.value || '').trim();
+      const repo = (document.getElementById('gh-repo')?.value || '').trim();
+      if (!owner || !repo) { showToast('Vui lòng nhập đầy đủ!', 'error'); return; }
+      ConfigSync.saveRepoInfo(owner, repo);
+      renderGitHubSetup();
+      showToast('✅ Đã lưu! Khi thay đổi ảnh, nhấn "Cập nhật lên GitHub" để đồng bộ.');
+    }
+
+    function pushViaGitHubWeb() {
+      const info = ConfigSync.getRepoInfo();
+      if (!info.owner || !info.repo) { showToast('Chưa cài đặt repo!', 'error'); return; }
+      const content = ConfigSync.buildConfigContent();
+      navigator.clipboard.writeText(content).then(() => {
+        const editUrl = 'https://github.com/' + info.owner + '/' + info.repo + '/edit/main/js/site-config.js';
+        showToast('✅ Đã copy nội dung! Trang GitHub sẽ mở - dán đè lên và nhấn Commit.');
+        window.open(editUrl, '_blank');
+      }).catch(() => {
+        ConfigSync.downloadConfig();
+        showToast('Đã tải file. Thay vào js/site-config.js rồi push GitHub.');
+      });
     }
 
     function showSyncBanner() {
-      let banner = document.getElementById('sync-config-banner');
-      if (!banner) {
-        banner = document.createElement('div');
-        banner.id = 'sync-config-banner';
-        banner.className = 'fixed bottom-0 left-0 right-0 z-[9999] bg-[#D95A82] text-white px-4 py-3 shadow-lg flex items-center justify-between gap-3 flex-wrap';
-        banner.innerHTML = `
-          <div class="flex items-center gap-2 text-sm">
-            <span class="material-symbols-outlined text-lg">sync_problem</span>
-            <span><strong>Ảnh đã thay đổi!</strong> Tải file cấu hình và thay vào <code class="bg-white/20 px-1 rounded">js/site-config.js</code> rồi push GitHub để điện thoại cập nhật.</span>
-          </div>
-          <div class="flex gap-2 flex-shrink-0">
-            <button onclick="downloadSiteConfig()" class="px-4 py-1.5 bg-white text-[#D95A82] rounded-lg text-xs font-bold hover:bg-[#FAF7E9] transition-colors flex items-center gap-1">
-              <span class="material-symbols-outlined text-sm">download</span>
-              Tải site-config.js
-            </button>
-            <button onclick="hideSyncBanner()" class="px-2 py-1.5 text-white/80 hover:text-white text-xs">Đóng</button>
-          </div>`;
-        document.body.appendChild(banner);
+      const info = ConfigSync.getRepoInfo();
+      if (info.owner && info.repo) {
+        let banner = document.getElementById('sync-config-banner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'sync-config-banner';
+          banner.className = 'fixed bottom-0 left-0 right-0 z-[9999] bg-[#3E9B61] text-white px-4 py-3 shadow-lg flex items-center justify-between gap-3 flex-wrap';
+          banner.innerHTML = '<div class="flex items-center gap-2 text-sm"><span class="material-symbols-outlined">cloud_upload</span><span>Ảnh đã thay đổi!</span></div><div class="flex gap-2"><button onclick="pushViaGitHubWeb()" class="px-4 py-1.5 bg-white text-[#277A4D] rounded-lg text-xs font-bold hover:bg-[#FAF7E9] flex items-center gap-1"><span class="material-symbols-outlined text-sm">cloud_upload</span>Cập nhật lên GitHub</button><button onclick="this.closest(\'div\').parentElement.style.display=\'none\'" class="text-white/80 hover:text-white text-xs px-2">Đóng</button></div>';
+          document.body.appendChild(banner);
+        }
+        banner.style.display = 'flex';
       }
-      banner.style.display = 'flex';
-    }
-
-    function hideSyncBanner() {
-      const banner = document.getElementById('sync-config-banner');
-      if (banner) banner.style.display = 'none';
     }
 
     window.showSyncBanner = showSyncBanner;
-    window.hideSyncBanner = hideSyncBanner;
+    window.pushViaGitHubWeb = pushViaGitHubWeb;
 
-    // Auto-detect unsynced changes on page load
-    (function checkUnsyncedChanges() {
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGitHubSetup();
+      // Auto-show banner if there are unsynced local changes
       const config = (typeof SITE_IMAGE_CONFIG !== "undefined") ? SITE_IMAGE_CONFIG : {};
-      if (typeof SiteSettings === "undefined") return;
-      const all = SiteSettings.getAll();
-      const hasLocalChanges = SiteSettings.SLOTS.some(s => all[s.key] && all[s.key].src && all[s.key].src !== config[s.key]);
-      if (hasLocalChanges) showSyncBanner();
-    })();
+      if (typeof SiteSettings !== "undefined") {
+        const all = SiteSettings.getAll();
+        const hasChanges = SiteSettings.SLOTS.some(s => all[s.key] && all[s.key].src && all[s.key].src !== config[s.key]);
+        if (hasChanges) showSyncBanner();
+      }
+    });
   </script>
 
   <script>
