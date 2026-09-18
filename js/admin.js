@@ -42,6 +42,7 @@ const AdminCMS = {
     }
     // Phát sự kiện để các trang khác reload nếu cần
     window.dispatchEvent(new CustomEvent("hnm:products-updated", { detail: list }));
+    if (typeof showSyncBanner === "function") showSyncBanner();
   },
 
   /** Thêm sản phẩm mới */
@@ -528,10 +529,10 @@ function resetProductsToDefault() {
 window.AdminCMS = AdminCMS;
 
 // ═══════════════════════════════════════════════════════════════════
-//  XUẤT CẤU HÌNH ẢNH (đồng bộ desktop ↔ mobile)
+//  ĐỒNG BỘ ẢNH DESKTOP ↔ MOBILE (auto-download site-config.js)
 // ═══════════════════════════════════════════════════════════════════
 
-function exportSiteConfig() {
+function _buildSiteConfigContent() {
   const imageConfig = {};
   if (typeof SiteSettings !== "undefined") {
     const all = SiteSettings.getAll();
@@ -555,35 +556,50 @@ function exportSiteConfig() {
     }
   });
 
-  const configLines = [];
-  configLines.push("const SITE_IMAGE_CONFIG = {");
+  const lines = [];
+  lines.push("/**");
+  lines.push(" * Site Config – Cấu hình ảnh đồng bộ giữa tất cả thiết bị");
+  lines.push(" * Tải xuống từ Admin Panel. Thay thế file js/site-config.js và push GitHub.");
+  lines.push(" * Cập nhật lần cuối: " + new Date().toLocaleString("vi-VN") + "");
+  lines.push(" */");
+
+  lines.push("const SITE_IMAGE_CONFIG = {");
   Object.entries(imageConfig).forEach(([key, val]) => {
-    configLines.push(`  "${key}": "${val}",`);
+    const escaped = val.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    lines.push('  "' + key + '": "' + escaped + '",');
   });
-  configLines.push("};");
+  lines.push("};");
 
-  if (Object.keys(productOverrides).length > 0) {
-    configLines.push("");
-    configLines.push("const PRODUCT_IMAGE_OVERRIDES = {");
-    Object.entries(productOverrides).forEach(([id, img]) => {
-      configLines.push(`  "${id}": "${img}",`);
-    });
-    configLines.push("};");
-  }
+  lines.push("const PRODUCT_IMAGE_OVERRIDES = {");
+  Object.entries(productOverrides).forEach(([id, img]) => {
+    const escaped = img.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    lines.push('  "' + id + '": "' + escaped + '",');
+  });
+  lines.push("};");
 
-  const code = configLines.join("\n");
+  return lines.join("\n");
+}
 
-  const textarea = document.createElement("textarea");
-  textarea.value = code;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
+function downloadSiteConfig() {
+  const content = _buildSiteConfigContent();
+  const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "site-config.js";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("✅ Đã tải site-config.js! Thay file trong thư mục js/ và push GitHub để đồng bộ ảnh lên điện thoại.");
+}
 
-  showToast("📋 Đã copy cấu hình! Dán vào file js/site-config.js để đồng bộ ảnh giữa các thiết bị.");
+function exportSiteConfig() {
+  downloadSiteConfig();
 }
 
 window.exportSiteConfig = exportSiteConfig;
+window.downloadSiteConfig = downloadSiteConfig;
 
 // ═══════════════════════════════════════════════════════════════════
 //  BLOG STORE (localStorage layer on top of static BLOG_POSTS[])

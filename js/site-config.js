@@ -1,14 +1,9 @@
 /**
- * Site Config – Cấu hình ảnh đồng bộ giữa các thiết bị
- * File này chứa ảnh mặc định mới nhất, được chia sẻ giữa desktop và mobile.
- * Khi admin thay đổi ảnh qua Admin Panel, nhấn "Xuất cấu hình" để cập nhật file này.
+ * Site Config – Cấu hình ảnh đồng bộ giữa tất cả thiết bị
  *
- * Ưu tiên: site-config.js → localStorage → defaultSrc trong site-settings.js
+ * File này là nguồn ảnh chính (source of truth) cho toàn site.
+ * Khi admin cập nhật ảnh, file này được tự động tải xuống.
+ * Thay thế file cũ → commit → push GitHub → tất cả thiết bị đều thấy ảnh mới.
  */
-const SITE_IMAGE_CONFIG = {
-  // Để trống = dùng ảnh mặc định từ site-settings.js
-  // Khi admin xuất cấu hình, các giá trị sẽ được điền tự động ở đây.
-  // Ví dụ:
-  // "index_hero": "assets/images/hero-bouquet.png",
-  // "logo": "assets/images/logo.png",
-};
+const SITE_IMAGE_CONFIG = {};
+const PRODUCT_IMAGE_OVERRIDES = {};
