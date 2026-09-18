@@ -80,7 +80,8 @@ const ProductAPI = {
         setTimeout(() => reject(new Error("Supabase timeout")), this.FETCH_TIMEOUT)
       );
 
-      const { data, error } = await Promise.race([supabaseQuery, timeout]);
+      const result = await Promise.race([supabaseQuery, timeout]);
+      const { data, error } = result;
 
       if (error) throw error;
 
@@ -90,7 +91,7 @@ const ProductAPI = {
       this._saveFallbackCache(products);
       return products;
     } catch (err) {
-      console.error("Lỗi tải sản phẩm từ Supabase:", err);
+      console.error("Lỗi tải sản phẩm từ Supabase:", err.message || err);
       return this._fallbackGetProducts();
     }
   },

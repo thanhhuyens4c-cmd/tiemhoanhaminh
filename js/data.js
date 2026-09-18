@@ -80,18 +80,9 @@ const PROMOTIONS = [];
 const REVIEWS = [];
 
 /**
- * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Ưu tiên Supabase (có timeout 5s), fallback về localStorage/PRODUCTS tĩnh.
- * Dùng: const products = await getProducts();
+ * _getLocalProducts() – Đọc sản phẩm từ localStorage (đồng bộ, nhanh).
  */
-async function getProducts() {
-  if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
-    try {
-      return await ProductAPI.getProducts();
-    } catch (e) {
-      console.error("Supabase getProducts error, using fallback:", e);
-    }
-  }
+function _getLocalProducts() {
   try {
     const saved = localStorage.getItem("hnm_products_v1");
     if (saved) {
@@ -112,13 +103,35 @@ async function getProducts() {
 }
 
 /**
+ * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
+ * Ưu tiên localStorage cache (instant) → nếu trống thì thử Supabase (timeout 5s).
+ * Dùng: const products = await getProducts();
+ */
+async function getProducts() {
+  const cached = _getLocalProducts();
+  if (cached.length > 0) return cached;
+
+  if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+    try {
+      return await ProductAPI.getProducts();
+    } catch (e) {
+      console.error("Supabase getProducts error:", e);
+    }
+  }
+  return cached;
+}
+
+/**
  * Làm mới sản phẩm từ Supabase ở background (không chặn UI).
- * Gọi callback khi có dữ liệu mới khác cache.
+ * Chỉ gọi callback khi dữ liệu thực sự thay đổi so với cache.
  */
 function refreshProductsInBackground(onUpdate) {
   if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) return;
+  const before = JSON.stringify(_getLocalProducts().map(p => p.id).sort());
   ProductAPI.getProducts(true).then(fresh => {
-    if (fresh && fresh.length > 0 && typeof onUpdate === "function") {
+    if (!fresh || fresh.length === 0) return;
+    const after = JSON.stringify(fresh.map(p => p.id).sort());
+    if (after !== before && typeof onUpdate === "function") {
       onUpdate(fresh);
     }
   }).catch(() => {});
