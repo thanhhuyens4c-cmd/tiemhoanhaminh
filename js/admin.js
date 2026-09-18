@@ -42,7 +42,7 @@ const AdminCMS = {
     }
     // Phát sự kiện để các trang khác reload nếu cần
     window.dispatchEvent(new CustomEvent("hnm:products-updated", { detail: list }));
-    if (typeof showSyncBanner === "function") showSyncBanner();
+    if (typeof autoSyncToGitHub === "function") autoSyncToGitHub();
   },
 
   /** Thêm sản phẩm mới */
@@ -529,77 +529,92 @@ function resetProductsToDefault() {
 window.AdminCMS = AdminCMS;
 
 // ═══════════════════════════════════════════════════════════════════
-//  ĐỒNG BỘ ẢNH DESKTOP ↔ MOBILE (auto-download site-config.js)
+//  ĐỒNG BỘ ẢNH – auto-sync config khi admin thay đổi ảnh
 // ═══════════════════════════════════════════════════════════════════
 
-function _buildSiteConfigContent() {
-  const imageConfig = {};
-  if (typeof SiteSettings !== "undefined") {
-    const all = SiteSettings.getAll();
-    SiteSettings.SLOTS.forEach(slot => {
-      if (all[slot.key] && all[slot.key].src) {
-        imageConfig[slot.key] = all[slot.key].src;
+const ConfigSync = {
+  LS_REPO: "hnm_repo_info",
+
+  getRepoInfo() {
+    try { return JSON.parse(localStorage.getItem(this.LS_REPO)) || {}; }
+    catch (e) { return {}; }
+  },
+
+  saveRepoInfo(owner, repo) {
+    localStorage.setItem(this.LS_REPO, JSON.stringify({ owner, repo }));
+  },
+
+  buildConfigContent() {
+    const imageConfig = {};
+    if (typeof SiteSettings !== "undefined") {
+      const all = SiteSettings.getAll();
+      SiteSettings.SLOTS.forEach(slot => {
+        if (all[slot.key] && all[slot.key].src) {
+          imageConfig[slot.key] = all[slot.key].src;
+        }
+      });
+    }
+
+    const productOverrides = {};
+    const products = AdminCMS.getProducts();
+    const defaults = JSON.parse(JSON.stringify(typeof PRODUCTS !== "undefined" ? PRODUCTS : []));
+    products.forEach(p => {
+      const original = defaults.find(d => d.id === p.id);
+      if (original && p.image !== original.image) {
+        productOverrides[p.id] = p.image;
+      }
+      if (!original) {
+        productOverrides[p.id] = p.image;
       }
     });
+
+    const lines = [];
+    lines.push("/**");
+    lines.push(" * Site Config - Updated from Admin Panel");
+    lines.push(" * " + new Date().toISOString());
+    lines.push(" */");
+    lines.push("const SITE_IMAGE_CONFIG = {");
+    Object.entries(imageConfig).forEach(([key, val]) => {
+      const escaped = val.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      lines.push('  "' + key + '": "' + escaped + '",');
+    });
+    lines.push("};");
+    lines.push("const PRODUCT_IMAGE_OVERRIDES = {");
+    Object.entries(productOverrides).forEach(([id, img]) => {
+      const escaped = img.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      lines.push('  "' + id + '": "' + escaped + '",');
+    });
+    lines.push("};");
+    return lines.join("\n");
+  },
+
+  downloadConfig() {
+    const content = this.buildConfigContent();
+    const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "site-config.js";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
+};
 
-  const productOverrides = {};
-  const products = AdminCMS.getProducts();
-  const defaults = JSON.parse(JSON.stringify(typeof PRODUCTS !== "undefined" ? PRODUCTS : []));
-  products.forEach(p => {
-    const original = defaults.find(d => d.id === p.id);
-    if (original && p.image !== original.image) {
-      productOverrides[p.id] = p.image;
-    }
-    if (!original) {
-      productOverrides[p.id] = p.image;
-    }
-  });
+window.ConfigSync = ConfigSync;
 
-  const lines = [];
-  lines.push("/**");
-  lines.push(" * Site Config – Cấu hình ảnh đồng bộ giữa tất cả thiết bị");
-  lines.push(" * Tải xuống từ Admin Panel. Thay thế file js/site-config.js và push GitHub.");
-  lines.push(" * Cập nhật lần cuối: " + new Date().toLocaleString("vi-VN") + "");
-  lines.push(" */");
-
-  lines.push("const SITE_IMAGE_CONFIG = {");
-  Object.entries(imageConfig).forEach(([key, val]) => {
-    const escaped = val.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-    lines.push('  "' + key + '": "' + escaped + '",');
-  });
-  lines.push("};");
-
-  lines.push("const PRODUCT_IMAGE_OVERRIDES = {");
-  Object.entries(productOverrides).forEach(([id, img]) => {
-    const escaped = img.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-    lines.push('  "' + id + '": "' + escaped + '",');
-  });
-  lines.push("};");
-
-  return lines.join("\n");
-}
-
-function downloadSiteConfig() {
-  const content = _buildSiteConfigContent();
-  const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "site-config.js";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast("✅ Đã tải site-config.js! Thay file trong thư mục js/ và push GitHub để đồng bộ ảnh lên điện thoại.");
+function autoSyncToGitHub() {
+  if (typeof showSyncBanner === "function") showSyncBanner();
 }
 
 function exportSiteConfig() {
-  downloadSiteConfig();
+  ConfigSync.downloadConfig();
+  showToast("✅ Đã tải site-config.js!");
 }
 
 window.exportSiteConfig = exportSiteConfig;
-window.downloadSiteConfig = downloadSiteConfig;
+window.autoSyncToGitHub = autoSyncToGitHub;
 
 // ═══════════════════════════════════════════════════════════════════
 //  BLOG STORE (localStorage layer on top of static BLOG_POSTS[])

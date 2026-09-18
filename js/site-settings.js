@@ -222,4 +222,37 @@ if (document.readyState === "loading") {
   SiteSettings.applyToPage();
 }
 
+// Live-fetch: tải site-config.js mới nhất (bypass cache) và áp dụng
+(function liveRefreshConfig() {
+  if (typeof fetch === "undefined") return;
+  fetch("js/site-config.js?_t=" + Date.now())
+    .then(r => r.ok ? r.text() : null)
+    .then(text => {
+      if (!text) return;
+      try {
+        const fn = new Function(text + "\nreturn { SITE_IMAGE_CONFIG: typeof SITE_IMAGE_CONFIG!=='undefined'?SITE_IMAGE_CONFIG:{}, PRODUCT_IMAGE_OVERRIDES: typeof PRODUCT_IMAGE_OVERRIDES!=='undefined'?PRODUCT_IMAGE_OVERRIDES:{} };");
+        const fresh = fn();
+        let changed = false;
+        const currentConfig = (typeof SITE_IMAGE_CONFIG !== "undefined") ? SITE_IMAGE_CONFIG : {};
+        for (const k in fresh.SITE_IMAGE_CONFIG) {
+          if (fresh.SITE_IMAGE_CONFIG[k] !== currentConfig[k]) { changed = true; break; }
+        }
+        if (!changed) {
+          const currentProd = (typeof PRODUCT_IMAGE_OVERRIDES !== "undefined") ? PRODUCT_IMAGE_OVERRIDES : {};
+          for (const k in fresh.PRODUCT_IMAGE_OVERRIDES) {
+            if (fresh.PRODUCT_IMAGE_OVERRIDES[k] !== currentProd[k]) { changed = true; break; }
+          }
+        }
+        if (changed) {
+          if (typeof window.SITE_IMAGE_CONFIG !== "undefined") Object.assign(window.SITE_IMAGE_CONFIG, fresh.SITE_IMAGE_CONFIG);
+          else window.SITE_IMAGE_CONFIG = fresh.SITE_IMAGE_CONFIG;
+          if (typeof window.PRODUCT_IMAGE_OVERRIDES !== "undefined") Object.assign(window.PRODUCT_IMAGE_OVERRIDES, fresh.PRODUCT_IMAGE_OVERRIDES);
+          else window.PRODUCT_IMAGE_OVERRIDES = fresh.PRODUCT_IMAGE_OVERRIDES;
+          SiteSettings.applyToPage();
+        }
+      } catch (e) {}
+    })
+    .catch(() => {});
+})();
+
 window.SiteSettings = SiteSettings;
