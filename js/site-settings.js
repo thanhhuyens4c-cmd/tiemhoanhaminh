@@ -158,10 +158,11 @@ const SiteSettings = {
     } catch (e) { return {}; }
   },
 
-  /** Lấy src của một slot (ưu tiên custom, fallback default) */
+  /** Lấy src của một slot (ưu tiên: localStorage → site-config → defaultSrc) */
   get(key) {
     const all = this.getAll();
     if (all[key] && all[key].src) return all[key].src;
+    if (typeof SITE_IMAGE_CONFIG !== "undefined" && SITE_IMAGE_CONFIG[key]) return SITE_IMAGE_CONFIG[key];
     const slot = this.SLOTS.find(s => s.key === key);
     return slot ? slot.defaultSrc : "";
   },
@@ -202,11 +203,13 @@ const SiteSettings = {
    */
   applyToPage() {
     const all = this.getAll();
+    const config = (typeof SITE_IMAGE_CONFIG !== "undefined") ? SITE_IMAGE_CONFIG : {};
     this.SLOTS.forEach(slot => {
-      if (!all[slot.key] || !all[slot.key].src) return;
+      const src = (all[slot.key] && all[slot.key].src) ? all[slot.key].src : config[slot.key];
+      if (!src) return;
       const elements = document.querySelectorAll(slot.selector);
       elements.forEach(el => {
-        el.src = all[slot.key].src;
+        el.src = src;
       });
     });
   }

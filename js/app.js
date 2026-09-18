@@ -194,7 +194,7 @@ const App = {
   },
 
   openQuickView(productId) {
-    const product = PRODUCTS.find(p => p.id === productId);
+    const product = getProducts().find(p => p.id === productId);
     if (!product) return;
 
     const modal = document.getElementById("quick-view-modal");
@@ -314,8 +314,8 @@ const App = {
           return;
         }
 
-        const matched = PRODUCTS.filter(p => 
-          p.name.toLowerCase().includes(query) || 
+        const matched = getProducts().filter(p =>
+          p.name.toLowerCase().includes(query) ||
           p.shortDesc.toLowerCase().includes(query) ||
           p.colorName.toLowerCase().includes(query)
         );
@@ -409,7 +409,7 @@ const App = {
         e.preventDefault();
         e.stopPropagation();
         const id = wishlistBtn.getAttribute("data-id");
-        const product = PRODUCTS.find(p => p.id === id);
+        const product = getProducts().find(p => p.id === id);
         const isAdded = Store.toggleWishlist(id);
         const icon = wishlistBtn.querySelector(".material-symbols-outlined");
 
@@ -445,7 +445,7 @@ const App = {
         e.preventDefault();
         e.stopPropagation();
         const id = addCartBtn.getAttribute("data-id");
-        const product = PRODUCTS.find(p => p.id === id);
+        const product = getProducts().find(p => p.id === id);
         if (product) {
           Store.addToCart(product);
           this.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x1)`);

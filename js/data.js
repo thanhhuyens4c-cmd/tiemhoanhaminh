@@ -490,7 +490,16 @@ function getProducts() {
       if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     }
   } catch (e) {}
-  return JSON.parse(JSON.stringify(PRODUCTS));
+  const products = JSON.parse(JSON.stringify(PRODUCTS));
+  if (typeof PRODUCT_IMAGE_OVERRIDES !== "undefined") {
+    products.forEach(p => {
+      if (PRODUCT_IMAGE_OVERRIDES[p.id]) {
+        p.image = PRODUCT_IMAGE_OVERRIDES[p.id];
+        p.gallery = [PRODUCT_IMAGE_OVERRIDES[p.id], ...(p.gallery || []).slice(1)];
+      }
+    });
+  }
+  return products;
 }
 
 /**

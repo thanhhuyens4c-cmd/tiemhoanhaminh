@@ -164,6 +164,12 @@
             <p class="text-xs text-[#857B76] mt-0.5">Thêm mẫu hoa mới, sửa giá, ảnh và toàn bộ thông tin sản phẩm</p>
           </div>
           <div class="flex gap-2 flex-shrink-0">
+            <button onclick="exportSiteConfig()"
+              class="px-3 py-2 border border-[#3E9B61] bg-white text-[#3E9B61] rounded-xl text-xs font-semibold hover:bg-[#3E9B61] hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
+              title="Copy cấu hình ảnh để đồng bộ giữa desktop và mobile">
+              <span class="material-symbols-outlined text-sm">sync</span>
+              <span class="hidden sm:inline">Xuất cấu hình ảnh</span>
+            </button>
             <button onclick="resetProductsToDefault()"
               class="px-3 py-2 border border-[#E5DDCE] bg-white text-[#857B76] rounded-xl text-xs font-semibold hover:border-[#D95A82] hover:text-[#D95A82] transition-colors flex items-center gap-1.5 shadow-sm">
               <span class="material-symbols-outlined text-sm">restart_alt</span>
@@ -378,11 +384,19 @@
             <h1 class="text-xl font-bold text-[#211A18]">Giao diện &amp; Ảnh toàn trang</h1>
             <p class="text-xs text-[#857B76] mt-0.5">Thay thế logo, hero banner và ảnh trên từng trang website. Thay đổi có hiệu lực ngay lập tức.</p>
           </div>
-          <button onclick="resetAllSiteImages()"
-            class="px-3 py-2 border border-[#E5DDCE] bg-white text-[#857B76] rounded-xl text-xs font-semibold hover:border-[#D95A82] hover:text-[#D95A82] transition-colors flex items-center gap-1.5 shadow-sm flex-shrink-0">
-            <span class="material-symbols-outlined text-sm">restart_alt</span>
-            Khôi phục tất cả ảnh gốc
-          </button>
+          <div class="flex gap-2 flex-shrink-0">
+            <button onclick="exportSiteConfig()"
+              class="px-3 py-2 border border-[#3E9B61] bg-white text-[#3E9B61] rounded-xl text-xs font-semibold hover:bg-[#3E9B61] hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
+              title="Copy cấu hình ảnh để đồng bộ giữa desktop và mobile">
+              <span class="material-symbols-outlined text-sm">sync</span>
+              Xuất cấu hình ảnh
+            </button>
+            <button onclick="resetAllSiteImages()"
+              class="px-3 py-2 border border-[#E5DDCE] bg-white text-[#857B76] rounded-xl text-xs font-semibold hover:border-[#D95A82] hover:text-[#D95A82] transition-colors flex items-center gap-1.5 shadow-sm">
+              <span class="material-symbols-outlined text-sm">restart_alt</span>
+              Khôi phục tất cả ảnh gốc
+            </button>
+          </div>
         </div>
 
         <!-- Hướng dẫn nhanh -->
@@ -1074,6 +1088,7 @@
 
   <!-- ═══ SCRIPTS ═══ -->
   <script src="js/data.js"></script>
+  <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
