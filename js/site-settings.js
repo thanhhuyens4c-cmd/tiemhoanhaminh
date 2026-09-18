@@ -87,46 +87,6 @@ const SiteSettings = {
       hint: "Banner chính trang bộ sưu tập"
     },
     {
-      key: "collection_spring",
-      label: "Ảnh Bộ sưu tập Mùa Xuân",
-      page: "Bộ sưu tập (bo-suu-tap.html)",
-      pageIcon: "collections",
-      selector: "#collection-spring-img",
-      defaultSrc: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80",
-      aspect: "1:1",
-      hint: "Ảnh đại diện bộ sưu tập mùa Xuân"
-    },
-    {
-      key: "collection_summer",
-      label: "Ảnh Bộ sưu tập Mùa Hạ",
-      page: "Bộ sưu tập (bo-suu-tap.html)",
-      pageIcon: "collections",
-      selector: "#collection-summer-img",
-      defaultSrc: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80",
-      aspect: "1:1",
-      hint: "Ảnh đại diện bộ sưu tập mùa Hạ"
-    },
-    {
-      key: "collection_autumn",
-      label: "Ảnh Bộ sưu tập Mùa Thu",
-      page: "Bộ sưu tập (bo-suu-tap.html)",
-      pageIcon: "collections",
-      selector: "#collection-autumn-img",
-      defaultSrc: "assets/images/bouquet-pink.png",
-      aspect: "1:1",
-      hint: "Ảnh đại diện bộ sưu tập mùa Thu"
-    },
-    {
-      key: "collection_winter",
-      label: "Ảnh Bộ sưu tập Mùa Đông",
-      page: "Bộ sưu tập (bo-suu-tap.html)",
-      pageIcon: "collections",
-      selector: "#collection-winter-img",
-      defaultSrc: "assets/images/hero-bouquet.png",
-      aspect: "1:1",
-      hint: "Ảnh đại diện bộ sưu tập mùa Đông"
-    },
-    {
       key: "about_hero",
       label: "Ảnh Hero trang Giới thiệu",
       page: "Giới thiệu (gioi-thieu.html)",
