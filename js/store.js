@@ -16,19 +16,7 @@ const Store = {
   getCart() {
     try {
       const data = localStorage.getItem(this.KEYS.CART);
-      return data ? JSON.parse(data) : [
-        // Mặc định có 1 sản phẩm mẫu như trong wireframe/design
-        {
-          id: "HNM-HM001",
-          name: "Bó Hoa Hồng Pastel 'Mộng Mơ'",
-          price: 450000,
-          originalPrice: 500000,
-          color: "Pastel dịu ngọt",
-          image: "assets/images/bouquet-pink.png",
-          quantity: 1,
-          cardMessage: "Chúc bạn một ngày luôn rạng ngời và ngập tràn niềm vui!"
-        }
-      ];
+      return data ? JSON.parse(data) : [];
     } catch (e) {
       console.error("Lỗi đọc giỏ hàng:", e);
       return [];
@@ -183,7 +171,7 @@ const Store = {
   getWishlist() {
     try {
       const data = localStorage.getItem(this.KEYS.WISHLIST);
-      return data ? JSON.parse(data) : ["HNM-HM001", "HNM-HM002"];
+      return data ? JSON.parse(data) : [];
     } catch {
       return [];
     }
@@ -216,37 +204,7 @@ const Store = {
   getOrders() {
     try {
       const data = localStorage.getItem(this.KEYS.ORDERS);
-      return data ? JSON.parse(data) : [
-        {
-          id: "HM00001",
-          date: "15/09/2026 09:30",
-          senderName: "Nguyễn Thanh Trúc",
-          senderPhone: "0944355645",
-          senderEmail: "truc.nguyen@example.com",
-          receiverName: "Trần Mai Anh",
-          receiverPhone: "0912345678",
-          address: "Số 18, Phố Huế, Quận Hai Bà Trưng, Hà Nội",
-          deliveryTime: "16/09/2026 • 08:00 - 12:00",
-          paymentMethod: "Chuyển khoản VietQR",
-          paymentStatus: "Đã thanh toán",
-          orderStatus: "Đang cắm hoa & duyệt ảnh",
-          cardMessage: "Chúc chị sinh nhật ngập tràn nụ cười và luôn hạnh phúc rạng rỡ!",
-          items: [
-            {
-              id: "HNM-HM001",
-              name: "Bó Hoa Hồng Pastel 'Mộng Mơ'",
-              price: 450000,
-              size: "M - Tiêu chuẩn",
-              quantity: 1,
-              image: "assets/images/bouquet-pink.png"
-            }
-          ],
-          subtotal: 450000,
-          shippingFee: 35000,
-          discount: 0,
-          total: 485000
-        }
-      ];
+      return data ? JSON.parse(data) : [];
     } catch {
       return [];
     }
