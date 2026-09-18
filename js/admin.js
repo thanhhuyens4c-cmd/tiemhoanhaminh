@@ -578,14 +578,30 @@ async function triggerAIAnalysis(formPrefix) {
   const formEl = document.getElementById(`${formPrefix}-form`);
   const productName = formEl?.querySelector("[name=name]")?.value || "";
 
-  // Hiển thị loading state
-  const btn       = document.getElementById(`${formPrefix}-ai-btn`);
-  const iconEl    = document.getElementById(`${formPrefix}-ai-icon`);
-  const labelEl   = document.getElementById(`${formPrefix}-ai-label`);
+  // Hiển thị loading state (cả nút ở phần ảnh và nút ở phần mô tả)
+  const btn        = document.getElementById(`${formPrefix}-ai-btn`);
+  const descBtn    = document.getElementById(`${formPrefix}-ai-desc-btn`);
+  const iconEl     = document.getElementById(`${formPrefix}-ai-icon`);
+  const descIconEl = document.getElementById(`${formPrefix}-ai-desc-icon`);
+  const labelEl    = document.getElementById(`${formPrefix}-ai-label`);
+  const descLabelEl= document.getElementById(`${formPrefix}-ai-desc-label`);
 
-  if (btn) btn.disabled = true;
-  if (iconEl)  iconEl.innerHTML = `<span class="ai-spinner">⟳</span>`;
-  if (labelEl) labelEl.textContent = "AI đang phân tích ảnh...";
+  const setLoading = (loading) => {
+    [btn, descBtn].forEach(b => { if (b) b.disabled = loading; });
+    if (loading) {
+      if (iconEl)      iconEl.innerHTML     = `<span class="ai-spinner">⟳</span>`;
+      if (descIconEl)  descIconEl.innerHTML  = `<span class="ai-spinner">⟳</span>`;
+      if (labelEl)     labelEl.textContent   = "AI đang phân tích...";
+      if (descLabelEl) descLabelEl.textContent = "AI đang phân tích...";
+    } else {
+      if (iconEl)      iconEl.textContent    = "auto_awesome";
+      if (descIconEl)  descIconEl.textContent = "auto_awesome";
+      if (labelEl)     labelEl.innerHTML     = "✨ AI phân tích ảnh &amp; gợi ý mô tả";
+      if (descLabelEl) descLabelEl.innerHTML  = "✨ Phân tích &amp; Gợi ý";
+    }
+  };
+
+  setLoading(true);
 
   try {
     const suggestions = await AdminAI.analyzeFlowerImage(imageDataUrl, productName);
@@ -606,9 +622,7 @@ async function triggerAIAnalysis(formPrefix) {
       showToast(`❌ AI lỗi: ${err.message}`, "error");
     }
   } finally {
-    if (btn) btn.disabled = false;
-    if (iconEl)  iconEl.textContent = "auto_awesome";
-    if (labelEl) labelEl.innerHTML  = "✨ AI phân tích ảnh &amp; gợi ý mô tả";
+    setLoading(false);
   }
 }
 

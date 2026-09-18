@@ -660,6 +660,22 @@
           </div>
         </div>
 
+        <!-- AI gợi ý mô tả (luôn hiển thị tại khu vực mô tả) -->
+        <div class="rounded-xl border border-[#D95A82]/30 bg-gradient-to-r from-[#fff0f6] to-[#f8f0ff] p-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#D95A82] text-base">auto_awesome</span>
+              <span class="text-xs font-bold text-[#4B4240]">Gợi ý mô tả bằng AI</span>
+              <span class="text-[10px] text-[#857B76]">— phân tích ảnh hoa đã upload</span>
+            </div>
+            <button type="button" id="add-ai-desc-btn" onclick="triggerAIAnalysis('add')"
+              class="btn-ai flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0">
+              <span class="material-symbols-outlined text-sm" id="add-ai-desc-icon">auto_awesome</span>
+              <span id="add-ai-desc-label">✨ Phân tích & Gợi ý</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Mô tả ngắn -->
         <div class="space-y-1.5">
           <label class="text-xs font-bold text-[#211A18]">Mô tả ngắn (thẻ sản phẩm)</label>
@@ -830,6 +846,22 @@
             <label class="text-xs font-bold text-[#211A18]">Giá gốc (so sánh / gạch ngang)</label>
             <input type="number" name="originalPrice"
               class="w-full border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82]">
+          </div>
+        </div>
+
+        <!-- AI gợi ý mô tả (luôn hiển thị tại khu vực mô tả) -->
+        <div class="rounded-xl border border-[#D95A82]/30 bg-gradient-to-r from-[#fff0f6] to-[#f8f0ff] p-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#D95A82] text-base">auto_awesome</span>
+              <span class="text-xs font-bold text-[#4B4240]">Gợi ý mô tả bằng AI</span>
+              <span class="text-[10px] text-[#857B76]">— phân tích ảnh hoa</span>
+            </div>
+            <button type="button" id="edit-ai-desc-btn" onclick="triggerAIAnalysis('edit')"
+              class="btn-ai flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0">
+              <span class="material-symbols-outlined text-sm" id="edit-ai-desc-icon">auto_awesome</span>
+              <span id="edit-ai-desc-label">✨ Phân tích & Gợi ý</span>
+            </button>
           </div>
         </div>
 
