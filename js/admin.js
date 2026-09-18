@@ -641,6 +641,7 @@ async function testAndSaveAIKey() {
   if (saveIconEl)  saveIconEl.innerHTML  = `<span class="ai-spinner">⟳</span>`;
   if (saveLabelEl) saveLabelEl.textContent = "Đang kiểm tra...";
 
+  try {
     // Test key bằng AdminAI (tự động thử các model khả dụng)
     const result = await AdminAI.testKey(key);
 
