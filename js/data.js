@@ -104,8 +104,8 @@ function _getLocalProducts() {
 
 /**
  * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Ưu tiên localStorage cache (instant) → nếu trống thì thử Supabase (timeout 5s).
- * Dùng: const products = await getProducts();
+ * Ưu tiên localStorage cache (instant) → nếu trống thì chờ Supabase (có thể mất 10-30s lần đầu).
+ * Sau khi Supabase trả về, lưu vào localStorage → các lần sau load tức thì.
  */
 async function getProducts() {
   const cached = _getLocalProducts();
