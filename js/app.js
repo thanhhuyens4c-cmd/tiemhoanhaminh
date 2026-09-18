@@ -123,6 +123,10 @@ const App = {
             <nav id="mobile-menu" class="flex flex-col gap-4 py-6 text-sm">
               <a href="index.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Trang chủ</a>
               <a href="san-pham.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tất cả sản phẩm</a>
+              <div class="mobile-submenu">
+                <a href="san-pham.html?type=bo-hoa">↳ Bó hoa</a>
+                <a href="san-pham.html?type=gio-hoa">↳ Giỏ hoa</a>
+              </div>
               <a href="bo-suu-tap.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
               <a href="blog.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog cảm xúc</a>
               <a href="gioi-thieu.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu tiệm</a>

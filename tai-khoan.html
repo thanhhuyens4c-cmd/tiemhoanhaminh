@@ -74,7 +74,13 @@
 
       <nav class="hidden lg:flex items-center gap-7">
         <a href="index.html" data-path="trang-chu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Trang chủ</a>
-        <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm</a>
+        <div class="nav-dropdown">
+          <a href="san-pham.html" data-path="san-pham" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Sản phẩm <span class="material-symbols-outlined dropdown-arrow">expand_more</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="san-pham.html?type=bo-hoa">Bó hoa</a>
+            <a href="san-pham.html?type=gio-hoa">Giỏ hoa</a>
+          </div>
+        </div>
         <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Bộ sưu tập</a>
         <a href="blog.html" data-path="blog" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Blog</a>
         <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-sm text-[#4B4240] hover:text-[#D95A82] py-1 transition-colors">Giới thiệu</a>
