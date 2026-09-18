@@ -258,6 +258,9 @@
           </div>
         </div>
 
+        <!-- Pagination -->
+        <nav id="catalog-pagination" class="hidden items-center justify-center gap-1.5 pt-4"></nav>
+
         <!-- Empty State nếu lọc không ra -->
         <div id="catalog-empty" class="hidden text-center py-16 bg-white rounded-2xl border border-[#E5DDCE] p-8">
           <span class="material-symbols-outlined text-[#D95A82] text-5xl">local_florist</span>
@@ -345,6 +348,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("catalog-grid");
       const emptyState = document.getElementById("catalog-empty");
+      const paginationNav = document.getElementById("catalog-pagination");
       const countEl = document.getElementById("product-count");
       const sortSelect = document.getElementById("sort-select");
       const checkboxes = document.querySelectorAll(".filter-checkbox");
@@ -354,7 +358,10 @@
       const activeBadge = document.getElementById("active-filter-badge");
       const activeBadgeText = document.getElementById("active-filter-text");
 
-      // Đọc URL params nếu có
+      const ITEMS_PER_PAGE = 10;
+      let currentPage = 1;
+      let lastFiltered = [];
+
       const urlParams = new URLSearchParams(window.location.search);
       const recipientParam = urlParams.get("recipient");
       const filterParam = urlParams.get("filter");
@@ -373,8 +380,78 @@
         });
       }
 
+      function renderPage() {
+        const totalPages = Math.ceil(lastFiltered.length / ITEMS_PER_PAGE);
+        if (currentPage > totalPages) currentPage = totalPages || 1;
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const pageItems = lastFiltered.slice(start, start + ITEMS_PER_PAGE);
+
+        countEl.textContent = lastFiltered.length;
+
+        if (lastFiltered.length === 0) {
+          grid.innerHTML = "";
+          paginationNav.classList.add("hidden");
+          emptyState.classList.remove("hidden");
+          return;
+        }
+
+        emptyState.classList.add("hidden");
+        grid.innerHTML = pageItems.map(p => App.renderProductCard(p)).join('');
+
+        if (totalPages <= 1) {
+          paginationNav.classList.add("hidden");
+          return;
+        }
+
+        paginationNav.classList.remove("hidden");
+        paginationNav.classList.add("flex");
+
+        let btns = '';
+        const btnBase = 'w-9 h-9 rounded-lg text-xs font-semibold flex items-center justify-center transition-all';
+        const btnActive = `${btnBase} bg-[#3E9B61] text-white shadow-sm`;
+        const btnNormal = `${btnBase} bg-[#FAF7E9] text-[#4B4240] hover:bg-[#3E9B61] hover:text-white border border-[#E5DDCE]`;
+        const btnDisabled = `${btnBase} text-[#857B76]/50 cursor-default`;
+
+        btns += currentPage > 1
+          ? `<button class="${btnNormal}" data-page="${currentPage - 1}"><span class="material-symbols-outlined text-sm">chevron_left</span></button>`
+          : `<span class="${btnDisabled}"><span class="material-symbols-outlined text-sm">chevron_left</span></span>`;
+
+        const maxVisible = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+        if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+        if (startPage > 1) {
+          btns += `<button class="${btnNormal}" data-page="1">1</button>`;
+          if (startPage > 2) btns += `<span class="text-[#857B76] text-xs px-1">…</span>`;
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          btns += `<button class="${i === currentPage ? btnActive : btnNormal}" data-page="${i}">${i}</button>`;
+        }
+
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) btns += `<span class="text-[#857B76] text-xs px-1">…</span>`;
+          btns += `<button class="${btnNormal}" data-page="${totalPages}">${totalPages}</button>`;
+        }
+
+        btns += currentPage < totalPages
+          ? `<button class="${btnNormal}" data-page="${currentPage + 1}"><span class="material-symbols-outlined text-sm">chevron_right</span></button>`
+          : `<span class="${btnDisabled}"><span class="material-symbols-outlined text-sm">chevron_right</span></span>`;
+
+        paginationNav.innerHTML = btns;
+
+        paginationNav.querySelectorAll("button[data-page]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            currentPage = parseInt(btn.getAttribute("data-page"));
+            renderPage();
+            grid.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+      }
+
       async function filterAndRender() {
-        // Lấy selected values
         const selectedTypes = Array.from(document.querySelectorAll("input[name='type']:checked")).map(cb => cb.value);
         const selectedColors = Array.from(document.querySelectorAll("input[name='color']:checked")).map(cb => cb.value);
         const selectedPrices = Array.from(document.querySelectorAll("input[name='price']:checked")).map(cb => cb.value);
@@ -383,29 +460,26 @@
         let filtered = [...(await getProducts())];
         const activeLabels = [];
 
-        // Lọc theo Recipient từ URL nếu có
         if (recipientParam) {
           filtered = filtered.filter(p => p.recipient && p.recipient.includes(recipientParam));
           activeLabels.push(`Dành cho: ${recipientParam}`);
         }
 
-        // Lọc theo Loại hoa (bó hoa, giỏ hoa)
         if (selectedTypes.length > 0) {
           filtered = filtered.filter(p => selectedTypes.includes(p.type));
           const typeNames = selectedTypes.map(t => t === "bo-hoa" ? "Bó hoa" : "Giỏ hoa");
           activeLabels.push(typeNames.join(", "));
         }
 
-        // Lọc theo Màu sắc: trắng, hồng, đỏ, xanh lá, xanh dương, Mix pastel
         if (selectedColors.length > 0) {
           filtered = filtered.filter(p => {
             return selectedColors.some(c => {
               if (c === "xanh-duong") {
-                return p.color === "xanh-duong" || p.color === "xanh" || 
+                return p.color === "xanh-duong" || p.color === "xanh" ||
                   (p.colorName && (p.colorName.toLowerCase().includes("xanh dương") || p.colorName.toLowerCase().includes("xanh biếc")));
               }
               if (c === "xanh-la") {
-                return p.color === "xanh-la" || 
+                return p.color === "xanh-la" ||
                   (p.colorName && (p.colorName.toLowerCase().includes("xanh lá") || p.colorName.toLowerCase().includes("xanh bơ") || p.colorName.toLowerCase().includes("xanh mát")));
               }
               if (c === "pastel") {
@@ -436,7 +510,6 @@
           activeLabels.push(selectedColors.map(c => colorMap[c] || c).join(", "));
         }
 
-        // Lọc theo Mức giá (giữ nguyên)
         if (selectedPrices.length > 0) {
           filtered = filtered.filter(p => {
             return selectedPrices.some(range => {
@@ -456,7 +529,6 @@
           activeLabels.push(selectedPrices.map(pr => priceMap[pr] || pr).join(", "));
         }
 
-        // Hiển thị badge bộ lọc đang chọn
         if (activeLabels.length > 0) {
           activeBadge.classList.remove("hidden");
           activeBadge.classList.add("inline-flex");
@@ -466,7 +538,6 @@
           activeBadge.classList.remove("inline-flex");
         }
 
-        // Sắp xếp
         if (sortVal === "price-asc") {
           filtered.sort((a, b) => a.price - b.price);
         } else if (sortVal === "price-desc") {
@@ -475,17 +546,9 @@
           filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
         }
 
-        // Cập nhật số lượng
-        countEl.textContent = filtered.length;
-
-        // Render UI
-        if (filtered.length === 0) {
-          grid.innerHTML = "";
-          emptyState.classList.remove("hidden");
-        } else {
-          emptyState.classList.add("hidden");
-          grid.innerHTML = filtered.map(p => App.renderProductCard(p)).join('');
-        }
+        lastFiltered = filtered;
+        currentPage = 1;
+        renderPage();
       }
 
       checkboxes.forEach(cb => cb.addEventListener("change", filterAndRender));
@@ -503,7 +566,6 @@
       if (emptyResetBtn) emptyResetBtn.addEventListener("click", resetAll);
       if (clearBadgeBtn) clearBadgeBtn.addEventListener("click", resetAll);
 
-      // Chạy lần đầu
       filterAndRender();
 
       // Mobile filter toggle
