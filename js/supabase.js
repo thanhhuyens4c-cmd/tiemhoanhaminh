@@ -70,7 +70,7 @@ const ProductAPI = {
     try {
       const { data, error } = await client
         .from("products")
-        .select("id,name,slug,type,type_name,color,color_name,price,original_price,image_url,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order")
+        .select(this.LIST_COLUMNS + ",image_url")
         .eq("is_active", true)
         .order("sort_order", { ascending: true });
 
@@ -112,6 +112,8 @@ const ProductAPI = {
   /**
    * Lấy tất cả sản phẩm (bao gồm cả inactive) — dùng cho admin
    */
+  LIST_COLUMNS: "id,name,slug,type,type_name,color,color_name,price,original_price,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order,description,care_instructions,created_at",
+
   async getAllProducts() {
     const client = SupabaseClient.getClient();
     if (!client) return this._fallbackGetProducts();
@@ -119,7 +121,7 @@ const ProductAPI = {
     try {
       const { data, error } = await client
         .from("products")
-        .select("*")
+        .select(this.LIST_COLUMNS)
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false });
 
@@ -128,6 +130,24 @@ const ProductAPI = {
     } catch (err) {
       console.error("Lỗi tải sản phẩm (admin):", err);
       return this._fallbackGetProducts();
+    }
+  },
+
+  async getProductImages(ids) {
+    const client = SupabaseClient.getClient();
+    if (!client) return {};
+    try {
+      const { data, error } = await client
+        .from("products")
+        .select("id,image_url")
+        .in("id", ids);
+      if (error) throw error;
+      const map = {};
+      (data || []).forEach(row => { map[row.id] = row.image_url || ""; });
+      return map;
+    } catch (err) {
+      console.error("Lỗi tải ảnh sản phẩm:", err);
+      return {};
     }
   },
 
@@ -196,14 +216,19 @@ const ProductAPI = {
    */
   _fallbackGetProducts() {
     console.warn("Sử dụng dữ liệu localStorage (fallback)");
+    const seedProducts = typeof PRODUCTS !== "undefined" ? JSON.parse(JSON.stringify(PRODUCTS)) : [];
     try {
       const saved = localStorage.getItem("hnm_products_v1");
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const seedIds = new Set(seedProducts.map(p => p.id));
+          const customProducts = parsed.filter(p => !seedIds.has(p.id));
+          return [...seedProducts, ...customProducts];
+        }
       }
     } catch (e) {}
-    return JSON.parse(JSON.stringify(typeof PRODUCTS !== "undefined" ? PRODUCTS : []));
+    return seedProducts;
   },
 
   /**
