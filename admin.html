@@ -677,21 +677,54 @@
           </div>
         </div>
 
-        <!-- Nhãn -->
+        <!-- Thứ tự xuất hiện -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18] flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-[#3E9B61]">sort</span>
+            Thứ tự xuất hiện trên website
+          </label>
+          <div class="flex items-center gap-3">
+            <input type="number" name="sortOrder" min="0" value="0" placeholder="0"
+              class="w-28 border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#3E9B61] text-center">
+            <span class="text-[10px] text-[#857B76]">Số nhỏ hơn hiện trước. Mặc định: 0</span>
+          </div>
+        </div>
+
+        <!-- Danh mục sản phẩm -->
         <div class="space-y-2">
-          <label class="text-xs font-bold text-[#211A18]">Nhãn hiển thị</label>
-          <div class="flex flex-wrap gap-4">
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
-              <input type="checkbox" name="isBestSeller" class="w-4 h-4 rounded accent-[#D95A82]">
-              <span class="px-2 py-0.5 rounded bg-[#D95A82]/10 text-[#D95A82] font-bold text-[10px]">🔥 Bán chạy</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
+          <label class="text-xs font-bold text-[#211A18] flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-[#3E9B61]">category</span>
+            Danh mục sản phẩm
+          </label>
+          <p class="text-[10px] text-[#857B76] -mt-1">Chọn danh mục để sản phẩm xuất hiện ở các mục tương ứng trên website</p>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#3E9B61] hover:bg-[#3E9B61]/5 transition-all">
               <input type="checkbox" name="isNew" checked class="w-4 h-4 rounded accent-[#3E9B61]">
-              <span class="px-2 py-0.5 rounded bg-[#3E9B61]/10 text-[#3E9B61] font-bold text-[10px]">✨ Mới</span>
+              <div>
+                <span class="text-xs font-bold text-[#3E9B61]">Sản phẩm mới</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Mẫu hoa mới"</p>
+              </div>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#F29A38] hover:bg-[#F29A38]/5 transition-all">
               <input type="checkbox" name="isFeatured" class="w-4 h-4 rounded accent-[#F29A38]">
-              <span class="px-2 py-0.5 rounded bg-[#F29A38]/15 text-[#B96B00] font-bold text-[10px]">⭐ Nổi bật</span>
+              <div>
+                <span class="text-xs font-bold text-[#B96B00]">Nổi bật</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Sản phẩm nổi bật"</p>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#D95A82] hover:bg-[#D95A82]/5 transition-all">
+              <input type="checkbox" name="isBestSeller" class="w-4 h-4 rounded accent-[#D95A82]">
+              <div>
+                <span class="text-xs font-bold text-[#D95A82]">Bán chạy</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Bán chạy nhất"</p>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#E85D75] hover:bg-[#E85D75]/5 transition-all">
+              <input type="checkbox" name="isFavorite" class="w-4 h-4 rounded accent-[#E85D75]">
+              <div>
+                <span class="text-xs font-bold text-[#E85D75]">Yêu thích nhất</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Được yêu thích"</p>
+              </div>
             </label>
           </div>
         </div>
@@ -843,21 +876,53 @@
           </div>
         </div>
 
-        <!-- Nhãn -->
+        <!-- Thứ tự xuất hiện -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-[#211A18] flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-[#D95A82]">sort</span>
+            Thứ tự xuất hiện trên website
+          </label>
+          <div class="flex items-center gap-3">
+            <input type="number" name="sortOrder" min="0" value="0"
+              class="w-28 border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#D95A82] text-center">
+            <span class="text-[10px] text-[#857B76]">Số nhỏ hơn hiện trước</span>
+          </div>
+        </div>
+
+        <!-- Danh mục sản phẩm -->
         <div class="space-y-2">
-          <label class="text-xs font-bold text-[#211A18]">Nhãn hiển thị</label>
-          <div class="flex flex-wrap gap-4">
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
-              <input type="checkbox" name="isBestSeller" class="w-4 h-4 rounded accent-[#D95A82]">
-              <span class="px-2 py-0.5 rounded bg-[#D95A82]/10 text-[#D95A82] font-bold text-[10px]">🔥 Bán chạy</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
+          <label class="text-xs font-bold text-[#211A18] flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-[#D95A82]">category</span>
+            Danh mục sản phẩm
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#3E9B61] hover:bg-[#3E9B61]/5 transition-all">
               <input type="checkbox" name="isNew" class="w-4 h-4 rounded accent-[#3E9B61]">
-              <span class="px-2 py-0.5 rounded bg-[#3E9B61]/10 text-[#3E9B61] font-bold text-[10px]">✨ Mới</span>
+              <div>
+                <span class="text-xs font-bold text-[#3E9B61]">Sản phẩm mới</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Mẫu hoa mới"</p>
+              </div>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-[#4B4240]">
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#F29A38] hover:bg-[#F29A38]/5 transition-all">
               <input type="checkbox" name="isFeatured" class="w-4 h-4 rounded accent-[#F29A38]">
-              <span class="px-2 py-0.5 rounded bg-[#F29A38]/15 text-[#B96B00] font-bold text-[10px]">⭐ Nổi bật</span>
+              <div>
+                <span class="text-xs font-bold text-[#B96B00]">Nổi bật</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Sản phẩm nổi bật"</p>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#D95A82] hover:bg-[#D95A82]/5 transition-all">
+              <input type="checkbox" name="isBestSeller" class="w-4 h-4 rounded accent-[#D95A82]">
+              <div>
+                <span class="text-xs font-bold text-[#D95A82]">Bán chạy</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Bán chạy nhất"</p>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer p-2.5 rounded-xl border border-[#E5DDCE] hover:border-[#E85D75] hover:bg-[#E85D75]/5 transition-all">
+              <input type="checkbox" name="isFavorite" class="w-4 h-4 rounded accent-[#E85D75]">
+              <div>
+                <span class="text-xs font-bold text-[#E85D75]">Yêu thích nhất</span>
+                <p class="text-[10px] text-[#857B76]">Hiện ở mục "Được yêu thích"</p>
+              </div>
             </label>
           </div>
         </div>
