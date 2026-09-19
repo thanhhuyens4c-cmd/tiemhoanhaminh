@@ -225,11 +225,12 @@ let _currentProductPage = 1;
 let _allProductsCache = [];
 
 function renderProductRow(p) {
+  const imgSrc = p.image || "assets/images/hero-bouquet.png";
   return `
     <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
       <td class="p-3">
         <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
-          <img src="${p.image}" alt="${p.name}"
+          <img data-product-id="${p.id}" src="${imgSrc}" alt="${p.name}"
             class="w-full h-full object-cover"
             onerror="this.src='assets/images/hero-bouquet.png'">
         </div>
@@ -322,6 +323,25 @@ function renderProductTablePage() {
   const pageItems = _allProductsCache.slice(start, start + PRODUCTS_PER_PAGE);
   tbody.innerHTML = pageItems.map(renderProductRow).join("");
   renderProductPagination(total);
+  _loadPageImages(pageItems);
+}
+
+async function _loadPageImages(pageItems) {
+  const needImages = pageItems.filter(p => !p.image || p.image === "assets/images/hero-bouquet.png");
+  if (needImages.length === 0) return;
+  if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) return;
+  try {
+    const imageMap = await ProductAPI.getProductImages(needImages.map(p => p.id));
+    for (const [id, url] of Object.entries(imageMap)) {
+      if (!url) continue;
+      const img = document.querySelector(`img[data-product-id="${id}"]`);
+      if (img) img.src = url;
+      const cached = _allProductsCache.find(p => p.id === id);
+      if (cached) cached.image = url;
+    }
+  } catch (e) {
+    console.warn("Không tải được ảnh sản phẩm:", e);
+  }
 }
 
 async function renderProductTable() {
@@ -539,9 +559,18 @@ document.addEventListener("DOMContentLoaded", () => {
 //  MODAL SỬA SẢN PHẨM – điền dữ liệu vào form (async)
 // ═══════════════════════════════════════════════════════════════════
 async function openEditModal(id) {
-  const products = await AdminCMS.getProducts();
-  const p = products.find(x => x.id === id);
+  let p = _allProductsCache.find(x => x.id === id);
+  if (!p) {
+    const products = await AdminCMS.getProducts();
+    p = products.find(x => x.id === id);
+  }
   if (!p) { showToast("Không tìm thấy sản phẩm!", "error"); return; }
+  if (!p.image && typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+    try {
+      const imgMap = await ProductAPI.getProductImages([id]);
+      if (imgMap[id]) p.image = imgMap[id];
+    } catch (e) {}
+  }
 
   const f = document.getElementById("edit-form");
   document.getElementById("edit-product-id").value = p.id;
