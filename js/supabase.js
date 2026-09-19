@@ -258,7 +258,7 @@ const ProductAPI = {
       isBestSeller: !!row.is_best_seller,
       isNew: !!row.is_new,
       isFeatured: !!row.is_featured,
-      isFavorite: !!row.is_favorite,
+      isFavorite: (row.tags || []).includes("favorite"),
       tags: row.tags || [],
       isActive: row.is_active !== false,
       sortOrder: row.sort_order || 0
@@ -291,8 +291,12 @@ const ProductAPI = {
     if (product.isBestSeller !== undefined) row.is_best_seller = product.isBestSeller;
     if (product.isNew !== undefined) row.is_new = product.isNew;
     if (product.isFeatured !== undefined) row.is_featured = product.isFeatured;
-    if (product.isFavorite !== undefined) row.is_favorite = product.isFavorite;
-    if (product.tags !== undefined) row.tags = product.tags;
+    if (product.tags !== undefined) row.tags = [...product.tags];
+    if (product.isFavorite !== undefined) {
+      if (!row.tags) row.tags = [];
+      row.tags = row.tags.filter(t => t !== "favorite");
+      if (product.isFavorite) row.tags.push("favorite");
+    }
     if (product.isActive !== undefined) row.is_active = product.isActive;
     if (product.sortOrder !== undefined) row.sort_order = product.sortOrder;
     return row;
