@@ -201,6 +201,28 @@
             <option value="bo-hoa">Bó hoa tươi</option>
             <option value="gio-hoa">Giỏ hoa thủ công</option>
           </select>
+          <select id="product-color-filter" onchange="filterProducts()"
+            class="border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs bg-white focus:outline-none focus:border-[#3E9B61] text-[#4B4240]">
+            <option value="">Tất cả màu</option>
+          </select>
+          <select id="product-label-filter" onchange="filterProducts()"
+            class="border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs bg-white focus:outline-none focus:border-[#3E9B61] text-[#4B4240]">
+            <option value="">Tất cả nhãn</option>
+            <option value="isBestSeller">Bán chạy</option>
+            <option value="isNew">Mới</option>
+            <option value="isFeatured">Nổi bật</option>
+          </select>
+          <select id="product-price-filter" onchange="filterProducts()"
+            class="border border-[#E5DDCE] rounded-xl px-4 py-2.5 text-xs bg-white focus:outline-none focus:border-[#3E9B61] text-[#4B4240]">
+            <option value="">Tất cả giá</option>
+            <option value="0-300000">Dưới 300k</option>
+            <option value="300000-500000">300k – 500k</option>
+            <option value="500000-1000000">500k – 1 triệu</option>
+            <option value="1000000-">Trên 1 triệu</option>
+          </select>
+          <button onclick="clearAllFilters()" class="border border-[#E5DDCE] rounded-xl px-3 py-2.5 text-xs text-[#857B76] hover:bg-[#FAF7E9] transition-colors flex items-center gap-1" title="Xóa bộ lọc">
+            <span class="material-symbols-outlined text-sm">filter_alt_off</span>
+          </button>
         </div>
 
         <!-- Products table card -->
@@ -217,10 +239,18 @@
               <thead class="bg-[#FAF7E9] text-[#4B4240] font-bold border-b border-[#E5DDCE]">
                 <tr>
                   <th class="p-3">Ảnh</th>
-                  <th class="p-3">Tên sản phẩm &amp; Mã</th>
-                  <th class="p-3">Phân loại</th>
-                  <th class="p-3">Màu sắc</th>
-                  <th class="p-3">Giá bán (size đầu)</th>
+                  <th class="p-3 cursor-pointer select-none hover:text-[#3E9B61] transition-colors" onclick="sortProducts('name')">
+                    <span class="inline-flex items-center gap-0.5">Tên sản phẩm &amp; Mã <span class="material-symbols-outlined text-xs sort-icon" data-sort="name">unfold_more</span></span>
+                  </th>
+                  <th class="p-3 cursor-pointer select-none hover:text-[#3E9B61] transition-colors" onclick="sortProducts('typeName')">
+                    <span class="inline-flex items-center gap-0.5">Phân loại <span class="material-symbols-outlined text-xs sort-icon" data-sort="typeName">unfold_more</span></span>
+                  </th>
+                  <th class="p-3 cursor-pointer select-none hover:text-[#3E9B61] transition-colors" onclick="sortProducts('colorName')">
+                    <span class="inline-flex items-center gap-0.5">Màu sắc <span class="material-symbols-outlined text-xs sort-icon" data-sort="colorName">unfold_more</span></span>
+                  </th>
+                  <th class="p-3 cursor-pointer select-none hover:text-[#3E9B61] transition-colors" onclick="sortProducts('price')">
+                    <span class="inline-flex items-center gap-0.5">Giá bán <span class="material-symbols-outlined text-xs sort-icon" data-sort="price">unfold_more</span></span>
+                  </th>
                   <th class="p-3">Nhãn</th>
                   <th class="p-3 text-right">Thao tác</th>
                 </tr>
