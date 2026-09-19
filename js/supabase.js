@@ -112,7 +112,7 @@ const ProductAPI = {
   /**
    * Lấy tất cả sản phẩm (bao gồm cả inactive) — dùng cho admin
    */
-  LIST_COLUMNS: "id,name,slug,type,type_name,color,color_name,price,original_price,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,is_favorite,tags,is_active,sort_order,description,care_instructions,created_at",
+  LIST_COLUMNS: "id,name,slug,type,type_name,color,color_name,price,original_price,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order,description,care_instructions,created_at",
 
   async getAllProducts() {
     const client = SupabaseClient.getClient();
