@@ -553,6 +553,12 @@
           filtered.sort((a, b) => b.price - a.price);
         } else if (sortVal === "best-seller") {
           filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
+        } else {
+          filtered.sort((a, b) => {
+            const orderDiff = (a.sortOrder || 0) - (b.sortOrder || 0);
+            if (orderDiff !== 0) return orderDiff;
+            return (a.name || "").localeCompare(b.name || "", "vi");
+          });
         }
 
         lastFiltered = filtered;
