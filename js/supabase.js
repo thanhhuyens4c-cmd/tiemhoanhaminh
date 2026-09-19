@@ -112,7 +112,7 @@ const ProductAPI = {
   /**
    * Lấy tất cả sản phẩm (bao gồm cả inactive) — dùng cho admin
    */
-  LIST_COLUMNS: "id,name,slug,type,type_name,color,color_name,price,original_price,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,tags,is_active,sort_order,description,care_instructions,created_at",
+  LIST_COLUMNS: "id,name,slug,type,type_name,color,color_name,price,original_price,short_desc,occasion,recipient,rating,reviews_count,is_best_seller,is_new,is_featured,is_favorite,tags,is_active,sort_order,description,care_instructions,created_at",
 
   async getAllProducts() {
     const client = SupabaseClient.getClient();
@@ -258,6 +258,7 @@ const ProductAPI = {
       isBestSeller: !!row.is_best_seller,
       isNew: !!row.is_new,
       isFeatured: !!row.is_featured,
+      isFavorite: !!row.is_favorite,
       tags: row.tags || [],
       isActive: row.is_active !== false,
       sortOrder: row.sort_order || 0
@@ -290,6 +291,7 @@ const ProductAPI = {
     if (product.isBestSeller !== undefined) row.is_best_seller = product.isBestSeller;
     if (product.isNew !== undefined) row.is_new = product.isNew;
     if (product.isFeatured !== undefined) row.is_featured = product.isFeatured;
+    if (product.isFavorite !== undefined) row.is_favorite = product.isFavorite;
     if (product.tags !== undefined) row.tags = product.tags;
     if (product.isActive !== undefined) row.is_active = product.isActive;
     if (product.sortOrder !== undefined) row.sort_order = product.sortOrder;

@@ -477,7 +477,9 @@ document.addEventListener("DOMContentLoaded", () => {
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
       isNew:         fd.get("isNew") === "on",
-      isFeatured:    fd.get("isFeatured") === "on"
+      isFeatured:    fd.get("isFeatured") === "on",
+      isFavorite:    fd.get("isFavorite") === "on",
+      sortOrder:     parseInt(fd.get("sortOrder")) || 0
     };
 
     try {
@@ -528,7 +530,9 @@ document.addEventListener("DOMContentLoaded", () => {
       recipient:     (fd.get("recipient") || "").split(",").map(s => s.trim()).filter(Boolean),
       isBestSeller:  fd.get("isBestSeller") === "on",
       isNew:         fd.get("isNew") === "on",
-      isFeatured:    fd.get("isFeatured") === "on"
+      isFeatured:    fd.get("isFeatured") === "on",
+      isFavorite:    fd.get("isFavorite") === "on",
+      sortOrder:     parseInt(fd.get("sortOrder")) || 0
     };
 
     if (imgData) updates.image = imgData;
@@ -593,6 +597,8 @@ async function openEditModal(id) {
   f.querySelector("[name=isBestSeller]").checked = !!p.isBestSeller;
   f.querySelector("[name=isNew]").checked = !!p.isNew;
   f.querySelector("[name=isFeatured]").checked = !!p.isFeatured;
+  f.querySelector("[name=isFavorite]").checked = !!p.isFavorite;
+  f.querySelector("[name=sortOrder]").value = p.sortOrder || 0;
 
   const editImgPreview = document.getElementById("edit-img-preview");
   editImgPreview.src = p.image || "";
