@@ -108,14 +108,21 @@ function _getLocalProducts() {
  * Nếu Supabase lỗi → fallback về localStorage/PRODUCTS.
  */
 async function getProducts() {
+  let products;
   if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
     try {
-      return await ProductAPI.getProducts();
+      products = await ProductAPI.getProducts();
     } catch (e) {
       console.error("Supabase getProducts error:", e);
     }
   }
-  return _getLocalProducts();
+  if (!products) products = _getLocalProducts();
+  products.sort((a, b) => {
+    const orderDiff = (a.sortOrder || 0) - (b.sortOrder || 0);
+    if (orderDiff !== 0) return orderDiff;
+    return (a.name || "").localeCompare(b.name || "", "vi");
+  });
+  return products;
 }
 
 /**
