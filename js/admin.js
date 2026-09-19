@@ -223,6 +223,8 @@ function setupImageUpload(inputEl, previewEl, hiddenEl) {
 const PRODUCTS_PER_PAGE = 20;
 let _currentProductPage = 1;
 let _allProductsCache = [];
+let _sortField = "";
+let _sortDir = 0; // 0 = none, 1 = asc, -1 = desc
 
 function renderProductRow(p) {
   const imgSrc = p.image || "assets/images/hero-bouquet.png";
@@ -365,6 +367,8 @@ async function renderProductTable() {
     }
 
     document.getElementById("product-count").textContent = `${products.length} sản phẩm`;
+    _populateColorFilter(products);
+    _applySortToCache();
     const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
     if (_currentProductPage > totalPages) _currentProductPage = totalPages;
     renderProductTablePage();
@@ -625,24 +629,101 @@ async function executeDelete() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  SEARCH / FILTER (async)
+//  SEARCH / FILTER / SORT (async)
 // ═══════════════════════════════════════════════════════════════════
 async function filterProducts() {
   const q = (document.getElementById("product-search")?.value || "").toLowerCase();
-  const typeFilter = (document.getElementById("product-type-filter")?.value || "");
+  const typeFilter = document.getElementById("product-type-filter")?.value || "";
+  const colorFilter = document.getElementById("product-color-filter")?.value || "";
+  const labelFilter = document.getElementById("product-label-filter")?.value || "";
+  const priceFilter = document.getElementById("product-price-filter")?.value || "";
 
   const allProducts = await AdminCMS.getProducts();
   const filtered = allProducts.filter(p => {
-    const matchQ = !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q) || (p.colorName || "").toLowerCase().includes(q);
-    const matchType = !typeFilter || p.type === typeFilter;
-    return matchQ && matchType;
+    if (q && !(p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q) || (p.colorName || "").toLowerCase().includes(q))) return false;
+    if (typeFilter && p.type !== typeFilter) return false;
+    if (colorFilter && p.color !== colorFilter) return false;
+    if (labelFilter && !p[labelFilter]) return false;
+    if (priceFilter) {
+      const [min, max] = priceFilter.split("-").map(Number);
+      if (min && p.price < min) return false;
+      if (max && p.price > max) return false;
+    }
+    return true;
   });
 
   _allProductsCache = filtered;
   _currentProductPage = 1;
+  _applySortToCache();
   const countEl = document.getElementById("product-count");
   if (countEl) countEl.textContent = `${filtered.length} sản phẩm`;
   renderProductTablePage();
+}
+
+function sortProducts(field) {
+  if (_sortField === field) {
+    _sortDir = _sortDir === 1 ? -1 : _sortDir === -1 ? 0 : 1;
+  } else {
+    _sortField = field;
+    _sortDir = 1;
+  }
+  _updateSortIcons();
+  _applySortToCache();
+  _currentProductPage = 1;
+  renderProductTablePage();
+}
+
+function _applySortToCache() {
+  if (!_sortField || _sortDir === 0) return;
+  const dir = _sortDir;
+  const field = _sortField;
+  _allProductsCache.sort((a, b) => {
+    let va = a[field], vb = b[field];
+    if (typeof va === "number" && typeof vb === "number") return (va - vb) * dir;
+    va = (va || "").toString().toLowerCase();
+    vb = (vb || "").toString().toLowerCase();
+    return va.localeCompare(vb, "vi") * dir;
+  });
+}
+
+function _updateSortIcons() {
+  document.querySelectorAll(".sort-icon").forEach(icon => {
+    const f = icon.dataset.sort;
+    if (f === _sortField) {
+      icon.textContent = _sortDir === 1 ? "arrow_upward" : _sortDir === -1 ? "arrow_downward" : "unfold_more";
+      icon.style.color = _sortDir !== 0 ? "#3E9B61" : "";
+    } else {
+      icon.textContent = "unfold_more";
+      icon.style.color = "";
+    }
+  });
+}
+
+function clearAllFilters() {
+  document.getElementById("product-search").value = "";
+  document.getElementById("product-type-filter").value = "";
+  document.getElementById("product-color-filter").value = "";
+  document.getElementById("product-label-filter").value = "";
+  document.getElementById("product-price-filter").value = "";
+  _sortField = "";
+  _sortDir = 0;
+  _updateSortIcons();
+  filterProducts();
+}
+
+function _populateColorFilter(products) {
+  const select = document.getElementById("product-color-filter");
+  if (!select) return;
+  const colors = new Map();
+  products.forEach(p => {
+    if (p.color && p.colorName && !colors.has(p.color)) colors.set(p.color, p.colorName);
+  });
+  const current = select.value;
+  select.innerHTML = '<option value="">Tất cả màu</option>';
+  for (const [val, label] of [...colors.entries()].sort((a, b) => a[1].localeCompare(b[1], "vi"))) {
+    select.innerHTML += `<option value="${val}">${label}</option>`;
+  }
+  select.value = current;
 }
 
 // ═══════════════════════════════════════════════════════════════════
