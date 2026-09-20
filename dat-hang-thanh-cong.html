@@ -81,8 +81,7 @@
         <span class="font-medium truncate block">Nhận đơn trước 1-2 ngày</span>
       </div>
       <div class="hidden md:flex items-center gap-6 flex-shrink-0">
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">local_shipping</span> Giao hoa tận nơi nội thành Hà Nội</span>
       </div>
       <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 text-xs">
         <span class="material-symbols-outlined text-sm">call</span>
@@ -269,12 +268,6 @@
             <span id="order-payment" class="text-[#211A18] font-semibold">—</span>
             <p class="text-[11px] text-[#857B76] mt-0.5">Shop sẽ xác nhận hình thức thanh toán qua Zalo trước khi giao.</p>
           </div>
-          <div class="sm:col-span-2 pt-2 border-t border-[#E5DDCE]/60">
-            <span class="text-[#D95A82] block text-xs font-semibold flex items-center gap-1">
-              <span class="material-symbols-outlined text-sm">edit_note</span> Lời chúc trên thiệp viết tay:
-            </span>
-            <p id="order-card-msg" class="italic text-[#4B4240] mt-0.5">—</p>
-          </div>
         </div>
 
         <!-- Ordered Items -->
@@ -404,8 +397,6 @@
         document.getElementById("order-receiver-phone").textContent = order.receiverPhone || "—";
         document.getElementById("order-address").textContent = order.address || "—";
         document.getElementById("order-time").textContent = order.deliveryTime || "—";
-        document.getElementById("order-card-msg").textContent = order.cardMessage || "Không có lời nhắn riêng";
-
         // Payment breakdown
         const fmt = v => (v || 0).toLocaleString('vi-VN');
         document.getElementById("order-flower-subtotal").textContent = `${fmt(order.flowerSubtotal)}₫`;
