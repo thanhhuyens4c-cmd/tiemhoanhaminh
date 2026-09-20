@@ -98,8 +98,7 @@
         <span class="font-medium truncate block">Nhận đơn trước 1-2 ngày</span>
       </div>
       <div class="hidden md:flex items-center gap-6">
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">verified</span> Chụp ảnh hoa duyệt trước khi gửi</span>
-        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#D95A82] text-base">edit_note</span> Tặng kèm thiệp viết tay nắn nót</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#3E9B61] text-base">local_shipping</span> Giao hoa tận nơi nội thành Hà Nội</span>
       </div>
       <a href="tel:0944355645" class="flex items-center gap-1 text-[#277A4D] font-semibold flex-shrink-0 hover:underline">
         <span class="material-symbols-outlined text-xs sm:text-sm">call</span>
@@ -180,7 +179,7 @@
         </div>
         <div>
           <p class="text-xs font-bold text-[#277A4D]">Đặt hoa tại Hoa Nhà Mình — Không thanh toán trực tiếp trên web</p>
-          <p class="text-[11px] text-[#4B4240] mt-0.5">Điền đầy đủ thông tin → Nhấn xác nhận → Đơn hoa tự động gửi về Zalo tiệm → Shop xác nhận & duyệt ảnh hoa trước khi giao.</p>
+          <p class="text-[11px] text-[#4B4240] mt-0.5">Điền đầy đủ thông tin → Nhấn xác nhận → Đơn hoa tự động gửi về Zalo tiệm → Shop xác nhận & giao hoa.</p>
         </div>
       </div>
       <div class="hidden sm:flex items-center gap-6 flex-shrink-0 text-[11px] text-[#277A4D]">
@@ -253,7 +252,7 @@
         <div class="bg-white p-6 sm:p-7 rounded-2xl border border-[#E5DDCE] shadow-sm space-y-4">
           <div class="flex items-center gap-2.5 pb-2 border-b border-[#E5DDCE]">
             <span class="w-7 h-7 rounded-full bg-[#3E9B61] text-white flex items-center justify-center text-xs font-bold shadow-sm">3</span>
-            <h2 class="text-base font-bold text-[#211A18]">Thời gian nhận hoa & Thiệp viết tay</h2>
+            <h2 class="text-base font-bold text-[#211A18]">Thời gian nhận hoa</h2>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
@@ -272,12 +271,6 @@
                 <option value="Buổi tối (17:00 – 20:30)">Buổi tối (17:00 – 20:30)</option>
                 <option value="Theo giờ hẹn riêng (Ghi chú thêm)">Theo giờ hẹn riêng (Ghi chú thêm)</option>
               </select>
-            </div>
-            <div class="sm:col-span-2 space-y-1">
-              <label for="order-card-message" class="block text-xs font-semibold text-[#4B4240]">
-                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-[#D95A82]">edit_note</span> Lời nhắn viết tay trên thiệp chúc mừng (Miễn phí):</span>
-              </label>
-              <textarea id="order-card-message" rows="3" placeholder="VD: Chúc mừng sinh nhật chị yêu! Chúc chị một tuổi mới luôn an yên và rạng rỡ như những đóa hoa này..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61] transition-colors resize-none"></textarea>
             </div>
           </div>
         </div>
@@ -449,7 +442,7 @@
             <div class="space-y-1.5 pl-5">
               <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">①</span> Đơn hoa gửi về Zalo tiệm ngay lập tức</p>
               <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">②</span> Shop xác nhận & hướng dẫn thanh toán cọc + ship qua Zalo</p>
-              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">③</span> Florist cắm hoa → Chụp ảnh gửi duyệt → Giao hoa</p>
+              <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">③</span> Florist cắm hoa → Giao hoa tận nơi</p>
               <p class="flex items-start gap-2"><span class="text-[#3E9B61] font-bold flex-shrink-0">④</span> Khách nhận hoa → Thanh toán phần tiền hoa còn lại</p>
             </div>
           </div>
@@ -613,8 +606,6 @@
           <ul class="space-y-2 text-xs text-[#FAF7E9]/80">
             <li><a href="gioi-thieu.html" class="hover:text-white transition-colors">Câu chuyện thương hiệu</a></li>
             <li><span class="hover:text-white">Nhận đơn trước 1-2 ngày</span></li>
-            <li><span class="hover:text-white">Chụp ảnh duyệt hoa trước khi gửi</span></li>
-            <li><span class="hover:text-white">Tặng kèm thiệp viết tay nắn nót</span></li>
           </ul>
         </div>
         <div class="space-y-3">
@@ -698,8 +689,6 @@ ${data.discount > 0 ? `   Giảm giá: -${data.discount.toLocaleString('vi-VN')}
    💵 CÒN LẠI KHI NHẬN HOA: ${data.remainingPayment.toLocaleString('vi-VN')}₫
    ➤ TỔNG GIÁ TRỊ ĐƠN: ${data.total.toLocaleString('vi-VN')}₫
 
-✉️ LỜI CHÚC TRÊN THIỆP:
-   "${data.cardMessage || 'Không có lời chúc'}"
 ━━━━━━━━━━━━━━━━━━━━
 Gửi qua website Hoa Nhà Mình`;
     }
@@ -716,7 +705,7 @@ Gửi qua website Hoa Nhà Mình`;
         address: document.getElementById("receiver-address").value.trim() || "(chưa điền)",
         deliveryDate: document.getElementById("delivery-date").value || "(chưa chọn)",
         deliverySlot: document.getElementById("delivery-time-slot").value,
-        cardMessage: document.getElementById("order-card-message").value.trim(),
+        cardMessage: "",
         customerZalo: document.getElementById("customer-zalo").value.trim() || "(chưa điền)",
         items: cart,
         subtotal: totals.subtotal,
@@ -813,7 +802,7 @@ Gửi qua website Hoa Nhà Mình`;
       });
 
       // Live preview khi thay đổi các field
-      const liveFields = ["sender-name","sender-phone","sender-email","receiver-name","receiver-phone","receiver-address","delivery-date","delivery-time-slot","order-card-message","customer-zalo","payment-note"];
+      const liveFields = ["sender-name","sender-phone","sender-email","receiver-name","receiver-phone","receiver-address","delivery-date","delivery-time-slot","customer-zalo","payment-note"];
       liveFields.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener("input", updatePreview);
@@ -848,7 +837,6 @@ Gửi qua website Hoa Nhà Mình`;
         const receiverAddress = document.getElementById("receiver-address").value.trim();
         const deliveryDate = document.getElementById("delivery-date").value;
         const deliverySlot = document.getElementById("delivery-time-slot").value;
-        const cardMessage = document.getElementById("order-card-message").value.trim();
         const customerZalo = document.getElementById("customer-zalo").value.trim();
 
         const currentTotals = Store.getOrderTotals(getDepositPercent());
@@ -859,7 +847,6 @@ Gửi qua website Hoa Nhà Mình`;
           receiverName, receiverPhone,
           address: receiverAddress,
           deliveryTime: `${deliveryDate} — ${deliverySlot}`,
-          cardMessage,
           customerZalo,
           items: cart,
           subtotal: currentTotals.subtotal,
