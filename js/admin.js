@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // ── Auto-sync typeName khi chọn loại hoa (form Thêm) ────────────
-  const TYPE_NAMES = { "bo-hoa": "Bó hoa tươi", "gio-hoa": "Giỏ hoa thủ công" };
+  const TYPE_NAMES = { "bo-hoa": "Bó hoa tươi", "gio-hoa": "Giỏ hoa thủ công", "hoa-lua": "Hoa lụa" };
   const addTypeSelect = document.querySelector("#add-form [name=type]");
   const addTypeNameInput = document.querySelector("#add-form [name=typeName]");
   if (addTypeSelect && addTypeNameInput) {
