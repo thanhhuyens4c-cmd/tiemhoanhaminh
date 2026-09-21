@@ -191,12 +191,12 @@ async function getProducts() {
 
 /**
  * getBlogPosts() – Trả về danh sách bài viết Blog hiện hành.
- * Ưu tiên dữ liệu đã tạo/chỉnh sửa bởi admin (localStorage: hnm_blogs_v1),
+ * Ưu tiên dữ liệu đã tạo/chỉnh sửa bởi admin (localStorage: hnm_blogs_v2),
  * fallback về mảng BLOG_POSTS tĩnh trong file này.
  */
 function getBlogPosts() {
   try {
-    const saved = localStorage.getItem("hnm_blogs_v1");
+    const saved = localStorage.getItem("hnm_blogs_v2");
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) return parsed;
