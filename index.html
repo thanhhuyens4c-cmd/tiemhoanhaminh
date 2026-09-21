@@ -521,13 +521,13 @@
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="home-blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Article 1 -->
         <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
           <div>
-            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+            <a href="bai-viet.html?id=blog-01" class="block aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
               <img id="index-gallery-img-1" src="assets/images/bouquet-pink.png" alt="Hoa cẩm tú cầu" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            </div>
+            </a>
             <div class="p-5 space-y-2">
               <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Hoa & Cảm xúc</span>
               <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
@@ -538,16 +538,16 @@
           </div>
           <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
             <span>13/08/2026</span>
-            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+            <a href="bai-viet.html?id=blog-01" class="font-medium text-[#277A4D] hover:underline">Đọc tiếp &rarr;</a>
           </div>
         </article>
 
         <!-- Article 2 -->
         <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
           <div>
-            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+            <a href="bai-viet.html?id=blog-02" class="block aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
               <img id="index-gallery-img-2" src="assets/images/florist-workshop.png" alt="Hoa chuông" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            </div>
+            </a>
             <div class="p-5 space-y-2">
               <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Câu chuyện Hoa Nhà Mình</span>
               <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
@@ -558,16 +558,16 @@
           </div>
           <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
             <span>31/08/2026</span>
-            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+            <a href="bai-viet.html?id=blog-02" class="font-medium text-[#277A4D] hover:underline">Đọc tiếp &rarr;</a>
           </div>
         </article>
 
         <!-- Article 3 -->
         <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
           <div>
-            <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+            <a href="bai-viet.html?id=blog-03" class="block aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
               <img id="index-gallery-img-3" src="assets/images/hero-bouquet.png" alt="Hoa hồng ý nghĩa" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            </div>
+            </a>
             <div class="p-5 space-y-2">
               <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Hoa & Cảm xúc</span>
               <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
@@ -578,7 +578,7 @@
           </div>
           <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
             <span>11/12/2025</span>
-            <span class="font-medium text-[#277A4D]">Đọc tiếp &rarr;</span>
+            <a href="bai-viet.html?id=blog-03" class="font-medium text-[#277A4D] hover:underline">Đọc tiếp &rarr;</a>
           </div>
         </article>
       </div>
@@ -737,6 +737,34 @@
           renderTab(btn.getAttribute("data-tab"));
         });
       });
+
+      // Render 3 bài blog mới nhất trên trang chủ
+      const blogGrid = document.getElementById("home-blog-grid");
+      if (blogGrid && typeof getBlogPosts === "function") {
+        const blogs = getBlogPosts().slice(0, 3);
+        if (blogs.length > 0) {
+          blogGrid.innerHTML = blogs.map(b => `
+            <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
+              <div>
+                <a href="bai-viet.html?id=${b.id}" class="block aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+                  <img src="${b.image}" alt="${b.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </a>
+                <div class="p-5 space-y-2">
+                  <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">${b.category}</span>
+                  <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
+                    <a href="bai-viet.html?id=${b.id}">${b.title}</a>
+                  </h3>
+                  <p class="text-xs text-[#857B76] line-clamp-2">${b.excerpt}</p>
+                </div>
+              </div>
+              <div class="p-5 pt-0 flex items-center justify-between text-[11px] text-[#857B76] border-t border-[#E5DDCE]/50 pt-3">
+                <span>${b.date}</span>
+                <a href="bai-viet.html?id=${b.id}" class="font-medium text-[#277A4D] hover:underline">Đọc tiếp &rarr;</a>
+              </div>
+            </article>
+          `).join('');
+        }
+      }
     });
   </script>
 </body>

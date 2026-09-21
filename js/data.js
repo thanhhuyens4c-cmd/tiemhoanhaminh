@@ -193,15 +193,46 @@ async function getProducts() {
  * getBlogPosts() – Trả về danh sách bài viết Blog hiện hành.
  * Ưu tiên dữ liệu đã tạo/chỉnh sửa bởi admin (localStorage: hnm_blogs_v2),
  * fallback về mảng BLOG_POSTS tĩnh trong file này.
+ * Tự động dọn dẹp cache cũ (v1 hoặc v2 chứa các bài mẫu hoa hồng cũ).
  */
 function getBlogPosts() {
   try {
+    // Dọn dẹp cache v1 nếu còn tồn tại
+    if (localStorage.getItem("hnm_blogs_v1")) {
+      localStorage.removeItem("hnm_blogs_v1");
+    }
+
     const saved = localStorage.getItem("hnm_blogs_v2");
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Kiểm tra xem cache có chứa bài viết cũ không
+        const hasOldPost = parsed.some(b => 
+          b.title && (
+            b.title.includes("Ý nghĩa của hoa hồng trong từng sắc thái") ||
+            b.title.includes("5 bí quyết giữ hoa tươi") ||
+            b.title.includes("Chuyện kể từ ngõ nhỏ")
+          )
+        );
+        if (hasOldPost) {
+          // Xóa bỏ cache chứa bài cũ để nạp danh sách bài mới
+          localStorage.removeItem("hnm_blogs_v2");
+        } else {
+          return parsed;
+        }
+      }
     }
   } catch (e) {}
   return JSON.parse(JSON.stringify(BLOG_POSTS));
+}
+
+// Xuất toàn cục lên window để đảm bảo tương thích mọi trang
+if (typeof window !== "undefined") {
+  window.PRODUCTS = PRODUCTS;
+  window.getProducts = getProducts;
+  window.PROMOTIONS = PROMOTIONS;
+  window.BLOG_POSTS = BLOG_POSTS;
+  window.getBlogPosts = getBlogPosts;
+  window.REVIEWS = REVIEWS;
 }
 

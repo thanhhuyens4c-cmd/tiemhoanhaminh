@@ -840,8 +840,27 @@ const AdminBlogCMS = {
 
   getBlogs() {
     try {
+      if (localStorage.getItem("hnm_blogs_v1")) {
+        localStorage.removeItem("hnm_blogs_v1");
+      }
       const saved = localStorage.getItem(this.LS_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const hasOldPost = parsed.some(b => 
+            b.title && (
+              b.title.includes("Ý nghĩa của hoa hồng trong từng sắc thái") ||
+              b.title.includes("5 bí quyết giữ hoa tươi") ||
+              b.title.includes("Chuyện kể từ ngõ nhỏ")
+            )
+          );
+          if (hasOldPost) {
+            localStorage.removeItem(this.LS_KEY);
+          } else {
+            return parsed;
+          }
+        }
+      }
     } catch (e) {}
     return JSON.parse(JSON.stringify(BLOG_POSTS));
   },

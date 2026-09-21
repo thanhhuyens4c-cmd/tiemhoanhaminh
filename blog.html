@@ -157,7 +157,9 @@
     <section class="bg-white rounded-3xl border border-[#E5DDCE] overflow-hidden shadow-md p-6 sm:p-8 card-lift">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 aspect-[16/10] rounded-2xl overflow-hidden bg-[#FAF7E9]">
-          <img id="blog-featured-img" src="assets/images/bouquet-pink.png" alt="Bài viết nổi bật" class="w-full h-full object-cover">
+          <a id="featured-img-link" href="bai-viet.html?id=blog-01" class="block w-full h-full">
+            <img id="blog-featured-img" src="assets/images/bouquet-pink.png" alt="Bài viết nổi bật" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          </a>
         </div>
         <div class="lg:col-span-5 space-y-4">
           <div class="inline-flex items-center gap-1.5 text-xs font-bold text-[#D95A82] uppercase tracking-wider">
@@ -166,14 +168,14 @@
           </div>
           <h2 class="text-xl sm:text-2xl font-bold text-[#211A18] leading-snug">
             <a id="featured-link" href="bai-viet.html?id=blog-01" class="hover:text-[#D95A82] transition-colors">
-              <span id="featured-title">Ý nghĩa của hoa hồng trong từng sắc thái và cách chọn hoa cho người thương</span>
+              <span id="featured-title">Câu chuyện hoa cẩm tú cầu: Loài hoa của sự chân thành và thấu hiểu</span>
             </a>
           </h2>
           <p id="featured-excerpt" class="text-xs sm:text-sm text-[#4B4240] leading-relaxed">
-            Hoa hồng không chỉ có màu đỏ rực lửa. Mỗi sắc thái từ phớt hồng pastel đến cam ấm áp đều mang một lời nhắn gửi rất riêng gửi trao trong từng đóa hoa...
+            Cẩm tú cầu không chỉ đẹp bởi những chùm hoa tròn đầy mà còn ẩn chứa câu chuyện về lời xin lỗi, lòng biết ơn và mong muốn được thấu hiểu...
           </p>
           <div class="flex items-center justify-between pt-2 border-t border-[#E5DDCE] text-xs text-[#857B76]">
-            <span id="featured-meta">14/09/2026 • 5 phút đọc</span>
+            <span id="featured-meta">13/08/2026 • 7 phút đọc</span>
             <a id="featured-readmore" href="bai-viet.html?id=blog-01" class="font-semibold text-[#277A4D] hover:underline flex items-center gap-1">
               Đọc tiếp &rarr;
             </a>
@@ -269,11 +271,13 @@
         if (featImg && (!window.SiteSettings || !SiteSettings.hasCustom("blog-featured-img"))) {
           featImg.src = feat.image;
         }
+        const fImgLink = document.getElementById("featured-img-link");
         const fLink = document.getElementById("featured-link");
         const fTitle = document.getElementById("featured-title");
         const fExcerpt = document.getElementById("featured-excerpt");
         const fMeta = document.getElementById("featured-meta");
         const fReadmore = document.getElementById("featured-readmore");
+        if (fImgLink) fImgLink.href = `bai-viet.html?id=${feat.id}`;
         if (fLink) fLink.href = `bai-viet.html?id=${feat.id}`;
         if (fTitle) fTitle.textContent = feat.title;
         if (fExcerpt) fExcerpt.textContent = feat.excerpt;
@@ -296,9 +300,9 @@
         grid.innerHTML = list.map(item => `
           <article class="bg-white rounded-2xl overflow-hidden border border-[#E5DDCE] card-lift flex flex-col justify-between">
             <div>
-              <div class="aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
+              <a href="bai-viet.html?id=${item.id}" class="block aspect-[16/10] overflow-hidden bg-[#FAF7E9]">
                 <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-              </div>
+              </a>
               <div class="p-5 space-y-2">
                 <span class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">${item.category}</span>
                 <h3 class="text-base font-bold text-[#211A18] hover:text-[#D95A82] leading-snug line-clamp-2">
