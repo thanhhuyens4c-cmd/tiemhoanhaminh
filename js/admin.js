@@ -836,7 +836,7 @@ window.autoSyncToGitHub = autoSyncToGitHub;
 //  BLOG STORE (localStorage layer on top of static BLOG_POSTS[])
 // ═══════════════════════════════════════════════════════════════════
 const AdminBlogCMS = {
-  LS_KEY: "hnm_blogs_v1",
+  LS_KEY: "hnm_blogs_v2",
 
   getBlogs() {
     try {
