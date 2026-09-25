@@ -15,7 +15,7 @@ const BLOG_POSTS = [
     date: "13/08/2026",
     author: "Hoa Nhà Mình",
     readTime: "7 phút đọc",
-    image: "assets/images/bouquet-pink.png",
+    image: "assets/images/blog-featured.jpg",
     excerpt: "Cẩm tú cầu không chỉ đẹp bởi những chùm hoa tròn đầy mà còn ẩn chứa câu chuyện về lời xin lỗi, lòng biết ơn và mong muốn được thấu hiểu...",
     content: `
       <h3>Cẩm tú cầu — loài hoa của những xúc cảm chân thành</h3>
