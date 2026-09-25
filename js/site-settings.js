@@ -102,7 +102,7 @@ const SiteSettings = {
       page: "Blog (blog.html)",
       pageIcon: "article",
       selector: "#blog-featured-img",
-      defaultSrc: "assets/images/bouquet-pink.png",
+      defaultSrc: "assets/images/blog-featured.jpg",
       aspect: "16:9",
       hint: "Ảnh hiển thị cho bài viết nổi bật đầu trang blog"
     }
