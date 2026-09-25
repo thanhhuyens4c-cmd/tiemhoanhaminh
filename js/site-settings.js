@@ -105,6 +105,16 @@ const SiteSettings = {
       defaultSrc: "assets/images/blog-featured.jpg",
       aspect: "16:9",
       hint: "Ảnh hiển thị cho bài viết nổi bật đầu trang blog"
+    },
+    {
+      key: "contact_banner",
+      label: "Ảnh banner đặt hoa (Liên hệ)",
+      page: "Liên hệ (lien-he.html)",
+      pageIcon: "contact_mail",
+      selector: "#contact-banner-img",
+      defaultSrc: "assets/images/hero-bouquet.png",
+      aspect: "4:3",
+      hint: "Ảnh banner phần đặt hoa theo yêu cầu trên trang liên hệ"
     }
   ],
 
