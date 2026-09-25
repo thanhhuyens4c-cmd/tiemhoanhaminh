@@ -216,42 +216,19 @@
       <!-- CỘT 3: FORM GỬI LIÊN HỆ (lg:col-span-5) -->
       <div class="lg:col-span-5 space-y-6">
         
-        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#E5DDCE] shadow-sm space-y-5">
-          <div class="space-y-1 pb-3 border-b border-[#E5DDCE]">
-            <span class="text-xs font-bold text-[#3E9B61] uppercase tracking-wider">Gửi tin nhắn</span>
-            <h2 class="text-xl font-bold text-[#211A18]">Bạn cần tư vấn mẫu hoa riêng?</h2>
-            <p class="text-xs text-[#857B76]">Điền thông tin và tiệm sẽ liên hệ lại qua điện thoại / Zalo trong vòng 15 phút.</p>
+        <div class="bg-white rounded-3xl border border-[#E5DDCE] shadow-sm overflow-hidden">
+          <div class="aspect-[4/3] w-full">
+            <img id="contact-banner-img" src="assets/images/hero-bouquet.png" alt="Đặt hoa theo yêu cầu riêng - Hoa Nhà Mình" class="w-full h-full object-cover">
           </div>
-
-          <form id="contact-form" class="space-y-4">
-            
-            <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Họ và tên của bạn <span class="text-[#D95A82]">*</span></label>
-              <input required id="contact-name" type="text" placeholder="VD: Nguyễn Thị Lan" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Số điện thoại liên hệ <span class="text-[#D95A82]">*</span></label>
-              <input required id="contact-phone" type="tel" placeholder="VD: 0987 654 321" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Địa chỉ Email</label>
-              <input id="contact-email" type="email" placeholder="VD: lan.nguyen@gmail.com" class="w-full h-10 px-3.5 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]">
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-semibold text-[#4B4240]">Nội dung lời nhắn hoặc yêu cầu hoa <span class="text-[#D95A82]">*</span></label>
-              <textarea required id="contact-message" rows="4" placeholder="VD: Mình muốn đặt 1 bó hoa tặng sinh nhật mẹ vào thứ Bảy này, tông màu hồng ấm áp trong ngân sách 500k..." class="w-full p-3 rounded-lg border border-[#E5DDCE] bg-[#FAF7E9]/40 text-xs sm:text-sm text-[#211A18] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3E9B61]"></textarea>
-            </div>
-
-            <button type="submit" class="w-full h-12 bg-[#0068FF] hover:bg-[#0054CC] text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+          <div class="p-5 sm:p-6 space-y-3 text-center">
+            <h2 class="text-lg sm:text-xl font-bold text-[#211A18]">Đặt hoa theo yêu cầu riêng</h2>
+            <p class="text-xs sm:text-sm text-[#4B4240] leading-relaxed">Nhắn Zalo cho tiệm để tư vấn mẫu hoa, màu sắc và kiểu gói theo ý bạn.</p>
+            <a href="https://zalo.me/0868214266" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2.5 w-full h-12 bg-[#0068FF] hover:bg-[#0054CC] text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all">
               <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2C11.85 2 2 10.95 2 22c0 5.9 2.87 11.15 7.36 14.79V46l8.64-4.74c2 .55 4.12.85 6.36.85C36.15 42.11 46 33.05 46 22S36.15 2 24 2zm2.54 27.27-5.1-5.44-9.96 5.5 10.95-11.62 5.23 5.44 9.83-5.5-10.95 11.62z"/></svg>
-              <span>GỬI QUA ZALO</span>
-            </button>
-
-          </form>
-
+              <span>Nhắn Zalo đặt hoa</span>
+            </a>
+          </div>
         </div>
 
       </div>
@@ -321,28 +298,6 @@
   <script src="js/site-settings.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("contact-form");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("contact-name").value.trim();
-        const phone = document.getElementById("contact-phone").value.trim();
-        const email = document.getElementById("contact-email").value.trim();
-        const message = document.getElementById("contact-message").value.trim();
-
-        let zaloText = `Xin chào Hoa Nhà Mình 🌸\n\n`;
-        zaloText += `Mình là ${name}\n`;
-        zaloText += `SĐT: ${phone}\n`;
-        if (email) zaloText += `Email: ${email}\n`;
-        zaloText += `\n${message}`;
-
-        const zaloUrl = `https://zalo.me/0868214266?text=${encodeURIComponent(zaloText)}`;
-        window.open(zaloUrl, "_blank", "noopener");
-        App.showToast("Đang mở Zalo…", `Gửi tin nhắn tư vấn cho tiệm qua Zalo nhé, ${name}!`);
-      });
-    });
-  </script>
 
   <!-- MOBILE BOTTOM NAVIGATION -->
   <nav class="mobile-bottom-nav" aria-label="Thanh điều hướng di động">
