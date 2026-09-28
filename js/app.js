@@ -12,16 +12,10 @@ const App = {
     this.highlightActiveNav();
   },
 
-  // Cập nhật số lượng hiển thị trên icon Giỏ hàng và Yêu thích
+  // Cập nhật số lượng hiển thị trên icon Yêu thích
   initHeaderBadges() {
     const updateBadges = () => {
-      const cartCount = Store.getCartCount();
       const wishlistCount = Store.getWishlistCount();
-
-      document.querySelectorAll(".cart-count-badge").forEach(el => {
-        el.textContent = cartCount;
-        el.style.display = cartCount > 0 ? "flex" : "none";
-      });
 
       document.querySelectorAll(".wishlist-count-badge").forEach(el => {
         el.textContent = wishlistCount;
@@ -30,7 +24,6 @@ const App = {
     };
 
     updateBadges();
-    window.addEventListener("hnm:cart-updated", updateBadges);
     window.addEventListener("hnm:wishlist-updated", updateBadges);
   },
 
@@ -220,16 +213,11 @@ const App = {
           </div>
           <p class="text-xs sm:text-sm text-[#857B76] line-clamp-3">${product.shortDesc}</p>
           
-          <div class="flex items-center gap-3 pt-3">
-            <div class="flex items-center border border-[#E5DDCE] rounded-lg bg-[#FAF7E9] h-10">
-              <button class="px-3 text-[#4B4240] hover:text-black" onclick="const input = document.getElementById('qv-qty'); input.value = Math.max(1, parseInt(input.value) - 1);">-</button>
-              <input id="qv-qty" type="number" value="1" min="1" class="w-10 text-center text-sm font-semibold bg-transparent focus:outline-none" readonly>
-              <button class="px-3 text-[#4B4240] hover:text-black" onclick="const input = document.getElementById('qv-qty'); input.value = parseInt(input.value) + 1;">+</button>
-            </div>
-            <button id="qv-add-btn" class="flex-1 h-10 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm">
-              <span class="material-symbols-outlined text-base">shopping_bag</span>
-              Thêm vào giỏ
-            </button>
+          <div class="pt-3">
+            <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="w-full h-10 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm">
+              <span class="material-symbols-outlined text-base">chat</span>
+              Đặt hàng ngay
+            </a>
           </div>
 
           <div class="pt-2 text-center">
@@ -240,20 +228,6 @@ const App = {
         </div>
       </div>
     `;
-
-    document.getElementById("qv-add-btn").addEventListener("click", () => {
-      const qty = parseInt(document.getElementById("qv-qty").value) || 1;
-
-      Store.addToCart(product, {
-        price: product.price,
-        quantity: qty
-      });
-
-      this.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x${qty})`);
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-      document.body.style.overflow = "";
-    });
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
@@ -392,12 +366,12 @@ const App = {
           </div>
         </div>
 
-        <!-- Add to cart CTA -->
+        <!-- Đặt hàng ngay CTA -->
         <div class="p-4 pt-0">
-          <button class="add-to-cart-btn w-full h-9 bg-[#FAF7E9] hover:bg-[#3E9B61] text-[#277A4D] hover:text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all" data-id="${product.id}">
-            <span class="material-symbols-outlined text-sm">shopping_bag</span>
-            Thêm vào giỏ
-          </button>
+          <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="order-now-btn w-full h-9 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+            <span class="material-symbols-outlined text-sm">chat</span>
+            Đặt hàng ngay
+          </a>
         </div>
       </div>
     `;
@@ -443,20 +417,6 @@ const App = {
         return;
       }
 
-      // Add to Cart Button
-      const addCartBtn = e.target.closest(".add-to-cart-btn");
-      if (addCartBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        const id = addCartBtn.getAttribute("data-id");
-        const allProducts = await getProducts();
-        const product = allProducts.find(p => p.id === id);
-        if (product) {
-          Store.addToCart(product);
-          this.showToast("Đã thêm vào giỏ hàng!", `${product.name} (x1)`);
-        }
-        return;
-      }
     });
   }
 };
