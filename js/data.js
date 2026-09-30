@@ -187,26 +187,19 @@ function _sortProducts(products) {
 
 /**
  * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Luôn chờ Supabase với timeout: 5s nếu có cache, 30s nếu chưa có.
- * Nếu Supabase quá chậm hoặc lỗi → fallback về cache localStorage.
+ * Luôn gọi Supabase trước, fallback về cache localStorage nếu lỗi.
  */
 async function getProducts() {
-  const cached = _getLocalProducts();
-
   if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
-    const timeoutMs = cached.length > 0 ? 5000 : 30000;
     try {
-      const products = await Promise.race([
-        ProductAPI.getProducts(true),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeoutMs))
-      ]);
+      const products = await ProductAPI.getProducts();
       if (products && products.length > 0) return _sortProducts(products);
     } catch (e) {
       console.warn("Supabase getProducts:", e.message || e);
     }
   }
 
-  return _sortProducts(cached);
+  return _sortProducts(_getLocalProducts());
 }
 
 /**
