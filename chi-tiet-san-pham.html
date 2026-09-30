@@ -185,16 +185,16 @@
               <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
               <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <span id="product-rating" class="text-xs font-bold text-[#211A18]">5.0</span>
-            <span class="text-xs text-[#857B76]">(38 lượt nhận xét)</span>
+            <span id="product-rating" class="text-xs font-bold text-[#211A18]"></span>
+            <span id="product-reviews-count" class="text-xs text-[#857B76]"></span>
           </div>
         </div>
 
         <!-- Giá bán -->
         <div class="p-4 rounded-2xl bg-[#FAF7E9] border border-[#E5DDCE] flex items-baseline gap-4">
-          <span id="product-price" class="text-3xl font-bold text-[#D95A82]">450.000₫</span>
-          <span id="product-orig-price" class="text-sm text-[#857B76] line-through">500.000₫</span>
-          <span class="text-xs bg-[#D95A82]/10 text-[#D95A82] font-semibold px-2 py-0.5 rounded-full">Tiết kiệm 10%</span>
+          <span id="product-price" class="text-3xl font-bold text-[#D95A82]"></span>
+          <span id="product-orig-price" class="text-sm text-[#857B76] line-through"></span>
+          <span id="product-discount-badge" class="text-xs bg-[#D95A82]/10 text-[#D95A82] font-semibold px-2 py-0.5 rounded-full" style="display:none;"></span>
         </div>
 
         <!-- Mô tả ngắn -->
@@ -398,24 +398,10 @@
       const productId = urlParams.get("id");
       const allProducts = await getProducts();
 
-      // Nếu không có id hoặc id không hợp lệ → chuyển về trang sản phẩm
-      if (!productId && allProducts.length > 0) {
-        window.location.replace("san-pham.html");
-        return;
-      }
-
-      // Ưu tiên lấy dữ liệu chi tiết mới nhất từ Supabase (bao gồm gallery, image_url)
-      let product = null;
-      if (productId && typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
-        try {
-          product = await ProductAPI.getProductById(productId);
-        } catch (e) {
-          console.warn("Không tải được chi tiết sản phẩm từ Supabase:", e);
-        }
-      }
-      if (!product) {
-        product = allProducts.find(p => p.id === productId);
-      }
+      // Tìm sản phẩm theo ID, hoặc lấy sản phẩm đầu tiên nếu không có id
+      const product = productId
+        ? allProducts.find(p => p.id === productId)
+        : allProducts[0];
 
       // Sản phẩm không tồn tại → chuyển về trang sản phẩm
       if (!product) {
@@ -430,6 +416,7 @@
       document.getElementById("product-type-crumb").textContent = product.typeName;
       document.getElementById("product-code").textContent = `#${product.id}`;
       document.getElementById("product-rating").textContent = product.rating;
+      document.getElementById("product-reviews-count").textContent = `(${product.reviewsCount || 0} lượt nhận xét)`;
       document.getElementById("product-short-desc").textContent = product.shortDesc;
       document.getElementById("product-long-desc").textContent = product.description;
       document.getElementById("main-gallery-img").src = product.image;
@@ -479,8 +466,14 @@
       const origPriceEl = document.getElementById("product-orig-price");
       if (priceEl) priceEl.textContent = `${product.price.toLocaleString('vi-VN')}₫`;
       if (origPriceEl) {
-        if (product.originalPrice) {
+        if (product.originalPrice && product.originalPrice > product.price) {
           origPriceEl.textContent = `${product.originalPrice.toLocaleString('vi-VN')}₫`;
+          const discountBadge = document.getElementById("product-discount-badge");
+          if (discountBadge) {
+            const pct = Math.round((1 - product.price / product.originalPrice) * 100);
+            discountBadge.textContent = `Tiết kiệm ${pct}%`;
+            discountBadge.style.display = "";
+          }
         } else {
           origPriceEl.style.display = "none";
         }
