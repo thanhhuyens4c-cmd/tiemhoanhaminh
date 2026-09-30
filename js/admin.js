@@ -1078,7 +1078,7 @@ async function openAddBlogModal() {
 
   document.getElementById("blog-form-content").value = `<p>Nhập lời tựa ngọt ngào mở đầu bài viết ở đây...</p>\n\n<h3>1. Tiêu đề phần chia sẻ thứ nhất</h3>\n<p>Nội dung câu chuyện hoặc mẹo chăm sóc hoa chi tiết...</p>\n\n<h3>2. Góc cảm xúc tiệm Hoa Nhà Mình</h3>\n<p>Lời kết gửi gắm yêu thương đến bạn đọc...</p>`;
 
-  await populateRelatedProductsCheckboxes(["HNM-HM001", "HNM-HM002"]);
+  await populateRelatedProductsCheckboxes([]);
   openModal("modal-blog");
 }
 

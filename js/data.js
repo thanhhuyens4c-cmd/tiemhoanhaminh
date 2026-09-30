@@ -41,7 +41,7 @@ const BLOG_POSTS = [
       <p>Hoa có thể được gửi đi thay một lời cảm ơn, một lời xin lỗi chưa từng biết bắt đầu từ đâu, một sự trân trọng dành cho người đã luôn thấu hiểu, hay đơn giản là một cách để nói rằng: "Có những điều tôi vẫn luôn giữ trong lòng."</p>
       <p>Bởi đôi khi, ý nghĩa của một đóa hoa không nằm ở việc nó nói thay ta bao nhiêu lời, mà ở việc nó giúp ta nói được điều quan trọng nhất.</p>
     `,
-    relatedProducts: ["HNM-HM001", "HNM-HM006"]
+    relatedProducts: []
   },
   {
     id: "blog-02",
@@ -74,7 +74,7 @@ const BLOG_POSTS = [
       <p>Hoa chuông đặc biệt phù hợp để trao trong những dịp như chúc mừng khởi đầu mới, động viên sau một giai đoạn khó khăn, sinh nhật, tốt nghiệp hoặc đơn giản là một món quà không cần lý do.</p>
       <p>Bởi đôi khi, điều dịu dàng nhất ta có thể gửi đến một người không phải là lời chúc mọi thứ luôn nguyên vẹn — mà là lời nhắn rằng dù cuộc sống có đổi thay, vẻ đẹp vẫn luôn có một cách khác để tiếp tục hiện diện.</p>
     `,
-    relatedProducts: ["HNM-HM002", "HNM-HM005"]
+    relatedProducts: []
   },
   {
     id: "blog-03",
@@ -135,7 +135,7 @@ const BLOG_POSTS = [
 
       <p>Hoa Nhà Mình hi vọng với những thông tin bổ ích này, các bạn sẽ chọn được cho mình những thiết kế hoa hồng tuyệt vời và ý nghĩa.</p>
     `,
-    relatedProducts: ["HNM-HM001", "HNM-HM004"]
+    relatedProducts: []
   }
 ];
 
