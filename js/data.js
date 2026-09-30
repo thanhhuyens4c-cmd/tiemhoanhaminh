@@ -151,7 +151,17 @@ function _getLocalProducts() {
     const saved = localStorage.getItem("hnm_products_v1");
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Xóa cache cũ chứa sản phẩm không còn hoạt động (ID cũ từ dữ liệu mẫu)
+        const hasOldProduct = parsed.some(p =>
+          p.id && /^HNM-(TN|GM|BG|TL|MM)\d+$/.test(p.id)
+        );
+        if (hasOldProduct) {
+          localStorage.removeItem("hnm_products_v1");
+        } else {
+          return parsed;
+        }
+      }
     }
   } catch (e) {}
   const products = JSON.parse(JSON.stringify(PRODUCTS));
