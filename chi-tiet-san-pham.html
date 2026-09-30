@@ -401,7 +401,19 @@
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get("id") || "HNM-HM001";
       const allProducts = await getProducts();
-      const product = allProducts.find(p => p.id === productId) || allProducts[0];
+
+      // Ưu tiên lấy dữ liệu chi tiết mới nhất từ Supabase (bao gồm gallery, image_url)
+      let product = null;
+      if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+        try {
+          product = await ProductAPI.getProductById(productId);
+        } catch (e) {
+          console.warn("Không tải được chi tiết sản phẩm từ Supabase:", e);
+        }
+      }
+      if (!product) {
+        product = allProducts.find(p => p.id === productId) || allProducts[0];
+      }
 
       // Đổ dữ liệu vào DOM
       document.title = `${product.name} — Hoa Nhà Mình`;
@@ -439,7 +451,7 @@
 
       // Gallery Thumbnails
       const thumbsContainer = document.getElementById("gallery-thumbnails");
-      const galleryList = product.gallery || [product.image];
+      const galleryList = (product.gallery && product.gallery.length > 0) ? product.gallery : [product.image];
       thumbsContainer.innerHTML = galleryList.map((img, idx) => `
         <button class="thumb-btn aspect-square rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-[#3E9B61]' : 'border-transparent'} hover:border-[#3E9B61] transition-all bg-[#FAF7E9]" data-img="${img}">
           <img src="${img}" alt="Thumbnail ${idx+1}" class="w-full h-full object-cover">
