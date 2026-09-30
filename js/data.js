@@ -176,27 +176,41 @@ function _getLocalProducts() {
   return products;
 }
 
-/**
- * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
- * Luôn gọi Supabase nếu có → cập nhật localStorage cache.
- * Nếu Supabase lỗi → fallback về localStorage/PRODUCTS.
- */
-async function getProducts() {
-  let products;
-  if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
-    try {
-      products = await ProductAPI.getProducts();
-    } catch (e) {
-      console.error("Supabase getProducts error:", e);
-    }
-  }
-  if (!products) products = _getLocalProducts();
+function _sortProducts(products) {
   products.sort((a, b) => {
     const orderDiff = (a.sortOrder || 0) - (b.sortOrder || 0);
     if (orderDiff !== 0) return orderDiff;
     return (a.name || "").localeCompare(b.name || "", "vi");
   });
   return products;
+}
+
+/**
+ * getProducts() – Trả về danh sách sản phẩm hiện hành (async).
+ * Chiến lược cache-first: trả về localStorage ngay nếu có,
+ * đồng thời refresh từ Supabase ở background để cập nhật cache.
+ * Nếu chưa có cache → chờ Supabase rồi mới trả về.
+ */
+async function getProducts() {
+  const cached = _getLocalProducts();
+  const hasCache = cached.length > 0;
+
+  if (typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+    if (hasCache) {
+      // Có cache → trả về ngay, refresh Supabase ở background
+      ProductAPI.getProducts(true).catch(() => {});
+      return _sortProducts(cached);
+    }
+    // Chưa có cache → chờ Supabase
+    try {
+      const products = await ProductAPI.getProducts();
+      if (products && products.length > 0) return _sortProducts(products);
+    } catch (e) {
+      console.error("Supabase getProducts error:", e);
+    }
+  }
+
+  return _sortProducts(cached);
 }
 
 /**
