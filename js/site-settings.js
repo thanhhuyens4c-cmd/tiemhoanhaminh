@@ -32,7 +32,7 @@ const SiteSettings = {
       page: "Trang chủ (index.html)",
       pageIcon: "home",
       selector: "#hero-banner-img",
-      defaultSrc: "assets/images/hero-bouquet.png",
+      defaultSrc: "assets/images/hero-bouquet.jpg",
       aspect: "1:1",
       hint: "Ảnh chính trang chủ, hiển thị nổi bật. Nên dùng ảnh hoa đẹp."
     },
@@ -42,7 +42,7 @@ const SiteSettings = {
       page: "Trang chủ (index.html)",
       pageIcon: "home",
       selector: "#index-about-img",
-      defaultSrc: "assets/images/florist-workshop.png",
+      defaultSrc: "assets/images/florist-workshop.jpg",
       aspect: "4:3",
       hint: "Ảnh giới thiệu xưởng hoa, florist làm việc"
     },
@@ -52,7 +52,7 @@ const SiteSettings = {
       page: "Trang chủ (index.html)",
       pageIcon: "home",
       selector: "#index-gallery-img-1",
-      defaultSrc: "assets/images/bouquet-pink.png",
+      defaultSrc: "assets/images/bouquet-pink.jpg",
       aspect: "4:3",
       hint: "Ô ảnh thứ nhất trong bộ 3 ảnh gallery"
     },
@@ -62,7 +62,7 @@ const SiteSettings = {
       page: "Trang chủ (index.html)",
       pageIcon: "home",
       selector: "#index-gallery-img-2",
-      defaultSrc: "assets/images/florist-workshop.png",
+      defaultSrc: "assets/images/florist-workshop.jpg",
       aspect: "4:3",
       hint: "Ô ảnh thứ hai trong bộ 3 ảnh gallery"
     },
@@ -72,7 +72,7 @@ const SiteSettings = {
       page: "Trang chủ (index.html)",
       pageIcon: "home",
       selector: "#index-gallery-img-3",
-      defaultSrc: "assets/images/hero-bouquet.png",
+      defaultSrc: "assets/images/hero-bouquet.jpg",
       aspect: "4:3",
       hint: "Ô ảnh thứ ba trong bộ 3 ảnh gallery"
     },
@@ -82,7 +82,7 @@ const SiteSettings = {
       page: "Bộ sưu tập (bo-suu-tap.html)",
       pageIcon: "collections",
       selector: "#collection-hero-img",
-      defaultSrc: "assets/images/hero-bouquet.png",
+      defaultSrc: "assets/images/hero-bouquet.jpg",
       aspect: "4:3",
       hint: "Banner chính trang bộ sưu tập"
     },
@@ -92,7 +92,7 @@ const SiteSettings = {
       page: "Giới thiệu (gioi-thieu.html)",
       pageIcon: "info",
       selector: "#about-hero-img",
-      defaultSrc: "assets/images/florist-workshop.png",
+      defaultSrc: "assets/images/florist-workshop.jpg",
       aspect: "4:5",
       hint: "Ảnh nghệ nhân tiệm hoa, florist workshop"
     },
@@ -112,7 +112,7 @@ const SiteSettings = {
       page: "Liên hệ (lien-he.html)",
       pageIcon: "contact_mail",
       selector: "#contact-banner-img",
-      defaultSrc: "assets/images/hero-bouquet.png",
+      defaultSrc: "assets/images/hero-bouquet.jpg",
       aspect: "4:3",
       hint: "Ảnh banner phần đặt hoa theo yêu cầu trên trang liên hệ"
     }
