@@ -396,12 +396,24 @@
     document.addEventListener("DOMContentLoaded", async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get("id");
-      const allProducts = await getProducts();
+      // Danh sách đầy đủ (dùng cho sản phẩm liên quan) — tải song song, không chặn hiển thị
+      const allProductsPromise = getProducts();
 
-      // Tìm sản phẩm theo ID, hoặc lấy sản phẩm đầu tiên nếu không có id
-      const product = productId
-        ? allProducts.find(p => p.id === productId)
-        : allProducts[0];
+      // Tải riêng 1 sản phẩm theo ID (nhanh hơn nhiều so với cả danh sách), timeout 8s
+      let product = null;
+      if (productId && typeof ProductAPI !== "undefined" && SupabaseClient.isConfigured()) {
+        try {
+          product = await Promise.race([
+            ProductAPI.getProductById(productId),
+            new Promise(resolve => setTimeout(() => resolve(null), 8000))
+          ]);
+        } catch (e) {}
+      }
+      // Fallback: tìm trong danh sách (cache/Supabase)
+      if (!product) {
+        const allProducts = await allProductsPromise;
+        product = productId ? allProducts.find(p => p.id === productId) : allProducts[0];
+      }
 
       // Sản phẩm không tồn tại → chuyển về trang sản phẩm
       if (!product) {
@@ -501,8 +513,10 @@
 
       // Related Products (4 Cards)
       const relatedContainer = document.getElementById("related-product-grid");
-      const related = allProducts.filter(p => p.id !== product.id).slice(0, 4);
-      relatedContainer.innerHTML = related.map(p => App.renderProductCard(p)).join('');
+      allProductsPromise.then(allProducts => {
+        const related = allProducts.filter(p => p.id !== product.id).slice(0, 4);
+        relatedContainer.innerHTML = related.map(p => App.renderProductCard(p)).join('');
+      });
     });
   </script>
 
