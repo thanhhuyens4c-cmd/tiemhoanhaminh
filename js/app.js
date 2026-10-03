@@ -325,11 +325,6 @@ const App = {
           <div class="p-4 space-y-2">
             <div class="flex items-center justify-between text-xs text-[#857B76]">
               <span>${product.typeName}</span>
-              <div class="flex items-center gap-1 text-[#F4C52D]">
-                <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="font-semibold text-[#4B4240]">${product.rating}</span>
-                <span class="text-[#857B76]">(${product.reviewsCount})</span>
-              </div>
             </div>
 
             <h3 class="text-sm font-semibold text-[#211A18] hover:text-[#D95A82] transition-colors leading-snug line-clamp-2">
