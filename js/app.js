@@ -98,22 +98,22 @@ const App = {
               </button>
             </div>
             <nav id="mobile-menu" class="flex flex-col gap-4 py-6 text-sm">
-              <a href="index.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Trang chủ</a>
-              <a href="san-pham.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tất cả sản phẩm</a>
+              <a href="index.html" data-path="trang-chu" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Trang chủ</a>
+              <a href="san-pham.html" data-path="san-pham" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Sản phẩm</a>
               <div class="mobile-submenu">
                 <a href="san-pham.html?type=bo-hoa">↳ Bó hoa</a>
                 <a href="san-pham.html?type=gio-hoa">↳ Giỏ hoa</a>
                 <a href="san-pham.html?type=hoa-lua">↳ Hoa lụa</a>
               </div>
-              <a href="bo-suu-tap.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
-              <a href="blog.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog cảm xúc</a>
-              <a href="gioi-thieu.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu tiệm</a>
-              <a href="lien-he.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ & Cửa hàng</a>
+              <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
+              <a href="blog.html" data-path="blog" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog</a>
+              <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu</a>
+              <a href="lien-he.html" data-path="lien-he" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ</a>
             </nav>
           </div>
           <div class="text-xs text-[#857B76] border-t border-[#E5DDCE] pt-4">
             <p class="font-medium text-[#211A18]">Tiệm hoa thủ công Hoa Nhà Mình</p>
-            <p class="mt-1">Hotline: <a href="tel:0944355645" class="text-[#277A4D] font-semibold">094 435 56 45</a></p>
+            <p class="mt-1">Hotline: <a href="tel:0868214266" class="text-[#277A4D] font-semibold">086 821 42 66</a></p>
           </div>
         </div>
       `;
