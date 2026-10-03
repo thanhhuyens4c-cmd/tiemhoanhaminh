@@ -188,7 +188,7 @@
         <!-- Zalo order badge -->
         <div class="flex items-center gap-2 text-[11px] text-[#277A4D] bg-[#edfff5] border border-[#3E9B61]/25 rounded-xl px-3 py-2">
           <span class="text-base">💬</span>
-          <span><strong>Đặt hoa qua Zalo</strong> — Không thanh toán trước. Shop xác nhận & gửi ảnh hoa duyệt trước khi giao.</span>
+          <span><strong>Đặt hoa qua Zalo</strong> — Không thanh toán trước. Shop sẽ xác nhận đơn với bạn qua Zalo.</span>
         </div>
 
         <!-- Cam kết dịch vụ đi kèm -->
@@ -213,9 +213,6 @@
         <button class="detail-tab text-[#3E9B61] border-b-2 border-[#3E9B61] pb-2 flex-shrink-0" data-tab="desc">
           Mô tả sản phẩm
         </button>
-        <button class="detail-tab text-[#857B76] hover:text-black pb-2 flex-shrink-0" data-tab="care">
-          Hướng dẫn chăm sóc hoa
-        </button>
         <button class="detail-tab text-[#857B76] hover:text-black pb-2 flex-shrink-0" data-tab="shipping">
           Chính sách giao hàng
         </button>
@@ -227,35 +224,16 @@
           <p id="product-long-desc"></p>
         </div>
 
-        <!-- Tab 2: Chăm sóc -->
-        <div id="tab-care-content" class="hidden space-y-4">
-          <div class="space-y-3 bg-[#FAF7E9] p-5 rounded-2xl border border-[#E5DDCE]">
-            <h4 class="font-bold text-[#211A18] flex items-center gap-2">
-              <span class="material-symbols-outlined text-[#3E9B61]">water_drop</span>
-              Cách giữ hoa tươi từ 3 - 5 ngày:
-            </h4>
-            <ul class="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-              <li>Cắt vát gốc 45 độ dưới vòi nước sạch để tăng diện tích hút nước.</li>
-              <li>Thay nước sạch mỗi ngày một lần và cho gói dưỡng hoa sinh học được tiệm tặng kèm.</li>
-              <li>Đặt bình hoa ở nơi thoáng mát, tránh ánh nắng gắt hoặc hướng gió thổi trực tiếp từ máy điều hòa.</li>
-            </ul>
-          </div>
-        </div>
-
         <!-- Tab 3: Giao hàng -->
         <div id="tab-shipping-content" class="hidden space-y-4">
           <ul class="space-y-3 text-xs sm:text-sm">
             <li class="flex items-start gap-3">
               <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">1</span>
-              <span><strong>Nhận đơn trước 1-2 ngày:</strong> Để hoa được chọn lọc cành tươi đẹp nhất và cắm nương theo tự nhiên, tiệm nhận đặt hoa trước 1-2 ngày.</span>
+              <span><strong>Nhận đơn trước 1-2 ngày:</strong> Để hoa được chọn lọc cành tươi đẹp nhất, tiệm nhận đặt hoa trước 1-2 ngày.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">2</span>
               <span><strong>Giao hoa nội thành:</strong> Áp dụng giao hàng tận nơi chu đáo cho toàn bộ các quận nội thành Hà Nội (Hoàn Kiếm, Ba Đình, Hai Bà Trưng, Đống Đa, Cầu Giấy, Hoàng Mai...).</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-[#FAF7E9] text-[#3E9B61] flex items-center justify-center font-bold flex-shrink-0">3</span>
-              <span><strong>Vận chuyển cẩn trọng:</strong> Hoa được bọc túi giữ ẩm gốc và che chắn cẩn thận trong suốt quá trình di chuyển.</span>
             </li>
           </ul>
         </div>
@@ -436,7 +414,6 @@
 
           const target = tab.getAttribute("data-tab");
           document.getElementById("tab-desc-content").classList.toggle("hidden", target !== "desc");
-          document.getElementById("tab-care-content").classList.toggle("hidden", target !== "care");
           document.getElementById("tab-shipping-content").classList.toggle("hidden", target !== "shipping");
         });
       });
