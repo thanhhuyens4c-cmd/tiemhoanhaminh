@@ -4,27 +4,11 @@
 
 const App = {
   init() {
-    this.initHeaderBadges();
     this.initMobileMenu();
     this.initSearchModal();
     this.initQuickViewModal();
     this.initGlobalListeners();
     this.highlightActiveNav();
-  },
-
-  // Cập nhật số lượng hiển thị trên icon Yêu thích
-  initHeaderBadges() {
-    const updateBadges = () => {
-      const wishlistCount = Store.getWishlistCount();
-
-      document.querySelectorAll(".wishlist-count-badge").forEach(el => {
-        el.textContent = wishlistCount;
-        el.style.display = wishlistCount > 0 ? "flex" : "none";
-      });
-    };
-
-    updateBadges();
-    window.addEventListener("hnm:wishlist-updated", updateBadges);
   },
 
   // Highlight menu item theo trang hiện tại
@@ -125,7 +109,6 @@ const App = {
               <a href="blog.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog cảm xúc</a>
               <a href="gioi-thieu.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu tiệm</a>
               <a href="lien-he.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ & Cửa hàng</a>
-              <a href="tai-khoan.html" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Tài khoản cá nhân</a>
             </nav>
           </div>
           <div class="text-xs text-[#857B76] border-t border-[#E5DDCE] pt-4">
@@ -318,7 +301,6 @@ const App = {
 
   // Helper render Product Card
   renderProductCard(product) {
-    const isWishlisted = Store.isWishlisted(product.id);
     return `
       <div class="group relative bg-white rounded-2xl border border-[#E5DDCE] overflow-hidden card-lift flex flex-col justify-between" data-product-id="${product.id}">
         <div>
@@ -331,11 +313,6 @@ const App = {
               ${product.isBestSeller ? `<span class="bg-[#D95A82] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Bán chạy</span>` : ''}
               ${product.isNew ? `<span class="bg-[#3E9B61] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Mới sớm mai</span>` : ''}
             </div>
-
-            <!-- Wishlist Button -->
-            <button aria-label="Thêm vào danh sách yêu thích" class="wishlist-btn absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-[#4B4240] hover:text-[#D95A82] shadow-sm flex items-center justify-center transition-colors" data-id="${product.id}">
-              <span class="material-symbols-outlined text-[18px] ${isWishlisted ? 'text-[#D95A82]' : ''}" style="${isWishlisted ? 'font-variation-settings: \"FILL\" 1;' : ''}">favorite</span>
-            </button>
 
             <!-- Quick View Overlay Button -->
             <button class="quick-view-btn absolute bottom-3 inset-x-3 h-8 bg-white/95 hover:bg-white text-[#4B4240] text-xs font-semibold rounded-lg shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1" data-id="${product.id}">
@@ -377,36 +354,9 @@ const App = {
     `;
   },
 
-  // Event delegation cho Wishlist, Quick View, Add to Cart
+  // Event delegation cho Quick View, Add to Cart
   initGlobalListeners() {
     document.addEventListener("click", async (e) => {
-      // Wishlist Button
-      const wishlistBtn = e.target.closest(".wishlist-btn");
-      if (wishlistBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        const id = wishlistBtn.getAttribute("data-id");
-        const products = await getProducts();
-        const product = products.find(p => p.id === id);
-        const isAdded = Store.toggleWishlist(id);
-        const icon = wishlistBtn.querySelector(".material-symbols-outlined");
-
-        if (isAdded) {
-          if (icon) {
-            icon.classList.add("text-[#D95A82]");
-            icon.style.fontVariationSettings = '"FILL" 1';
-          }
-          this.showToast("Đã lưu vào danh sách yêu thích!", product ? product.name : "", "pink");
-        } else {
-          if (icon) {
-            icon.classList.remove("text-[#D95A82]");
-            icon.style.fontVariationSettings = '';
-          }
-          this.showToast("Đã bỏ khỏi danh sách yêu thích", product ? product.name : "");
-        }
-        return;
-      }
-
       // Quick View Button
       const quickViewBtn = e.target.closest(".quick-view-btn");
       if (quickViewBtn) {

@@ -503,23 +503,6 @@
       <div class="brand-sub">Let Flowers Speak Your Heart</div>
     </div>
 
-    <!-- Feature list -->
-    <div class="features" style="margin-top:40px">
-      <div class="feature-item">
-        <div class="icon"><span class="material-symbols-outlined text-[#F3A8C0] text-base">local_florist</span></div>
-        <div>
-          <div style="font-weight:600;font-size:13px">Hoa tươi tuyển chọn kỹ lưỡng</div>
-          <div style="font-size:11px;opacity:.6">Thiết kế thủ công nương theo tự nhiên</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="icon"><span class="material-symbols-outlined text-[#7EC8A0] text-base">package_2</span></div>
-        <div>
-          <div style="font-weight:600;font-size:13px">Miễn ship đơn trên 1 triệu</div>
-          <div style="font-size:11px;opacity:.6">Giao tận nơi toàn Hà Nội</div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ══ RIGHT FORM PANEL ════════════════════════════════════════ -->
@@ -544,18 +527,8 @@
         <div class="text-[11px] text-[#857B76]">Tiệm hoa tươi thủ công mộc mạc Hà Nội</div>
       </div>
 
-      <h1 class="text-lg sm:text-xl font-bold text-[#211A18] mb-1" id="form-title">Chào mừng trở lại! 👋</h1>
-      <p class="text-xs text-[#857B76] mb-5 sm:mb-6" id="form-subtitle">Đăng nhập để theo dõi đơn hoa và nhận ưu đãi.</p>
-
-      <!-- Tab bar -->
-      <div class="tab-bar" role="tablist">
-        <button class="tab-btn active" id="tab-login" role="tab" onclick="switchTab('login')">
-          Đăng nhập
-        </button>
-        <button class="tab-btn" id="tab-register" role="tab" onclick="switchTab('register')">
-          Tạo tài khoản
-        </button>
-      </div>
+      <h1 class="text-lg sm:text-xl font-bold text-[#211A18] mb-1" id="form-title">Đăng nhập quản trị</h1>
+      <p class="text-xs text-[#857B76] mb-5 sm:mb-6" id="form-subtitle">Chỉ dành cho quản trị viên của Hoa Nhà Mình.</p>
 
       <!-- Global alert -->
       <div class="alert-box" id="global-alert">
@@ -602,77 +575,6 @@
         </button>
       </form>
 
-      <!-- ══ REGISTER FORM ═══════════════════════════════════════ -->
-      <form id="register-form" class="hidden" novalidate>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-name">Họ và tên</label>
-          <div class="form-input-wrap">
-            <span class="material-symbols-outlined input-icon">person</span>
-            <input id="reg-name" type="text" class="form-input" placeholder="Nguyễn Thanh Trúc" autocomplete="name">
-          </div>
-          <div class="error-msg" id="reg-name-err">Vui lòng nhập họ tên.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-email">Email</label>
-          <div class="form-input-wrap">
-            <span class="material-symbols-outlined input-icon">alternate_email</span>
-            <input id="reg-email" type="email" class="form-input" placeholder="ten@email.com" autocomplete="email">
-          </div>
-          <div class="error-msg" id="reg-email-err">Email không hợp lệ hoặc đã được sử dụng.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-phone">Số điện thoại <span class="text-[#857B76] font-normal">(tuỳ chọn)</span></label>
-          <div class="form-input-wrap">
-            <span class="material-symbols-outlined input-icon">phone</span>
-            <input id="reg-phone" type="tel" class="form-input" placeholder="09x xxx xx xx" autocomplete="tel">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-password">Mật khẩu</label>
-          <div class="form-input-wrap">
-            <span class="material-symbols-outlined input-icon">lock</span>
-            <input id="reg-password" type="password" class="form-input" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password" oninput="checkPwStrength(this.value)">
-            <button type="button" class="pw-toggle" onclick="togglePw('reg-password', this)" tabindex="-1">
-              <span class="material-symbols-outlined text-[18px]">visibility</span>
-            </button>
-          </div>
-          <div class="pw-strength" id="pw-strength-bars">
-            <div class="pw-bar" id="bar1"></div>
-            <div class="pw-bar" id="bar2"></div>
-            <div class="pw-bar" id="bar3"></div>
-          </div>
-          <div class="error-msg" id="reg-pw-err">Mật khẩu phải có ít nhất 6 ký tự.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-pw-confirm">Xác nhận mật khẩu</label>
-          <div class="form-input-wrap">
-            <span class="material-symbols-outlined input-icon">lock_reset</span>
-            <input id="reg-pw-confirm" type="password" class="form-input" placeholder="Nhập lại mật khẩu" autocomplete="new-password">
-            <button type="button" class="pw-toggle" onclick="togglePw('reg-pw-confirm', this)" tabindex="-1">
-              <span class="material-symbols-outlined text-[18px]">visibility</span>
-            </button>
-          </div>
-          <div class="error-msg" id="reg-confirm-err">Mật khẩu xác nhận không khớp.</div>
-        </div>
-
-        <div class="flex items-start gap-2 mb-2">
-          <input id="agree-terms" type="checkbox" class="w-3.5 h-3.5 mt-0.5 accent-[#3E9B61] cursor-pointer flex-shrink-0">
-          <label for="agree-terms" class="text-xs text-[#4B4240] cursor-pointer leading-relaxed">
-            Tôi đồng ý với <a href="#" class="text-[#3E9B61] font-semibold hover:underline">Điều khoản sử dụng</a>
-            và <a href="#" class="text-[#3E9B61] font-semibold hover:underline">Chính sách bảo mật</a>
-          </label>
-        </div>
-
-        <button type="submit" class="btn-primary" id="register-btn">
-          <span class="material-symbols-outlined text-lg">person_add</span>
-          Tạo tài khoản ngay
-        </button>
-      </form>
 
 
       <p class="text-center text-[10px] text-[#857B76] mt-6 leading-relaxed">
@@ -692,35 +594,8 @@
     // ── Redirect nếu đã đăng nhập ─────────────────────
     (function checkAlreadyLoggedIn() {
       const session = Auth.getSession();
-      if (!session) return;
-      const params = new URLSearchParams(window.location.search);
-      const redirect = params.get('redirect');
-      if (session.role === 'admin') {
-        window.location.replace('admin.html');
-      } else {
-        window.location.replace('tai-khoan.html');
-      }
+      if (session && session.role === 'admin') window.location.replace('admin.html');
     })();
-
-    // ── Tab switching ──────────────────────────────────
-    function switchTab(tab) {
-      currentTab = tab;
-      const isLogin = tab === 'login';
-
-      document.getElementById('tab-login').classList.toggle('active', isLogin);
-      document.getElementById('tab-register').classList.toggle('active', !isLogin);
-      document.getElementById('login-form').classList.toggle('hidden', !isLogin);
-      document.getElementById('register-form').classList.toggle('hidden', isLogin);
-      hideAlert();
-
-      if (isLogin) {
-        document.getElementById('form-title').textContent = 'Chào mừng trở lại! 👋';
-        document.getElementById('form-subtitle').textContent = 'Đăng nhập để theo dõi đơn hoa và nhận ưu đãi.';
-      } else {
-        document.getElementById('form-title').textContent = 'Tạo tài khoản mới 🌸';
-        document.getElementById('form-subtitle').textContent = 'Tham gia cộng đồng yêu hoa của Hoa Nhà Mình ngay hôm nay.';
-      }
-    }
 
     // ── Alert helpers ──────────────────────────────────
     function showAlert(msg, type = 'error') {
@@ -744,31 +619,9 @@
       btn.querySelector('.material-symbols-outlined').textContent = isHidden ? 'visibility_off' : 'visibility';
     }
 
-    // ── Password strength meter ────────────────────────
-    function checkPwStrength(pw) {
-      const bars = ['bar1', 'bar2', 'bar3'];
-      bars.forEach(id => {
-        document.getElementById(id).className = 'pw-bar';
-      });
-      if (!pw) return;
-      let score = 0;
-      if (pw.length >= 6) score++;
-      if (pw.length >= 10 || /[A-Z]/.test(pw)) score++;
-      if (/[0-9]/.test(pw) && /[^a-zA-Z0-9]/.test(pw)) score++;
-      const cls = score === 1 ? 'weak' : score === 2 ? 'medium' : 'strong';
-      for (let i = 0; i < score; i++) {
-        document.getElementById(bars[i]).classList.add(cls);
-      }
-    }
-
     // ── Redirect after login ───────────────────────────
-    function redirectAfterLogin(session) {
-      const params = new URLSearchParams(window.location.search);
-      if (session.role === 'admin') {
-        window.location.replace('admin.html');
-      } else {
-        window.location.replace('tai-khoan.html');
-      }
+    function redirectAfterLogin() {
+      window.location.replace('admin.html');
     }
 
     // ── Login form submission ──────────────────────────
@@ -815,6 +668,11 @@
         showAlert(result.error);
         return;
       }
+      if (result.user.role !== 'admin') {
+        Auth.logout();
+        showAlert('Tài khoản này không có quyền quản trị.');
+        return;
+      }
 
       // Save "remember me"
       if (document.getElementById('remember-me').checked) {
@@ -824,115 +682,8 @@
       }
 
       showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-      setTimeout(() => redirectAfterLogin(result.user), 700);
+      setTimeout(redirectAfterLogin, 700);
     });
-
-    // ── Register form submission ───────────────────────
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideAlert();
-
-      const name       = document.getElementById('reg-name').value.trim();
-      const email      = document.getElementById('reg-email').value.trim();
-      const phone      = document.getElementById('reg-phone').value.trim();
-      const password   = document.getElementById('reg-password').value;
-      const confirm    = document.getElementById('reg-pw-confirm').value;
-      const agreeTerms = document.getElementById('agree-terms').checked;
-      const btn        = document.getElementById('register-btn');
-
-      let valid = true;
-      // Name
-      if (!name) {
-        document.getElementById('reg-name-err').classList.add('show');
-        document.getElementById('reg-name').classList.add('error');
-        valid = false;
-      } else {
-        document.getElementById('reg-name-err').classList.remove('show');
-        document.getElementById('reg-name').classList.remove('error');
-      }
-      // Email
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById('reg-email-err').classList.add('show');
-        document.getElementById('reg-email').classList.add('error');
-        valid = false;
-      } else {
-        document.getElementById('reg-email-err').classList.remove('show');
-        document.getElementById('reg-email').classList.remove('error');
-      }
-      // Password
-      if (!password || password.length < 6) {
-        document.getElementById('reg-pw-err').classList.add('show');
-        document.getElementById('reg-password').classList.add('error');
-        valid = false;
-      } else {
-        document.getElementById('reg-pw-err').classList.remove('show');
-        document.getElementById('reg-password').classList.remove('error');
-      }
-      // Confirm
-      if (password !== confirm) {
-        document.getElementById('reg-confirm-err').classList.add('show');
-        document.getElementById('reg-pw-confirm').classList.add('error');
-        valid = false;
-      } else {
-        document.getElementById('reg-confirm-err').classList.remove('show');
-        document.getElementById('reg-pw-confirm').classList.remove('error');
-      }
-      // Terms
-      if (!agreeTerms) {
-        showAlert('Bạn cần đồng ý với Điều khoản sử dụng để tiếp tục.');
-        valid = false;
-      }
-      if (!valid) return;
-
-      btn.disabled = true;
-      btn.innerHTML = '<div class="spinner"></div> Đang tạo tài khoản...';
-
-      await new Promise(r => setTimeout(r, 800));
-
-      const result = Auth.register({ name, email, password, phone });
-
-      btn.disabled = false;
-      btn.innerHTML = '<span class="material-symbols-outlined text-lg">person_add</span> Tạo tài khoản ngay';
-
-      if (!result.success) {
-        showAlert(result.error);
-        return;
-      }
-
-      showAlert('Tạo tài khoản thành công! Đang chuyển hướng...', 'success');
-      setTimeout(() => redirectAfterLogin(result.user), 700);
-    });
-
-    // ── Quick demo login ───────────────────────────────
-    async function quickLogin(role) {
-      const creds = {
-        admin: { email: 'admin@hoanhaminhh.vn',      password: 'Admin@2026' },
-        user:  { email: 'truc.nguyen@example.com',   password: 'User@2026' }
-      };
-      const { email, password } = creds[role];
-      const btnId = role === 'admin' ? 'quick-admin' : 'quick-user';
-      const btn = document.getElementById(btnId);
-      btn.disabled = true;
-      btn.style.opacity = '.6';
-
-      document.getElementById('login-email').value = email;
-      document.getElementById('login-password').value = password;
-      switchTab('login');
-      hideAlert();
-
-      await new Promise(r => setTimeout(r, 500));
-
-      const result = Auth.login(email, password);
-      btn.disabled = false;
-      btn.style.opacity = '1';
-
-      if (!result.success) {
-        showAlert(result.error);
-        return;
-      }
-      showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-      setTimeout(() => redirectAfterLogin(result.user), 700);
-    }
 
     // ── Forgot password notice ─────────────────────────
     function showForgotNotice() {

@@ -153,67 +153,16 @@ const Auth = (() => {
       const session = this.getSession();
       if (!session) {
         // Chưa đăng nhập
-        window.location.replace("dang-nhap.html?redirect=admin&reason=login");
+        window.location.replace("hoanhaminh-admin.html?redirect=admin&reason=login");
         return false;
       }
       if (session.role !== "admin") {
         // Đăng nhập rồi nhưng không phải admin
-        sessionStorage.setItem("hnm_access_denied", "1");
-        window.location.replace("tai-khoan.html?reason=denied");
+        this.logout();
+        window.location.replace("hoanhaminh-admin.html?reason=login");
         return false;
       }
       return true;
-    },
-
-    /**
-     * Yêu cầu đăng nhập (user hoặc admin).
-     * Gọi ngay đầu <script> của tai-khoan.html
-     */
-    requireLogin() {
-      if (!this.isLoggedIn()) {
-        window.location.replace("dang-nhap.html?redirect=account&reason=login");
-        return false;
-      }
-      return true;
-    },
-
-    // ── Đăng ký tài khoản mới ────────────────────────────────────────
-    /**
-     * @param {{ name, email, password, phone }} data
-     * @returns {{ success: boolean, user?: object, error?: string }}
-     */
-    register(data) {
-      const { name, email, password, phone } = data;
-      if (!name || !email || !password) {
-        return { success: false, error: "Vui lòng điền đầy đủ thông tin." };
-      }
-      if (password.length < 6) {
-        return { success: false, error: "Mật khẩu phải có ít nhất 6 ký tự." };
-      }
-
-      const users = _getUsers();
-      const exists = users.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
-      if (exists) {
-        return { success: false, error: "Email này đã được đăng ký." };
-      }
-
-      const newUser = {
-        id:        "USR-" + Date.now(),
-        role:      "user",
-        name:      name.trim(),
-        email:     email.trim().toLowerCase(),
-        password:  password,
-        phone:     phone || "",
-        address:   "",
-        avatar:    "",
-        createdAt: new Date().toLocaleDateString("vi-VN")
-      };
-
-      users.push(newUser);
-      _saveUsers(users);
-
-      // Tự đăng nhập luôn sau khi đăng ký
-      return this.login(newUser.email, newUser.password);
     },
 
     // ── Cập nhật thông tin user ───────────────────────────────────────
