@@ -310,9 +310,7 @@ const App = {
             
             <!-- Badges -->
             <div class="absolute top-3 left-3 flex flex-col gap-1.5 pointer-events-none">
-              ${product.isBestSeller ? `<span class="bg-[#D95A82] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Bán chạy</span>` : ''}
-              ${product.isNew ? `<span class="bg-[#3E9B61] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Mới sớm mai</span>` : ''}
-            </div>
+              ${product.isBestSeller ? `<span class="bg-[#D95A82] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Bán chạy</span>` : ''}            </div>
 
             <!-- Quick View Overlay Button -->
             <button class="quick-view-btn absolute bottom-3 inset-x-3 h-8 bg-white/95 hover:bg-white text-[#4B4240] text-xs font-semibold rounded-lg shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1" data-id="${product.id}">
