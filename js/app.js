@@ -199,7 +199,7 @@ const App = {
     content.innerHTML = `
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
         <div class="aspect-square rounded-xl overflow-hidden bg-[#FAF7E9]">
-          <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+          <img loading="lazy" decoding="async" src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
         </div>
         <div class="space-y-4">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#FAF7E9] text-[#D95A82] text-xs font-semibold">
@@ -304,7 +304,7 @@ const App = {
 
         resultsContainer.innerHTML = matched.map(p => `
           <a href="chi-tiet-san-pham.html?id=${p.id}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-[#FAF7E9] transition-colors group">
-            <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+            <img loading="lazy" decoding="async" src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
             <div class="flex-1 min-w-0">
               <h4 class="text-xs sm:text-sm font-semibold text-[#211A18] group-hover:text-[#D95A82] truncate">${p.name}</h4>
               <p class="text-xs text-[#857B76]">${p.typeName} • ${p.colorName}</p>
@@ -324,7 +324,7 @@ const App = {
         <div>
           <!-- Thumbnail Stage -->
           <div class="relative w-full aspect-square bg-[#FAF7E9] overflow-hidden">
-            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <img loading="lazy" decoding="async" src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
             
             <!-- Badges -->
             <div class="absolute top-3 left-3 flex flex-col gap-1.5 pointer-events-none">

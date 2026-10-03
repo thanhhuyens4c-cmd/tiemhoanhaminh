@@ -227,14 +227,14 @@ let _sortField = "";
 let _sortDir = 0; // 0 = none, 1 = asc, -1 = desc
 
 function renderProductRow(p) {
-  const imgSrc = p.image || "assets/images/hero-bouquet.png";
+  const imgSrc = p.image || "assets/images/hero-bouquet.jpg";
   return `
     <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${p.id}">
       <td class="p-3">
         <div class="relative w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors">
           <img data-product-id="${p.id}" src="${imgSrc}" alt="${p.name}"
             class="w-full h-full object-cover"
-            onerror="this.src='assets/images/hero-bouquet.png'">
+            onerror="this.src='assets/images/hero-bouquet.jpg'">
         </div>
       </td>
       <td class="p-3">
@@ -329,7 +329,7 @@ function renderProductTablePage() {
 }
 
 async function _loadPageImages(pageItems) {
-  const needImages = pageItems.filter(p => !p.image || p.image === "assets/images/hero-bouquet.png");
+  const needImages = pageItems.filter(p => !p.image || p.image === "assets/images/hero-bouquet.jpg");
   if (needImages.length === 0) return;
   if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) return;
   try {
@@ -469,7 +469,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colorName:     (fd.get("colorName") || "Hồng").trim(),
       price,
       originalPrice: parseInt(fd.get("originalPrice")) || price,
-      image:         imgData || imgUrl || "assets/images/hero-bouquet.png",
+      image:         imgData || imgUrl || "assets/images/hero-bouquet.jpg",
       shortDesc:     (fd.get("shortDesc") || "").trim(),
       description:   (fd.get("description") || "").trim(),
       careInstructions: (fd.get("careInstructions") || "").trim(),
@@ -875,7 +875,7 @@ const AdminBlogCMS = {
       try {
         const optimized = list.map((b, idx) => {
           if (idx > 0 && b.image && b.image.startsWith("data:")) {
-            return { ...b, image: "assets/images/bouquet-pink.png" };
+            return { ...b, image: "assets/images/bouquet-pink.jpg" };
           }
           return b;
         });
@@ -908,7 +908,7 @@ const AdminBlogCMS = {
       date: data.date || formattedDate,
       author: data.author || "Thu Trang (Florist Hoa Nhà Mình)",
       readTime: data.readTime || "5 phút đọc",
-      image: data.image || "assets/images/bouquet-pink.png",
+      image: data.image || "assets/images/bouquet-pink.jpg",
       excerpt: data.excerpt || "",
       content: data.content || "",
       relatedProducts: data.relatedProducts || []
@@ -987,7 +987,7 @@ function renderBlogTable() {
       <tr class="hover:bg-[#FAF7E9]/60 transition-colors group" data-id="${b.id}">
         <td class="p-3">
           <div class="relative w-16 h-12 rounded-xl overflow-hidden border-2 border-[#E5DDCE] group-hover:border-[#3E9B61] transition-colors bg-[#FAF7E9] flex-shrink-0">
-            <img src="${b.image}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.src='assets/images/bouquet-pink.png'">
+            <img src="${b.image}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.src='assets/images/bouquet-pink.jpg'">
           </div>
         </td>
         <td class="p-3 max-w-sm">
@@ -1072,7 +1072,7 @@ async function openAddBlogModal() {
   document.getElementById("blog-form-readtime").value = "5 phút đọc";
 
   const preview = document.getElementById("blog-img-preview");
-  preview.src = "assets/images/bouquet-pink.png";
+  preview.src = "assets/images/bouquet-pink.jpg";
   document.getElementById("blog-img-data").value = "";
   document.getElementById("blog-form-image-url").value = "";
 
@@ -1102,7 +1102,7 @@ async function openEditBlogModal(id) {
   document.getElementById("blog-form-content").value = b.content || "";
 
   const preview = document.getElementById("blog-img-preview");
-  preview.src = b.image || "assets/images/bouquet-pink.png";
+  preview.src = b.image || "assets/images/bouquet-pink.jpg";
   document.getElementById("blog-img-data").value = "";
   document.getElementById("blog-form-image-url").value = b.image && b.image.startsWith("data:") ? "" : (b.image || "");
 
@@ -1129,7 +1129,7 @@ function saveBlogSubmit(e) {
   const uploadedImg = document.getElementById("blog-img-data")?.value || "";
   const urlImg = (document.getElementById("blog-form-image-url")?.value || "").trim();
   const previewEl = document.getElementById("blog-img-preview");
-  const currentPreview = previewEl?.getAttribute("src") || previewEl?.src || "assets/images/bouquet-pink.png";
+  const currentPreview = previewEl?.getAttribute("src") || previewEl?.src || "assets/images/bouquet-pink.jpg";
   const image = uploadedImg || urlImg || currentPreview;
 
   const relatedProducts = Array.from(document.querySelectorAll("input[name='blogRelated']:checked")).map(cb => cb.value);

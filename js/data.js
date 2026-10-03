@@ -52,7 +52,7 @@ const BLOG_POSTS = [
     date: "31/08/2026",
     author: "Hoa Nhà Mình",
     readTime: "6 phút đọc",
-    image: "assets/images/florist-workshop.png",
+    image: "assets/images/florist-workshop.jpg",
     excerpt: "Mỗi loài hoa đều giữ riêng cho mình một câu chuyện. Với hoa chuông, câu chuyện ấy bắt đầu từ Venus — nữ thần của tình yêu và sắc đẹp...",
     content: `
       <h3>Truyền thuyết về chiếc gương của Venus</h3>
@@ -85,7 +85,7 @@ const BLOG_POSTS = [
     date: "11/12/2025",
     author: "Hoa Nhà Mình",
     readTime: "5 phút đọc",
-    image: "assets/images/hero-bouquet.png",
+    image: "assets/images/hero-bouquet.jpg",
     excerpt: "Hoa hồng luôn được mệnh danh là biểu tượng của tình yêu. Cùng tìm hiểu ý nghĩa riêng biệt của từng số lượng hoa hồng trong các bó hoa...",
     content: `
       <p>Hoa hồng luôn được mệnh danh là biểu tượng của tình yêu và thường được các cặp đôi tặng cho nhau. Cùng tìm hiểu ý nghĩa riêng biệt của số lượng hoa hồng trong các bó hoa:</p>
