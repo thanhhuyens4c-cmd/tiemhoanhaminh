@@ -87,6 +87,46 @@ const SiteSettings = {
       hint: "Banner chính trang bộ sưu tập"
     },
     {
+      key: "oct20_hero",
+      label: "Ảnh Hero trang Hoa 20/10",
+      page: "Hoa 20/10 (hoa-20-10.html)",
+      pageIcon: "local_florist",
+      selector: "#oct20-hero-img",
+      defaultSrc: "assets/images/bouquet-pink.jpg",
+      aspect: "4:3",
+      hint: "Ảnh lớn đầu trang Hoa 20/10"
+    },
+    {
+      key: "oct20_banner_1",
+      label: "Banner 20/10 số 1 (Tặng mẹ yêu)",
+      page: "Hoa 20/10 (hoa-20-10.html)",
+      pageIcon: "local_florist",
+      selector: "#oct20-banner-1",
+      defaultSrc: "assets/images/hero-bouquet.jpg",
+      aspect: "4:3",
+      hint: "Banner thứ nhất trong hàng 3 banner của trang Hoa 20/10"
+    },
+    {
+      key: "oct20_banner_2",
+      label: "Banner 20/10 số 2 (Gửi người thương)",
+      page: "Hoa 20/10 (hoa-20-10.html)",
+      pageIcon: "local_florist",
+      selector: "#oct20-banner-2",
+      defaultSrc: "assets/images/bouquet-pink.jpg",
+      aspect: "4:3",
+      hint: "Banner thứ hai trong hàng 3 banner của trang Hoa 20/10"
+    },
+    {
+      key: "oct20_banner_3",
+      label: "Banner 20/10 số 3 (Tri ân cô, chị, bạn gái)",
+      page: "Hoa 20/10 (hoa-20-10.html)",
+      pageIcon: "local_florist",
+      selector: "#oct20-banner-3",
+      defaultSrc: "assets/images/florist-workshop.jpg",
+      aspect: "4:3",
+      hint: "Banner thứ ba trong hàng 3 banner của trang Hoa 20/10"
+    },
+    {
       key: "about_hero",
       label: "Ảnh Hero trang Giới thiệu",
       page: "Giới thiệu (gioi-thieu.html)",

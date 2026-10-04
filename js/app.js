@@ -106,6 +106,7 @@ const App = {
                 <a href="san-pham.html?type=hoa-lua">↳ Hoa lụa</a>
               </div>
               <a href="bo-suu-tap.html" data-path="bo-suu-tap" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Bộ sưu tập</a>
+              <a href="hoa-20-10.html" data-path="hoa-20-10" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1 !text-[#D95A82] font-semibold">Hoa 20/10 🌸</a>
               <a href="blog.html" data-path="blog" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Blog</a>
               <a href="gioi-thieu.html" data-path="gioi-thieu" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Giới thiệu</a>
               <a href="lien-he.html" data-path="lien-he" class="text-[#4B4240] hover:text-[#D95A82] font-medium py-1">Liên hệ</a>
