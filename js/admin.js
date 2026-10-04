@@ -250,8 +250,6 @@ function renderProductRow(p) {
       <td class="p-3 text-xs text-[#4B4240]">${p.colorName || "—"}</td>
       <td class="p-3">
         <p class="font-bold text-[#D95A82] text-sm">${fmt(p.price)}₫</p>
-        ${p.originalPrice && p.originalPrice > p.price
-          ? `<p class="text-[10px] text-[#857B76] line-through">${fmt(p.originalPrice)}₫</p>` : ""}
       </td>
       <td class="p-3">
         <div class="flex flex-wrap gap-1">
