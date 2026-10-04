@@ -2,6 +2,8 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8">
+  <meta name="supabase-url" content="https://nkugwprxqdiarrivhubr.supabase.co">
+  <meta name="supabase-anon-key" content="sb_publishable_NJgA_RPQovMXZp1H7dLvdA_zZonsPdF">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MKTQ0EYRBH"></script>
@@ -228,6 +230,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/site-settings.js"></script>
@@ -237,6 +241,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("blog-grid");
 
+      function renderBlogPage() {
       const allPosts = getBlogPosts();
       if (allPosts.length > 0) {
         const feat = allPosts[0];
@@ -293,6 +298,12 @@
       }
 
       renderArticles("all");
+      }
+
+      renderBlogPage();
+      // Nạp bản mới nhất từ Supabase để mọi thiết bị thấy cùng một nội dung
+      window.addEventListener("hnm:blogs-updated", renderBlogPage);
+      if (typeof refreshBlogPosts === "function") refreshBlogPosts();
     });
   </script>
 

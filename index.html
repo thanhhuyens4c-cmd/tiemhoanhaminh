@@ -566,6 +566,7 @@
 
       // Render 3 bài blog mới nhất trên trang chủ
       const blogGrid = document.getElementById("home-blog-grid");
+      function renderHomeBlogs() {
       if (blogGrid && typeof getBlogPosts === "function") {
         const blogs = getBlogPosts().slice(0, 3);
         if (blogs.length > 0) {
@@ -591,6 +592,10 @@
           `).join('');
         }
       }
+      }
+      renderHomeBlogs();
+      window.addEventListener("hnm:blogs-updated", renderHomeBlogs);
+      if (typeof refreshBlogPosts === "function") refreshBlogPosts();
     });
   </script>
 </body>

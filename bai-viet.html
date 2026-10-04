@@ -384,6 +384,9 @@
     } else {
       initBlogPost();
     }
+    // Nạp bản mới nhất từ Supabase để mọi thiết bị thấy cùng một nội dung
+    window.addEventListener("hnm:blogs-updated", initBlogPost);
+    if (typeof refreshBlogPosts === "function") refreshBlogPosts();
   </script>
 
   <!-- MOBILE BOTTOM NAVIGATION -->

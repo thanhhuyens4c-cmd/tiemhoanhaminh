@@ -601,6 +601,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── Initial render ───────────────────────────────────────────────
   renderProductTable();
+  AdminBlogCMS.syncFromRemote();
 });
 
 // ═══════════════════════════════════════════════════════════════════
@@ -905,7 +906,30 @@ const AdminBlogCMS = {
     return JSON.parse(JSON.stringify(BLOG_POSTS));
   },
 
+  /** Đẩy danh sách lên Supabase (ảnh base64 → Storage), rồi cập nhật lại cache cục bộ. */
+  async pushRemote(list) {
+    if (typeof BlogAPI === "undefined" || !SupabaseClient.isConfigured()) return;
+    const saved = await BlogAPI.saveAll(list);
+    if (!saved) {
+      showToast("Chưa lưu được bài viết lên máy chủ — máy khác sẽ chưa thấy thay đổi. Kiểm tra bảng blogs trên Supabase.", "error");
+      return;
+    }
+    try { localStorage.setItem(this.LS_KEY, JSON.stringify(saved)); } catch (e) {}
+    renderBlogTable();
+  },
+
+  /** Lấy bài viết từ Supabase về cache cục bộ. */
+  async syncFromRemote() {
+    if (typeof BlogAPI === "undefined" || !SupabaseClient.isConfigured()) return;
+    const remote = await BlogAPI.getAll();
+    if (remote && remote.length > 0) {
+      try { localStorage.setItem(this.LS_KEY, JSON.stringify(remote)); } catch (e) {}
+      renderBlogTable();
+    }
+  },
+
   saveBlogs(list) {
+    this.pushRemote(list);
     try {
       localStorage.setItem(this.LS_KEY, JSON.stringify(list));
       window.dispatchEvent(new CustomEvent("hnm:blogs-updated", { detail: list }));
@@ -977,6 +1001,7 @@ const AdminBlogCMS = {
 
   resetToDefault() {
     localStorage.removeItem(this.LS_KEY);
+    this.pushRemote(JSON.parse(JSON.stringify(BLOG_POSTS)));
   },
 
   _toCategorySlug(cat) {

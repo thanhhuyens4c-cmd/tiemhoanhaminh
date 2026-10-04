@@ -339,3 +339,58 @@ const ProductAPI = {
 window.SupabaseClient = SupabaseClient;
 window.SupabaseConfig = SupabaseConfig;
 window.ProductAPI = ProductAPI;
+
+/**
+ * BlogAPI — bài viết blog lưu trên Supabase (bảng "blogs", xem supabase-blogs.sql)
+ * Mỗi dòng: { id, data (toàn bộ bài viết dạng JSON), sort_order }.
+ * Nhờ đó mọi thiết bị cùng đọc một nguồn, không phụ thuộc localStorage của từng máy.
+ */
+const BlogAPI = {
+  /** Trả về mảng bài viết (đã sắp xếp), hoặc null nếu không đọc được. */
+  async getAll() {
+    const client = SupabaseClient.getClient();
+    if (!client) return null;
+    try {
+      const { data, error } = await client
+        .from("blogs")
+        .select("id,data,sort_order")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data || []).map(r => ({ ...r.data, id: r.id }));
+    } catch (err) {
+      console.warn("Supabase blogs:", err.message || err);
+      return null;
+    }
+  },
+
+  /** Ghi đè toàn bộ danh sách: upsert các bài hiện có, xóa bài không còn. */
+  async saveAll(list) {
+    const client = SupabaseClient.getClient();
+    if (!client) return false;
+    try {
+      const posts = [];
+      for (const b of list) {
+        const image = await ProductAPI.uploadImage(b.image);
+        posts.push({ ...b, image });
+      }
+      const rows = posts.map((b, i) => ({
+        id: b.id, data: b, sort_order: i, updated_at: new Date().toISOString()
+      }));
+      if (rows.length) {
+        const { error } = await client.from("blogs").upsert(rows);
+        if (error) throw error;
+      }
+      const ids = posts.map(b => b.id);
+      const del = client.from("blogs").delete();
+      const { error: delErr } = ids.length
+        ? await del.not("id", "in", `(${ids.map(i => `"${i}"`).join(",")})`)
+        : await del.neq("id", "");
+      if (delErr) throw delErr;
+      return posts;
+    } catch (err) {
+      console.error("Không lưu được blog lên Supabase:", err.message || err);
+      return false;
+    }
+  }
+};
+window.BlogAPI = BlogAPI;

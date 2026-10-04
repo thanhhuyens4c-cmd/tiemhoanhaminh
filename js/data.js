@@ -239,6 +239,22 @@ function getBlogPosts() {
   return JSON.parse(JSON.stringify(BLOG_POSTS));
 }
 
+/**
+ * refreshBlogPosts() – Tải bài viết từ Supabase (nguồn chung cho mọi thiết bị),
+ * cập nhật cache localStorage rồi phát sự kiện "hnm:blogs-updated" để trang vẽ lại.
+ * Trả về danh sách mới nhất (hoặc danh sách hiện có nếu Supabase lỗi / chưa có dữ liệu).
+ */
+async function refreshBlogPosts() {
+  if (typeof BlogAPI === "undefined" || !SupabaseClient.isConfigured()) return getBlogPosts();
+  const remote = await BlogAPI.getAll();
+  if (remote && remote.length > 0) {
+    try { localStorage.setItem("hnm_blogs_v2", JSON.stringify(remote)); } catch (e) {}
+    window.dispatchEvent(new CustomEvent("hnm:blogs-updated", { detail: remote }));
+    return remote;
+  }
+  return getBlogPosts();
+}
+
 // Xuất toàn cục lên window để đảm bảo tương thích mọi trang
 if (typeof window !== "undefined") {
   window.PRODUCTS = PRODUCTS;
@@ -246,6 +262,7 @@ if (typeof window !== "undefined") {
   window.PROMOTIONS = PROMOTIONS;
   window.BLOG_POSTS = BLOG_POSTS;
   window.getBlogPosts = getBlogPosts;
+  window.refreshBlogPosts = refreshBlogPosts;
   window.REVIEWS = REVIEWS;
 }
 
