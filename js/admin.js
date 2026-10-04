@@ -962,6 +962,14 @@ window.ConfigSync = ConfigSync;
 
 function autoSyncToGitHub() {
   if (typeof showSyncBanner === "function") showSyncBanner();
+  // Ảnh banner/hero: đăng lên Supabase để khách xem web thấy ngay
+  const pending = (typeof SiteSettings !== "undefined") ? SiteSettings.lastSync : null;
+  if (pending && typeof pending.then === "function") {
+    pending.then(ok => {
+      if (ok) showToast("🌐 Đã đăng ảnh lên website, khách sẽ thấy ngay.");
+      else showToast("Ảnh mới chỉ lưu trên máy này, chưa lên website. Hãy chạy file supabase-site-settings.sql trong Supabase rồi thử lại.", "error");
+    });
+  }
 }
 
 function exportSiteConfig() {

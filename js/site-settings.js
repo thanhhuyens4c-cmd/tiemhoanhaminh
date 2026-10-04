@@ -177,26 +177,110 @@ const SiteSettings = {
     return slot ? slot.defaultSrc : "";
   },
 
-  /** Lưu một slot */
+  /** Lưu một slot (lưu máy ngay, rồi đăng lên Supabase để mọi người cùng thấy) */
   set(key, src) {
     const all = this.getAll();
     all[key] = { src, updatedAt: new Date().toISOString() };
-    localStorage.setItem(this.LS_KEY, JSON.stringify(all));
+    this._saveLocal(all);
     window.dispatchEvent(new CustomEvent("hnm:site-settings-updated", { detail: { key, src } }));
+    return this._track(this._pushRemote(key, src));
   },
 
   /** Reset một slot về mặc định */
   reset(key) {
     const all = this.getAll();
     delete all[key];
-    localStorage.setItem(this.LS_KEY, JSON.stringify(all));
+    this._saveLocal(all);
     window.dispatchEvent(new CustomEvent("hnm:site-settings-updated", { detail: { key, src: null } }));
+    return this._track(this._deleteRemote(key));
   },
 
   /** Reset tất cả về mặc định */
   resetAll() {
-    localStorage.removeItem(this.LS_KEY);
+    try { localStorage.removeItem(this.LS_KEY); } catch (e) {}
     window.dispatchEvent(new CustomEvent("hnm:site-settings-updated", { detail: { key: "all" } }));
+    return this._track(this._deleteRemote(null));
+  },
+
+  _saveLocal(all) {
+    try { localStorage.setItem(this.LS_KEY, JSON.stringify(all)); } catch (e) {
+      console.warn("Không lưu được cài đặt ảnh vào trình duyệt:", e.message || e);
+    }
+  },
+
+  // ── ĐỒNG BỘ SUPABASE (bảng site_settings, xem supabase-site-settings.sql) ──
+
+  _client() {
+    return (typeof SupabaseClient !== "undefined" && SupabaseClient.getClient) ? SupabaseClient.getClient() : null;
+  },
+
+  /** Promise của lần đồng bộ gần nhất: true = đã đăng lên website, false = chưa được */
+  lastSync: null,
+  _track(p) { this.lastSync = p; return p; },
+
+  async _pushRemote(key, src) {
+    const client = this._client();
+    if (!client) return false;
+    try {
+      let url = src;
+      if (typeof ProductAPI !== "undefined" && typeof src === "string" && src.startsWith("data:")) {
+        url = await ProductAPI.uploadImage(src);
+        if (url !== src) {
+          const all = this.getAll();
+          if (all[key]) { all[key].src = url; this._saveLocal(all); }
+        }
+      }
+      const { error } = await client.from("site_settings")
+        .upsert({ key, src: url, updated_at: new Date().toISOString() });
+      if (error) throw error;
+      return true;
+    } catch (err) {
+      console.warn("Không đăng được ảnh lên Supabase:", err.message || err);
+      return false;
+    }
+  },
+
+  async _deleteRemote(key) {
+    const client = this._client();
+    if (!client) return false;
+    try {
+      const q = client.from("site_settings").delete();
+      const { error } = key ? await q.eq("key", key) : await q.neq("key", "");
+      if (error) throw error;
+      return true;
+    } catch (err) {
+      console.warn("Không xóa được ảnh trên Supabase:", err.message || err);
+      return false;
+    }
+  },
+
+  /**
+   * Tải ảnh đã đăng từ Supabase, gộp vào cài đặt máy rồi áp dụng lên trang.
+   * Khách xem web: dữ liệu máy được thay hẳn bằng dữ liệu máy chủ.
+   * Admin: giữ thay đổi chưa đăng và tự đăng nốt lên máy chủ.
+   */
+  async loadRemote() {
+    const client = this._client();
+    if (!client) return;
+    try {
+      const { data, error } = await client.from("site_settings").select("key,src,updated_at");
+      if (error) throw error;
+      const remote = {};
+      (data || []).forEach(r => { remote[r.key] = { src: r.src, updatedAt: r.updated_at }; });
+      const isAdmin = typeof AdminCMS !== "undefined";
+      let merged = remote;
+      if (isAdmin) {
+        const local = this.getAll();
+        merged = { ...local, ...remote };
+        Object.keys(local).forEach(k => {
+          if (!remote[k] && local[k] && local[k].src) this._pushRemote(k, local[k].src);
+        });
+      }
+      this._saveLocal(merged);
+      this.applyToPage();
+    } catch (err) {
+      console.warn("Không tải được cài đặt ảnh từ Supabase:", err.message || err);
+    }
   },
 
   /** Có bất kỳ customization nào không */
@@ -227,9 +311,10 @@ const SiteSettings = {
 
 // Tự động áp dụng khi DOM load xong
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => SiteSettings.applyToPage());
+  document.addEventListener("DOMContentLoaded", () => { SiteSettings.applyToPage(); SiteSettings.loadRemote(); });
 } else {
   SiteSettings.applyToPage();
+  SiteSettings.loadRemote();
 }
 
 // Live-fetch đã tắt: site-config.js quá lớn (~1.8MB), tải lại mỗi lần gây chậm trang.
