@@ -256,6 +256,7 @@ function renderProductRow(p) {
           ${p.isBestSeller ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#D95A82]/10 text-[#D95A82]">Bán chạy</span>` : ""}
           ${p.isNew ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#3E9B61]/10 text-[#3E9B61]">Mới</span>` : ""}
           ${p.isFeatured ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#F29A38]/15 text-[#B96B00]">Nổi bật</span>` : ""}
+          ${p.isOct20 ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#E85D75]/10 text-[#E85D75]">20/10</span>` : ""}
         </div>
       </td>
       <td class="p-3 text-right space-x-1">
@@ -517,6 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isNew:         fd.get("isNew") === "on",
       isFeatured:    fd.get("isFeatured") === "on",
       isFavorite:    fd.get("isFavorite") === "on",
+      isOct20:       fd.get("isOct20") === "on",
       sortOrder:     parseInt(fd.get("sortOrder")) || 0
     };
 
@@ -570,6 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isNew:         fd.get("isNew") === "on",
       isFeatured:    fd.get("isFeatured") === "on",
       isFavorite:    fd.get("isFavorite") === "on",
+      isOct20:       fd.get("isOct20") === "on",
       sortOrder:     parseInt(fd.get("sortOrder")) || 0
     };
 
@@ -637,6 +640,7 @@ async function openEditModal(id) {
   f.querySelector("[name=isNew]").checked = !!p.isNew;
   f.querySelector("[name=isFeatured]").checked = !!p.isFeatured;
   f.querySelector("[name=isFavorite]").checked = !!p.isFavorite;
+  f.querySelector("[name=isOct20]").checked = !!p.isOct20;
   f.querySelector("[name=sortOrder]").value = p.sortOrder || 0;
 
   const editImgPreview = document.getElementById("edit-img-preview");

@@ -129,6 +129,9 @@
               <span>Khám phá ngay</span>
               <span class="material-symbols-outlined text-base">south</span>
             </a>
+            <a href="#hoa-20-10" class="inline-flex items-center gap-2 px-6 py-3 ml-2 border border-[#D95A82] text-[#D95A82] hover:bg-[#D95A82] hover:text-white rounded-xl text-xs sm:text-sm font-semibold transition-all">
+              <span>Hoa dịp 20-10</span>
+            </a>
           </div>
         </div>
 
@@ -144,6 +147,19 @@
   <!-- NỘI DUNG BỘ SƯU TẬP -->
   <main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
     
+    <!-- HOA DỊP 20-10 -->
+    <section id="hoa-20-10" class="space-y-6">
+      <div class="rounded-3xl bg-gradient-to-r from-[#FCE4EC] to-[#FAF7E9] border border-[#F3A8C0]/50 px-5 sm:px-8 py-6 flex items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#D95A82]">Ngày Phụ nữ Việt Nam 20/10</span>
+          <h2 class="text-2xl font-bold text-[#211A18] tracking-tight">Hoa dịp 20-10</h2>
+          <p class="text-xs text-[#4B4240] mt-1">Gửi trọn yêu thương đến mẹ, chị em, bà và người thương.</p>
+        </div>
+        <span class="material-symbols-outlined text-5xl text-[#D95A82] hidden sm:block">local_florist</span>
+      </div>
+      <div id="oct20-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"></div>
+    </section>
+
     <!-- 4. GRID HOA THỦ CÔNG GỢI Ý -->
     <section id="san-pham-moi" class="space-y-6">
       <div class="flex items-center justify-between">
@@ -234,6 +250,10 @@
       if (grid) {
         const products = await getProducts();
         grid.innerHTML = products.slice(0, 4).map(p => App.renderProductCard(p)).join('');
+        const octList = products.filter(p => p.isOct20);
+        document.getElementById("oct20-product-grid").innerHTML = octList.length
+          ? octList.map(p => App.renderProductCard(p)).join('')
+          : '<p class="col-span-full text-center py-8 text-sm text-[#857B76]">Hoa dịp 20-10 sắp được cập nhật, bạn quay lại sau nhé!</p>';
       }
     });
   </script>
