@@ -118,7 +118,7 @@ const SiteSettings = {
     },
     {
       key: "oct20_banner_3",
-      label: "Banner 20/10 số 3 (Tri ân cô, chị, bạn gái)",
+      label: "Banner 20/10 số 3 (Tri ân cô giáo, chị gái, bạn gái)",
       page: "Hoa 20/10 (hoa-20-10.html)",
       pageIcon: "local_florist",
       selector: "#oct20-banner-3",
