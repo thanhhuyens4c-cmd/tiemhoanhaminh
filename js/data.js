@@ -1,5 +1,5 @@
 /**
- * Dữ liệu sản phẩm, bộ sưu tập, blog và đánh giá cho Tiệm hoa tươi thủ công "Hoa Nhà Mình"
+ * Dữ liệu sản phẩm, bộ sưu tập, blog và đánh giá cho Tiệm hoa tươi "Hoa Nhà Mình"
  * Bản quyền thuộc về Hoa Nhà Mình - Let flowers speak your heart!
  */
 
