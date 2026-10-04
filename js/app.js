@@ -192,7 +192,6 @@ const App = {
           <h2 class="text-xl font-bold text-[#211A18] leading-snug">${product.name}</h2>
           <div class="flex items-center gap-3">
             <span class="text-xl font-bold text-[#D95A82]">${product.price.toLocaleString('vi-VN')}₫</span>
-            ${product.originalPrice ? `<span class="text-sm text-[#857B76] line-through">${product.originalPrice.toLocaleString('vi-VN')}₫</span>` : ''}
           </div>
           <p class="text-xs sm:text-sm text-[#857B76] line-clamp-3">${product.shortDesc}</p>
           
@@ -356,7 +355,6 @@ const App = {
 
             <div class="flex items-baseline gap-2 pt-1">
               <span class="text-base font-bold text-[#D95A82]">${product.price.toLocaleString('vi-VN')}₫</span>
-              ${product.originalPrice ? `<span class="text-xs text-[#857B76] line-through">${product.originalPrice.toLocaleString('vi-VN')}₫</span>` : ''}
             </div>
           </div>
         </div>

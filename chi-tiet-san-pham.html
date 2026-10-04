@@ -161,8 +161,6 @@
         <!-- Giá bán -->
         <div class="p-4 rounded-2xl bg-[#FAF7E9] border border-[#E5DDCE] flex items-baseline gap-4">
           <span id="product-price" class="text-3xl font-bold text-[#D95A82]"></span>
-          <span id="product-orig-price" class="text-sm text-[#857B76] line-through"></span>
-          <span id="product-discount-badge" class="text-xs bg-[#D95A82]/10 text-[#D95A82] font-semibold px-2 py-0.5 rounded-full" style="display:none;"></span>
         </div>
 
         <!-- Mô tả ngắn -->
@@ -376,21 +374,7 @@
 
       // Price display
       const priceEl = document.getElementById("product-price");
-      const origPriceEl = document.getElementById("product-orig-price");
       if (priceEl) priceEl.textContent = `${product.price.toLocaleString('vi-VN')}₫`;
-      if (origPriceEl) {
-        if (product.originalPrice && product.originalPrice > product.price) {
-          origPriceEl.textContent = `${product.originalPrice.toLocaleString('vi-VN')}₫`;
-          const discountBadge = document.getElementById("product-discount-badge");
-          if (discountBadge) {
-            const pct = Math.round((1 - product.price / product.originalPrice) * 100);
-            discountBadge.textContent = `Tiết kiệm ${pct}%`;
-            discountBadge.style.display = "";
-          }
-        } else {
-          origPriceEl.style.display = "none";
-        }
-      }
 
 
 
