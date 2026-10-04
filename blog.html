@@ -121,21 +121,6 @@
         </h1>
       </div>
 
-      <!-- Category Filter Chips theo PRD -->
-      <div class="flex items-center gap-2 overflow-x-auto pt-8 scrollbar-none" id="blog-category-chips">
-        <button class="blog-chip px-4 py-2 rounded-full text-xs font-semibold bg-[#3E9B61] text-white shadow-sm flex-shrink-0" data-cat="all">
-          Tất cả bài viết
-        </button>
-        <button class="blog-chip px-4 py-2 rounded-full text-xs font-semibold bg-white hover:bg-[#FAF7E9] text-[#4B4240] border border-[#E5DDCE] transition-colors flex-shrink-0" data-cat="emotion">
-          Hoa & Cảm xúc
-        </button>
-        <button class="blog-chip px-4 py-2 rounded-full text-xs font-semibold bg-white hover:bg-[#FAF7E9] text-[#4B4240] border border-[#E5DDCE] transition-colors flex-shrink-0" data-cat="care">
-          Chăm sóc hoa
-        </button>
-        <button class="blog-chip px-4 py-2 rounded-full text-xs font-semibold bg-white hover:bg-[#FAF7E9] text-[#4B4240] border border-[#E5DDCE] transition-colors flex-shrink-0" data-cat="story">
-          Câu chuyện Hoa Nhà Mình
-        </button>
-      </div>
     </div>
   </section>
 
@@ -251,7 +236,6 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("blog-grid");
-      const chips = document.querySelectorAll(".blog-chip");
 
       const allPosts = getBlogPosts();
       if (allPosts.length > 0) {
@@ -309,18 +293,6 @@
       }
 
       renderArticles("all");
-
-      chips.forEach(btn => {
-        btn.addEventListener("click", () => {
-          chips.forEach(b => {
-            b.classList.remove("bg-[#3E9B61]", "text-white", "shadow-sm");
-            b.classList.add("bg-white", "text-[#4B4240]");
-          });
-          btn.classList.add("bg-[#3E9B61]", "text-white", "shadow-sm");
-          btn.classList.remove("bg-white", "text-[#4B4240]");
-          renderArticles(btn.getAttribute("data-cat"));
-        });
-      });
     });
   </script>
 
