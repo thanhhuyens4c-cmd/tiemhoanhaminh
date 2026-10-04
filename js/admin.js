@@ -1546,3 +1546,110 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.AdminPromoCMS = AdminPromoCMS;
+
+// ═══════════════════════════════════════════════════════════════════
+//  TAB HOA CHÚC MỪNG 20/10 — chọn hoa hiển thị + sửa giá nhanh
+// ═══════════════════════════════════════════════════════════════════
+const OCT20_TAG = "hoa-20-10";
+
+function _oct20Row(p, img, inList) {
+  const fmtP = n => Number(n || 0).toLocaleString("vi-VN");
+  const safeName = String(p.name || "").replace(/</g, "&lt;");
+  return `
+    <div class="flex items-center gap-3 px-5 py-3" data-oct-id="${p.id}">
+      <div class="w-14 h-14 rounded-xl overflow-hidden bg-[#FAF7E9] border border-[#E5DDCE] flex-shrink-0">
+        <img src="${img || "assets/images/hero-bouquet.jpg"}" alt="" class="w-full h-full object-cover" onerror="this.src='assets/images/hero-bouquet.jpg'">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold text-[#211A18] truncate">${safeName}</p>
+        <p class="text-[11px] text-[#857B76]">${p.typeName || ""} · hiện ${fmtP(p.price)}₫</p>
+      </div>
+      ${inList ? `
+        <div class="flex items-center gap-1.5">
+          <input type="number" min="0" step="1000" value="${p.price || ""}" data-oct-price
+            class="w-28 border border-[#E5DDCE] rounded-xl px-3 py-2 text-xs text-right focus:outline-none focus:border-[#E85D75]">
+          <span class="text-xs text-[#857B76]">₫</span>
+          <button type="button" onclick="saveOct20Price('${p.id}')" class="px-3 py-2 rounded-xl bg-[#3E9B61] text-white text-xs font-bold hover:bg-[#277A4D]">Lưu giá</button>
+          <button type="button" onclick="openEditModal('${p.id}')" class="p-2 rounded-xl border border-[#E5DDCE] hover:bg-[#FAF7E9]" title="Sửa chi tiết"><span class="material-symbols-outlined text-sm">edit</span></button>
+          <button type="button" onclick="toggleOct20('${p.id}', false)" class="p-2 rounded-xl border border-[#E5DDCE] text-[#D95A82] hover:bg-[#D95A82]/10" title="Gỡ khỏi mục 20/10"><span class="material-symbols-outlined text-sm">remove_circle</span></button>
+        </div>` : `
+        <button type="button" onclick="toggleOct20('${p.id}', true)" class="px-3 py-2 rounded-xl border border-[#E85D75] text-[#E85D75] text-xs font-bold hover:bg-[#E85D75] hover:text-white transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">add</span> Thêm
+        </button>`}
+    </div>`;
+}
+
+async function renderOct20Tab() {
+  const listEl = document.getElementById("oct20-list");
+  const candEl = document.getElementById("oct20-candidates");
+  if (!listEl || !candEl) return;
+  try {
+    const all = await AdminCMS.getProducts();
+    const q = (document.getElementById("oct20-search")?.value || "").toLowerCase().trim();
+    const inList = all.filter(p => p.isOct20);
+    const cands = all.filter(p => !p.isOct20 && (!q || (p.name || "").toLowerCase().includes(q)));
+
+    let imgMap = {};
+    if (typeof ProductAPI !== "undefined" && typeof SupabaseClient !== "undefined" && SupabaseClient.isConfigured()) {
+      try {
+        const ids = [...inList, ...cands.slice(0, 60)].filter(p => !p.image).map(p => p.id);
+        if (ids.length) imgMap = await ProductAPI.getProductImages(ids);
+      } catch (e) {}
+    }
+    const img = p => p.image || imgMap[p.id] || "";
+
+    document.getElementById("oct20-count").textContent = inList.length;
+    listEl.innerHTML = inList.length
+      ? inList.map(p => _oct20Row(p, img(p), true)).join("")
+      : `<p class="p-6 text-center text-xs text-[#857B76]">Chưa có hoa nào. Bấm "Thêm hoa mới" hoặc chọn từ danh sách bên dưới.</p>`;
+    candEl.innerHTML = cands.length
+      ? cands.slice(0, 60).map(p => _oct20Row(p, img(p), false)).join("")
+      : `<p class="p-6 text-center text-xs text-[#857B76]">Không có sản phẩm phù hợp.</p>`;
+  } catch (err) {
+    console.error("Lỗi tải tab 20/10:", err);
+    listEl.innerHTML = `<p class="p-6 text-center text-xs text-[#D95A82]">Lỗi tải sản phẩm. Vui lòng thử lại.</p>`;
+  }
+}
+
+async function toggleOct20(id, on) {
+  try {
+    const all = await AdminCMS.getProducts();
+    const p = all.find(x => x.id === id);
+    if (!p) return;
+    const tags = (p.tags || []).filter(t => t !== OCT20_TAG);
+    if (on) tags.push(OCT20_TAG);
+    await AdminCMS.updateProduct(id, { tags, isOct20: on });
+    showToast(on ? `Đã thêm "${p.name}" vào Hoa chúc mừng 20/10` : `Đã gỡ "${p.name}" khỏi mục 20/10`);
+    await renderOct20Tab();
+    if (typeof renderProductTable === "function") renderProductTable();
+  } catch (err) {
+    console.error(err);
+    showToast("Lỗi cập nhật: " + err.message, "error");
+  }
+}
+
+async function saveOct20Price(id) {
+  const input = document.querySelector(`[data-oct-id="${id}"] [data-oct-price]`);
+  const price = parseInt(input?.value) || 0;
+  if (!price) { showToast("Vui lòng nhập giá hợp lệ!", "error"); return; }
+  try {
+    await AdminCMS.updateProduct(id, { price, originalPrice: price });
+    showToast("Đã cập nhật giá!");
+    await renderOct20Tab();
+    if (typeof renderProductTable === "function") renderProductTable();
+  } catch (err) {
+    console.error(err);
+    showToast("Lỗi cập nhật giá: " + err.message, "error");
+  }
+}
+
+function openAddOct20Modal() {
+  openAddModal();
+  const box = document.querySelector("#add-form [name=isOct20]");
+  if (box) box.checked = true;
+}
+
+window.addEventListener("hnm:products-updated", () => {
+  const mod = document.getElementById("module-oct20");
+  if (mod && !mod.classList.contains("hidden")) renderOct20Tab();
+});
