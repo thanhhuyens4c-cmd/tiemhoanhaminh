@@ -292,6 +292,7 @@ const ProductAPI = {
       isNew: !!row.is_new,
       isFeatured: !!row.is_featured,
       isFavorite: (row.tags || []).includes("favorite"),
+      isOct20: (row.tags || []).includes("hoa-20-10"),
       tags: row.tags || [],
       isActive: row.is_active !== false,
       sortOrder: row.sort_order || 0
@@ -329,6 +330,11 @@ const ProductAPI = {
       if (!row.tags) row.tags = [];
       row.tags = row.tags.filter(t => t !== "favorite");
       if (product.isFavorite) row.tags.push("favorite");
+    }
+    if (product.isOct20 !== undefined) {
+      if (!row.tags) row.tags = [];
+      row.tags = row.tags.filter(t => t !== "hoa-20-10");
+      if (product.isOct20) row.tags.push("hoa-20-10");
     }
     if (product.isActive !== undefined) row.is_active = product.isActive;
     if (product.sortOrder !== undefined) row.sort_order = product.sortOrder;
