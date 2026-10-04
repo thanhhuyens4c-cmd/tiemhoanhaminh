@@ -248,8 +248,14 @@ async function refreshBlogPosts() {
   if (typeof BlogAPI === "undefined" || !SupabaseClient.isConfigured()) return getBlogPosts();
   const remote = await BlogAPI.getAll();
   if (remote && remote.length > 0) {
-    try { localStorage.setItem("hnm_blogs_v2", JSON.stringify(remote)); } catch (e) {}
-    window.dispatchEvent(new CustomEvent("hnm:blogs-updated", { detail: remote }));
+    const json = JSON.stringify(remote);
+    let changed = true;
+    try {
+      changed = localStorage.getItem("hnm_blogs_v2") !== json;
+      if (changed) localStorage.setItem("hnm_blogs_v2", json);
+    } catch (e) {}
+    // Chỉ vẽ lại khi dữ liệu thực sự khác bản đang hiển thị
+    if (changed) window.dispatchEvent(new CustomEvent("hnm:blogs-updated", { detail: remote }));
     return remote;
   }
   return getBlogPosts();
