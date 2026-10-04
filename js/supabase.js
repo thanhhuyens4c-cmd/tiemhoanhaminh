@@ -118,18 +118,51 @@ const ProductAPI = {
     const client = SupabaseClient.getClient();
     if (!client) return this._fallbackGetProducts();
 
-    try {
-      const { data, error } = await client
-        .from("products")
-        .select(this.LIST_COLUMNS)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false });
+    // Bỏ cột gallery (có thể chứa ảnh base64 rất nặng → query timeout → admin
+    // rơi về fallback local chỉ có vài sản phẩm). Ảnh đại diện nạp riêng qua getProductImages.
+    const cols = this.LIST_COLUMNS.replace(",gallery", "");
+    let lastErr;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const { data, error } = await client
+          .from("products")
+          .select(cols)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
 
+        if (error) throw error;
+        return (data || []).map(row => this._mapFromDB(row));
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    console.error("Lỗi tải sản phẩm (admin):", lastErr);
+    if (typeof showToast === "function") {
+      showToast("Không tải được đầy đủ sản phẩm từ máy chủ, đang hiển thị dữ liệu tạm. Hãy tải lại trang.", "error");
+    }
+    return this._fallbackGetProducts();
+  },
+
+  /**
+   * Đẩy ảnh base64 lên Supabase Storage (bucket "product-images", public) và trả về URL.
+   * Lỗi (chưa tạo bucket, thiếu policy...) → trả lại nguyên dataUrl để không mất ảnh.
+   */
+  async uploadImage(dataUrl) {
+    if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:")) return dataUrl;
+    const client = SupabaseClient.getClient();
+    if (!client) return dataUrl;
+    try {
+      const blob = await (await fetch(dataUrl)).blob();
+      const ext = blob.type === "image/png" ? "png" : "jpg";
+      const path = `p-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error } = await client.storage
+        .from("product-images")
+        .upload(path, blob, { contentType: blob.type, cacheControl: "31536000" });
       if (error) throw error;
-      return (data || []).map(row => this._mapFromDB(row));
+      return client.storage.from("product-images").getPublicUrl(path).data.publicUrl;
     } catch (err) {
-      console.error("Lỗi tải sản phẩm (admin):", err);
-      return this._fallbackGetProducts();
+      console.warn("Không upload được ảnh lên Storage, lưu base64:", err.message || err);
+      return dataUrl;
     }
   },
 

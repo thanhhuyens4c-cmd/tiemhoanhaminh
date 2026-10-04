@@ -48,6 +48,10 @@ const AdminCMS = {
     };
 
     if (this._useSupabase()) {
+      if (newProduct.image) {
+        newProduct.image = await ProductAPI.uploadImage(newProduct.image);
+        newProduct.gallery = [newProduct.image];
+      }
       const result = await ProductAPI.addProduct(newProduct);
       window.dispatchEvent(new CustomEvent("hnm:products-updated"));
       return result;
@@ -65,6 +69,7 @@ const AdminCMS = {
   async updateProduct(id, updates) {
     if (this._useSupabase()) {
       if (updates.image) {
+        updates.image = await ProductAPI.uploadImage(updates.image);
         updates.gallery = [updates.image];
       }
       const result = await ProductAPI.updateProduct(id, updates);
@@ -343,6 +348,41 @@ async function _loadPageImages(pageItems) {
     }
   } catch (e) {
     console.warn("Không tải được ảnh sản phẩm:", e);
+  }
+}
+
+/** Chuyển ảnh base64 đang nằm trong DB sang Supabase Storage (chạy 1 lần) */
+async function migrateImagesToStorage() {
+  if (typeof ProductAPI === "undefined" || !SupabaseClient.isConfigured()) {
+    showToast("Chưa kết nối Supabase.", "error");
+    return;
+  }
+  if (!confirm("Chuyển toàn bộ ảnh base64 của sản phẩm sang Supabase Storage?\nCần tạo bucket 'product-images' trước. Có thể mất vài phút.")) return;
+
+  try {
+    const ids = (await AdminCMS.getProducts()).map(p => p.id);
+    let done = 0, failed = 0, skipped = 0;
+    for (const id of ids) {
+      const imgMap = await ProductAPI.getProductImages([id]);
+      const img = imgMap[id];
+      if (!img || !img.startsWith("data:")) { skipped++; continue; }
+      const url = await ProductAPI.uploadImage(img);
+      if (url.startsWith("data:")) { failed++; continue; }
+      try {
+        await ProductAPI.updateProduct(id, { image: url, gallery: [url] });
+        done++;
+      } catch (e) {
+        console.error("Migrate lỗi", id, e);
+        failed++;
+      }
+      showToast(`Đang chuyển ảnh... ${done + failed + skipped}/${ids.length}`);
+    }
+    showToast(`Xong: ${done} chuyển, ${skipped} bỏ qua, ${failed} lỗi.`, failed ? "error" : "success");
+    _allProductsCache = [];
+    renderProductTable();
+  } catch (e) {
+    console.error(e);
+    showToast("Lỗi khi chuyển ảnh: " + (e.message || e), "error");
   }
 }
 
