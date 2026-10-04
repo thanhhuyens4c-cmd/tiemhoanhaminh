@@ -185,16 +185,113 @@ function compressImageFile(file, maxWidth = 1200, maxHeight = 900, quality = 0.7
   });
 }
 
-function setupImageUpload(inputEl, previewEl, hiddenEl) {
+// ═══════════════════════════════════════════════════════════════════
+//  CẮT ẢNH (Cropper.js) — hiện hộp thoại cắt trước khi nén/tải ảnh
+// ═══════════════════════════════════════════════════════════════════
+const CROP_RATIOS = [
+  { label: "Tự do", value: NaN },
+  { label: "1:1", value: 1 },
+  { label: "4:3", value: 4 / 3 },
+  { label: "4:5", value: 4 / 5 },
+  { label: "16:9", value: 16 / 9 }
+];
+
+function parseAspect(str) {
+  const m = /^(\d+(?:\.\d+)?)\s*:\s*(\d+(?:\.\d+)?)$/.exec(str || "");
+  return m ? Number(m[1]) / Number(m[2]) : NaN;
+}
+
+/**
+ * Mở hộp thoại cắt ảnh. Trả về File đã cắt, hoặc file gốc nếu bấm "Dùng ảnh gốc",
+ * hoặc null nếu hủy. Nếu thư viện Cropper không tải được thì trả về file gốc.
+ */
+function cropImageFile(file, aspect = NaN) {
+  if (typeof Cropper === "undefined") return Promise.resolve(file);
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file);
+    const wrap = document.createElement("div");
+    wrap.className = "fixed inset-0 z-[400] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4";
+    wrap.innerHTML = `
+      <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[95vh] flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-[#E5DDCE]">
+          <h3 class="text-sm font-bold text-[#211A18] flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#3E9B61] text-base">crop</span> Cắt ảnh
+          </h3>
+          <div class="flex flex-wrap gap-1.5" data-ratios>
+            ${CROP_RATIOS.map((r, i) => `<button type="button" data-i="${i}" class="px-2.5 py-1 rounded-lg border border-[#E5DDCE] text-[11px] font-semibold text-[#4B4240] hover:bg-[#FAF7E9]">${r.label}</button>`).join("")}
+          </div>
+        </div>
+        <div class="bg-[#2b2b2b] flex-1 min-h-[280px] overflow-hidden" style="height:55vh"><img data-crop-img src="${url}" alt="" style="max-width:100%;display:block"></div>
+        <div class="flex items-center justify-between gap-2 px-5 py-3 border-t border-[#E5DDCE]">
+          <div class="flex gap-1.5">
+            <button type="button" data-act="rotate" class="p-2 rounded-lg border border-[#E5DDCE] hover:bg-[#FAF7E9]" title="Xoay 90°"><span class="material-symbols-outlined text-base">rotate_right</span></button>
+            <button type="button" data-act="reset" class="p-2 rounded-lg border border-[#E5DDCE] hover:bg-[#FAF7E9]" title="Đặt lại"><span class="material-symbols-outlined text-base">restart_alt</span></button>
+          </div>
+          <div class="flex gap-2">
+            <button type="button" data-act="cancel" class="px-4 py-2 rounded-xl border border-[#E5DDCE] text-xs font-semibold text-[#4B4240] hover:bg-[#FAF7E9]">Hủy</button>
+            <button type="button" data-act="original" class="px-4 py-2 rounded-xl border border-[#E5DDCE] text-xs font-semibold text-[#4B4240] hover:bg-[#FAF7E9]">Dùng ảnh gốc</button>
+            <button type="button" data-act="ok" class="px-5 py-2 rounded-xl bg-[#3E9B61] text-white text-xs font-bold hover:bg-[#277A4D]">Cắt &amp; dùng</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(wrap);
+
+    const cropper = new Cropper(wrap.querySelector("[data-crop-img]"), {
+      viewMode: 1, aspectRatio: aspect, autoCropArea: 1, background: false, responsive: true
+    });
+    const ratioBtns = wrap.querySelectorAll("[data-ratios] button");
+    const markRatio = v => ratioBtns.forEach((b, i) => {
+      const on = Object.is(CROP_RATIOS[i].value, v) || (CROP_RATIOS[i].value === v);
+      b.classList.toggle("bg-[#3E9B61]", on);
+      b.classList.toggle("text-white", on);
+    });
+    const preset = CROP_RATIOS.find(r => Math.abs(r.value - aspect) < 0.01);
+    markRatio(preset ? preset.value : NaN);
+
+    const finish = result => {
+      cropper.destroy();
+      URL.revokeObjectURL(url);
+      wrap.remove();
+      resolve(result);
+    };
+
+    wrap.addEventListener("click", e => {
+      const ratioBtn = e.target.closest("[data-ratios] button");
+      if (ratioBtn) {
+        const v = CROP_RATIOS[Number(ratioBtn.dataset.i)].value;
+        cropper.setAspectRatio(v);
+        markRatio(v);
+        return;
+      }
+      const act = e.target.closest("[data-act]")?.dataset.act;
+      if (act === "rotate") cropper.rotate(90);
+      else if (act === "reset") cropper.reset();
+      else if (act === "cancel") finish(null);
+      else if (act === "original") finish(file);
+      else if (act === "ok") {
+        const canvas = cropper.getCroppedCanvas({ maxWidth: 2400, maxHeight: 2400, imageSmoothingQuality: "high" });
+        if (!canvas) { finish(file); return; }
+        canvas.toBlob(blob => {
+          finish(blob ? new File([blob], (file.name || "image").replace(/\.\w+$/, "") + "-crop.jpg", { type: "image/jpeg" }) : file);
+        }, "image/jpeg", 0.92);
+      }
+    });
+  });
+}
+
+function setupImageUpload(inputEl, previewEl, hiddenEl, aspect = 1) {
   if (!inputEl) return;
   inputEl.addEventListener("change", async () => {
-    const file = inputEl.files[0];
+    let file = inputEl.files[0];
     if (!file) return;
     if (file.size > 15 * 1024 * 1024) {
       showToast("Ảnh quá lớn! Vui lòng chọn ảnh dưới 15MB.", "error");
       inputEl.value = "";
       return;
     }
+
+    file = await cropImageFile(file, aspect);
+    if (!file) { inputEl.value = ""; return; }
 
     try {
       if (previewEl) previewEl.style.opacity = "0.5";

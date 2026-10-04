@@ -43,6 +43,8 @@
   <link rel="stylesheet" href="css/custom.css">
 
   <!-- Auth guard: chặn truy cập trước khi DOM load -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
   <script src="js/auth.js"></script>
   <script>
     // Chặn ngay lập tức — trước khi render bất kỳ thứ gì
@@ -1295,7 +1297,8 @@
       setupImageUpload(
         document.getElementById("blog-img-input"),
         document.getElementById("blog-img-preview"),
-        document.getElementById("blog-img-data")
+        document.getElementById("blog-img-data"),
+        16 / 9
       );
       document.getElementById("blog-form")?.addEventListener("submit", saveBlogSubmit);
       document.getElementById("blog-search")?.addEventListener("input", filterBlogs);
@@ -1350,11 +1353,13 @@
         // File upload handler
         if (fileInput) {
           fileInput.addEventListener('change', async () => {
-            const file = fileInput.files[0];
+            let file = fileInput.files[0];
             if (!file) return;
             if (file.size > 15 * 1024 * 1024) {
               showToast('File quá lớn! Vui lòng chọn ảnh dưới 15MB.', 'error'); return;
             }
+            file = await cropImageFile(file, parseAspect(slot.aspect));
+            if (!file) { fileInput.value = ""; return; }
             try {
               if (preview) preview.classList.add('opacity-50');
               const src = typeof compressImageFile === 'function'
