@@ -139,6 +139,11 @@
           <span class="material-symbols-outlined text-lg">image</span>
           <span>Giao diện &amp; Ảnh trang</span>
         </button>
+
+        <button class="admin-tab-btn tab-inactive w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors" data-tab="oct20">
+          <span class="material-symbols-outlined text-lg text-[#E85D75]">celebration</span>
+          <span>Hoa chúc mừng 20/10</span>
+        </button>
       </nav>
 
       <div class="pt-6 mt-6 border-t border-[#E5DDCE] px-3 text-[11px] text-[#857B76] space-y-1">
@@ -340,6 +345,39 @@
           <div class="p-5 rounded-2xl bg-white border border-dashed border-[#E5DDCE] shadow-sm flex items-center justify-center">
             <p class="text-xs text-[#857B76] text-center">Chưa có chương trình khuyến mãi nào.<br>Hãy nhấn "Thêm chương trình khuyến mãi" để bắt đầu.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║  TAB: HOA CHÚC MỪNG 20/10                ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <section id="module-oct20" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-bold text-[#211A18]">Hoa chúc mừng 20/10</h1>
+            <p class="text-xs text-[#857B76] mt-0.5">Chọn hoa hiển thị ở trang "Hoa mừng lễ 20/10" và mục cùng tên trong Bộ sưu tập, sửa giá nhanh tại đây</p>
+          </div>
+          <button type="button" onclick="openAddOct20Modal()"
+            class="px-4 py-2.5 bg-[#E85D75] hover:bg-[#D2475F] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm flex-shrink-0">
+            <span class="material-symbols-outlined text-sm">add</span> Thêm hoa mới
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#E5DDCE] shadow-sm overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-3.5 bg-[#FFF0F5] border-b border-[#F8C8DA]">
+            <h3 class="text-xs font-bold text-[#8A2C4B]">Hoa đang hiển thị <span id="oct20-count" class="ml-1 px-2 py-0.5 rounded-full bg-[#E85D75] text-white text-[10px]">0</span></h3>
+            <a href="hoa-20-10.html" target="_blank" class="text-[10px] font-semibold text-[#E85D75] hover:underline flex items-center gap-0.5"><span class="material-symbols-outlined text-xs">open_in_new</span>Xem trang</a>
+          </div>
+          <div id="oct20-list" class="divide-y divide-[#E5DDCE]/60"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#E5DDCE] shadow-sm overflow-hidden">
+          <div class="px-5 py-3.5 bg-[#FAF7E9] border-b border-[#E5DDCE] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h3 class="text-xs font-bold text-[#4B4240]">Thêm từ sản phẩm có sẵn</h3>
+            <input id="oct20-search" type="text" placeholder="Tìm theo tên hoa..." oninput="renderOct20Tab()"
+              class="border border-[#E5DDCE] rounded-xl px-3 py-2 text-xs w-full sm:w-64 focus:outline-none focus:border-[#E85D75]">
+          </div>
+          <div id="oct20-candidates" class="divide-y divide-[#E5DDCE]/60 max-h-[420px] overflow-y-auto"></div>
         </div>
       </section>
 
@@ -1248,7 +1286,8 @@
         blogs:      document.getElementById("module-blogs"),
         reports:    document.getElementById("module-reports"),
         promotions: document.getElementById("module-promotions"),
-        media:      document.getElementById("module-media")
+        media:      document.getElementById("module-media"),
+        oct20:      document.getElementById("module-oct20")
       };
 
       const tabBtns = document.querySelectorAll(".admin-tab-btn");
@@ -1266,6 +1305,7 @@
         if (key === "blogs") {
           renderBlogTable();
         }
+        if (key === "oct20") renderOct20Tab();
         if (key === "promotions" && typeof renderPromotionsList === "function") {
           renderPromotionsList();
         }
