@@ -112,7 +112,7 @@ const App = {
             </nav>
           </div>
           <div class="text-xs text-[#857B76] border-t border-[#E5DDCE] pt-4">
-            <p class="font-medium text-[#211A18]">Tiệm hoa thủ công Hoa Nhà Mình</p>
+            <p class="font-medium text-[#211A18]">Tiệm hoa tươi Hoa Nhà Mình</p>
             <p class="mt-1">Hotline: <a href="tel:0868214266" class="text-[#277A4D] font-semibold">086 821 42 66</a></p>
           </div>
         </div>
