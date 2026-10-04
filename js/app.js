@@ -272,10 +272,26 @@ const App = {
         .replace(/đ/g, "d");
       const esc = (str) => String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+      // Tải sản phẩm một lần; nếu Supabase chậm/lỗi thì dùng dữ liệu local để tìm kiếm vẫn hoạt động
+      let productsPromise = null;
+      const loadProducts = () => {
+        if (productsPromise) return productsPromise;
+        const local = () => (typeof _getLocalProducts === "function" ? _getLocalProducts() : []);
+        const remote = getProducts().then(list => (list && list.length ? list : local()));
+        const timeout = new Promise(resolve => setTimeout(() => resolve(null), 4000));
+        productsPromise = Promise.race([remote, timeout])
+          .then(list => list || local())
+          .catch(() => local());
+        // Khi dữ liệu đầy đủ về sau, cập nhật lại cho lần tìm kiếm tiếp theo
+        remote.then(list => { if (list && list.length) productsPromise = Promise.resolve(list); }).catch(() => {});
+        return productsPromise;
+      };
+      loadProducts();
+
       const renderResults = async () => {
         const rawQuery = input.value.trim();
         const tokens = normalize(rawQuery).split(/\s+/).filter(Boolean);
-        const allProducts = await getProducts();
+        const allProducts = await loadProducts();
         // Bỏ qua kết quả cũ nếu người dùng đã gõ tiếp trong lúc chờ tải
         if (input.value.trim() !== rawQuery) return;
 
