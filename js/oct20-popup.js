@@ -77,7 +77,7 @@
         <div class="oct-pop-body">
           <span class="oct-pop-tag">20 tháng 10 · Ngày Phụ nữ Việt Nam</span>
           <h2 class="oct-pop-title">Hoa mừng lễ 20/10</h2>
-          <p class="oct-pop-text">Trao tặng hoa tươi, gửi trọn yêu thương đến mẹ, bà, chị em và người thương. Đặt trước 1–2 ngày để hoa luôn tươi nhất!</p>
+          <p class="oct-pop-text">Trao tặng hoa tươi, gửi trọn yêu thương đến mẹ, bà, chị em và người thương.</p>
           <a href="hoa-20-10.html" class="oct-pop-cta"><span class="material-symbols-outlined" style="font-size:20px">local_florist</span>Xem hoa 20/10</a>
           <button type="button" class="oct-pop-later">Để sau</button>
         </div>
