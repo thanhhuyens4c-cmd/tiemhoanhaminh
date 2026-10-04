@@ -236,7 +236,7 @@ const App = {
             </button>
           </div>
           <div id="search-results" class="mt-4 max-h-[60vh] overflow-y-auto space-y-2">
-            <p class="text-xs text-[#857B76] py-2">Gợi ý từ khóa: <em>Hoa hồng, Sinh nhật, Tốt nghiệp, Cúc tana, Hộp hoa</em></p>
+            <p class="text-xs text-[#857B76] py-2">Đang tải sản phẩm...</p>
           </div>
         </div>
       `;
@@ -266,36 +266,45 @@ const App = {
       const input = document.getElementById("search-input");
       const resultsContainer = document.getElementById("search-results");
 
-      input.addEventListener("input", async (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        if (!query) {
-          resultsContainer.innerHTML = `<p class="text-xs text-[#857B76] py-2">Gợi ý từ khóa: <em>Hoa hồng, Sinh nhật, Tốt nghiệp, Cúc tana, Hộp hoa</em></p>`;
-          return;
-        }
+      const normalize = (str) => String(str || "")
+        .toLowerCase()
+        .normalize("NFD").replace(/[̀-ͯ]/g, "")
+        .replace(/đ/g, "d");
+      const esc = (str) => String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+      const renderResults = async () => {
+        const rawQuery = input.value.trim();
+        const tokens = normalize(rawQuery).split(/\s+/).filter(Boolean);
         const allProducts = await getProducts();
-        const matched = allProducts.filter(p =>
-          p.name.toLowerCase().includes(query) ||
-          (p.shortDesc || "").toLowerCase().includes(query) ||
-          (p.colorName || "").toLowerCase().includes(query)
-        );
+        // Bỏ qua kết quả cũ nếu người dùng đã gõ tiếp trong lúc chờ tải
+        if (input.value.trim() !== rawQuery) return;
+
+        const matched = tokens.length === 0 ? allProducts : allProducts.filter(p => {
+          const haystack = normalize([p.name, p.shortDesc, p.colorName, p.typeName, p.occasionName, p.category].join(" "));
+          return tokens.every(t => haystack.includes(t));
+        });
 
         if (matched.length === 0) {
-          resultsContainer.innerHTML = `<p class="text-xs text-[#857B76] py-6 text-center">Không tìm thấy nhành hoa nào phù hợp với từ khóa "${query}".</p>`;
+          resultsContainer.innerHTML = `<p class="text-xs text-[#857B76] py-6 text-center">Không tìm thấy sản phẩm nào phù hợp với từ khóa "${esc(rawQuery)}".</p>`;
           return;
         }
 
-        resultsContainer.innerHTML = matched.map(p => `
-          <a href="chi-tiet-san-pham.html?id=${p.id}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-[#FAF7E9] transition-colors group">
-            <img loading="lazy" decoding="async" src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+        const header = `<p class="text-xs text-[#857B76] pb-1">${tokens.length ? "Tìm thấy" : "Tất cả"} ${matched.length} sản phẩm</p>`;
+        resultsContainer.innerHTML = header + matched.map(p => `
+          <a href="chi-tiet-san-pham.html?id=${esc(p.id)}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-[#FAF7E9] transition-colors group">
+            <img loading="lazy" decoding="async" src="${esc(p.image)}" alt="${esc(p.name)}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
             <div class="flex-1 min-w-0">
-              <h4 class="text-xs sm:text-sm font-semibold text-[#211A18] group-hover:text-[#D95A82] truncate">${p.name}</h4>
-              <p class="text-xs text-[#857B76]">${p.typeName} • ${p.colorName}</p>
+              <h4 class="text-xs sm:text-sm font-semibold text-[#211A18] group-hover:text-[#D95A82] truncate">${esc(p.name)}</h4>
+              <p class="text-xs text-[#857B76]">${esc([p.typeName, p.colorName].filter(Boolean).join(" • "))}</p>
             </div>
-            <span class="text-xs font-bold text-[#3E9B61] flex-shrink-0">${p.price.toLocaleString('vi-VN')}₫</span>
+            <span class="text-xs font-bold text-[#3E9B61] flex-shrink-0">${Number(p.price || 0).toLocaleString('vi-VN')}₫</span>
           </a>
         `).join('');
-      });
+      };
+
+      input.addEventListener("input", renderResults);
+      // Mở modal là hiện đầy đủ sản phẩm ngay
+      document.querySelectorAll("[data-action='open-search']").forEach(btn => btn.addEventListener("click", renderResults));
     }
   },
 
