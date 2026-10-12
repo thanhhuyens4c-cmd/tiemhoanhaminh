@@ -338,7 +338,7 @@ const App = {
               ${product.isBestSeller ? `<span class="bg-[#D95A82] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Bán chạy</span>` : ''}            </div>
 
             <!-- Quick View Overlay Button -->
-            <button class="quick-view-btn absolute bottom-3 inset-x-3 h-8 bg-white/95 hover:bg-white text-[#4B4240] text-xs font-semibold rounded-lg shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1" data-id="${product.id}">
+            <button class="quick-view-btn z-[2] absolute bottom-3 inset-x-3 h-8 bg-white/95 hover:bg-white text-[#4B4240] text-xs font-semibold rounded-lg shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1" data-id="${product.id}">
               <span class="material-symbols-outlined text-sm">visibility</span>
               Xem nhanh
             </button>
@@ -351,7 +351,7 @@ const App = {
             </div>
 
             <h3 class="text-sm font-semibold text-[#211A18] hover:text-[#D95A82] transition-colors leading-snug line-clamp-2">
-              <a href="chi-tiet-san-pham.html?id=${product.id}">${product.name}</a>
+              <a href="chi-tiet-san-pham.html?id=${product.id}" class="after:content-[''] after:absolute after:inset-0 after:z-[1]">${product.name}</a>
             </h3>
 
             <div class="flex items-baseline gap-2 pt-1">
@@ -362,7 +362,7 @@ const App = {
 
         <!-- Đặt hàng ngay CTA -->
         <div class="p-4 pt-0">
-          <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="order-now-btn w-full h-9 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+          <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="order-now-btn relative z-[2] w-full h-9 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm">
             <span class="material-symbols-outlined text-sm">chat</span>
             Đặt hàng ngay
           </a>
