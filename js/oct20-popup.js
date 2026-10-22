@@ -3,6 +3,7 @@
  * có nút điều hướng sang hoa-20-10.html. Không hiện ở admin, giỏ hàng, thanh toán.
  */
 (function () {
+  if (window.HNM_HIDE_OCT20) return;
   const path = location.pathname.toLowerCase();
   if (/admin|hoa-20-10|gio-hang|thanh-toan|dat-hang/.test(path)) return;
   const KEY = "hnm_oct20_popup_seen";
