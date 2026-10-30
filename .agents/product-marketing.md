@@ -103,7 +103,7 @@ Họ mạnh ở ảnh mẫu và quy trình bán; điểm tiệm muốn nổi b�
 **Never use (and why):** "Giờ mở cửa" (tiệm nhận đơn đặt trước, không bán trực tiếp theo giờ); từ ngữ luxury (không đúng tinh thần handmade).
 
 ## Proof Points
-**Metrics:** Chưa có số liệu thật nào để dùng công khai. **Không dùng** các con số trên trang Giới thiệu (5+ năm, 15.000+ bó hoa, 99.8% hài lòng): chủ tiệm xác nhận đây không phải số liệu thật. Quy mô thực tế: khoảng 50 đơn/tháng, tuỳ tháng và tuỳ dịp lễ (con số nội bộ, không dùng để quảng cáo).
+**Metrics:** Chưa có số liệu thật nào để dùng công khai. **Không dùng** các con số trên trang Giới thiệu (5+ năm, 15.000+ bó hoa, 99.8% hài lòng): chủ tiệm xác nhận đây không phải số liệu thật, và đã gỡ khỏi trang Giới thiệu. Quy mô thực tế: khoảng 50 đơn/tháng, tuỳ tháng và tuỳ dịp lễ (con số nội bộ, không dùng để quảng cáo).
 **Customers:** Chưa có logo hay khách tiêu biểu.
 **Testimonials:** Chưa có lời nhận xét thật của khách. Không được tự viết hay bịa đánh giá.
 **Value themes:**
