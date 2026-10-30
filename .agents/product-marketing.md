@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-**Document version:** v2
+**Document version:** v3
 **Last updated:** 2026-10-30
 
 > Bản nháp tự soạn từ mã nguồn web (index, giới thiệu, liên hệ, `PRD.md`, `js/store.js`). Mục ghi **[cần xác nhận]** là thông tin web không có hoặc chưa kiểm chứng được, chủ tiệm cần bổ sung.
@@ -10,7 +10,7 @@
 **What it does:** Hoa Nhà Mình bán bó hoa, giỏ hoa và hoa lụa, chọn hoa tươi mỗi sáng và cắm theo dáng tự nhiên, không rập khuôn công nghiệp. Khách đặt trên web hoặc nhắn Zalo để làm hoa theo yêu cầu riêng, tiệm chuẩn bị trong 1-2 ngày rồi giao tận nơi.
 **Product category:** Tiệm hoa tươi / đặt hoa online tại Hà Nội.
 **Product type:** E-commerce kèm dịch vụ làm hoa theo yêu cầu (có thiệp, lời nhắn, giao theo giờ hẹn).
-**Business model:** Bán lẻ trực tiếp cho khách cá nhân. Đặt cọc tối thiểu 50% khi đặt hàng, phần còn lại thanh toán sau. Miễn phí giao khi đơn từ 1.000.000₫ hoặc có mã freeship **[cần xác nhận: mức phí giao hiện tại, vì code đang để phí = 0]**. Khoảng 30+ sản phẩm; Giá sản phẩm từ khoảng 100.000₫ đến hơn 1.000.000₫.
+**Business model:** Bán lẻ trực tiếp cho khách cá nhân. Đặt cọc tối thiểu 50% khi đặt hàng, phần còn lại thanh toán sau. Tiệm không thu phí ship: tiệm đặt giao qua ứng dụng giao hàng bên thứ ba, khách tự thanh toán phí ship cho đơn vị giao. Không có chính sách freeship. Khoảng 30+ sản phẩm; Giá sản phẩm từ khoảng 100.000₫ đến hơn 1.000.000₫.
 **Tagline:** Let flowers speak your heart!
 
 ## Target Audience
@@ -39,7 +39,12 @@ B2C, bỏ qua mục này.
 **Emotional tension:** Lo lắng "không biết tặng gì cho đúng", ngại bày tỏ, sợ làm hỏng khoảnh khắc đặc biệt.
 
 ## Competitive Landscape
-**Direct:** Các tiệm hoa tươi khác ở Hà Nội bán online **[cần xác nhận: tên 3–5 đối thủ chính]** — thường mạnh về ảnh mẫu, yếu về cảm giác handmade và câu chuyện.
+**Direct:** Các tiệm hoa tươi bán online, tiệm dùng làm đối chuẩn để tham khảo:
+- **HOA10GIỜ** — tham khảo phong cách thiết kế hoa, hình ảnh thương hiệu và cách tiếp cận khách hàng trẻ.
+- **VP Flower** — tham khảo danh mục sản phẩm, cách niêm yết giá và quy trình bán hàng trực tuyến.
+- **Tiệm Hoa Milky Nhung** — tham khảo cách kết hợp hoa tươi với quà tặng và khai thác nhu cầu mua hoa theo dịp.
+
+Họ mạnh ở ảnh mẫu và quy trình bán; điểm tiệm muốn nổi bật hơn là cảm giác handmade và câu chuyện.
 **Secondary:** Hoa trên sàn/app giao hàng — tiện nhưng ít cá nhân hoá.
 **Indirect:** Mua hoa ở chợ hoặc cửa hàng gần nhà; tặng quà khác (socola, gấu bông).
 
@@ -51,7 +56,7 @@ B2C, bỏ qua mục này.
 - Giọng thương hiệu gần gũi, ấm áp, handmade.
 **How we do it differently:** Người cắm hoa chọn từng bông và tỉa lá bằng tay, đặt cảm xúc của người tặng làm trung tâm thay vì chỉ bán mẫu có sẵn.
 **Why that's better:** Bó hoa có hồn hơn, có thể gửi kèm lời nhắn riêng, người nhận cảm được sự chu đáo.
-**Why customers choose us:** **[cần xác nhận bằng phản hồi thật của khách]**
+**Why customers choose us:** Khách biết đến tiệm qua mạng xã hội (theo chủ tiệm). Chưa có phản hồi nào khác của khách để trích dẫn.
 
 ## Objections
 | Objection | Response |
@@ -60,7 +65,7 @@ B2C, bỏ qua mục này.
 | Hoa ngoài đời có giống ảnh không? | Hoa được kiểm tra trước khi giao và đóng gói cẩn thận. Nên bổ sung ảnh thật và đánh giá khách. |
 | Phải cọc tới 50% | Giúp tiệm giữ hoa tươi đúng đơn của bạn; phần còn lại thanh toán sau. |
 
-**Anti-persona:** Khách cần giao hoa trong ngày với giá rẻ nhất, hoặc ở ngoài khu vực Hà Nội **[cần xác nhận phạm vi giao]**.
+**Anti-persona:** Khách cần giao hoa trong ngày với giá rẻ nhất, hoặc muốn tiệm trả phí ship. Phạm vi giao: nội thành Hà Nội (theo trang sản phẩm).
 
 ## Switching Dynamics
 **Push:** Hoa rập khuôn, giao không đúng hẹn, hoa không tươi như ảnh.
@@ -115,7 +120,7 @@ B2C, bỏ qua mục này.
 **Current metrics:** Khoảng 50 đơn/tháng, dao động theo tháng và dịp lễ. Nguồn khách: online (web), mạng xã hội, giới thiệu truyền miệng. Khách đặt trước 1-2 ngày. Chưa có tỷ lệ chuyển đổi (web đã gắn Google Analytics `G-MKTQ0EYRBH`).
 
 ## Paid Ads (optional)
-Chưa chạy quảng cáo, hoặc chưa có thông tin. **[cần xác nhận]**
+Tiệm **không** chạy quảng cáo trả phí. Khách đến từ nội dung tự nhiên trên mạng xã hội, web và giới thiệu truyền miệng; bỏ qua các mục CPA/ROAS, không đề xuất chạy ads nếu chủ tiệm chưa yêu cầu.
 
 ## Learnings
 *Decisions and tested lessons. Newest first. Keep it to about 20 active entries.*
@@ -125,5 +130,6 @@ Chưa chạy quảng cáo, hoặc chưa có thông tin. **[cần xác nhận]**
 
 ## Changelog
 *Newest first. One line per revision: what changed and why.*
+- v3 (2026-10-30) — Thêm 3 đối thủ chuẩn, xác nhận phí ship do khách tự trả (shop đặt qua app bên thứ ba, không freeship), không chạy ads, khách biết tiệm qua mạng xã hội; gỡ logic freeship khỏi code.
 - v2 (2026-10-30) — Chủ tiệm xác nhận: giá 100.000₫–hơn 1 triệu, ~50 đơn/tháng, nguồn khách (online, social, giới thiệu); số liệu trang Giới thiệu không có thật nên cấm dùng; chưa có lời khách thật.
 - v1 (2026-10-30) — Initial context, tự soạn từ mã nguồn web; nhiều mục còn chờ chủ tiệm xác nhận.

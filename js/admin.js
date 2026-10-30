@@ -1475,10 +1475,10 @@ function renderPromotionsList() {
     return;
   }
 
-  const typeLabels = { percent: "Giảm %", fixed: "Giảm tiền", freeship: "Free ship" };
+  const typeLabels = { percent: "Giảm %", fixed: "Giảm tiền" };
 
   container.innerHTML = promos.map(p => {
-    const valueDisplay = p.type === "percent" ? `${p.value}%` : p.type === "freeship" ? "Miễn phí" : `${fmt(p.value)}₫`;
+    const valueDisplay = p.type === "percent" ? `${p.value}%` : `${fmt(p.value)}₫`;
     const now = new Date();
     const end = p.endDate ? new Date(p.endDate) : null;
     const isExpired = end && end < now;

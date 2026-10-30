@@ -391,7 +391,7 @@
         document.getElementById("order-flower-subtotal").textContent = `${fmt(order.flowerSubtotal)}₫`;
         document.getElementById("order-deposit-pct").textContent = order.depositPercentage || 50;
         document.getElementById("order-deposit-amount").textContent = `${fmt(order.depositAmount)}₫`;
-        document.getElementById("order-shipping-fee").textContent = order.shippingFee === 0 ? "Miễn phí" : `${fmt(order.shippingFee)}₫`;
+        document.getElementById("order-shipping-fee").textContent = order.shippingFee > 0 ? `${fmt(order.shippingFee)}₫` : "Khách tự trả cho đơn vị giao";
         document.getElementById("order-initial-payment").textContent = `${fmt(order.initialPayment)}₫`;
         document.getElementById("order-remaining").textContent = `${fmt(order.remainingPayment)}₫`;
         document.getElementById("order-total-sum").textContent = `${fmt(order.total)}₫`;
