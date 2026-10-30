@@ -11,7 +11,6 @@ const TIKTOK_VIDEOS = [
   { url: _tt("7702421977960746247"), caption: "Ly thơm và xinh 💕", productIds: [] },
   { url: _tt("7702099380123225351"), caption: "Có người mua hoa vì đẹp, có người mua hoa vì nhớ có một người đẹp thích hoa", productIds: [] },
   { url: _tt("7701972983119695111"), caption: "Anh thấy em cũng phải thấy ✨", productIds: ["HNM-D002F6"] },
-  { url: _tt("7701279554081475858"), caption: "Khách bảo nhảy đi rồi anh mua hoa cho 😳", productIds: [] },
   { url: _tt("7697207494141070608"), caption: "POV: Bạn đang cầm trên tay bó hoa vừa đăng lại vài ngày trước", productIds: [] },
   { url: _tt("7696919861498236176"), caption: "Dễ tính như 4, khách hàng là thượng đế 😘💕", productIds: [] },
   { url: _tt("7696834222786415879"), caption: "20/10 đặt ngay bó hoa này cho người phụ nữ bạn yêu", productIds: [] },
