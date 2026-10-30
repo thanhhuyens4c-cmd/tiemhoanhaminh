@@ -233,7 +233,7 @@
           : `<a href="${esc(v.url)}" target="_blank" rel="noopener" class="aspect-[9/16] rounded-2xl bg-[#211A18] text-white flex items-center justify-center text-sm">Xem trên TikTok</a>`;
         const prods = items.length ? `
           <div class="space-y-2">
-            <p class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Sản phẩm trong video</p>
+            <p class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Sản phẩm tương tự</p>
             ${items.map(p => `
               <a href="chi-tiet-san-pham.html?id=${encodeURIComponent(p.id)}" class="flex items-center gap-3 p-2 rounded-xl border border-[#E5DDCE] hover:bg-[#FAF7E9] transition-colors">
                 <img loading="lazy" src="${esc(p.image)}" alt="${esc(p.name)}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
