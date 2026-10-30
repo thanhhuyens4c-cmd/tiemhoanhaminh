@@ -200,7 +200,21 @@
       const grid = document.getElementById("video-grid");
       const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-      if (!TIKTOK_VIDEOS.length) {
+      // Video mới do n8n ghi vào Supabase (bảng tiktok_videos); danh sách trong js/tiktok-videos.js là dự phòng
+      let videos = TIKTOK_VIDEOS.slice();
+      try {
+        const client = SupabaseClient.isConfigured() ? SupabaseClient.getClient() : null;
+        if (client) {
+          const { data, error } = await client.from("tiktok_videos").select("*").eq("hidden", false).order("posted_at", { ascending: false });
+          if (!error && data && data.length) {
+            const remote = data.map(r => ({ url: r.url, caption: r.caption, productIds: r.product_ids || [] }));
+            const ids = new Set(remote.map(r => (/\/video\/(\d+)/.exec(r.url) || [])[1]));
+            videos = remote.concat(videos.filter(v => !ids.has((/\/video\/(\d+)/.exec(v.url) || [])[1])));
+          }
+        }
+      } catch (e) {}
+
+      if (!videos.length) {
         grid.innerHTML = '<div class="col-span-full text-center py-12 text-[#857B76] italic bg-white rounded-2xl border border-[#E5DDCE] p-8">Video mới sắp lên sóng. Ghé kênh TikTok của tiệm để xem trước nhé!</div>';
         return;
       }
@@ -209,7 +223,7 @@
       try { products = await getProducts(); } catch (e) {}
       const byId = new Map(products.map(p => [p.id, p]));
 
-      grid.innerHTML = TIKTOK_VIDEOS.map((v) => {
+      grid.innerHTML = videos.map((v) => {
         const m = /\/video\/(\d+)/.exec(v.url || "");
         const items = (v.productIds || []).map(id => byId.get(id)).filter(Boolean);
         const player = m
