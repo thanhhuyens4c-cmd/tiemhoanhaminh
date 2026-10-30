@@ -115,7 +115,7 @@
         <span class="text-[#211A18] font-semibold">Góc video</span>
       </nav>
       <div class="max-w-2xl space-y-3">
-        <h1 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#D95A82]">Xem video Hoa nhà mình nhé!</h1>
+        <h1 class="font-brand text-[22px] min-[400px]:text-2xl sm:text-4xl lg:text-5xl text-[#D95A82] whitespace-nowrap">Xem video Hoa nhà mình nhé!</h1>
       </div>
     </div>
   </section>
@@ -213,7 +213,7 @@
         const m = /\/video\/(\d+)/.exec(v.url || "");
         const items = (v.productIds || []).map(id => byId.get(id)).filter(Boolean);
         const player = m
-          ? `<div class="video-slot relative aspect-[9/16] bg-[#211A18] rounded-2xl overflow-hidden" data-vid="${m[1]}">
+          ? `<div class="video-slot relative aspect-[9/16] mx-auto bg-[#211A18] rounded-2xl overflow-hidden" style="width:min(100%,calc((100svh - 11rem) * 9 / 16))" data-vid="${m[1]}">
                <button type="button" class="video-play absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-2 text-white" aria-label="Phát video">
                  <span class="material-symbols-outlined text-6xl">play_circle</span>
                  <span class="text-xs">Bấm để xem video</span>
