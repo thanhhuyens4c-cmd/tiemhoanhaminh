@@ -1,0 +1,128 @@
+# Product Marketing Context
+
+**Document version:** v1
+**Last updated:** 2026-10-30
+
+> Bản nháp tự soạn từ mã nguồn web (index, giới thiệu, liên hệ, `PRD.md`, `js/store.js`). Mục ghi **[cần xác nhận]** là thông tin web không có hoặc chưa kiểm chứng được, chủ tiệm cần bổ sung.
+
+## Product Overview
+**One-liner:** Tiệm hoa tươi handmade ở Hà Nội, nhận đặt trước và giao tận nơi, gói mỗi bó hoa như một lời gửi gắm.
+**What it does:** Hoa Nhà Mình bán bó hoa, giỏ hoa và hoa lụa, chọn hoa tươi mỗi sáng và cắm theo dáng tự nhiên, không rập khuôn công nghiệp. Khách đặt trên web hoặc nhắn Zalo để làm hoa theo yêu cầu riêng, tiệm chuẩn bị trong 1-2 ngày rồi giao tận nơi.
+**Product category:** Tiệm hoa tươi / đặt hoa online tại Hà Nội.
+**Product type:** E-commerce kèm dịch vụ làm hoa theo yêu cầu (có thiệp, lời nhắn, giao theo giờ hẹn).
+**Business model:** Bán lẻ trực tiếp cho khách cá nhân. Đặt cọc tối thiểu 50% khi đặt hàng, phần còn lại thanh toán sau. Miễn phí giao khi đơn từ 1.000.000₫ hoặc có mã freeship **[cần xác nhận: mức phí giao hiện tại, vì code đang để phí = 0]**. Khoảng 30+ sản phẩm; **[cần xác nhận: khoảng giá thấp nhất – cao nhất]**.
+**Tagline:** Let flowers speak your heart!
+
+## Target Audience
+**Target customers:** Người ở Hà Nội (tiệm ở Hoàng Mai) mua hoa tặng người thân, bạn bè, người yêu, đồng nghiệp. Phần lớn là khách cá nhân, nhiều khả năng là phụ nữ trẻ và người trẻ đi làm **[cần xác nhận bằng dữ liệu đơn hàng]**.
+**Decision-makers:** Chính người mua, thường chọn hoa tặng người khác (khác với người nhận). Đây là B2C, không có nhiều bên cùng quyết định.
+**Primary use case:** Gửi hoa để nói điều khó nói thành lời trong các dịp: sinh nhật, kỷ niệm, 20/10, 8/3, 14/2, cảm ơn, xin lỗi, chúc mừng.
+**Jobs to be done:**
+- Thể hiện tình cảm hoặc lời chúc với người mình trân quý bằng món quà có chút riêng tư.
+- Có một bó hoa tươi đẹp, đúng ngày, mà không mất công đi chọn.
+- Gửi hoa tới người ở xa hoặc lúc mình bận, vẫn yên tâm là giao chỉn chu.
+**Use cases:**
+- Đặt hoa tặng dịp lễ lớn (đặc biệt 20/10).
+- Đặt bó hoa theo màu, ngân sách hoặc kiểu gói riêng qua Zalo.
+- Đặt hoa kèm thiệp và lời nhắn cho người nhận.
+
+## Personas
+B2C, bỏ qua mục này.
+
+## Problems & Pain Points
+**Core problem:** Muốn tặng hoa có ý nghĩa nhưng không biết chọn loài, màu, số lượng nào cho hợp, và sợ hoa nhận về không tươi hoặc không giống ảnh.
+**Why alternatives fall short:**
+- Hoa bó sẵn rập khuôn, thiếu cảm xúc cá nhân.
+- Nhiều nơi bán hoa trên mạng khó biết chất lượng thật khi chưa nhận.
+- Hoa chợ hoặc cửa hàng lớn ít tư vấn theo từng dịp, từng người nhận.
+**What it costs them:** Mất thời gian chọn, rủi ro tặng sai ý nghĩa hoặc nhận hoa héo, mất cơ hội làm người nhận vui đúng ngày quan trọng.
+**Emotional tension:** Lo lắng "không biết tặng gì cho đúng", ngại bày tỏ, sợ làm hỏng khoảnh khắc đặc biệt.
+
+## Competitive Landscape
+**Direct:** Các tiệm hoa tươi khác ở Hà Nội bán online **[cần xác nhận: tên 3–5 đối thủ chính]** — thường mạnh về ảnh mẫu, yếu về cảm giác handmade và câu chuyện.
+**Secondary:** Hoa trên sàn/app giao hàng — tiện nhưng ít cá nhân hoá.
+**Indirect:** Mua hoa ở chợ hoặc cửa hàng gần nhà; tặng quà khác (socola, gấu bông).
+
+## Differentiation
+**Key differentiators:**
+- Hoa cắt mới mỗi sáng, cắm theo dáng tự nhiên, không ép khuôn công nghiệp.
+- Gói theo "câu chuyện": mỗi loài hoa có ý nghĩa, tiệm có blog kể chuyện hoa.
+- Nhận làm theo yêu cầu riêng, tư vấn qua Zalo.
+- Giọng thương hiệu gần gũi, ấm áp, handmade.
+**How we do it differently:** Người cắm hoa chọn từng bông và tỉa lá bằng tay, đặt cảm xúc của người tặng làm trung tâm thay vì chỉ bán mẫu có sẵn.
+**Why that's better:** Bó hoa có hồn hơn, có thể gửi kèm lời nhắn riêng, người nhận cảm được sự chu đáo.
+**Why customers choose us:** **[cần xác nhận bằng phản hồi thật của khách]**
+
+## Objections
+| Objection | Response |
+|-----------|----------|
+| Phải đặt trước 1-2 ngày, tôi cần gấp | Tiệm cần thời gian chọn hoa tươi và làm chỉn chu; khuyến khích đặt sớm cho dịp lễ. **[cần xác nhận: có nhận đơn gấp không]** |
+| Hoa ngoài đời có giống ảnh không? | Hoa được kiểm tra trước khi giao và đóng gói cẩn thận. Nên bổ sung ảnh thật và đánh giá khách. |
+| Phải cọc tới 50% | Giúp tiệm giữ hoa tươi đúng đơn của bạn; phần còn lại thanh toán sau. |
+
+**Anti-persona:** Khách cần giao hoa trong ngày với giá rẻ nhất, hoặc ở ngoài khu vực Hà Nội **[cần xác nhận phạm vi giao]**.
+
+## Switching Dynamics
+**Push:** Hoa rập khuôn, giao không đúng hẹn, hoa không tươi như ảnh.
+**Pull:** Câu chuyện thương hiệu, hoa tươi mỗi sáng, tư vấn Zalo, làm theo ý riêng.
+**Habit:** Quen mua ở tiệm gần nhà hoặc tiệm đã từng dùng.
+**Anxiety:** Đặt online khó biết chất lượng; lo về cọc 50% và thời gian giao.
+
+## Customer Language
+**How they describe the problem:** **[cần xác nhận: lấy từ tin nhắn Zalo, bình luận, đánh giá thật]**
+**How they describe us:** **[cần xác nhận]**
+**Words to use:** gửi gắm, trân quý, tươi mỗi sáng, chỉn chu, tận tâm, lời chúc, nhành hoa, góc cảm xúc.
+**Words to avoid:** "Giờ mở cửa" (tiệm dùng "Giờ nhận đơn"), từ quảng cáo quá đà, giọng luxury/đen-vàng.
+**Glossary:**
+| Term | Meaning |
+|------|---------|
+| Giờ nhận đơn | 08:00 – 21:30 hàng ngày, đặt trước 1-2 ngày |
+| Hoa lụa | Hoa nhân tạo bằng lụa, bền lâu |
+| Đặt hoa theo yêu cầu riêng | Khách nhắn Zalo để tư vấn mẫu, màu, kiểu gói |
+
+## Brand Voice
+| Attribute | Means | Doesn't mean | Example line |
+|-----------|-------|--------------|--------------|
+| Ấm áp, gần gũi | xưng "chúng mình", nói như người quen | suồng sã, tiếng lóng | "Chúng mình tự tay tỉa lá, chọn từng bông hoa nở đẹp độ xuân thì nhất." |
+| Kể chuyện | gắn hoa với cảm xúc, ý nghĩa | dài dòng, sến | "Một bó hoa đẹp không chỉ để ngắm — mà để gửi một điều khó nói thành lời" |
+| Tự nhiên, handmade | tỉ mỉ, mộc, tôn trọng dáng hoa | luxury, cầu kỳ | "Cắm hoa nương theo tự nhiên, trao trọn thành ý chân thành" |
+| Chỉn chu, đáng tin | rõ ràng về thời gian, giao nhận | khô khan, thủ tục | "Nhận đơn trước 1-2 ngày" |
+
+**Tone by context:**
+- Support (Zalo): nhẹ nhàng, tư vấn từng bước, hỏi dịp và người nhận.
+- Launch (bộ sưu tập, dịp lễ): hào hứng nhưng không phô trương.
+- Errors (web): ngắn gọn, nói rõ cách xử lý, không đổ lỗi cho khách.
+- Sales: không ép mua, tập trung ý nghĩa món quà.
+- Social: trẻ trung, hình ảnh hoa thật, ánh sáng tự nhiên.
+**Terms we own:** "Let flowers speak your heart!", "Góc cảm xúc", "Chuyện bên bàn cắm hoa".
+**Never use (and why):** "Giờ mở cửa" (tiệm nhận đơn đặt trước, không bán trực tiếp theo giờ); từ ngữ luxury (không đúng tinh thần handmade).
+
+## Proof Points
+**Metrics:** Trang Giới thiệu đang ghi: 5+ năm cắm hoa, 15.000+ bó hoa trao gửi, 99.8% khách hài lòng, 100% cắt mới mỗi sáng. **[cần xác nhận: các con số này có đúng thật không trước khi dùng cho quảng cáo]**
+**Customers:** **[cần xác nhận]**
+**Testimonials:** **[cần xác nhận: chưa có đánh giá thật nào trong dữ liệu web]**
+**Value themes:**
+| Theme | Proof |
+|-------|-------|
+| Hoa tươi mỗi ngày | Cắt mới mỗi sáng (theo trang Giới thiệu) |
+| Chọn hoa tinh tế | Tự tay tỉa lá, chọn từng bông |
+| Gói theo câu chuyện | Blog ý nghĩa các loài hoa |
+| Giao chỉn chu | Kiểm tra trước khi giao, đóng gói cẩn thận |
+
+## Goals
+**Business goal:** Tăng số đơn hoa online, nhất là các dịp lễ.
+**Conversion action:** Thêm vào giỏ và đặt hàng (kèm cọc); hoặc nhắn Zalo đặt hoa theo yêu cầu.
+**Current metrics:** **[cần xác nhận: số đơn/tháng, tỷ lệ chuyển đổi, nguồn khách]** (web đã gắn Google Analytics `G-MKTQ0EYRBH`).
+
+## Paid Ads (optional)
+Chưa chạy quảng cáo, hoặc chưa có thông tin. **[cần xác nhận]**
+
+## Learnings
+*Decisions and tested lessons. Newest first. Keep it to about 20 active entries.*
+| Date | Learning | Evidence | Applies to | Status |
+|------|----------|----------|------------|--------|
+| 2026-10 | Tạm ẩn Blog, Giới thiệu, Hoa 20/10 và bỏ mục "Bạn muốn gửi tặng hoa đến ai?" khỏi trang chủ | Quyết định của chủ tiệm (PR #99, #100) | Mọi bản viết cho các trang này; đừng nhắc tới chúng như đang công khai | active |
+
+## Changelog
+*Newest first. One line per revision: what changed and why.*
+- v1 (2026-10-30) — Initial context, tự soạn từ mã nguồn web; nhiều mục còn chờ chủ tiệm xác nhận.
