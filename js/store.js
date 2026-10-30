@@ -138,12 +138,12 @@ const Store = {
     window.dispatchEvent(new CustomEvent("hnm:cart-updated"));
   },
 
-  // Tính toán tổng đơn (gồm ship, giảm giá, tiền cọc)
+  // Tính toán tổng đơn (giảm giá, tiền cọc). Tiệm không thu phí ship:
+  // khách tự trả cho đơn vị giao hàng nên shippingFee luôn là 0.
   getOrderTotals(depositPercent) {
     const subtotal = this.getCartSubtotal();
     const coupon = this.getAppliedCoupon();
-    let shippingFee = subtotal >= 1000000 || (coupon && coupon.freeShip) ? 0 : 35000;
-    if (subtotal === 0) shippingFee = 0;
+    const shippingFee = 0;
 
     let discount = 0;
     if (coupon) {
@@ -170,10 +170,7 @@ const Store = {
       depositAmount,
       initialPayment,
       remainingPayment,
-      total,
-      isFreeShip: shippingFee === 0 && subtotal > 0,
-      freeShipProgress: Math.min(100, Math.round((subtotal / 1000000) * 100)),
-      amountLeftForFreeShip: Math.max(0, 1000000 - subtotal)
+      total
     };
   },
 
