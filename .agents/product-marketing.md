@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-**Document version:** v1
+**Document version:** v2
 **Last updated:** 2026-10-30
 
 > Bản nháp tự soạn từ mã nguồn web (index, giới thiệu, liên hệ, `PRD.md`, `js/store.js`). Mục ghi **[cần xác nhận]** là thông tin web không có hoặc chưa kiểm chứng được, chủ tiệm cần bổ sung.
@@ -10,7 +10,7 @@
 **What it does:** Hoa Nhà Mình bán bó hoa, giỏ hoa và hoa lụa, chọn hoa tươi mỗi sáng và cắm theo dáng tự nhiên, không rập khuôn công nghiệp. Khách đặt trên web hoặc nhắn Zalo để làm hoa theo yêu cầu riêng, tiệm chuẩn bị trong 1-2 ngày rồi giao tận nơi.
 **Product category:** Tiệm hoa tươi / đặt hoa online tại Hà Nội.
 **Product type:** E-commerce kèm dịch vụ làm hoa theo yêu cầu (có thiệp, lời nhắn, giao theo giờ hẹn).
-**Business model:** Bán lẻ trực tiếp cho khách cá nhân. Đặt cọc tối thiểu 50% khi đặt hàng, phần còn lại thanh toán sau. Miễn phí giao khi đơn từ 1.000.000₫ hoặc có mã freeship **[cần xác nhận: mức phí giao hiện tại, vì code đang để phí = 0]**. Khoảng 30+ sản phẩm; **[cần xác nhận: khoảng giá thấp nhất – cao nhất]**.
+**Business model:** Bán lẻ trực tiếp cho khách cá nhân. Đặt cọc tối thiểu 50% khi đặt hàng, phần còn lại thanh toán sau. Miễn phí giao khi đơn từ 1.000.000₫ hoặc có mã freeship **[cần xác nhận: mức phí giao hiện tại, vì code đang để phí = 0]**. Khoảng 30+ sản phẩm; Giá sản phẩm từ khoảng 100.000₫ đến hơn 1.000.000₫.
 **Tagline:** Let flowers speak your heart!
 
 ## Target Audience
@@ -56,7 +56,7 @@ B2C, bỏ qua mục này.
 ## Objections
 | Objection | Response |
 |-----------|----------|
-| Phải đặt trước 1-2 ngày, tôi cần gấp | Tiệm cần thời gian chọn hoa tươi và làm chỉn chu; khuyến khích đặt sớm cho dịp lễ. **[cần xác nhận: có nhận đơn gấp không]** |
+| Phải đặt trước 1-2 ngày, tôi cần gấp | Tiệm cần thời gian chọn hoa tươi và làm chỉn chu; khuyến khích đặt sớm cho dịp lễ. Quy tắc chung: đặt trước 1-2 ngày (chưa có quy định riêng cho đơn gấp). |
 | Hoa ngoài đời có giống ảnh không? | Hoa được kiểm tra trước khi giao và đóng gói cẩn thận. Nên bổ sung ảnh thật và đánh giá khách. |
 | Phải cọc tới 50% | Giúp tiệm giữ hoa tươi đúng đơn của bạn; phần còn lại thanh toán sau. |
 
@@ -69,8 +69,8 @@ B2C, bỏ qua mục này.
 **Anxiety:** Đặt online khó biết chất lượng; lo về cọc 50% và thời gian giao.
 
 ## Customer Language
-**How they describe the problem:** **[cần xác nhận: lấy từ tin nhắn Zalo, bình luận, đánh giá thật]**
-**How they describe us:** **[cần xác nhận]**
+**How they describe the problem:** Chưa có câu nói thật của khách. Không bịa trích dẫn; khi có tin nhắn Zalo hoặc bình luận thật thì thêm vào đây.
+**How they describe us:** Chưa có.
 **Words to use:** gửi gắm, trân quý, tươi mỗi sáng, chỉn chu, tận tâm, lời chúc, nhành hoa, góc cảm xúc.
 **Words to avoid:** "Giờ mở cửa" (tiệm dùng "Giờ nhận đơn"), từ quảng cáo quá đà, giọng luxury/đen-vàng.
 **Glossary:**
@@ -98,9 +98,9 @@ B2C, bỏ qua mục này.
 **Never use (and why):** "Giờ mở cửa" (tiệm nhận đơn đặt trước, không bán trực tiếp theo giờ); từ ngữ luxury (không đúng tinh thần handmade).
 
 ## Proof Points
-**Metrics:** Trang Giới thiệu đang ghi: 5+ năm cắm hoa, 15.000+ bó hoa trao gửi, 99.8% khách hài lòng, 100% cắt mới mỗi sáng. **[cần xác nhận: các con số này có đúng thật không trước khi dùng cho quảng cáo]**
-**Customers:** **[cần xác nhận]**
-**Testimonials:** **[cần xác nhận: chưa có đánh giá thật nào trong dữ liệu web]**
+**Metrics:** Chưa có số liệu thật nào để dùng công khai. **Không dùng** các con số trên trang Giới thiệu (5+ năm, 15.000+ bó hoa, 99.8% hài lòng): chủ tiệm xác nhận đây không phải số liệu thật. Quy mô thực tế: khoảng 50 đơn/tháng, tuỳ tháng và tuỳ dịp lễ (con số nội bộ, không dùng để quảng cáo).
+**Customers:** Chưa có logo hay khách tiêu biểu.
+**Testimonials:** Chưa có lời nhận xét thật của khách. Không được tự viết hay bịa đánh giá.
 **Value themes:**
 | Theme | Proof |
 |-------|-------|
@@ -112,7 +112,7 @@ B2C, bỏ qua mục này.
 ## Goals
 **Business goal:** Tăng số đơn hoa online, nhất là các dịp lễ.
 **Conversion action:** Thêm vào giỏ và đặt hàng (kèm cọc); hoặc nhắn Zalo đặt hoa theo yêu cầu.
-**Current metrics:** **[cần xác nhận: số đơn/tháng, tỷ lệ chuyển đổi, nguồn khách]** (web đã gắn Google Analytics `G-MKTQ0EYRBH`).
+**Current metrics:** Khoảng 50 đơn/tháng, dao động theo tháng và dịp lễ. Nguồn khách: online (web), mạng xã hội, giới thiệu truyền miệng. Khách đặt trước 1-2 ngày. Chưa có tỷ lệ chuyển đổi (web đã gắn Google Analytics `G-MKTQ0EYRBH`).
 
 ## Paid Ads (optional)
 Chưa chạy quảng cáo, hoặc chưa có thông tin. **[cần xác nhận]**
@@ -125,4 +125,5 @@ Chưa chạy quảng cáo, hoặc chưa có thông tin. **[cần xác nhận]**
 
 ## Changelog
 *Newest first. One line per revision: what changed and why.*
+- v2 (2026-10-30) — Chủ tiệm xác nhận: giá 100.000₫–hơn 1 triệu, ~50 đơn/tháng, nguồn khách (online, social, giới thiệu); số liệu trang Giới thiệu không có thật nên cấm dùng; chưa có lời khách thật.
 - v1 (2026-10-30) — Initial context, tự soạn từ mã nguồn web; nhiều mục còn chờ chủ tiệm xác nhận.
