@@ -219,34 +219,16 @@
         return;
       }
 
-      let products = [];
-      try { products = await getProducts(); } catch (e) {}
-      const byId = new Map(products.map(p => [p.id, p]));
-
       grid.innerHTML = videos.map((v) => {
         const m = /\/video\/(\d+)/.exec(v.url || "");
-        const items = (v.productIds || []).map(id => byId.get(id)).filter(Boolean);
         const player = m
           ? `<div class="video-slot relative aspect-[9/16] mx-auto w-[min(100%,calc((100svh_-_11rem)*9/16))] md:w-full bg-[#211A18] rounded-2xl overflow-hidden" data-vid="${m[1]}">
                <iframe src="https://www.tiktok.com/player/v1/${m[1]}?rel=0" class="w-full h-full border-0" loading="lazy" allow="fullscreen; encrypted-media" allowfullscreen title="Video TikTok Hoa Nhà Mình"></iframe>
              </div>`
           : `<a href="${esc(v.url)}" target="_blank" rel="noopener" class="aspect-[9/16] rounded-2xl bg-[#211A18] text-white flex items-center justify-center text-sm">Xem trên TikTok</a>`;
-        const prods = items.length ? `
-          <div class="space-y-2">
-            <p class="text-[11px] font-bold text-[#D95A82] uppercase tracking-wider">Sản phẩm tương tự</p>
-            ${items.map(p => `
-              <a href="chi-tiet-san-pham.html?id=${encodeURIComponent(p.id)}" class="flex items-center gap-3 p-2 rounded-xl border border-[#E5DDCE] hover:bg-[#FAF7E9] transition-colors">
-                <img loading="lazy" src="${esc(p.image)}" alt="${esc(p.name)}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
-                <span class="flex-1 min-w-0">
-                  <span class="block text-sm font-semibold text-[#211A18] line-clamp-2">${esc(p.name)}</span>
-                </span>
-                <span class="material-symbols-outlined text-[#277A4D]">chevron_right</span>
-              </a>`).join("")}
-          </div>` : "";
         return `<article class="bg-white rounded-3xl border border-[#E5DDCE] p-4 space-y-4 shadow-sm">
           ${player}
           ${v.caption ? `<h2 class="text-sm font-semibold text-[#211A18]">${esc(v.caption)}</h2>` : ""}
-          ${prods}
           <a href="san-pham.html" class="flex items-center justify-center gap-1 w-full py-2.5 rounded-full border border-[#D95A82] text-sm font-semibold text-[#D95A82] hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa <span class="material-symbols-outlined text-base">arrow_forward</span></a>
         </article>`;
       }).join("");
