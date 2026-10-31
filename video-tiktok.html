@@ -223,7 +223,7 @@
         const m = /\/video\/(\d+)/.exec(v.url || "");
         const player = m
           ? `<div class="video-slot relative aspect-[9/16] mx-auto w-[min(100%,calc((100svh_-_11rem)*9/16))] md:w-full bg-[#211A18] rounded-2xl overflow-hidden" data-vid="${m[1]}">
-               <iframe src="https://www.tiktok.com/player/v1/${m[1]}?rel=0" class="w-full h-full border-0" loading="lazy" allow="fullscreen; encrypted-media" allowfullscreen title="Video TikTok Hoa Nhà Mình"></iframe>
+               <iframe src="https://www.tiktok.com/player/v1/${m[1]}?autoplay=0&rel=0" class="w-full h-full border-0" loading="lazy" allow="fullscreen; encrypted-media" allowfullscreen title="Video TikTok Hoa Nhà Mình"></iframe>
              </div>`
           : `<a href="${esc(v.url)}" target="_blank" rel="noopener" class="aspect-[9/16] rounded-2xl bg-[#211A18] text-white flex items-center justify-center text-sm">Xem trên TikTok</a>`;
         return `<article class="bg-white rounded-3xl border border-[#E5DDCE] p-4 space-y-4 shadow-sm">
@@ -232,6 +232,23 @@
           <a href="san-pham.html" class="flex items-center justify-center gap-1 w-full py-2.5 rounded-full border border-[#D95A82] text-sm font-semibold text-[#D95A82] hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa <span class="material-symbols-outlined text-base">arrow_forward</span></a>
         </article>`;
       }).join("");
+
+      // Chỉ cho một video phát một lúc: video nào bắt đầu phát thì các video còn lại tự tạm dừng
+      window.addEventListener("message", (e) => {
+        const d = e.data;
+        if (!d || !d["x-tiktok-player"] || d.type !== "onStateChange" || d.value !== 1) return;
+        grid.querySelectorAll("iframe").forEach((f) => {
+          if (f.contentWindow !== e.source) f.contentWindow.postMessage({ "x-tiktok-player": true, type: "pause" }, "*");
+        });
+      });
+
+      // Video cuộn ra khỏi màn hình thì tự tạm dừng
+      const pauser = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting) en.target.contentWindow.postMessage({ "x-tiktok-player": true, type: "pause" }, "*");
+        });
+      }, { threshold: 0.2 });
+      grid.querySelectorAll("iframe").forEach((f) => pauser.observe(f));
 
     });
   </script>
