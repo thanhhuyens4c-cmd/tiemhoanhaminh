@@ -223,7 +223,7 @@
         const m = /\/video\/(\d+)/.exec(v.url || "");
         const player = m
           ? `<div class="video-slot relative aspect-[9/16] mx-auto w-[min(100%,calc((100svh_-_11rem)*9/16))] md:w-full bg-[#211A18] rounded-2xl overflow-hidden" data-vid="${m[1]}">
-               <iframe src="https://www.tiktok.com/player/v1/${m[1]}?autoplay=0&rel=0" class="w-full h-full border-0" loading="lazy" allow="fullscreen; encrypted-media" allowfullscreen title="Video TikTok Hoa Nhà Mình"></iframe>
+               <iframe data-src="https://www.tiktok.com/player/v1/${m[1]}?autoplay=0&rel=0" class="w-full h-full border-0" allow="fullscreen; encrypted-media" allowfullscreen title="Video TikTok Hoa Nhà Mình"></iframe>
              </div>`
           : `<a href="${esc(v.url)}" target="_blank" rel="noopener" class="aspect-[9/16] rounded-2xl bg-[#211A18] text-white flex items-center justify-center text-sm">Xem trên TikTok</a>`;
         return `<article class="bg-white rounded-3xl border border-[#E5DDCE] p-4 space-y-4 shadow-sm">
@@ -249,6 +249,17 @@
         });
       }, { threshold: 0.2 });
       grid.querySelectorAll("iframe").forEach((f) => pauser.observe(f));
+
+      // Chỉ tải trình phát khi cuộn gần tới, tránh tải cùng lúc nhiều video làm TikTok từ chối (Server error / Access Denied)
+      const loader = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          const f = en.target;
+          if (!f.src) f.src = f.dataset.src;
+          loader.unobserve(f);
+        });
+      }, { rootMargin: "200px 0px" });
+      grid.querySelectorAll("iframe").forEach((f) => loader.observe(f));
 
     });
   </script>
