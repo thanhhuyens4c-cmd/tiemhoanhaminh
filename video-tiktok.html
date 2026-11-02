@@ -173,6 +173,26 @@
     </div>
   </main>
 
+  <!-- Nội dung chữ cho người đọc và Google (nằm dưới phần video) -->
+  <section id="vc-seo" class="bg-[#FAF7E9] border-t border-[#E5DDCE]/60 py-10">
+    <div class="max-w-[760px] mx-auto px-4 sm:px-6 space-y-4">
+      <h2 class="font-brand text-2xl text-[#D95A82]">Video bó hoa tươi Hà Nội — Hoa Nhà Mình</h2>
+      <p class="text-sm text-[#4B4240] leading-relaxed">
+        Góc video là nơi Hoa Nhà Mình, tiệm hoa online tại Hoàng Mai, Hà Nội, chia sẻ những video ngắn về bó hoa tươi, giỏ hoa và hoa tặng
+        sinh nhật, kỷ niệm, tốt nghiệp. Xem video, ưng bó hoa nào thì đặt ngay qua Zalo. Tiệm nhận đặt hoa trước 1-2 ngày và giao hoa tận nơi.
+      </p>
+      <p class="text-sm text-[#4B4240]">
+        Xem sản phẩm:
+        <a href="san-pham.html?type=bo-hoa" class="text-[#277A4D] font-semibold hover:underline">bó hoa tươi</a>,
+        <a href="san-pham.html?type=gio-hoa" class="text-[#277A4D] font-semibold hover:underline">giỏ hoa</a>,
+        <a href="san-pham.html?type=hoa-lua" class="text-[#277A4D] font-semibold hover:underline">hoa lụa</a>,
+        <a href="san-pham.html" class="text-[#277A4D] font-semibold hover:underline">tất cả sản phẩm</a>.
+      </p>
+      <h3 class="text-sm font-bold text-[#211A18] pt-2">Tất cả video</h3>
+      <ul id="vc-video-list" class="text-sm text-[#4B4240] space-y-1.5 list-disc pl-5"></ul>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="bg-[#29483C] text-[#FAF7E9] pt-14 pb-8 border-t border-[#277A4D] mt-auto">
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -288,6 +308,10 @@
           </div>
         </article>`).join("");
 
+
+      // danh sách link tới trang riêng của từng video (cho người đọc và Google)
+      document.getElementById("vc-video-list").innerHTML = videos.map((v) =>
+        `<li><a href="video.html?id=${vidId(v)}" class="hover:text-[#D95A82] hover:underline">${esc(v.caption)}</a></li>`).join("");
       const slides = [...track.querySelectorAll(".vc-slide")];
       const frames = slides.map((s) => s.querySelector(".vc-frame"));
       const counter = document.getElementById("vc-counter");
