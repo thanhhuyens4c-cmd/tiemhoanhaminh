@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /hoanhaminh-admin.html
+Disallow: /gio-hang.html
+Disallow: /thanh-toan.html
+Disallow: /dat-hang-thanh-cong.html
+
+Sitemap: https://tiemhoanhaminh.vercel.app/sitemap.xml

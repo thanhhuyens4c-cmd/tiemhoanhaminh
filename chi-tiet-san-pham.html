@@ -351,6 +351,47 @@
 
       // Đổ dữ liệu vào DOM
       document.title = `${product.name} — Hoa Nhà Mình`;
+
+      // SEO: mô tả, canonical, Open Graph và dữ liệu Product theo sản phẩm
+      (function () {
+        const base = location.origin;
+        const abs = (u) => (/^https?:/.test(u || "") ? u : base + "/" + String(u || "").replace(/^\//, ""));
+        const pageUrl = `${base}/chi-tiet-san-pham.html?id=${encodeURIComponent(product.id)}`;
+        const desc = (product.shortDesc || product.description || `${product.name} tại tiệm hoa Hoa Nhà Mình, Hà Nội. Đặt hoa qua Zalo, giao tận nơi.`).slice(0, 160);
+        const setMeta = (attr, key, value) => {
+          let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+          if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+          el.setAttribute("content", value);
+        };
+        setMeta("name", "description", desc);
+        setMeta("property", "og:type", "product");
+        setMeta("property", "og:title", `${product.name} — Hoa Nhà Mình`);
+        setMeta("property", "og:description", desc);
+        setMeta("property", "og:url", pageUrl);
+        setMeta("property", "og:image", abs(product.image));
+        let canon = document.head.querySelector('link[rel="canonical"]');
+        if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
+        canon.href = pageUrl;
+        const ld = document.createElement("script");
+        ld.type = "application/ld+json";
+        ld.textContent = JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: desc,
+          image: (product.gallery && product.gallery.length ? product.gallery : [product.image]).map(abs),
+          sku: product.id,
+          brand: { "@type": "Brand", name: "Hoa Nhà Mình" },
+          offers: {
+            "@type": "Offer",
+            url: pageUrl,
+            priceCurrency: "VND",
+            price: Number(product.price) || 0,
+            availability: "https://schema.org/InStock"
+          }
+        });
+        document.head.appendChild(ld);
+      })();
       document.getElementById("product-title").textContent = product.name;
       document.getElementById("product-name-crumb").textContent = product.name;
       document.getElementById("product-type-crumb").textContent = product.typeName;
