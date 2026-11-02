@@ -300,8 +300,18 @@
         if (f.dataset.live) return;
         unmountAll();
         f.dataset.live = "1";
-        f.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${vidId(videos[i])}?autoplay=${autoplay ? 1 : 0}&rel=0" class="w-full h-full border-0" allow="autoplay; fullscreen; encrypted-media" allowfullscreen title="${esc(videos[i].caption)}"></iframe>`;
+        f.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${vidId(videos[i])}?autoplay=${autoplay ? 1 : 0}&rel=0" class="w-full h-full border-0" allow="autoplay; fullscreen; encrypted-media" allowfullscreen data-autoplay="${autoplay ? 1 : 0}" title="${esc(videos[i].caption)}"></iframe>`;
       }
+
+      // Video vừa lướt tới: bật tiếng và phát khi trình phát sẵn sàng (autoplay=1 chỉ đặt khi người xem chủ động lướt)
+      window.addEventListener("message", (e) => {
+        const d = e.data;
+        if (!d || !d["x-tiktok-player"] || d.type !== "onPlayerReady") return;
+        const f = frames[cur] && frames[cur].querySelector("iframe");
+        if (!f || e.source !== f.contentWindow || f.dataset.autoplay !== "1") return;
+        f.contentWindow.postMessage({ "x-tiktok-player": true, type: "unMute" }, "*");
+        f.contentWindow.postMessage({ "x-tiktok-player": true, type: "play" }, "*");
+      });
       function go(n, byUser) {
         n = Math.max(0, Math.min(videos.length - 1, n));
         if (n === cur) return;
