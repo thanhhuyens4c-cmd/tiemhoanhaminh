@@ -57,7 +57,7 @@
 <body class="bg-[#FFFDF9] font-body text-[#211A18] antialiased min-h-screen flex flex-col">
 
   <!-- TOP COMMITMENT BANNER -->
-  <section class="w-full bg-[#F3EED8] text-[#4B4240] py-2 px-3 sm:px-6 border-b border-[#E5DDCE]/50">
+  <section class="vc-topbanner w-full bg-[#F3EED8] text-[#4B4240] py-2 px-3 sm:px-6 border-b border-[#E5DDCE]/50">
     <div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-[11px] sm:text-xs">
       <div class="flex items-center gap-1.5 min-w-0 flex-1">
         <span class="material-symbols-outlined text-[#3E9B61] text-sm sm:text-base flex-shrink-0">event_available</span>
@@ -116,7 +116,7 @@
     </div>
   </header>
 
-  <section class="bg-[#FAF7E9] py-2 sm:py-2.5 border-b border-[#E5DDCE]/60">
+  <section id="vc-hero" class="bg-[#FAF7E9] py-2 sm:py-2.5 border-b border-[#E5DDCE]/60">
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
       <h1 class="font-brand text-xl sm:text-2xl text-[#D95A82] whitespace-nowrap">Xem video Hoa nhà mình nhé!</h1>
       <nav class="hidden sm:flex items-center gap-2 text-xs text-[#857B76]">
@@ -132,11 +132,29 @@
     .vc-slide.is-side a, .vc-slide.is-side button { pointer-events: none; }
     #stage { --h: clamp(300px, calc(100svh - 21rem), 720px); --w: calc(var(--h) * 9 / 16); }
     @media (min-width: 640px) { #stage { --h: clamp(340px, calc(100svh - 16.5rem), 720px); } }
+    /* Máy tính: giao diện kiểu TikTok PC — bỏ dải thông báo, menu thu nhỏ, video to chiếm gần hết chiều cao màn hình */
+    .vc-side-actions { display: none; }
+    @media (min-width: 1024px) {
+      .vc-topbanner { display: none; }
+      header > div:first-child { height: 3rem !important; }
+      header img[alt^="Logo"] { width: 1.75rem !important; height: 1.75rem !important; }
+      header a[href="index.html"] .font-brand { font-size: 1.15rem !important; }
+      header a[href="index.html"] .flex-col > span:nth-child(2) { display: none !important; }
+      header nav { gap: 1.25rem !important; }
+      header nav a { font-size: .8rem !important; }
+      #vc-hero { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; }
+      #vc-main { display: flex; align-items: center; min-height: calc(100svh - 3rem); padding-top: .5rem; padding-bottom: .5rem; }
+      #vc-main > #stage { width: 100%; }
+      #stage { --h: clamp(380px, calc(100svh - 7rem), 940px); }
+      #track { height: calc(var(--h) + 2.5rem) !important; }
+      #vc-counter, .vc-tt-link { display: none; }
+      .vc-side-actions { display: flex; }
+    }
     .vc-nav { position: absolute; top: calc(var(--h) / 2); transform: translateY(-50%); z-index: 30; }
     @media (prefers-reduced-motion: reduce) { .vc-slide { transition: none; } }
   </style>
 
-  <main class="flex-1 w-full pt-2 pb-6">
+  <main id="vc-main" class="flex-1 w-full pt-2 pb-6">
     <div id="stage" class="relative overflow-hidden select-none" style="touch-action: pan-y;">
       <div id="track" class="relative mx-auto" style="height: calc(var(--h) + 5rem);"></div>
       <button id="vc-prev" type="button" aria-label="Video trước" class="vc-nav left-0.5 sm:left-6 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/90 shadow-md border border-[#E5DDCE] flex items-center justify-center text-[#4B4240] hover:text-[#D95A82] transition-colors">
@@ -147,7 +165,7 @@
       </button>
     </div>
     <p id="vc-counter" class="text-center text-xs text-[#857B76] mt-1"></p>
-    <div class="text-center mt-4">
+    <div class="vc-tt-link text-center mt-4">
       <a href="https://www.tiktok.com/@hoanhaminh.htl" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#211A18] text-white text-sm font-semibold hover:bg-[#D95A82] transition-colors">
         <span class="material-symbols-outlined text-base">open_in_new</span> Xem thêm trên TikTok
       </a>
@@ -258,9 +276,14 @@
         <article class="vc-slide" data-i="${i}">
           <div class="vc-frame relative aspect-[9/16] rounded-2xl overflow-hidden bg-[#211A18] shadow-xl">${coverHTML(v)}</div>
           <h2 class="mt-2 text-sm font-semibold text-center text-[#211A18] line-clamp-1"><a href="video.html?id=${vidId(v)}" class="hover:text-[#D95A82]">${esc(v.caption)}</a></h2>
-          <div class="mt-2 flex gap-2">
+          <div class="mt-2 flex gap-2 lg:hidden">
             ${typeof VIDEO_SCAN_ENABLED !== "undefined" && VIDEO_SCAN_ENABLED ? `<button type="button" class="vc-scan flex-1 flex items-center justify-center gap-1 py-1.5 rounded-full bg-[#D95A82] text-xs font-semibold text-white whitespace-nowrap hover:bg-[#c04a70] transition-colors"><span class="material-symbols-outlined text-base">photo_camera</span>Quét hoa</button>` : ""}
             <a href="san-pham.html" class="flex-1 flex items-center justify-center py-1.5 rounded-full border border-[#D95A82] bg-white/80 text-xs font-semibold text-[#D95A82] whitespace-nowrap hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa</a>
+          </div>
+          <div class="vc-side-actions absolute left-full ml-3 bottom-10 flex-col items-center gap-4">
+            ${typeof VIDEO_SCAN_ENABLED !== "undefined" && VIDEO_SCAN_ENABLED ? `<div class="flex flex-col items-center w-16"><button type="button" class="vc-scan w-12 h-12 rounded-full bg-[#D95A82] text-white flex items-center justify-center shadow-md hover:bg-[#c04a70] transition-colors" aria-label="Quét hoa trong video"><span class="material-symbols-outlined">photo_camera</span></button><span class="mt-1 text-[11px] font-semibold text-[#4B4240] text-center leading-tight">Quét hoa</span></div>` : ""}
+            <div class="flex flex-col items-center w-16"><a href="san-pham.html" class="w-12 h-12 rounded-full bg-white border border-[#D95A82] text-[#D95A82] flex items-center justify-center shadow-md hover:bg-[#D95A82] hover:text-white transition-colors" aria-label="Xem thêm hoa"><span class="material-symbols-outlined">local_florist</span></a><span class="mt-1 text-[11px] font-semibold text-[#4B4240] text-center leading-tight">Xem thêm hoa</span></div>
+            <div class="flex flex-col items-center w-16"><a href="https://www.tiktok.com/@hoanhaminh.htl" target="_blank" rel="noopener" class="w-12 h-12 rounded-full bg-[#211A18] text-white flex items-center justify-center shadow-md hover:bg-[#D95A82] transition-colors" aria-label="Kênh TikTok"><span class="material-symbols-outlined">open_in_new</span></a><span class="mt-1 text-[11px] font-semibold text-[#4B4240] text-center leading-tight">Kênh TikTok</span></div>
           </div>
         </article>`).join("");
 
@@ -269,16 +292,22 @@
       const counter = document.getElementById("vc-counter");
       let cur = 0, timer = null;
 
-      // vị trí / kích thước / độ mờ theo khoảng cách tới video đang chọn
-      const LOOK = [
+      // vị trí / kích thước / độ mờ theo khoảng cách tới video đang chọn (máy tính có thêm chỗ cho cột nút bên phải video)
+      const wide = window.matchMedia("(min-width: 1024px)");
+      const LOOK_SMALL = [
         { x: 0, s: 1, o: 1, b: 0 },
         { x: 0.95, s: 0.8, o: 0.75, b: 2 },
         { x: 1.7, s: 0.62, o: 0.45, b: 5 },
       ];
+      const LOOK_WIDE = [
+        { x: 0, s: 1, o: 1, b: 0 },
+        { x: 1.3, s: 0.82, o: 0.7, b: 2 },
+        { x: 2.2, s: 0.64, o: 0.4, b: 5 },
+      ];
       function render() {
         slides.forEach((el, i) => {
           const d = i - cur, a = Math.abs(d), sign = d < 0 ? -1 : 1;
-          const k = LOOK[a] || { x: 2.1, s: 0.5, o: 0, b: 6 };
+          const k = (wide.matches ? LOOK_WIDE : LOOK_SMALL)[a] || { x: wide.matches ? 3 : 2.1, s: 0.5, o: 0, b: 6 };
           el.style.transform = `translateX(calc(var(--w) * ${sign * k.x})) scale(${k.s})`;
           el.style.opacity = k.o;
           el.style.filter = k.b ? `blur(${k.b}px)` : "none";
@@ -359,6 +388,7 @@
       }, { passive: false });
 
       render();
+      wide.addEventListener("change", render);
       timer = setTimeout(() => mount(0, false), 300);
     });
   </script>
