@@ -345,6 +345,16 @@
         f.contentWindow.postMessage({ "x-tiktok-player": true, type: "unMute" }, "*");
         f.contentWindow.postMessage({ "x-tiktok-player": true, type: "play" }, "*");
       });
+
+      // Theo dõi video giữa có đang phát không (để tạm dừng lúc quét và cho phát tiếp sau đó)
+      let livePlaying = false;
+      window.addEventListener("message", (e) => {
+        const d = e.data;
+        if (!d || !d["x-tiktok-player"] || d.type !== "onStateChange") return;
+        const f = frames[cur] && frames[cur].querySelector("iframe");
+        if (f && e.source === f.contentWindow) livePlaying = d.value === 1 || d.value === 3;
+      });
+      const tell = (f, type) => f && f.contentWindow.postMessage({ "x-tiktok-player": true, type }, "*");
       function go(n, byUser) {
         n = Math.max(0, Math.min(videos.length - 1, n));
         if (n === cur) return;
@@ -360,7 +370,17 @@
         if (!art) return;
         const i = +art.dataset.i;
         if (i !== cur) { e.preventDefault(); go(i, true); return; }
-        if (e.target.closest(".vc-scan")) { window.VideoScan.scan({ frameEl: frames[i], live: !!frames[i].dataset.live, coverUrl: videos[i].thumbnail }); return; }
+        if (e.target.closest(".vc-scan")) {
+          // tạm dừng ngay khi bấm: chờ khách bấm "Cho phép" thì video không chạy mất khung hình cần quét
+          const f = frames[i].querySelector("iframe");
+          const resume = f && livePlaying;
+          tell(f, "pause");
+          window.VideoScan.scan({
+            frameEl: frames[i], live: !!frames[i].dataset.live, coverUrl: videos[i].thumbnail,
+            onClose: () => { if (resume && i === cur) tell(f, "play"); },
+          });
+          return;
+        }
         if (e.target.closest(".vc-frame") && !frames[i].dataset.live) { clearTimeout(timer); mount(i, true); }
       });
       document.getElementById("vc-prev").addEventListener("click", () => go(cur - 1, true));

@@ -15,7 +15,7 @@
 
   const isMobile = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
   const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  let root, body, fileInput, lastToken = 0;
+  let root, body, fileInput, lastToken = 0, closeCb = null;
 
   // ---------- AI trong trình duyệt ----------
   let aiPromise = null, onProgress = null;
@@ -128,7 +128,13 @@
     });
   }
   function open() { ensureModal(); root.classList.remove("hidden"); document.body.style.overflow = "hidden"; }
-  function close() { lastToken++; onProgress = null; if (root) root.classList.add("hidden"); document.body.style.overflow = ""; }
+  function close() {
+    lastToken++;
+    onProgress = null;
+    if (root) root.classList.add("hidden");
+    document.body.style.overflow = "";
+    if (closeCb) { const cb = closeCb; closeCb = null; cb(); } // ví dụ: cho video phát tiếp
+  }
 
   const previewHTML = (preview, cls) => (preview ? `<img src="${esc(preview)}" alt="Ảnh đang quét" class="mx-auto ${cls} rounded-2xl mb-4 object-contain">` : "");
   function setStatus(text) { const el = body && body.querySelector("[data-status]"); if (el) el.textContent = text; }
@@ -230,9 +236,11 @@
   }
 
   /**
-   * frameEl: khung chứa video đang xem; live: trình phát TikTok đã được tải chưa; coverUrl: ảnh bìa của video (nếu có)
+   * frameEl: khung chứa video đang xem; live: trình phát TikTok đã được tải chưa; coverUrl: ảnh bìa của video (nếu có);
+   * onClose: gọi khi khách đóng bảng kết quả (trang dùng để cho video phát tiếp sau khi đã tạm dừng lúc quét)
    */
-  async function scan({ frameEl, live, coverUrl }) {
+  async function scan({ frameEl, live, coverUrl, onClose }) {
+    closeCb = onClose || null;
     if (live && !isMobile && navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
       try {
         const image = await captureTab(frameEl);
