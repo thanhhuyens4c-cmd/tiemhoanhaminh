@@ -148,7 +148,8 @@
       #stage { --h: clamp(380px, calc(100svh - 7rem), 940px); }
       #track { height: calc(var(--h) + 2.5rem) !important; }
       #vc-counter, .vc-tt-link { display: none; }
-      .vc-side-actions { display: flex; }
+      .vc-side-actions { display: flex; transition: opacity .35s ease, visibility .35s; }
+      .vc-slide.is-side .vc-side-actions { opacity: 0; visibility: hidden; }
     }
     .vc-nav { position: absolute; top: calc(var(--h) / 2); transform: translateY(-50%); z-index: 30; }
     @media (prefers-reduced-motion: reduce) { .vc-slide { transition: none; } }
