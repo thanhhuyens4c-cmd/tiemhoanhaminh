@@ -237,7 +237,7 @@
           : `<a href="${esc(v.url)}" target="_blank" rel="noopener" class="aspect-[9/16] rounded-2xl bg-[#211A18] text-white flex items-center justify-center text-sm">Xem trên TikTok</a>`;
         return `<article class="bg-white rounded-3xl border border-[#E5DDCE] p-4 space-y-4 shadow-sm">
           ${player}
-          ${v.caption ? `<h2 class="text-sm font-semibold text-[#211A18]">${esc(v.caption)}</h2>` : ""}
+          ${v.caption ? `<h2 class="text-sm font-semibold text-[#211A18]">${m ? `<a href="video.html?id=${m[1]}" class="hover:text-[#D95A82]">${esc(v.caption)}</a>` : esc(v.caption)}</h2>` : ""}
           <a href="san-pham.html" class="flex items-center justify-center gap-1 w-full py-2.5 rounded-full border border-[#D95A82] text-sm font-semibold text-[#D95A82] hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa <span class="material-symbols-outlined text-base">arrow_forward</span></a>
         </article>`;
       }).join("");
