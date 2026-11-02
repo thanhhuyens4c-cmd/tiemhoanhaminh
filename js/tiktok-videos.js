@@ -25,3 +25,7 @@ const TIKTOK_VIDEOS = [
   { url: _tt("7691505946555600146"), caption: "Một bó hoa cho những ngày Hà Nội vào thu", productIds: [] },
   { url: _tt("7690860353290292498"), caption: "Tone hoa mọi cô gái đều muốn được nhận!", productIds: [] },
 ];
+
+// Bật nút "Quét hoa" ở Góc video. Chỉ đổi thành true sau khi đã cài xong (xem hướng dẫn trong supabase-product-ai-tags.sql
+// và scripts/tag_products.py, rồi đặt ANTHROPIC_API_KEY trên Vercel).
+const VIDEO_SCAN_ENABLED = false;
