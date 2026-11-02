@@ -129,7 +129,7 @@
   <style>
     .vc-slide { position: absolute; top: 0; left: 50%; width: var(--w); margin-left: calc(var(--w) / -2); transition: transform .55s cubic-bezier(.22,.8,.3,1), opacity .55s ease, filter .55s ease; will-change: transform, opacity, filter; }
     .vc-slide.is-side { cursor: pointer; }
-    .vc-slide.is-side a { pointer-events: none; }
+    .vc-slide.is-side a, .vc-slide.is-side button { pointer-events: none; }
     #stage { --h: clamp(300px, calc(100svh - 21rem), 720px); --w: calc(var(--h) * 9 / 16); }
     @media (min-width: 640px) { #stage { --h: clamp(340px, calc(100svh - 16.5rem), 720px); } }
     .vc-nav { position: absolute; top: calc(var(--h) / 2); transform: translateY(-50%); z-index: 30; }
@@ -220,6 +220,7 @@
   <script src="js/app.js"></script>
   <script src="js/oct20-popup.js"></script>
   <script src="js/tiktok-videos.js"></script>
+  <script src="js/video-scan.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const track = document.getElementById("track");
@@ -257,7 +258,10 @@
         <article class="vc-slide" data-i="${i}">
           <div class="vc-frame relative aspect-[9/16] rounded-2xl overflow-hidden bg-[#211A18] shadow-xl">${coverHTML(v)}</div>
           <h2 class="mt-2 text-sm font-semibold text-center text-[#211A18] line-clamp-1"><a href="video.html?id=${vidId(v)}" class="hover:text-[#D95A82]">${esc(v.caption)}</a></h2>
-          <a href="san-pham.html" class="mt-2 flex items-center justify-center gap-1 w-full py-1.5 rounded-full border border-[#D95A82] bg-white/80 text-sm font-semibold text-[#D95A82] hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa <span class="material-symbols-outlined text-base">arrow_forward</span></a>
+          <div class="mt-2 flex gap-2">
+            ${typeof VIDEO_SCAN_ENABLED !== "undefined" && VIDEO_SCAN_ENABLED ? `<button type="button" class="vc-scan flex-1 flex items-center justify-center gap-1 py-1.5 rounded-full bg-[#D95A82] text-xs font-semibold text-white whitespace-nowrap hover:bg-[#c04a70] transition-colors"><span class="material-symbols-outlined text-base">photo_camera</span>Quét hoa</button>` : ""}
+            <a href="san-pham.html" class="flex-1 flex items-center justify-center py-1.5 rounded-full border border-[#D95A82] bg-white/80 text-xs font-semibold text-[#D95A82] whitespace-nowrap hover:bg-[#D95A82] hover:text-white transition-colors">Xem thêm hoa</a>
+          </div>
         </article>`).join("");
 
       const slides = [...track.querySelectorAll(".vc-slide")];
@@ -326,6 +330,7 @@
         if (!art) return;
         const i = +art.dataset.i;
         if (i !== cur) { e.preventDefault(); go(i, true); return; }
+        if (e.target.closest(".vc-scan")) { window.VideoScan.scan({ frameEl: frames[i], live: !!frames[i].dataset.live, coverUrl: videos[i].thumbnail }); return; }
         if (e.target.closest(".vc-frame") && !frames[i].dataset.live) { clearTimeout(timer); mount(i, true); }
       });
       document.getElementById("vc-prev").addEventListener("click", () => go(cur - 1, true));
