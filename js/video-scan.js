@@ -1,13 +1,103 @@
 /**
- * "Quét hoa" ở Góc video: chụp khung hình đang xem (hoặc ảnh bìa / ảnh khách chọn),
- * gửi tới /api/find-similar và hiện các sản phẩm giống trong web.
+ * "Quét hoa" ở Góc video: chụp khung hình đang xem (hoặc ảnh bìa / ảnh khách chọn) rồi tìm sản phẩm giống trong web.
+ * AI chạy ngay trong trình duyệt của khách (mô hình DINOv2 nhỏ ~25 MB, tải một lần): không cần key, không tốn phí.
+ * Dấu vân tay ảnh của sản phẩm lấy từ data/product-embeddings.json; sản phẩm mới chưa có thì tính tại chỗ.
  */
 (function () {
-  const API = "/api/find-similar";
+  const LIB_URL = "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2";
+  const MODEL_ID = "Xenova/dinov2-small";
+  const INDEX_URL = "data/product-embeddings.json";
+  const DIM = 384;
+  const MAX_RESULTS = 6;
+  const MIN_SCORE = 0.62;   // dưới mức này coi là chưa có sản phẩm giống
+  const NO_FLOWER = 0.5;    // top dưới mức này gần như chắc chắn ảnh không có hoa
+  const MAX_LAZY = 12;      // số sản phẩm mới (chưa có trong file) tính tại chỗ mỗi lần quét
+
   const isMobile = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
   const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   let root, body, fileInput, lastToken = 0;
 
+  // ---------- AI trong trình duyệt ----------
+  let aiPromise = null, onProgress = null;
+  function loadAI() {
+    if (!aiPromise) {
+      aiPromise = (async () => {
+        const T = await import(LIB_URL);
+        T.env.allowLocalModels = false;
+        const processor = await T.AutoProcessor.from_pretrained(MODEL_ID);
+        const model = await T.AutoModel.from_pretrained(MODEL_ID, {
+          progress_callback: (p) => {
+            if (p.status === "progress" && p.file && p.file.endsWith(".onnx") && onProgress) onProgress(Math.round(p.progress || 0));
+          },
+        });
+        return { T, processor, model };
+      })().catch((e) => { aiPromise = null; throw e; });
+    }
+    return aiPromise;
+  }
+
+  const normalize = (v) => {
+    let s = 0;
+    for (let i = 0; i < v.length; i++) s += v[i] * v[i];
+    s = Math.sqrt(s) || 1;
+    return v.map((x) => x / s);
+  };
+
+  // dấu vân tay ảnh: token tổng quát + trung bình các mảng ảnh, mỗi phần chuẩn hóa rồi ghép lại
+  async function embed(src) {
+    const { T, processor, model } = await loadAI();
+    const img = await T.RawImage.read(src);
+    const out = await model(await processor(img));
+    const d = out.last_hidden_state.data, tokens = d.length / DIM;
+    const cls = Array.from(d.slice(0, DIM));
+    const mean = new Array(DIM).fill(0);
+    for (let t = 1; t < tokens; t++) for (let k = 0; k < DIM; k++) mean[k] += d[t * DIM + k] / (tokens - 1);
+    return normalize([...normalize(cls), ...normalize(mean)]);
+  }
+
+  const dot = (a, b) => { let s = 0; for (let i = 0; i < a.length; i++) s += a[i] * b[i]; return s; };
+  const b64ToVec = (b64) => { const bin = atob(b64), out = new Float32Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = (bin.charCodeAt(i) << 24 >> 24) / 127; return out; };
+  const vecToB64 = (v) => { let s = ""; for (let i = 0; i < v.length; i++) s += String.fromCharCode(Math.max(-127, Math.min(127, Math.round(v[i] * 127))) & 255); return btoa(s); };
+
+  // ---------- danh mục sản phẩm + dấu vân tay ----------
+  let indexPromise = null;
+  const vectors = new Map();
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = (async () => {
+        const [products, file] = await Promise.all([
+          typeof getProducts === "function" ? getProducts() : [],
+          fetch(INDEX_URL, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : { items: {} })).catch(() => ({ items: {} })),
+        ]);
+        Object.entries(file.items || {}).forEach(([id, b64]) => vectors.set(id, b64ToVec(b64)));
+        return products.filter((p) => p.image);
+      })();
+    }
+    return indexPromise;
+  }
+
+  async function findSimilar(imageSrc) {
+    const products = await loadIndex();
+    const q = await embed(imageSrc);
+    // sản phẩm mới chưa có dấu vân tay: tính tại chỗ (có giới hạn)
+    let lazy = 0;
+    for (const p of products) {
+      if (vectors.has(p.id) || lazy >= MAX_LAZY) continue;
+      lazy++;
+      try { vectors.set(p.id, Float32Array.from(await embed(p.image))); } catch (e) { vectors.set(p.id, null); }
+    }
+    const scored = products
+      .filter((p) => vectors.get(p.id))
+      .map((p) => ({ p, s: dot(q, vectors.get(p.id)) }))
+      .sort((a, b) => b.s - a.s);
+    const top = scored.length ? scored[0].s : 0;
+    return {
+      has_flower: top >= NO_FLOWER,
+      products: scored.filter((x) => x.s >= MIN_SCORE && x.s >= top - 0.15).slice(0, MAX_RESULTS).map((x) => x.p),
+    };
+  }
+
+  // ---------- giao diện ----------
   function ensureModal() {
     if (root) return;
     root = document.createElement("div");
@@ -34,18 +124,20 @@
       const f = fileInput.files && fileInput.files[0];
       fileInput.value = "";
       if (!f) return;
-      try { run({ image: await fileToDataURL(f) }, null); } catch (e) { showError("Không đọc được ảnh này, bạn thử ảnh khác nhé."); }
+      try { const image = await fileToDataURL(f); run(image, image); } catch (e) { showError("Không đọc được ảnh này, bạn thử ảnh khác nhé."); }
     });
   }
   function open() { ensureModal(); root.classList.remove("hidden"); document.body.style.overflow = "hidden"; }
-  function close() { lastToken++; if (root) root.classList.add("hidden"); document.body.style.overflow = ""; }
+  function close() { lastToken++; onProgress = null; if (root) root.classList.add("hidden"); document.body.style.overflow = ""; }
+
+  const previewHTML = (preview, cls) => (preview ? `<img src="${esc(preview)}" alt="Ảnh đang quét" class="mx-auto ${cls} rounded-2xl mb-4 object-contain">` : "");
+  function setStatus(text) { const el = body && body.querySelector("[data-status]"); if (el) el.textContent = text; }
 
   function showLoading(preview) {
     open();
-    body.innerHTML = `
-      ${preview ? `<img src="${preview}" alt="Ảnh đang quét" class="mx-auto max-h-56 rounded-2xl mb-4 object-contain">` : ""}
+    body.innerHTML = `${previewHTML(preview, "max-h-56")}
       <div class="flex items-center justify-center gap-2 py-6 text-sm text-[#4B4240]">
-        <span class="material-symbols-outlined animate-spin">progress_activity</span> Đang tìm hoa giống trong tiệm...
+        <span class="material-symbols-outlined animate-spin">progress_activity</span><span data-status>Đang tìm hoa giống trong tiệm...</span>
       </div>`;
   }
   function showError(msg) {
@@ -54,7 +146,7 @@
   }
   function showResults(preview, data) {
     open();
-    const head = preview ? `<img src="${preview}" alt="Ảnh đã quét" class="mx-auto max-h-44 rounded-2xl mb-4 object-contain">` : "";
+    const head = previewHTML(preview, "max-h-44");
     if (!data.has_flower || !data.products.length) {
       body.innerHTML = `${head}<p class="py-4 text-center text-sm text-[#4B4240]">${data.has_flower ? "Chưa thấy sản phẩm nào thật giống." : "Ảnh này chưa thấy bó hoa nào."} Bạn thử quét lúc bó hoa hiện rõ hơn, hoặc xem tất cả sản phẩm của tiệm.</p>
         <a href="san-pham.html" class="block text-center text-sm font-semibold text-[#D95A82] hover:underline">Xem tất cả sản phẩm &rarr;</a>`;
@@ -63,13 +155,13 @@
     body.innerHTML = `${head}
       <p class="text-xs font-bold text-[#D95A82] uppercase tracking-wider mb-2">Sản phẩm tương tự trong tiệm</p>
       <div class="grid grid-cols-2 gap-3">
-        ${data.products.map((p) => `
-          <a href="chi-tiet-san-pham.html?id=${encodeURIComponent(p.id)}" class="block rounded-2xl border border-[#E5DDCE] bg-white overflow-hidden hover:shadow-md transition-shadow">
+        ${data.products.map((p, i) => `
+          <a href="chi-tiet-san-pham.html?id=${encodeURIComponent(p.id)}" class="relative block rounded-2xl border border-[#E5DDCE] bg-white overflow-hidden hover:shadow-md transition-shadow">
+            ${i === 0 ? '<span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full bg-[#D95A82] text-white text-[10px] font-bold">Giống nhất</span>' : ""}
             <img src="${esc(p.image)}" alt="${esc(p.name)}" class="w-full aspect-square object-cover" loading="lazy">
             <div class="p-2.5">
               <div class="text-sm font-semibold text-[#211A18] line-clamp-2">${esc(p.name)}</div>
-              <div class="text-sm font-bold text-[#D95A82]">${p.price.toLocaleString("vi-VN")}₫</div>
-              ${p.reason ? `<div class="mt-1 text-[11px] text-[#857B76] line-clamp-2">${esc(p.reason)}</div>` : ""}
+              <div class="text-sm font-bold text-[#D95A82]">${Number(p.price || 0).toLocaleString("vi-VN")}₫</div>
             </div>
           </a>`).join("")}
       </div>`;
@@ -122,24 +214,18 @@
     }
   }
 
-  const ERRORS = {
-    not_configured: "Tính năng quét hoa đang được cài đặt, bạn quay lại sau nhé.",
-    no_tags: "Tính năng quét hoa đang được cài đặt, bạn quay lại sau nhé.",
-    rate_limited: "Bạn quét hơi nhiều lần rồi, vui lòng thử lại sau ít phút.",
-    bad_image: "Ảnh này chưa dùng được, bạn thử ảnh khác nhé.",
-  };
-
-  async function run(payload, preview) {
+  async function run(imageSrc, preview) {
     const token = ++lastToken;
-    showLoading(preview || payload.image || null);
+    showLoading(preview);
+    onProgress = (pct) => { if (token === lastToken) setStatus(`Đang tải AI lần đầu (${pct}%)... lần sau sẽ nhanh hơn`); };
     try {
-      const r = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      const data = await r.json().catch(() => ({}));
+      const data = await findSimilar(imageSrc);
       if (token !== lastToken) return;
-      if (!r.ok) { showError(ERRORS[data.error] || "Chưa quét được lúc này, bạn thử lại sau nhé."); return; }
-      showResults(preview || payload.image || null, data);
+      showResults(preview, data);
     } catch (e) {
-      if (token === lastToken) showError("Chưa kết nối được, bạn kiểm tra mạng rồi thử lại nhé.");
+      if (token === lastToken) showError("Chưa quét được lúc này (trình duyệt chưa tải được AI hoặc không đọc được ảnh). Bạn thử lại hoặc chọn ảnh khác nhé.");
+    } finally {
+      onProgress = null;
     }
   }
 
@@ -150,13 +236,14 @@
     if (live && !isMobile && navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
       try {
         const image = await captureTab(frameEl);
-        return run({ image }, image);
+        return run(image, image);
       } catch (e) { /* khách từ chối chia sẻ hoặc trình duyệt không hỗ trợ → dùng ảnh bìa */ }
     }
-    if (coverUrl) return run({ coverUrl }, coverUrl);
+    if (coverUrl) return run(coverUrl, coverUrl);
     open();
     body.innerHTML = `<p class="py-6 text-center text-sm text-[#4B4240]">Video này chưa có ảnh để quét. Bạn chụp màn hình video rồi chọn ảnh bên dưới nhé.</p>`;
   }
 
-  window.VideoScan = { scan };
+  // embedUrl / vecToB64 dùng để tạo file data/product-embeddings.json
+  window.VideoScan = { scan, embed, vecToB64, loadIndex };
 })();
