@@ -175,14 +175,15 @@
         <div class="pt-4 border-t border-[#E5DDCE]">
           <a id="btn-order-zalo" href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="w-full h-12 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
             <span class="material-symbols-outlined text-lg">chat</span>
-            <span>Đặt hàng ngay qua Zalo</span>
+            <span>Nhắn Zalo đặt mẫu này</span>
           </a>
+          <p class="mt-2 text-xs text-center text-[#857B76]">Cọc 50% để tiệm giữ hoa tươi cho bạn · Phí ship trả cho bên giao</p>
         </div>
 
         <!-- Zalo order badge -->
         <div class="flex items-center gap-2 text-[11px] text-[#277A4D] bg-[#edfff5] border border-[#3E9B61]/25 rounded-xl px-3 py-2">
           <span class="text-base">💬</span>
-          <span><strong>Đặt hoa qua Zalo</strong> — Shop sẽ xác nhận đơn với bạn qua Zalo.</span>
+          <span><strong>Bấm nút là thông tin mẫu hoa được chép sẵn</strong> — vào Zalo chỉ cần dán và gửi, tiệm sẽ xác nhận đơn với bạn.</span>
         </div>
 
         <!-- Cam kết dịch vụ đi kèm -->
@@ -426,6 +427,19 @@
       const priceEl = document.getElementById("product-price");
       if (priceEl) priceEl.textContent = `${product.price.toLocaleString('vi-VN')}₫`;
 
+      // Để mọi nút Zalo trên trang (kể cả thanh dưới cùng) chép đúng mẫu đang xem
+      window.HNM_CURRENT_PRODUCT = { id: product.id, name: product.name, price: product.price };
+
+      // Thanh đặt hàng cố định (điện thoại): hiện khi nút đặt hàng chính đã khuất
+      const sticky = document.getElementById("sticky-order-bar");
+      document.getElementById("sticky-order-price").textContent = `${product.price.toLocaleString('vi-VN')}₫`;
+      const mainBtn = document.getElementById("btn-order-zalo");
+      if (sticky && mainBtn && "IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          sticky.classList.toggle("is-visible", !entry.isIntersecting);
+        }).observe(mainBtn);
+      }
+
 
 
       // Detail tabs
@@ -452,6 +466,26 @@
       });
     });
   </script>
+
+  <!-- THANH ĐẶT HÀNG CỐ ĐỊNH (điện thoại) -->
+  <style>
+    #sticky-order-bar { display: none; }
+    @media (max-width: 1023px) {
+      #sticky-order-bar {
+        display: flex; position: fixed; left: 0; right: 0; z-index: 99;
+        bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+        transform: translateY(150%); transition: transform .25s ease;
+      }
+      #sticky-order-bar.is-visible { transform: translateY(0); }
+    }
+  </style>
+  <div id="sticky-order-bar" class="items-center gap-3 px-4 py-2.5 bg-white/95 backdrop-blur border-t border-[#E5DDCE] shadow-[0_-4px_16px_rgba(75,66,64,0.08)]">
+    <span id="sticky-order-price" class="text-lg font-bold text-[#D95A82] whitespace-nowrap"></span>
+    <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="flex-1 h-11 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md">
+      <span class="material-symbols-outlined text-lg">chat</span>
+      <span>Nhắn Zalo đặt mẫu này</span>
+    </a>
+  </div>
 
   <!-- MOBILE BOTTOM NAVIGATION -->
   <nav class="mobile-bottom-nav" aria-label="Thanh điều hướng di động">
