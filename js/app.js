@@ -198,7 +198,7 @@ const App = {
           <p class="text-xs sm:text-sm text-[#857B76] line-clamp-3">${product.shortDesc}</p>
           
           <div class="pt-3">
-            <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="w-full h-10 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm">
+            <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" data-order-id="${product.id}" data-order-name="${String(product.name).replace(/"/g,'&quot;')}" data-order-price="${product.price}" class="w-full h-10 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm">
               <span class="material-symbols-outlined text-base">chat</span>
               Đặt hàng ngay
             </a>
@@ -363,13 +363,82 @@ const App = {
 
         <!-- Đặt hàng ngay CTA -->
         <div class="p-4 pt-0">
-          <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" class="order-now-btn relative z-[2] w-full h-9 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+          <a href="https://zalo.me/0868214266" target="_blank" rel="noopener" data-order-id="${product.id}" data-order-name="${String(product.name).replace(/"/g,'&quot;')}" data-order-price="${product.price}" class="order-now-btn relative z-[2] w-full h-9 bg-[#3E9B61] hover:bg-[#277A4D] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm">
             <span class="material-symbols-outlined text-sm">chat</span>
             Đặt hàng ngay
           </a>
         </div>
       </div>
     `;
+  },
+
+  // Soạn lời nhắn đặt hoa. Link Zalo không cho điền sẵn tin nhắn nên chép vào bộ nhớ tạm.
+  prepareZaloMessage(link) {
+    let name = link.getAttribute("data-order-name");
+    let id = link.getAttribute("data-order-id");
+    let price = Number(link.getAttribute("data-order-price"));
+    const current = window.HNM_CURRENT_PRODUCT;
+    if (!name && current) { name = current.name; id = current.id; price = current.price; }
+
+    let msg;
+    if (name) {
+      const url = `${location.origin}/chi-tiet-san-pham.html?id=${encodeURIComponent(id)}`;
+      msg = `Chào tiệm, mình muốn đặt mẫu: ${name} (#${id})` +
+        (price ? ` – ${price.toLocaleString("vi-VN")}₫` : "") +
+        `\n${url}\nNgày nhận: \nGiao đến: `;
+    } else {
+      msg = "Chào tiệm, mình cần tư vấn đặt hoa.\nDịp tặng: \nNgân sách: \nNgày nhận: ";
+    }
+
+    const copied = this.copyText(msg);
+    if (copied) this.showToast(name
+      ? "Đã chép thông tin mẫu hoa. Vào Zalo, giữ ô chat → Dán rồi gửi cho tiệm nhé!"
+      : "Đã chép lời nhắn mẫu. Vào Zalo, giữ ô chat → Dán rồi gửi cho tiệm nhé!");
+
+    if (typeof gtag === "function") {
+      gtag("event", "zalo_click", {
+        product_id: id || "",
+        product_name: name || "",
+        value: price || 0,
+        currency: "VND",
+        page_path: location.pathname,
+      });
+    }
+  },
+
+  copyText(text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).catch(() => {});
+        return true;
+      }
+    } catch (e) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    } catch (e) { return false; }
+  },
+
+  showToast(text) {
+    let el = document.getElementById("hnm-toast");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "hnm-toast";
+      el.setAttribute("role", "status");
+      el.style.cssText = "position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:200;max-width:calc(100% - 32px);width:max-content;background:#211A18;color:#fff;font-size:13px;line-height:1.4;padding:10px 14px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.2);transition:opacity .3s;";
+      document.body.appendChild(el);
+    }
+    el.textContent = text;
+    el.style.opacity = "1";
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => { el.style.opacity = "0"; }, 6000);
   },
 
   // Event delegation cho Quick View, Add to Cart
@@ -384,6 +453,10 @@ const App = {
         this.openQuickView(id);
         return;
       }
+
+      // Nút Zalo: chép sẵn lời nhắn (tên mẫu, mã, giá, link) để khách chỉ cần dán vào Zalo
+      const zaloLink = e.target.closest('a[href*="zalo.me"]');
+      if (zaloLink) this.prepareZaloMessage(zaloLink);
 
     });
   }
