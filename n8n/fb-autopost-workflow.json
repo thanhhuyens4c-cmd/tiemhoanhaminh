@@ -1,0 +1,482 @@
+{
+  "name": "Hoa Nhà Mình – AI đăng bài Facebook",
+  "nodes": [
+    {
+      "id": "node-1",
+      "name": "Mỗi ngày 11h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-2",
+      "name": "Chạy tay",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "node-3",
+      "name": "Cấu hình",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        100
+      ],
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"SUPABASE_URL\": \"https://nkugwprxqdiarrivhubr.supabase.co\",\n  \"SUPABASE_SERVICE_ROLE_KEY\": \"DÁN_SERVICE_ROLE_KEY_VÀO_ĐÂY\",\n  \"GEMINI_API_KEY\": \"DÁN_GEMINI_KEY_VÀO_ĐÂY\",\n  \"GEMINI_MODEL\": \"gemini-2.5-flash\",\n  \"FB_PAGE_ID\": \"DÁN_PAGE_ID_VÀO_ĐÂY\",\n  \"FB_PAGE_TOKEN\": \"DÁN_PAGE_TOKEN_VÀO_ĐÂY\",\n  \"FB_GRAPH_VERSION\": \"v23.0\",\n  \"SITE_URL\": \"https://tiemhoanhaminh.vercel.app\",\n  \"DRY_RUN\": true,\n  \"FORCE_PRODUCT_ID\": \"\"\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "node-4",
+      "name": "Lấy sản phẩm",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        100
+      ],
+      "parameters": {
+        "url": "={{ $json.SUPABASE_URL }}/rest/v1/products?select=id,name,type_name,color_name,price,original_price,short_desc,description,occasion,recipient,tags,image_url,is_best_seller,is_new&is_active=eq.true&image_url=like.http*",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "node-5",
+      "name": "Lấy lịch sử đăng",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "url": "={{ $('Cấu hình').first().json.SUPABASE_URL }}/rest/v1/fb_posts?select=product_id,created_at&status=eq.posted&order=created_at.desc&limit=1000",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "node-6",
+      "name": "Chọn mẫu hoa",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        100
+      ],
+      "parameters": {
+        "jsCode": "// Chọn 1 mẫu hoa: ưu tiên mẫu chưa đăng bao giờ, sau đó mẫu lâu nhất chưa đăng.\nconst cfg = $('Cấu hình').first().json;\nconst products = $('Lấy sản phẩm').all().map(i => i.json).filter(p => p.id && p.image_url);\nconst posts = $input.all().map(i => i.json).filter(p => p.product_id);\nif (!products.length) throw new Error('Không có sản phẩm nào đang bán có ảnh trên Supabase Storage');\n\nlet product;\nif (cfg.FORCE_PRODUCT_ID) {\n  product = products.find(p => p.id === cfg.FORCE_PRODUCT_ID);\n  if (!product) throw new Error('Không tìm thấy sản phẩm ' + cfg.FORCE_PRODUCT_ID);\n} else {\n  const last = {};\n  for (const p of posts) { const t = Date.parse(p.created_at); if (!last[p.product_id] || t > last[p.product_id]) last[p.product_id] = t; }\n  products.sort((a, b) => (last[a.id] || 0) - (last[b.id] || 0));\n  const never = products.filter(p => !last[p.id]);\n  const pool = never.length ? never : products.slice(0, Math.min(3, products.length));\n  product = pool[Math.floor(Math.random() * pool.length)];\n}\n\nconst vnd = n => (Number(n) || 0).toLocaleString('vi-VN') + '₫';\nconst list = a => Array.isArray(a) ? a.filter(Boolean).join(', ') : '';\nconst p = product;\nconst info = [\n  'Tên mẫu: ' + p.name,\n  p.type_name && 'Loại: ' + p.type_name,\n  p.color_name && 'Tông màu: ' + p.color_name,\n  p.price && ('Giá: ' + vnd(p.price) + (p.original_price > p.price ? ' (giá gốc ' + vnd(p.original_price) + ')' : '')),\n  list(p.occasion) && 'Dịp tặng phù hợp: ' + list(p.occasion),\n  list(p.recipient) && 'Người nhận phù hợp: ' + list(p.recipient),\n  p.short_desc && 'Mô tả ngắn: ' + p.short_desc,\n  p.description && 'Mô tả: ' + String(p.description).slice(0, 1200),\n  p.is_best_seller && 'Đây là mẫu bán chạy.',\n  p.is_new && 'Đây là mẫu mới.',\n].filter(Boolean).join('\\n');\n\nconst prompt = [\n  'Bạn là người viết nội dung Facebook cho \"Hoa Nhà Mình\", tiệm hoa tươi handmade ở Hoàng Mai, Hà Nội.',\n  'Hãy nhìn ảnh bó hoa đính kèm và viết MỘT bài đăng Facebook giới thiệu mẫu hoa này.',\n  '',\n  'THÔNG TIN SẢN PHẨM (chỉ dùng đúng các thông tin này, không tự thêm):',\n  info,\n  '',\n  'THÔNG TIN TIỆM:',\n  '- Nhận đơn 08:00–21:30 mỗi ngày, nên đặt trước 1–2 ngày. Giao nội thành Hà Nội.',\n  '- Nhận làm hoa theo yêu cầu riêng (màu, ngân sách, kiểu gói) qua Zalo hoặc inbox Page.',\n  '- Khẩu hiệu: \"Let flowers speak your heart!\"',\n  '',\n  'GIỌNG VĂN:',\n  '- Xưng \"chúng mình\", ấm áp, gần gũi, kể chuyện nhẹ nhàng; gắn bó hoa với cảm xúc người tặng.',\n  '- Mô tả đúng những gì thấy trong ảnh (loài hoa, màu, kiểu gói) – không đoán bừa loài hoa nếu không chắc.',\n  '- Nên dùng các từ: gửi gắm, trân quý, tươi mỗi sáng, chỉn chu, nhành hoa.',\n  '',\n  'QUY TẮC BẮT BUỘC:',\n  '- Độ dài 60–130 chữ, chia 2–4 đoạn ngắn, có thể dùng 2–4 emoji hợp cảnh (🌷💐✨🤍).',\n  '- Câu đầu phải gây chú ý trong 1 dòng.',\n  '- Nếu có giá thì ghi đúng giá ở trên; KHÔNG bịa khuyến mãi, freeship, số liệu, đánh giá hay lời khen của khách.',\n  '- KHÔNG dùng cụm \"giờ mở cửa\", không dùng giọng sang chảnh/luxury, không thúc ép mua.',\n  '- KHÔNG chèn đường link (hệ thống sẽ tự thêm link đặt hoa ở cuối).',\n  '- Kết bằng một lời mời nhẹ nhàng (nhắn tin cho chúng mình / đặt trước để có hoa đúng ngày), rồi xuống dòng 3–5 hashtag, trong đó có #HoaNhaMinh.',\n  '- Chỉ trả về nội dung bài đăng dạng văn bản thường, không markdown, không dấu ** hay #tiêu đề, không giải thích gì thêm.',\n].join('\\n');\n\nreturn [{ json: {\n  product_id: p.id,\n  product_name: p.name,\n  image_url: p.image_url,\n  link: cfg.SITE_URL + '/chi-tiet-san-pham.html?id=' + encodeURIComponent(p.id),\n  prompt,\n} }];"
+      }
+    },
+    {
+      "id": "node-7",
+      "name": "Tải ảnh",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        100
+      ],
+      "parameters": {
+        "url": "={{ $json.image_url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "node-8",
+      "name": "Gói ảnh cho Gemini",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        100
+      ],
+      "parameters": {
+        "jsCode": "// Đổi ảnh vừa tải sang base64 để gửi kèm cho Gemini.\nconst pick = $('Chọn mẫu hoa').first().json;\nconst bin = $input.first().binary.data;\nconst buf = await this.helpers.getBinaryDataBuffer(0, 'data');\nreturn [{ json: {\n  ...pick,\n  geminiBody: {\n    contents: [{ role: 'user', parts: [\n      { inline_data: { mime_type: (bin.mimeType || 'image/jpeg').split(';')[0], data: buf.toString('base64') } },\n      { text: pick.prompt },\n    ] }],\n    generationConfig: { temperature: 0.9, maxOutputTokens: 2048 },\n  },\n} }];"
+      }
+    },
+    {
+      "id": "node-9",
+      "name": "Gemini viết bài",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/{{ $('Cấu hình').first().json.GEMINI_MODEL }}:generateContent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-goog-api-key",
+              "value": "={{ $('Cấu hình').first().json.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.geminiBody) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "node-10",
+      "name": "Ghép nội dung",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        100
+      ],
+      "parameters": {
+        "jsCode": "// Lấy bài Gemini viết, bỏ dấu markdown, thêm link đặt hoa ở cuối.\nconst pick = $('Chọn mẫu hoa').first().json;\nconst res = $input.first().json;\nconst text = ((res.candidates?.[0]?.content?.parts) || []).map(p => p.text || '').join('').replace(/\\*\\*/g, '').trim();\nif (!text) throw new Error('Gemini không trả về nội dung: ' + JSON.stringify(res.promptFeedback || res.candidates?.[0]?.finishReason));\nreturn [{ json: {\n  product_id: pick.product_id,\n  product_name: pick.product_name,\n  image_url: pick.image_url,\n  caption: text + '\\n\\n👉 Xem mẫu & đặt hoa: ' + pick.link,\n} }];"
+      }
+    },
+    {
+      "id": "node-11",
+      "name": "Chạy thử?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1980,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dry-run-check",
+              "leftValue": "={{ $('Cấu hình').first().json.DRY_RUN }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      }
+    },
+    {
+      "id": "node-12",
+      "name": "Ghi nhật ký (chạy thử)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Cấu hình').first().json.SUPABASE_URL }}/rest/v1/fb_posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ product_id: $('Ghép nội dung').first().json.product_id, image_url: $('Ghép nội dung').first().json.image_url, caption: $('Ghép nội dung').first().json.caption, status: 'dry_run' }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "node-13",
+      "name": "Đăng lên Facebook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        220
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $('Cấu hình').first().json.FB_GRAPH_VERSION }}/{{ $('Cấu hình').first().json.FB_PAGE_ID }}/photos",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.image_url }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "published",
+              "value": "true"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Cấu hình').first().json.FB_PAGE_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "node-14",
+      "name": "Ghi nhật ký (đã đăng)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        220
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Cấu hình').first().json.SUPABASE_URL }}/rest/v1/fb_posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Cấu hình').first().json.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ product_id: $('Ghép nội dung').first().json.product_id, image_url: $('Ghép nội dung').first().json.image_url, caption: $('Ghép nội dung').first().json.caption, status: 'posted', fb_post_id: $json.post_id || $json.id }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Mỗi ngày 11h": {
+      "main": [
+        [
+          {
+            "node": "Cấu hình",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chạy tay": {
+      "main": [
+        [
+          {
+            "node": "Cấu hình",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cấu hình": {
+      "main": [
+        [
+          {
+            "node": "Lấy sản phẩm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lấy sản phẩm": {
+      "main": [
+        [
+          {
+            "node": "Lấy lịch sử đăng",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lấy lịch sử đăng": {
+      "main": [
+        [
+          {
+            "node": "Chọn mẫu hoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chọn mẫu hoa": {
+      "main": [
+        [
+          {
+            "node": "Tải ảnh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tải ảnh": {
+      "main": [
+        [
+          {
+            "node": "Gói ảnh cho Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gói ảnh cho Gemini": {
+      "main": [
+        [
+          {
+            "node": "Gemini viết bài",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini viết bài": {
+      "main": [
+        [
+          {
+            "node": "Ghép nội dung",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ghép nội dung": {
+      "main": [
+        [
+          {
+            "node": "Chạy thử?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chạy thử?": {
+      "main": [
+        [
+          {
+            "node": "Ghi nhật ký (chạy thử)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Đăng lên Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Đăng lên Facebook": {
+      "main": [
+        [
+          {
+            "node": "Ghi nhật ký (đã đăng)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Ho_Chi_Minh"
+  }
+}
