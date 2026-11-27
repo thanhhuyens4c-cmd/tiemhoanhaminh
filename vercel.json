@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/fb-autopost.js": { "maxDuration": 60 }
+  },
+  "crons": [
+    { "path": "/api/fb-autopost", "schedule": "0 4 * * *" }
+  ]
+}
